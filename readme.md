@@ -4,11 +4,11 @@
 <h3 align="center" style="margin: 30px 0 30px;font-weight: bold;font-size:40px;">wu-ui</h3>
 <h3 align="center">多平台快速开发的UI框架</h3>
 
-[![stars](https://img.shields.io/github/stars/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/umicro/ardentlys/wu-ui)
+[![stars](https://img.shields.io/github/stars/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui)
 [![forks](https://img.shields.io/github/forks/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui)
 [![issues](https://img.shields.io/github/issues/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui/issues)
 [![Website](https://img.shields.io/badge/wuui-Up-ui?style=flat-square)](https://wu.geeks.ink/)
-[![version](https://img.shields.io/github/package-json/v/ardentlys/wu-ui)](https://wu.geeks.ink/)
+[![version](https://img.shields.io/github/package-json/v/ardentlys/wu-ui)](https://wu.geeks.ink/zh-CN/components/changelog.html)
 [![license](https://img.shields.io/github/license/ardentlys/wu-ui)](https://en.wikipedia.org/wiki/MIT_License)
 
 ## 说明
