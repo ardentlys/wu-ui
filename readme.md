@@ -52,17 +52,17 @@ wu-ui 是 全面兼容多端的uniapp生态框架，基于vue2、vue3和nvue开�
 
 | 组件名 | 组件说明 |
 | ----- | -------- |
-| wu-calendar | [最全日历](https://ext.dcloud.net.cn/plugin?name=wu-calendar) |
-| wu-sku | [商品多规格选择器](https://ext.dcloud.net.cn/plugin?name=wu-sku) |
-| wu-image | [图片](https://ext.dcloud.net.cn/plugin?name=wu-image) |
-| wu-button | [按钮](https://ext.dcloud.net.cn/plugin?name=wu-button) |
-| wu-icon | [图标](https://ext.dcloud.net.cn/plugin?name=wu-icon) |
-| wu-loading-icon | [加载动画](https://ext.dcloud.net.cn/plugin?name=wu-loading-icon) |
-| wu-layout | [布局](https://ext.dcloud.net.cn/plugin?name=wu-row) |
-| wu-link | [超链接](https://ext.dcloud.net.cn/plugin?name=wu-link) |
-| wu-text | [文本](https://ext.dcloud.net.cn/plugin?name=wu-text) |
-| wu-number-box | [步进器](https://ext.dcloud.net.cn/plugin?name=wu-number-box) |
-| wu-transition | [动画](https://ext.dcloud.net.cn/plugin?name=wu-transition) |
+| wu-calendar | [最全日历](https://wu.geeks.ink/zh-CN/components/calendar.html) |
+| wu-sku | [商品多规格选择器](https://wu.geeks.ink/zh-CN/components/sku.html) |
+| wu-image | [图片](https://wu.geeks.ink/zh-CN/components/image.html) |
+| wu-button | [按钮](https://wu.geeks.ink/zh-CN/components/button.html) |
+| wu-icon | [图标](https://wu.geeks.ink/zh-CN/components/icon.html) |
+| wu-loading-icon | [加载动画](https://wu.geeks.ink/zh-CN/components/loadingIcon.html) |
+| wu-layout | [布局](https://wu.geeks.ink/zh-CN/components/layout.html) |
+| wu-link | [超链接](https://wu.geeks.ink/zh-CN/components/link.html) |
+| wu-text | [文本](https://wu.geeks.ink/zh-CN/components/text.html) |
+| wu-number-box | [步进器](https://wu.geeks.ink/zh-CN/components/numberBox.html) |
+| wu-transition | [动画](https://wu.geeks.ink/zh-CN/components/transition.html) |
 
 ## **该死的bug**
 `wu-ui` 目前仍处于开发阶段，并且由于目前仅有作者一人，开发速度有限，难免会产生bug，如果您遇见组件无法使用的情况，请您先不要生气，添加[官网q群](https://wu.geeks.ink/zh-CN/components/qqFeedBack.html)反馈即可，会在核实后，在官网产生bug的组件中会有专属的地方来展示您对组件的贡献(好的建议或好的组件提议(不需要您写，只需要您提出规划即可)也会享有同样的待遇)。
