@@ -1,0 +1,247 @@
+<template>
+	<view class="wu-page">
+		<wu-navbar
+			title="日历"
+			@leftClick="navigateBack"
+			safeAreaInsetTop
+			fixed
+			placeholder
+		></wu-navbar>
+		<wu-cell-group>
+			<wu-cell
+				@click="showCalendar(index)"
+				:title="item.title"
+				v-for="(item, index) in list"
+				:key="index"
+				:label="values[index]"
+				isLink
+			>
+				<template #icon>
+					<image
+						class="wu-cell-icon"
+						:src="item.iconUrl"
+						mode="widthFix"
+					></image>
+				</template>
+			</wu-cell>
+		</wu-cell-group>
+		<!-- 横向滑动 -->
+		<wu-calendar
+			ref="wuCalendar1"
+			:insert="false"
+			range
+		></wu-calendar>
+		<!-- 纵向滑动 -->
+		<wu-calendar
+			ref="wuCalendar2"
+			slideSwitchMode="vertical"
+			:insert="false"
+			range
+		></wu-calendar>
+		<!-- 无滑动切换 -->
+		<wu-calendar
+			ref="wuCalendar3"
+			slideSwitchMode="none"
+			:insert="false"
+			range
+		></wu-calendar>
+		<!-- 单个日期 -->
+		<wu-calendar
+			ref="wuCalendar4"
+			:insert="false"
+		></wu-calendar>
+		<!-- 自定义主题颜色 -->
+		<wu-calendar
+			ref="wuCalendar5"
+			:insert="false"
+			range
+			color="#6ac695"
+		></wu-calendar>
+		<!-- 自定义打点 -->
+		<wu-calendar
+			ref="wuCalendar6"
+			:insert="false"
+			range
+			:selected="wuCalendar6Selected()"
+			:startDate="wuCalendar6StartDate"
+			start-text="去程"
+			end-text="返程"
+			color="#6ac695"
+		></wu-calendar>
+		<!-- 显示农历 -->
+		<wu-calendar
+			ref="wuCalendar8"
+			:insert="false"
+			range
+			lunar
+		></wu-calendar>
+		<!-- 日期最大范围 -->
+		<wu-calendar
+			ref="wuCalendar7"
+			:insert="false"
+			:startDate="wuCalendar7StartDate"
+			:endDate="wuCalendar7EndDate"
+			range
+		></wu-calendar>
+	</view>
+</template>
+<script>
+	export default {
+		data() {
+			const d = new Date()
+			const year = d.getFullYear()
+			let month = d.getMonth() + 1
+			month = month < 10 ? `0${month}` : month
+			const date = d.getDate()
+			return {
+				index: 0,
+				show1: false,
+				show2: false,
+				show3: false,
+				show4: false,
+				show5: false,
+				show6: false,
+				show7: false,
+				show8: false,
+				values: ['','','','','','','',''],
+				customThemeDefaultDate: [`${year}-${month}-${date}`, `${year}-${month}-${date + 5}`], 
+				customTextDefaultDate: [`${year}-${month}-${date}`],
+				maxDate: `${year}-${month}-${date + 10}`,
+				defaultDateMultiple: [`${year}-${month}-${date}`, `${year}-${month}-${date + 1}`, `${year}-${month}-${date + 2}`],
+				list: [{
+						title: '横向滑动切换(日期范围选择)',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
+					},
+					{
+						title: '纵向切换滑动(日期范围选择)',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
+					},
+					{
+						title: '无滑动切换(日期范围选择)',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
+					},
+					{
+						title: '单个日期',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/7.png'
+					},
+					{
+						title: '自定义主题颜色',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/15.png'
+					},{
+						title: '自定义文案',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/14.png'
+					},{
+						title: '日期最大范围',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/13.png'
+					},{
+						title: '显示农历',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
+					}
+				]
+			}
+		},
+		methods: {
+			showCalendar(index) {
+				this.index = index + 1;
+				this.$refs[`wuCalendar${index + 1}`].open()
+			},
+			navigateBack() {
+				uni.navigateBack();
+			},
+			confirm(e) {
+				this[`show${this.index}`] = false
+				console.log(e);
+				switch(this.index - 1) {
+					case 0:
+						this.values[this.index - 1] = e[0];
+						break;
+					case 1:
+						e.forEach((value, index) => {
+							index === 0 ? this.values[this.index - 1] = value : this.values[this.index - 1] += ';' + value
+						})
+						break;
+					case 2:
+						this.values[this.index - 1] = e[0] + '~' + e[e.length - 1];
+						break;
+					case 3:
+						this.values[this.index - 1] = e[0] + '~' + e[e.length - 1];
+						break;
+					case 4:
+						this.values[this.index - 1] = e[0] + '~' + e[e.length - 1];
+						break;
+					case 5:
+						this.values[this.index - 1] = e[0];
+						break;
+					case 6:
+						this.values[this.index - 1] = e[0];
+						break;
+					case 7:
+						e.forEach((value, index) => {
+							index === 0 ? this.values[this.index - 1] = value : this.values[this.index - 1] += ';' + value
+						})
+						break;
+				}
+			},
+			close() {
+				this[`show${this.index}`] = false
+			},
+			formatter(day) {
+				const d = new Date()
+				let month = d.getMonth() + 1
+				const date = d.getDate()
+				if(day.month == month && day.day == date + 3) {
+					day.bottomInfo = '有优惠'
+					day.dot = true
+				}
+				return day
+			},
+			wuCalendar6Selected() {
+				let lastDate = new Date();
+				let firstDate = new Date();
+				lastDate.setDate(lastDate.getDate() + 2)
+				firstDate.setDate(firstDate.getDate() + 5)
+				return [{
+					date: `${lastDate.getFullYear()}-${lastDate.getMonth() + 1}-${lastDate.getDate()}`,
+					info: '￥950',
+					infoColor: '#6ac695',
+					topInfo: '打折',
+					topInfoColor: '#6ac695',
+					badge: true,
+					badgePosition: 'top-left'
+				}, {
+					date: `${firstDate.getFullYear()}-${firstDate.getMonth() + 1}-${firstDate.getDate()}`,
+					info: '￥900',
+					infoColor: '#6ac695',
+					topInfo: '打折',
+					topInfoColor: '#6ac695',
+				}]
+			},
+		},
+		computed: {
+			wuCalendar6StartDate() {
+				let nowDate = new Date();
+				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
+			},
+			wuCalendar7StartDate() {
+				let nowDate = new Date();
+				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
+			},
+			wuCalendar7EndDate() {
+				let nowDate = new Date();
+				nowDate.setDate(nowDate.getDate() + 30)
+				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.wu-page {
+		padding: 0;
+	}
+	.wu-cell-icon {
+		width: 36rpx;
+		height: 36rpx;
+		margin-right: 8rpx;
+	}
+</style>

@@ -1,0 +1,43 @@
+// 此文件为wuUI的主题变量，这些变量目前只能通过uni.scss引入才有效，另外由于
+// uni.scss中引入的样式会同时混入到全局样式文件和单独每一个页面的样式中，造成微信程序包太大，
+// 故uni.scss只建议放scss变量名相关样式，其他的样式可以通过main.js或者App.vue引入
+
+$wu-main-color: #303133;
+$wu-content-color: #606266;
+$wu-tips-color: #909193;
+$wu-light-color: #c0c4cc;
+$wu-border-color: #dadbde;
+$wu-bg-color: #f3f4f6;
+$wu-disabled-color: #c8c9cc;
+
+$wu-primary: #3c9cff;
+$wu-primary-dark: #398ade;
+$wu-primary-disabled: #9acafc;
+$wu-primary-light: #ecf5ff;
+
+$wu-warning: #f9ae3d;
+$wu-warning-dark: #f1a532;
+$wu-warning-disabled: #f9d39b;
+$wu-warning-light: #fdf6ec;
+
+$wu-success: #5ac725;
+$wu-success-dark: #53c21d;
+$wu-success-disabled: #a9e08f;
+$wu-success-light: #f5fff0;
+
+$wu-error: #f56c6c;
+$wu-error-dark: #e45656;
+$wu-error-disabled: #f7b2b2;
+$wu-error-light: #fef0f0;
+
+$wu-info: #909399;
+$wu-info-dark: #767a82;
+$wu-info-disabled: #c4c6c9;
+$wu-info-light: #f4f4f5;
+
+@mixin flex($direction: row) {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: $direction;
+}

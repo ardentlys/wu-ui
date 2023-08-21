@@ -1,0 +1,94 @@
+@import '@/uni_modules/wu-ui-tools/libs/css/color.scss';
+// nvue下hover-class无效
+$wu-button-before-top:50% !default;
+$wu-button-before-left:50% !default;
+$wu-button-before-width:100% !default;
+$wu-button-before-height:100% !default;
+$wu-button-before-transform:translate(-50%, -50%) !default;
+$wu-button-before-opacity:0 !default;
+$wu-button-before-background-color:#000 !default;
+$wu-button-before-border-color:#000 !default;
+$wu-button-active-before-opacity:.15 !default;
+$wu-button-icon-margin-left:4px !default;
+$wu-button-plain-wu-button-info-color:$wu-info;
+$wu-button-plain-wu-button-success-color:$wu-success;
+$wu-button-plain-wu-button-error-color:$wu-error;
+$wu-button-plain-wu-button-warning-color:$wu-error;
+
+.wu-button-wrapper {
+	position: relative;
+	width: 100%;
+	&--dis {
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 9;
+	}
+}
+
+.wu-button {
+	width: 100%;
+	
+	&__text {
+		white-space: nowrap;
+		line-height: 1;
+	}
+	
+	&:before {
+		position: absolute;
+		top:$wu-button-before-top;
+		left:$wu-button-before-left;
+		width:$wu-button-before-width;
+		height:$wu-button-before-height;
+		border: inherit;
+		border-radius: inherit;
+		transform:$wu-button-before-transform;
+		opacity:$wu-button-before-opacity;
+		content: " ";
+		background-color:$wu-button-before-background-color;
+		border-color:$wu-button-before-border-color;
+	}
+	
+	&--active {
+		&:before {
+			opacity: .15
+		}
+	}
+	
+	&__icon+&__text:not(:empty),
+	&__loading-text {
+		margin-left:$wu-button-icon-margin-left;
+	}
+	
+	&--plain {
+		&.wu-button--primary {
+			color: $wu-primary;
+		}
+	}
+	
+	&--plain {
+		&.wu-button--info {
+			color:$wu-button-plain-wu-button-info-color;
+		}
+	}
+	
+	&--plain {
+		&.wu-button--success {
+			color:$wu-button-plain-wu-button-success-color;
+		}
+	}
+	
+	&--plain {
+		&.wu-button--error {
+			color:$wu-button-plain-wu-button-error-color;
+		}
+	}
+	
+	&--plain {
+		&.wu-button--warning {
+			color:$wu-button-plain-wu-button-warning-color;
+		}
+	}
+}

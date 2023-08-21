@@ -1,0 +1,330 @@
+<template>
+	<view class="wu-page">
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">按钮类型</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="默认按钮"
+					    size="normal"
+					    type="info"
+						@click="click"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="成功按钮"
+					    size="normal"
+					    type="success"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="危险按钮"
+					    size="normal"
+					    type="error"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="主要按钮"
+					    size="normal"
+					    type="primary"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="警告按钮"
+					    size="normal"
+					    type="warning"
+					></wu-button>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">镂空按钮</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="镂空按钮"
+					    size="normal"
+					    type="info"
+					    plain
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="镂空按钮"
+					    size="normal"
+					    type="success"
+					    plain
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="镂空按钮"
+					    size="normal"
+					    type="error"
+					    plain
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="镂空按钮"
+					    size="normal"
+					    type="primary"
+					    plain
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="镂空按钮"
+					    size="normal"
+					    type="warning"
+					    plain
+					></wu-button>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">细边按钮</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="细边按钮"
+					    size="normal"
+					    type="info"
+					    plain
+					    hairline
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="细边按钮"
+					    size="normal"
+					    type="success"
+					    plain
+					    hairline
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="细边按钮"
+					    size="normal"
+					    type="error"
+					    plain
+					    hairline
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="细边按钮"
+					    size="normal"
+					    type="primary"
+					    plain
+					    hairline
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="细边按钮"
+					    size="normal"
+					    type="warning"
+					    plain
+					    hairline
+					></wu-button>
+				</view>
+			</view>
+		</view>
+
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">禁用按钮</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__button-item">
+					<wu-button
+					    disabled
+					    text="禁用按钮"
+					    size="normal"
+					    type="info"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    disabled
+					    text="禁用按钮"
+					    size="normal"
+					    type="success"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    disabled
+					    text="禁用按钮"
+					    size="normal"
+					    type="error"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    disabled
+					    text="禁用按钮"
+					    size="normal"
+					    type="primary"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    disabled
+					    text="禁用按钮"
+					    size="normal"
+					    type="warning"
+					></wu-button>
+				</view>
+			</view>
+		</view>
+
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">加载中</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__button-item">
+					<wu-button
+					    loadingText="加载中"
+					    size="normal"
+						loading
+					    loadingMode="circle"
+					    type="success"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    class="button-layout__item"
+					    loadingText="加载中"
+					    size="normal"
+					    loading
+					    type="error"
+					></wu-button>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">按钮图标&按钮形状</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="按钮图标"
+					    size="normal"
+					    icon="map"
+					    plain
+					    type="warning"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="按钮图标"
+					    size="normal"
+					    plain
+					    shape="circle"
+					    type="success"
+					></wu-button>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">自定义颜色</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="渐变色按钮"
+					    size="normal"
+					    color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="渐变色按钮"
+					    size="normal"
+					    color="linear-gradient(to right, rgb(220, 194, 11), rgb(4, 151, 99))"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="青绿色按钮"
+					    size="normal"
+					    color="rgb(10, 185, 156)"
+					></wu-button>
+				</view>
+			</view>
+		</view>
+
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">自定义大小</text>
+			<view class="wu-demo-block__content" style="padding-bottom: 15px; flex-direction: column;align-items: stretch;flex-wrap: nowrap;">
+				<wu-button
+				    text="超大尺寸"
+				    size="large"
+				    type="success"
+				></wu-button>
+			</view>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="普通尺寸"
+					    size="normal"
+					    type="error"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    text="小型尺寸"
+					    size="small"
+					    type="primary"
+					></wu-button>
+				</view>
+				<view class="wu-page__button-item">
+					<wu-button
+					    class="button-layout__item"
+					    text="超小尺寸"
+					    size="mini"
+					    type="warning"
+					></wu-button>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				// type: 'default',
+				// disabled: false
+			}
+		},
+		onLoad() {
+			setTimeout(() => {
+				this.type = 'primary'
+				this.disabled = true
+			}, 2000)
+		},
+		methods: {
+			click() {
+				console.log('click');
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.wu-page {
+		&__button-item {
+			margin: 0 15px 15px 0;
+		}
+	}
+
+	.wu-demo-block__content {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+</style>

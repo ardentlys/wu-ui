@@ -1,0 +1,174 @@
+<template>
+	<view class="wu-page">
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">基础功能</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__text-item">
+					<wu-text text="大鹏一日同风起，扶摇直上九万里"></wu-text>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">设置主题</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__text-item">
+					<wu-text
+					    text="主色"
+					    type="primary"
+					></wu-text>
+				</view>
+				<view class="wu-page__text-item">
+					<wu-text
+					    type="error"
+					    text="错误"
+					></wu-text>
+				</view>
+				<view class="wu-page__text-item">
+					<wu-text
+					    type="success"
+					    text="成功"
+					></wu-text>
+				</view>
+				<view class="wu-page__text-item">
+					<wu-text
+					    type="warning"
+					    text="警告"
+					></wu-text>
+				</view>
+				<view class="wu-page__text-item">
+					<wu-text
+					    type="info"
+					    text="信息"
+					></wu-text>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">拨打电话</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__text-item">
+					<wu-text
+					    mode="phone"
+					    text="15019479320"
+					></wu-text>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">日期格式化</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__text-item">
+					<wu-text
+					    mode="date"
+					    text="1612959739"
+					></wu-text>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">姓名脱敏</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__text-item">
+					<wu-text
+					    mode="name"
+					    text="李四四"
+						format="encrypt"
+					></wu-text>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">超链接</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__text-item">
+					<wu-text
+					    mode="link"
+						type="primary"
+					    text="Go to wu-ui docs"
+					    href="https://wu.geeks.ink/zh-CN/"
+					></wu-text>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">显示金额</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__text-item">
+					<wu-text
+					    mode="price"
+					    text="728732.32"
+					></wu-text>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">前后图标</text>
+			<view class="wu-demo-block__content">
+				<view
+				    class="wu-page__text-item"
+				    style="margin-right: 50px;"
+				>
+					<wu-text
+					    prefixIcon="baidu"
+					    iconStyle="font-size: 19px"
+					    text="百度一下"
+					></wu-text>
+				</view>
+				<view class="wu-page__text-item">
+					<wu-text
+					    suffixIcon="arrow-rightward"
+					    iconStyle="font-size: 18px"
+					    text="查看更多"
+					></wu-text>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">超出隐藏</text>
+			<view class="wu-demo-block__content">
+				<wu-text
+				    :lines="2"
+				    text="关于wu-ui的取名来由，来自于一个玩笑，我曾经和几个很要好的朋友说，我们成立一个组织，叫卧龙凤雏吧，首字母 w 来自于卧的首字母，u则来自于 uniapp，故取名wu-ui，表达源于uni-app和uView，在此也对它们表示感谢。"
+				></wu-text>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">小程序开放能力</text>
+			<view class="wu-demo-block__content">
+				<wu-text
+				    text="分享到微信"
+				    openType="share"
+				    type="success"
+					@click="clickHandler"
+				></wu-text>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		onLoad() {},
+		methods: {
+			clickHandler() {
+				// #ifndef MP-WEIXIN
+				uni.$u.toast('请在微信小程序内查看效果')
+				// #endif
+			}
+		},
+	}
+</script>
+
+<style lang="scss">
+	.wu-page__text-item {
+		margin-right: 10px;
+		flex: 1;
+	}
+
+	.wu-demo-block__content {
+		@include flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+</style>

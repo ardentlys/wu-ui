@@ -1,0 +1,118 @@
+<template>
+	<view class="wu-page">
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">基本案例</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__image-item">
+					 <wu-image
+					     :showLoading="true"
+					     :src="src"
+					     width="80px"
+					     height="80px"
+						 @click="click"
+					 ></wu-image>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">自定义形状</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__image-item">
+					<wu-image
+					    shape="circle"
+					    :src="src"
+					    width="80px"
+					    height="80px"
+					></wu-image>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">自定义圆角</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__image-item">
+					<wu-image
+					    radius="4"
+					    :src="src"
+					    width="80px"
+					    height="80px"
+					></wu-image>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">图片模式(widthFit)</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__image-item">
+					<wu-image
+					    :src="src"
+					    width="80px"
+					    height="80px"
+						mode="widthFit"
+					></wu-image>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">自定义图片加载插槽</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__image-item">
+					<wu-image
+					    :src="src1"
+					    width="80px"
+					    height="80px"
+						mode="widthFit"
+					>
+						<template v-slot:loading>
+							<wu-loading-icon color="red"></wu-loading-icon>
+						</template>
+					</wu-image>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">懒加载图片列表</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__image-item">
+					<wu-image
+						v-for="num in 30"
+						:custom-style="{
+							marginBottom: '10rpx'
+						}"
+						:key="num"
+					    :src="src"
+					    width="80px"
+					    height="80px"
+						mode="widthFit"
+					>
+					</wu-image>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				src: 'https://wu.geeks.ink/1.jpeg',
+				src1:''
+			}
+		},
+		onLoad() {
+			setTimeout(()=>{
+				this.src1 = this.src
+			},3000)
+		},
+		methods: {
+			click() {
+				console.log('click');
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	 
+</style>

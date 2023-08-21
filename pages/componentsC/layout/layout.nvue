@@ -1,0 +1,156 @@
+<template>
+    <view class="wu-page">
+        <view class="wu-demo-block">
+            <text class="wu-demo-block__title">基础使用</text>
+            <view class="wu-demo-block__content">
+                <wu-row customStyle="margin-bottom: 10px">
+                    <wu-col span="6">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="6">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                </wu-row>
+                <wu-row customStyle="margin-bottom: 10px">
+                    <wu-col span="4">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                    <wu-col span="4">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="4">
+                        <view class="demo-layout bg-purple-dark"></view>
+                    </wu-col>
+                </wu-row>
+                <wu-row justify="space-between">
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                </wu-row>
+            </view>
+        </view>
+        <view class="wu-demo-block">
+            <text class="wu-demo-block__title">分栏间隔</text>
+            <view class="wu-demo-block__content">
+                <wu-row justify="space-between" gutter="10">
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                </wu-row>
+            </view>
+        </view>
+        <view class="wu-demo-block">
+            <text class="wu-demo-block__title">混合布局</text>
+            <view class="wu-demo-block__content">
+                <wu-row justify="space-between" gutter="10">
+                    <wu-col span="2">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="4">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                    <wu-col span="6">
+                        <view class="demo-layout bg-purple-dark"></view>
+                    </wu-col>
+                </wu-row>
+            </view>
+        </view>
+        <view class="wu-demo-block">
+            <text class="wu-demo-block__title">分栏偏移</text>
+            <view class="wu-demo-block__content">
+                <wu-row
+                    justify="space-between"
+                    customStyle="margin-bottom: 10px"
+                >
+                    <wu-col span="3" offset="3">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="3" offset="3">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                </wu-row>
+                <wu-row>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="3" offset="3">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                </wu-row>
+            </view>
+        </view>
+        <view class="wu-demo-block">
+            <text class="wu-demo-block__title">对齐方式</text>
+            <view class="wu-demo-block__content">
+                <wu-row
+                    justify="space-between"
+                    customStyle="margin-bottom: 10px"
+                >
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                </wu-row>
+                <wu-row>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple-light"></view>
+                    </wu-col>
+                    <wu-col span="3">
+                        <view class="demo-layout bg-purple"></view>
+                    </wu-col>
+                </wu-row>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+export default {
+    data() {
+        return {};
+    },
+};
+</script>
+
+<style lang="scss">
+.wrap {
+    padding: 12px;
+}
+
+.demo-layout {
+    height: 25px;
+    border-radius: 4px;
+}
+
+.bg-purple {
+    background: #ced7e1;
+}
+
+.bg-purple-light {
+    background: #e5e9f2;
+}
+
+.bg-purple-dark {
+    background: #99a9bf;
+}
+</style>

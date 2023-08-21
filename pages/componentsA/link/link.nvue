@@ -1,0 +1,75 @@
+<template>
+	<view class="wu-page">
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">基本案例</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__link-item">
+					<u-link
+					    href="https://wu.geeks.ink/zh-CN/"
+					    text="打开wu-ui文档"
+						@click="click"
+					></u-link>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">显示下划线</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__link-item">
+					<u-link
+					    href="https://wu.geeks.ink/zh-CN/"
+					    :underLine="true"
+					    text="Go to wu-ui doc"
+					></u-link>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">自定义颜色</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__link-item">
+					<u-link
+					    href="https://wu.geeks.ink/zh-CN/"
+					    lineColor="#19be6b"
+					    color="#19be6b"
+					    text="打开wu-ui文档"
+					></u-link>
+				</view>
+			</view>
+		</view>
+		<view class="wu-demo-block">
+			<text class="wu-demo-block__title">自定义链接内容</text>
+			<view class="wu-demo-block__content">
+				<view class="wu-page__link-item">
+					<u-link
+					    href="https://uniapp.dcloud.io/"
+					    text="打开uni-app文档"
+					></u-link>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+
+			}
+		},
+		methods: {
+			click() {
+				console.log('click');
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.wu-page {
+		&__link-item {
+			margin-top: 5px;
+		}
+	}
+</style>

@@ -1,0 +1,93 @@
+<template>
+	<view class="wrap">
+		<page-nav :desc="desc"></page-nav>
+		<view class="list-wrap">
+			<wu-cell-group title-bg-color="rgb(243, 244, 246)" :title="item.groupName" v-for="(item, index) in list" :key="index">
+				<wu-cell :titleStyle="{fontWeight: 500}" :title="item1.title"
+				 v-for="(item1, index1) in item.list" :key="index1" isLink @click="openPage" :name="item1.path">
+					<template #icon>
+						<image class="wu-cell-icon1" :src="getIcon(item1.icon)" mode="widthFix"></image>
+					</template>
+				</wu-cell>
+			</wu-cell-group>
+		</view>
+		<!-- <u-gap height="30" bgColor="#fff"></u-gap> -->
+	</view>
+</template>
+
+<script>
+	import list from "./components.config.js";
+	import pages from '@/pages.json';
+	export default {
+		data() {
+			return {
+				list: list,
+				desc: '全面兼容多端的uniapp生态框架，基于vue2、vue3和nvue开发。丰富组件库，便捷工具库，简单高效。无论平台，一致体验。选择我们，开发更轻松！',
+			}
+		},
+		computed: {
+			getIcon() {
+				return path => {
+					return '/static/icon/' + path + '.png';
+				}
+			},
+		},
+		onLoad(opt) {
+			let findComponentPath = false;
+			for(let i = 0; i < pages.subPackages.length; i++) {
+				let item = pages.subPackages[i];
+				if(findComponentPath) {
+					break;
+				}
+				for(let p = 0; p < item.pages.length; p++) {
+					let page = item.pages[p];
+					if(page.path.includes(opt.componentName + '/' + opt.componentName)) {
+						uni.navigateTo({
+							url: '/' + item.root + '/' + page.path
+						})
+						findComponentPath = true;
+						break;
+					}
+				}
+			}
+		},
+		methods: {
+			openPage(detail) {
+				const path = detail.name
+				// #ifdef APP-NVUE
+				// 目前安卓nvue下，由于overflow只能为hidden，所以布局上的原因，暂不支持steps和tooltip等组件
+				if(uni.$w.os() === 'android') {
+					const noSupportForAndroid = ['steps']
+					for(let i = 0; i < noSupportForAndroid.length; i ++) {
+						if(path.indexOf(noSupportForAndroid[i]) > -1) {
+							return uni.$w.toast('安卓nvue下暂不支持此组件')
+						}
+					}
+				}
+				// #endif
+				uni.$w.route({
+					url: path
+				})
+			},
+		}
+	}
+</script>
+
+<style>
+	/* page {
+		background-color: rgb(240, 242, 244);
+	} */
+</style>
+
+<style lang="scss" >
+	
+	.wu-cell-icon1 {
+		width: 36rpx;
+		height: 36rpx;
+		margin-right: 8rpx;
+	}
+	
+	.wu-cell-group__title__text {
+		font-weight: bold;
+	}
+</style>
