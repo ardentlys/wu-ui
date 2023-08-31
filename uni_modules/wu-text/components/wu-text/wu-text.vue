@@ -165,6 +165,7 @@
 			// flex: 1;
 			text-overflow: ellipsis;
 			align-items: center;
+			
 
 			&--primary {
 				color: $wu-primary;

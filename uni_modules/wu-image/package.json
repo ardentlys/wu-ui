@@ -11,7 +11,7 @@
 ],
   "repository": "",
   "engines": {
-    "HBuilderX": "^3.4.15"
+    "HBuilderX": "^3.4.17"
   },
   "dcloudext": {
     "type": "component-vue",

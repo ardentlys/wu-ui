@@ -84,23 +84,30 @@
 			// 徽标样式
 			badgeStyle() {
 				let style = {
-					backgroundColor: this.weeks.disable ? '#c0c0c0' : this.weeks.extraInfo.infoColor || '#e43d33'
+					backgroundColor: this.weeks.disable ? '#c0c0c0' : '#e43d33'
 				};
-				if(!this.weeks.extraInfo.badgePosition) {
-					style.right = '10rpx';
-					style.top = '10rpx';
-				} else if(this.weeks.extraInfo.badgePosition == 'top-left'){
-					style.top = '10rpx';
-					style.left = '10rpx';
-				} else if(this.weeks.extraInfo.badgePosition == 'top-right'){
-					style.top = '10rpx';
-					style.right = '10rpx';
-				} else if(this.weeks.extraInfo.badgePosition == 'bottom-left'){
-					style.bottom = '10rpx';
-					style.left = '10rpx';
-				} else if(this.weeks.extraInfo.badgePosition == 'bottom-right'){
-					style.bottom = '10rpx';
-					style.right = '10rpx';
+				if(this.weeks.extraInfo) {
+					if(this.weeks.extraInfo.infoColor) {
+						style.backgroundColor = this.weeks.extraInfo.infoColor
+					}
+					
+					if(!this.weeks.extraInfo.badgePosition) {
+						style.right = '10rpx';
+						style.top = '10rpx';
+					} else if(this.weeks.extraInfo.badgePosition == 'top-left'){
+						style.top = '10rpx';
+						style.left = '10rpx';
+					} else if(this.weeks.extraInfo.badgePosition == 'top-right'){
+						style.top = '10rpx';
+						style.right = '10rpx';
+					} else if(this.weeks.extraInfo.badgePosition == 'bottom-left'){
+						style.bottom = '10rpx';
+						style.left = '10rpx';
+					} else if(this.weeks.extraInfo.badgePosition == 'bottom-right'){
+						style.bottom = '10rpx';
+						style.right = '10rpx';
+					}
+					
 				}
 				
 				return style

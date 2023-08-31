@@ -1,19 +1,20 @@
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 const nextTick = () => new Promise(resolve => setTimeout(resolve, 1000 / 50))
-// nvue动画模块实现细节抽离在外部文件
-import animationMap from './nvue.ani-map.js'
+
 
 // #ifndef APP-NVUE
 // 定义类名，通过给元素动态切换类名，赋予元素一定的css动画样式
 const getClassNames = (name) => ({
     enter: `wu-${name}-enter wu-${name}-enter-active`,
     'enter-to': `wu-${name}-enter-to wu-${name}-enter-active`,
-    leave: `wu-${name}-leave u-${name}-leave-active`,
-    'leave-to': `uw-${name}-leave-to wu-${name}-leave-active`
+    leave: `wu-${name}-leave wu-${name}-leave-active`,
+    'leave-to': `wu-${name}-leave-to wu-${name}-leave-active`
 })
 // #endif
 
 // #ifdef APP-NVUE
+// nvue动画模块实现细节抽离在外部文件
+import animationMap from './nvue.ani-map.js';
 // 引入nvue(weex)的animation动画模块，文档见：
 // https://weex.apache.org/zh/docs/modules/animation.html#transition
 const animation = uni.requireNativePlugin('animation')
@@ -54,17 +55,17 @@ export default {
         vueLeave() {
             // 如果不是展示状态，无需执行逻辑
             if (!this.display) return
-            const classNames = getClassNames(this.mode)
+            const classNames = getClassNames(this.mode);
             // 标记离开状态和发出事件
-            this.status = 'leave'
-            this.$emit('beforeLeave')
+            this.status = 'leave';
+            this.$emit('beforeLeave');
             // 获得类名
-            this.classes = classNames.leave
+            this.classes = classNames.leave;
 
             this.$nextTick(() => {
                // 动画正在离场的状态
-               this.transitionEnded = false
-               this.$emit('leave')
+               this.transitionEnded = false;
+               this.$emit('leave');
                 // 组件执行动画，到了执行的执行时间后，执行一些额外处理
                 setTimeout(this.onTransitionEnd, this.duration)
                 this.classes = classNames['leave-to']

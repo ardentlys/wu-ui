@@ -314,7 +314,6 @@ class Calendar {
 				}
 			}
 		}
-		
 		this._getWeek(fullDate)
 	}
 

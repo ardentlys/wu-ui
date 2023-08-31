@@ -247,7 +247,7 @@
 </template>
 
 <style lang="scss">
-	.wu-page { {
+	.wu-page {
 		padding: 15px;
 
 		&__item {

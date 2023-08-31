@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	const content = require('./content')
+	import content from './content';
 	export default {
 		data() {
 			return {
@@ -45,7 +45,7 @@
 	.u-content {
 		padding: 24rpx;
 		font-size: 32rpx;
-		color: $u-content-color;
+		color: $wu-content-color;
 		line-height: 1.6;
 	}
 </style>

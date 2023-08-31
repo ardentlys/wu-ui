@@ -4,14 +4,14 @@
 			<text class="wu-page__item__title">基础功能</text>
 			<wu-cell-group>
 				<wu-cell
-				    title="uview UI"
+				    title="WU-UI"
 				    value="内容"
 				    :isLink="true"
 				></wu-cell>
 				<wu-cell
-				    title="利剑出鞘,一统江湖"
+				    title="如虎添翼"
 				    value="内容"
-				    label="挣脱束缚,向往自由"
+				    label="增加buff, 变得更强"
 				></wu-cell>
 			</wu-cell-group>
 		</view>
@@ -97,32 +97,34 @@
 			<text class="wu-page__item__title">自定义插槽</text>
 			<wu-cell-group>
 				<wu-cell value="内容">
-					<view
-					    slot="title"
-					    class="u-slot-title"
-					>
-						<text class="wu-cell-text">单元格</text>
-						<u-tag
-						    text="标签"
-						    plain
-						    size="mini"
-						    type="warning"
+					<template #title>
+						<view
+						    class="wu-slot-title"
 						>
-						</u-tag>
-					</view>
+							<text class="wu-cell-text">单元格</text>
+							<wu-tag
+							    text="标签"
+							    plain
+							    size="mini"
+							    type="warning"
+							>
+							</wu-tag>
+						</view>
+					</template>
 				</wu-cell>
 				<wu-cell
 				    title="单元格"
 					isLink
 				>
-					<text
-					    slot="value"
-					    class="u-slot-value"
-					>99</text>
+					<template #value>
+						<text
+						    class="wu-slot-value"
+						>99</text>
+					</template>
 				</wu-cell>
 			</wu-cell-group>
 		</view>
-		<u-gap height="30"></u-gap>
+		<wu-gap height="30"></wu-gap>
 	</view>
 </template>
 <script>
@@ -162,20 +164,20 @@
 		&__item {
 
 			&__title {
-				color: $u-tips-color;
-				background-color: $u-bg-color;
+				color: $wu-tips-color;
+				background-color: $wu-bg-color;
 				padding: 15px;
 				font-size: 15px;
 
 				&__slot-title {
-					color: $u-primary;
+					color: $wu-primary;
 					font-size: 14px;
 				}
 			}
 		}
 	}
 
-	.u-slot-title {
+	.wu-slot-title {
 		@include flex;
 		flex-direction: row;
 		align-items: center;
@@ -188,7 +190,7 @@
 		margin-right: 5px;
 	}
 
-	.u-slot-value {
+	.wu-slot-value {
 		line-height: 17px;
 		text-align: center;
 		font-size: 10px;

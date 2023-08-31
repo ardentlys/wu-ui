@@ -4,6 +4,12 @@ export default {
             type: String,
             default: 'transparent'
         },
+		customStyle: {
+			type: [Object, String],
+			default: () => {
+				return ''
+			}
+		},
 		...uni.$w?.props?.statusBar
     }
 }

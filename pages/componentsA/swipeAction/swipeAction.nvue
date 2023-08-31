@@ -220,7 +220,7 @@
 
 			&__text {
 				font-size: 15px;
-				color: $u-main-color;
+				color: $wu-main-color;
 				padding-left: 30rpx;
 			}
 		}

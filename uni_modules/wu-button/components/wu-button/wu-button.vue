@@ -84,7 +84,7 @@
 	/**
 	 * button 按钮
 	 * @description Button 按钮
-	 * @tutorial https://wu.geeks.ink/zh-CN/components/button.html
+	 * @tutorial https://wuui.geeks.ink/components/button
 	 * @property {Boolean}			hairline				是否显示按钮的细边框 (默认 true )
 	 * @property {String}			type					按钮的预置样式，info，primary，error，warning，success (默认 'info' )
 	 * @property {String}			size					按钮尺寸，large，normal，mini （默认 normal）

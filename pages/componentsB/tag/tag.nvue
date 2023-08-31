@@ -323,7 +323,7 @@
 </script>
 
 <style lang="scss">
-	"wu-demo__tag-item {
+	.wu-page__tag-item {
 		margin-right: 20px;
 	}
 

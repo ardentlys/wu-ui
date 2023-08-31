@@ -28,6 +28,7 @@ import platform from './libs/function/platform'
 import Color from './libs/function/color.js'
 
 const $w = {
+	...index,
 	route,
 	config,
 	test,

@@ -1,7 +1,7 @@
 {
 	"id": "wu--ui",
-	"displayName": "wu-ui 兼容vue3+2、app、h5、小程序等多端，无论平台，一致体验。",
-	"version": "1.0.5",
+	"displayName": "wu-ui如虎添翼之兼容vue3+2、app、h5、小程序等多端，无论平台，一致体验。",
+	"version": "1.0.6",
 	"description": "wu-ui 是 全面兼容多端的uniapp生态框架，基于vue2、vue3和nvue开发。丰富组件库，便捷工具库，简单高效。无论平台，一致体验。选择我们，开发更轻松！",
 	"keywords": [
         "wu-ui,",
@@ -48,7 +48,17 @@
 			"wu-link",
 			"wu-text",
 			"wu-number-box",
-			"wu-transition"
+			"wu-transition",
+			"wu-input",
+			"wu-code",
+			"wu-navbar",
+			"wu-status-bar",
+			"wu-safe-bottom",
+			"wu-radio",
+			"wu-checkbox",
+			"wu-textarea",
+			"wu-gap",
+			"wu-cell"
 		],
 		"encrypt": [],
 		"platforms": {

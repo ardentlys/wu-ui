@@ -71,29 +71,35 @@
 				<swiper v-if="slideSwitchMode !== 'none'" style="height: 765rpx" :duration="500"
 					:vertical="slideSwitchMode == 'vertical'" circular :current="swiperCurrent" @change="swiperChange">
 					<swiper-item>
-						<view class="wu-calendar__weeks" v-for="(item,weekIndex) in preWeeks" :key="weekIndex">
-							<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
-								<wu-calendar-item class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
-									:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
-									:startText="startText" :endText="endText"></wu-calendar-item>
+						<view class="wu-calendar__weeks_box">
+							<view class="wu-calendar__weeks" v-for="(item,weekIndex) in preWeeks" :key="weekIndex">
+								<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
+									<wu-calendar-item class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
+										:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
+										:startText="startText" :endText="endText"></wu-calendar-item>
+								</view>
 							</view>
 						</view>
 					</swiper-item>
 					<swiper-item>
-						<view class="wu-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
-							<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
-								<wu-calendar-item class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
-									:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
-									:startText="startText" :endText="endText"></wu-calendar-item>
+						<view class="wu-calendar__weeks_box">
+							<view class="wu-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
+								<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
+									<wu-calendar-item class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
+										:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
+										:startText="startText" :endText="endText"></wu-calendar-item>
+								</view>
 							</view>
 						</view>
 					</swiper-item>
 					<swiper-item>
-						<view class="wu-calendar__weeks" v-for="(item,weekIndex) in nextWeeks" :key="weekIndex">
-							<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
-								<wu-calendar-item class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
-									:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
-									:startText="startText" :endText="endText"></wu-calendar-item>
+						<view class="wu-calendar__weeks_box">
+							<view class="wu-calendar__weeks" v-for="(item,weekIndex) in nextWeeks" :key="weekIndex">
+								<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
+									<wu-calendar-item class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
+										:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
+										:startText="startText" :endText="endText"></wu-calendar-item>
+								</view>
 							</view>
 						</view>
 					</swiper-item>
@@ -407,7 +413,7 @@
 				const date = this.cale.getDate(new Date());
 				// 设置选中的日期
 				this.cale.setMultiple(date.fullDate);
-				this.nowDate = this.calendar = this.cale.getInfo(date.fullDate);
+				this.nowDate = this.calendar = date;
 
 				const todayYearMonth = `${date.year}-${date.month}`
 
@@ -670,7 +676,11 @@
 	.wu-calendar--bottom {
 		transform: rotate(225deg);
 	}
-
+	
+	.wu-calendar__weeks_box {
+		height: 765rpx;
+	}
+	
 	.wu-calendar__weeks {
 		position: relative;
 		/* #ifndef APP-NVUE */

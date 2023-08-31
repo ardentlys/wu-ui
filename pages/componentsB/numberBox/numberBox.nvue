@@ -1,176 +1,87 @@
 <template>
 	<view class="">
-		<u-cell-group :border="true">
-			<u-cell
-			    :border="true"
-			    title="基础用法"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value1"
-				    step="1"
-				    @change="change"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="步长设置"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value2"
-				    :step="step1"
-				    @change="change"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="限制输入范围"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value3"
-				    step="1"
-				    :min="min1"
-				    :max="max1"
-				    @change="change"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="限制输入整数"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value4"
-				    step="1"
-				    integer
-				    @change="change"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="禁用状态"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value5"
-				    step="1"
-				    :disabled="true"
-				    @change="change"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="禁用输入框"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value6"
-				    step="1"
-				    :disabledInput="true"
-				    @change="change"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="禁用长按"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value7"
-				    step="1"
-				    :longPress="false"
-				    @change="change"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="固定小数位数"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value8"
-				    step="0.2"
-				    decimalLength="1"
-				    @change="change"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="异步变更"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value9"
-				    step="1"
-				    :asyncChange="asyncChange"
-				    @change="myAsyncChange"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="自定义大小颜色样式"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value10"
-				    step="1"
-				    :color="color"
-				    :buttonSize="buttonSize"
-				    :bgColor="bgColor"
-				    @change="change"
-				    iconStyle="color: #fff"
-				>
-				</u-number-box>
-			</u-cell>
-			<u-cell
-			    :border="true"
-			    title="自定义(为0时减少按钮会消失)"
-			>
-				<u-number-box
-				    slot="right-icon"
-				    v-model="value11"
-				    step="1"
-				    :min="0"
-				    :showMinus="value11 > 0"
-				>
-					<view
-					    slot="minus"
-					    class="minus"
-					>
-						<u-icon
-						    name="minus"
-						    size="12"
-						></u-icon>
-					</view>
-					<text
-					    slot="input"
-					    style="width: 50px;text-align: center;"
-					    class="input"
-					>{{value11}}</text>
-					<view
-					    slot="plus"
-					    class="plus"
-					>
-						<u-icon
-						    name="plus"
-						    color="#FFFFFF"
-						    size="12"
-						></u-icon>
-					</view>
-				</u-number-box>
-			</u-cell>
-		</u-cell-group>
+		<wu-cell-group :border="true">
+			<wu-cell :border="true" title="基础用法">
+				<template #right-icon>
+					<wu-number-box v-model="value1" step="1" @change="change">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="步长设置">
+				<template #right-icon>
+					<wu-number-box v-model="value2" :step="step1" @change="change">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="限制输入范围">
+				<template #right-icon>
+					<wu-number-box v-model="value3" step="1" :min="min1" :max="max1" @change="change">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="限制输入整数">
+				<template #right-icon>
+					<wu-number-box v-model="value4" step="1" integer @change="change">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="禁用状态">
+				<template #right-icon>
+					<wu-number-box v-model="value5" step="1" :disabled="true" @change="change">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="禁用输入框">
+				<template #right-icon>
+					<wu-number-box v-model="value6" step="1" :disabledInput="true" @change="change">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="禁用长按">
+				<template #right-icon>
+					<wu-number-box v-model="value7" step="1" :longPress="false" @change="change">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="固定小数位数">
+				<template #right-icon>
+					<wu-number-box v-model="value8" step="0.2" decimalLength="1" @change="change">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="异步变更">
+				<template #right-icon>
+					<wu-number-box v-model="value9" step="1" :asyncChange="asyncChange" @change="myAsyncChange">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="自定义大小颜色样式">
+				<template #right-icon>
+					<wu-number-box v-model="value10" step="1" :color="color" :buttonSize="buttonSize" :bgColor="bgColor"
+						@change="change" iconStyle="color: #fff">
+					</wu-number-box>
+				</template>
+			</wu-cell>
+			<wu-cell :border="true" title="自定义(为0时减少按钮会消失)">
+				<template #right-icon>
+					<wu-number-box v-model="value11" step="1" :min="0" :showMinus="value11 > 0">
+						<template #minus>
+							<view class="minus">
+								<wu-icon name="minus" size="12"></wu-icon>
+							</view>
+						</template>
+						<template #input>
+							<text style="width: 60px;text-align: center;" class="input">{{value11}}</text>
+						</template>
+						<template #plus>
+							<view class="plus">
+								<wu-icon name="plus" color="#FFFFFF" size="12"></wu-icon>
+							</view>
+						</template>
+					</wu-number-box>
+				</template>
+			</wu-cell>
+		</wu-cell-group>
 	</view>
 </template>
 
@@ -218,18 +129,17 @@
 </script>
 
 <style lang="scss">
+	@import '@/uni_modules/wu-ui-tools/libs/css/components.scss';
+
 	.minus {
 		width: 22px;
 		height: 22px;
 		border-width: 1px;
-		border-color: #E6E6E6;
-		border-top-left-radius: 100px;
-		border-top-right-radius: 100px;
-		border-bottom-left-radius: 100px;
-		border-bottom-right-radius: 100px;
 		@include flex;
 		justify-content: center;
 		align-items: center;
+		border: 1px solid  #E6E6E6;
+		border-radius: 100px;
 	}
 
 	.input {

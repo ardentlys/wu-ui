@@ -1,7 +1,7 @@
 {
   "id": "wu-row",
   "displayName": "wu-row layout布局 全端兼容，无论平台，一致体验",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "wu-row 通过基础的 12 分栏，迅速简便地创建布局",
   "keywords": [
     "wu-row",
@@ -36,7 +36,7 @@
   },
   "uni_modules": {
     "dependencies": [
-		"wu-col"
+		"wu-ui-tools"
 	],
     "encrypt": [],
     "platforms": {

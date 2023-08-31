@@ -1,7 +1,7 @@
 {
   "id": "wu-calendar",
   "displayName": "wu-calendar 最全日历，动态滑动切换、多滑动模式等， 全端兼容，无论平台，一致体验。",
-  "version": "1.0.5",
+  "version": "1.1.1",
   "description": "唯一可以动态滑动切换的日历插件，还可以设置滑动切换模式、自定义主题颜色、自定义文案、农历显示等功能，可以让您纵享丝滑的使用日历。",
   "keywords": [
     "wu-calendar",
@@ -35,7 +35,9 @@
     "npmurl": ""
   },
   "uni_modules": {
-    "dependencies": [],
+    "dependencies": [
+		"wu-ui-tools"
+	],
     "encrypt": [],
     "platforms": {
       "cloud": {

@@ -3,51 +3,51 @@
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">基础使用</text>
 			<view class="wu-demo-block__content">
-				<u--textarea
+				<wu-textarea
 					v-model="value1"
 					placeholder="请输入内容"
-				></u--textarea>
+				></wu-textarea>
 			</view>
 		</view>
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">字数统计</text>
 			<view class="wu-demo-block__content">
-				<u--textarea
+				<wu-textarea
 					v-model="value2"
 					placeholder="请输入内容"
 					count
-				></u--textarea>
+				></wu-textarea>
 			</view>
 		</view>
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">自动增高</text>
 			<view class="wu-demo-block__content">
-				<u--textarea
+				<wu-textarea
 					v-model="value3"
 					placeholder="请输入内容"
 					autoHeight
-				></u--textarea>
+				></wu-textarea>
 			</view>
 		</view>
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">禁用状态</text>
 			<view class="wu-demo-block__content">
-				<u--textarea
+				<wu-textarea
 					v-model="value4"
 					placeholder="文本域已被禁用"
 					disabled
 					count
-				></u--textarea>
+				></wu-textarea>
 			</view>
 		</view>
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">下划线模式</text>
 			<view class="wu-demo-block__content">
-				<u--textarea
+				<wu-textarea
 					v-model="value5"
 					placeholder="请输入内容"
 					border="bottom"
-				></u--textarea>
+				></wu-textarea>
 			</view>
 		</view>
 	</view>

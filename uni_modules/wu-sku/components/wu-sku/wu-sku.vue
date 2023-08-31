@@ -104,9 +104,9 @@
 	 * @property {Number} defaultNum 默认购买商品数量。
 	 * @property {Array} themeColor 主题色，需要传入一个数组长度为3的数组，分别对应rgb三个颜色的值，例如: [84, 164, 255]。
 	 * @property {String} btnConfirmText 确认按钮文字(默认值: '确认')。
-	 * @property {Boolean} notStockDisabled 无库存sku是否禁用(默认值: false)。
-	 * @property {Object} notStockDisabledStyle 无库存sku禁用样式，notStockDisabled为true时生效(默认值: {})。
-	 * @property {String} notStockText 库存不足文字，notStockDisabled为false时生效(默认值: '库存不足')。
+	 * @property {Boolean} skuUnrelatedDisabled 不相关sku是否禁用(默认值: false)。
+	 * @property {Object} skuDisabledStyle sku禁用样式。
+	 * @property {String} notStockText 库存不足文字(默认值: '库存不足')。
 	 * @property {String} notSelectSku 未选择完整的sku时的文字提示(默认值: '请选择完整的sku属性')。
 	 * @property {Boolean} showStockNum 是否展示库存数量。
 	 * @event {Function} confirm 点击确认按钮时触发的事件，会返回e， e = { sku, skuText , num }，分别对应选中的sku值 、sku属性名 、输入框内的数量。
@@ -215,8 +215,8 @@
 						obj[attr_info.name].value = attr_info.value;
 						obj[attr_info.name].active = false;
 						obj[attr_info.name].disabled = false;
-						// 如果无库存禁用
-						if (this.notStockDisabled) {
+						// 如果不想关sku需要禁用
+						if (this.skuUnrelatedDisabled) {
 							obj[attr_info.name].discard = false; // 是否废弃
 						}
 
@@ -409,27 +409,17 @@
 						// 如果存在这种组合
 						if (resCurr) {
 							// console.log(resCurr)
-							item.disabled = false;
-							// 如果sku无库存不展示 而且 当前sku属性没有被废弃
-							if (this.notStockDisabled) {
-								// 该属性是否无库存
-								let itemNotStock = true;
-								// 遍历该属性所有的合集
-								// resCurr.skus是一个[],里面有合集id 可能有多个合集id
-								// 每个合集id都有独一无二的信息 
-								// 如果所有相关合集都没库存则说明该属性无库存 则废弃 否则 不废弃
-								resCurr.skus.forEach(skuID => {
-									let sku = this.r.items.filter(sku => sku.sku === skuID)[0];
-									if (sku.stock > 0) itemNotStock = false;
-								})
-								item.discard = itemNotStock;
+							if (this.skuUnrelatedDisabled) {
+								item.discard = false;
+							} else {
+								item.disabled = false;
 							}
 						} else {
-							// 如果无库存不展示
-							if (this.notStockDisabled) {
-								item.discard = false;
+							if (this.skuUnrelatedDisabled) {
+								item.discard = true;
+							} else {
+								item.disabled = true;
 							}
-							item.disabled = true;
 							item.active = false;
 						}
 					})
@@ -482,7 +472,11 @@
 						Object.keys(resObj[key1]).forEach(key2 => {
 							// 查找选中的属性
 							let item = resObj[key1][key2];
-							item.disabled = false;
+							if (this.skuUnrelatedDisabled) {
+								item.discard = false;
+							} else {
+								item.disabled = false;
+							}
 						})
 					})
 				}
@@ -593,7 +587,7 @@
 
 				//计算组合数据
 				this.r = this.combineAttr(data, this.keys);
-				
+
 				// 生成所有子集是否可选、库存状态 map
 				this.buildResult(this.r.items);
 
@@ -743,7 +737,7 @@
 				if (sku.discard) { // 废弃的样式
 					style = {
 						...style,
-						...this.notStockDisabledStyle
+						...this.skuDisabledStyle
 					};
 				}
 
@@ -800,7 +794,7 @@
 			},
 			// #ifdef VUE3
 			modelValue(n) {
-				if(n) {
+				if (n) {
 					this.open();
 					this.init(this.data);
 				} else {
@@ -810,7 +804,7 @@
 			// #endif
 			// #ifndef VUE3
 			value(n) {
-				if(n) {
+				if (n) {
 					this.open();
 					this.init(this.data);
 				} else {

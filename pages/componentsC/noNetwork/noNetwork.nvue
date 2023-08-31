@@ -43,7 +43,7 @@
 		justify-content: center;
 
 		&__circle {
-			background-color: $u-success;
+			background-color: $wu-success;
 			@include flex;
 			border-radius: 100px;
 			width: 60px;
@@ -54,12 +54,12 @@
 
 		&__normal {
 			font-size: 15px;
-			color: $u-success;
+			color: $wu-success;
 			margin-top: 15px;
 		}
 
 		&__tips {
-			color: $u-tips-color;
+			color: $wu-tips-color;
 			font-size: 13px;
 			margin-top: 15px;
 			text-align: center;

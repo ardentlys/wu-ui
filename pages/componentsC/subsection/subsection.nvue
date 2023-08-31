@@ -86,7 +86,7 @@
 		align-items: flex-start;
 
 		&__avatar {
-			background-color: $u-bg-color;
+			background-color: $wu-bg-color;
 			padding: 5px;
 			border-radius: 3px;
 		}

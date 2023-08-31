@@ -254,13 +254,13 @@
 		&__item {
 
 			&__title {
-				color: $u-tips-color;
-				background-color: $u-bg-color;
+				color: $wu-tips-color;
+				background-color: $wu-bg-color;
 				padding: 15px;
 				font-size: 15px;
 
 				&__slot-title {
-					color: $u-primary;
+					color: $wu-primary;
 					font-size: 14px;
 				}
 			}

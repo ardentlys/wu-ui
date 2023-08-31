@@ -1,4 +1,4 @@
-## wu-row layout布局的子组件
+## wu-row layout布局
 
 > **组件名：wu-row**
 

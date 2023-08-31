@@ -167,7 +167,7 @@
 			margin-top: 4px;
 			width: 22px;
 			height: 22px;
-			background-color: $u-primary;
+			background-color: $wu-primary;
 			border-radius: 4px;
 			/* #ifndef APP-NVUE */
 			display: flex;
@@ -183,7 +183,7 @@
 		}
 
 		&__doc {
-			color: $u-primary;
+			color: $wu-primary;
 			padding: 0px 4px;
 		}
 
@@ -217,7 +217,7 @@
 				width: 32px;
 				height: 32px;
 				border-radius: 32px;
-				background-color: $u-primary;
+				background-color: $wu-primary;
 				/* #ifndef APP-NVUE */
 				display: flex;
 				/* #endif */

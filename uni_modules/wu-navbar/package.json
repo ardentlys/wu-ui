@@ -1,81 +1,89 @@
 {
-  "id": "wu-navbar",
-  "displayName": "wu-navbar",
-  "version": "1.0.0",
-  "description": "wu-navbar",
-  "keywords": [
-    "wu-navbar"
-],
-  "repository": "",
-  "engines": {
-    "HBuilderX": "^3.1.0"
-  },
-  "dcloudext": {
-    "type": "component-vue",
-    "sale": {
-      "regular": {
-        "price": "0.00"
-      },
-      "sourcecode": {
-        "price": "0.00"
-      }
-    },
-    "contact": {
-      "qq": ""
-    },
-    "declaration": {
-      "ads": "",
-      "data": "",
-      "permissions": ""
-    },
-    "npmurl": ""
-  },
-  "uni_modules": {
-    "dependencies": [],
-    "encrypt": [],
-    "platforms": {
-      "cloud": {
-        "tcb": "u",
-        "aliyun": "u"
-      },
-      "client": {
-        "Vue": {
-          "vue2": "u",
-          "vue3": "u"
-        },
-        "App": {
-          "app-vue": "u",
-          "app-nvue": "u"
-        },
-        "H5-mobile": {
-          "Safari": "u",
-          "Android Browser": "u",
-          "微信浏览器(Android)": "u",
-          "QQ浏览器(Android)": "u"
-        },
-        "H5-pc": {
-          "Chrome": "u",
-          "IE": "u",
-          "Edge": "u",
-          "Firefox": "u",
-          "Safari": "u"
-        },
-        "小程序": {
-          "微信": "u",
-          "阿里": "u",
-          "百度": "u",
-          "字节跳动": "u",
-          "QQ": "u",
-          "钉钉": "u",
-          "快手": "u",
-          "飞书": "u",
-          "京东": "u"
-        },
-        "快应用": {
-          "华为": "u",
-          "联盟": "u"
-        }
-      }
-    }
-  }
+	"id": "wu-navbar",
+	"displayName": "wu-navbar 自定义状态栏、背景色、自动计算状态栏高度 小程序预留胶囊位置等 全端兼容，无论平台，一致体验。",
+	"version": "1.0.0",
+	"description": "wu-navbar 此组件一般用于在特殊情况下，需要自定义导航栏的时候用到，自动状态栏高度、小程序胶囊预留位置等，一般建议使用uni-app带的导航栏",
+	"keywords": [
+        "wu-ui",
+        "wuui",
+        "wu-navbar",
+        "navbar",
+        "自定义导航栏"
+    ],
+	"repository": "",
+	"engines": {
+		"HBuilderX": "^3.4.15"
+	},
+	"dcloudext": {
+		"type": "component-vue",
+		"sale": {
+			"regular": {
+				"price": "0.00"
+			},
+			"sourcecode": {
+				"price": "0.00"
+			}
+		},
+		"contact": {
+			"qq": ""
+		},
+		"declaration": {
+			"ads": "无",
+			"data": "插件不采集任何数据",
+			"permissions": "无"
+		},
+		"npmurl": ""
+	},
+	"uni_modules": {
+		"dependencies": [
+			"wu-status-bar",
+			"wu-icon",
+			"wu-ui-tools"
+		],
+		"encrypt": [],
+		"platforms": {
+			"cloud": {
+				"tcb": "y",
+				"aliyun": "y"
+			},
+			"client": {
+				"Vue": {
+					"vue2": "y",
+					"vue3": "y"
+				},
+				"App": {
+					"app-vue": "y",
+					"app-nvue": "y"
+				},
+				"H5-mobile": {
+					"Safari": "y",
+					"Android Browser": "y",
+					"微信浏览器(Android)": "y",
+					"QQ浏览器(Android)": "y"
+				},
+				"H5-pc": {
+					"Chrome": "y",
+					"IE": "y",
+					"Edge": "y",
+					"Firefox": "y",
+					"Safari": "y"
+				},
+				"小程序": {
+					"微信": "y",
+					"阿里": "y",
+					"百度": "y",
+					"字节跳动": "y",
+					"QQ": "y",
+					"钉钉": "n",
+					"快手": "n",
+					"飞书": "n",
+					"京东": "n"
+				},
+				"快应用": {
+					"华为": "n",
+					"联盟": "n"
+				}
+			}
+		}
+	}
 }

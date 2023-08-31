@@ -5,17 +5,16 @@
 			@tap.stop="clickHandler('minus')" 
 			@touchstart="onTouchStart('minus')"
 			@touchend.stop="clearTimeout" 
-			v-if="showMinus && $slots.minus">
-			<slot name="minus" />
+			v-if="showMinus">
+			<slot name="minus">
+				<view class="wu-number-box__minus" hover-class="wu-number-box__minus--hover"
+					hover-stay-time="150" :class="{ 'wu-number-box__minus--disabled': isDisabled('minus') }"
+					:style="[buttonStyle('minus')]">
+					<wu-icon name="minus" :color="isDisabled('minus') ? '#c8c9cc' : '#323233'" size="15" bold
+						:customStyle="iconStyle"></wu-icon>
+				</view>
+			</slot>
 		</view>
-		<view v-else-if="showMinus" class="wu-number-box__minus" @tap.stop="clickHandler('minus')"
-			@touchstart="onTouchStart('minus')" @touchend.stop="clearTimeout" hover-class="wu-number-box__minus--hover"
-			hover-stay-time="150" :class="{ 'wu-number-box__minus--disabled': isDisabled('minus') }"
-			:style="[buttonStyle('minus')]">
-			<wu-icon name="minus" :color="isDisabled('minus') ? '#c8c9cc' : '#323233'" size="15" bold
-				:customStyle="iconStyle"></wu-icon>
-		</view>
-
 		<slot name="input">
 			<input :disabled="disabledInput || disabled" :cursor-spacing="getCursorSpacing"
 				:class="{ 'wu-number-box__input--disabled': disabled || disabledInput }" v-model="currentValue"
@@ -23,15 +22,14 @@
 				:style="[inputStyle]" />
 		</slot>
 		<view class="wu-number-box__slot" @tap.stop="clickHandler('plus')" @touchstart="onTouchStart('plus')"
-			@touchend.stop="clearTimeout" v-if="showPlus && $slots.plus">
-			<slot name="plus" />
-		</view>
-		<view v-else-if="showPlus" class="wu-number-box__plus" @tap.stop="clickHandler('plus')"
-			@touchstart="onTouchStart('plus')" @touchend.stop="clearTimeout" hover-class="wu-number-box__plus--hover"
-			hover-stay-time="150" :class="{ 'wu-number-box__minus--disabled': isDisabled('plus') }"
-			:style="[buttonStyle('plus')]">
-			<wu-icon name="plus" :color="isDisabled('plus') ? '#c8c9cc' : '#323233'" size="15" bold
-				:customStyle="iconStyle"></wu-icon>
+			@touchend.stop="clearTimeout" v-if="showPlus">
+			<slot name="plus">
+				<view class="wu-number-box__plus" hover-class="wu-number-box__plus--hover"
+					hover-stay-time="150" :class="{ 'wu-number-box__minus--disabled': isDisabled('plus') }"
+					:style="[buttonStyle('plus')]">
+					<wu-icon name="plus" :color="isDisabled('plus') ? '#c8c9cc' : '#323233'" size="15" bold :customStyle="iconStyle"></wu-icon>
+				</view>
+			</slot>
 		</view>
 	</view>
 </template>

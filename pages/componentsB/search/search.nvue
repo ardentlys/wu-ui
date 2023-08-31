@@ -207,7 +207,7 @@
 </script>
 
 <style lang="scss">
-	"wu-demo__tag-item {
+	.wu-demo__tag-item {
 		@include flex(column);
 		flex: 1
 	}

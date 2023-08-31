@@ -20,6 +20,11 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		// 是否显示左边
+		showLeft: {
+			type: Boolean,
+			default: true
+		},
 		// 左边的图标
 		leftIcon: {
 			type: String,
@@ -30,7 +35,12 @@ export default {
 			type: String,
 			default: ''
 		},
-		// 左右的提示文字
+		// 小程序端导航栏右侧是否预留胶囊位置
+		mpRightReserveCapsule: {
+			type: Boolean,
+			default: true
+		},
+		// 左边的提示文字
 		rightText: {
 			type: String,
 			default: ''

@@ -53,13 +53,13 @@ export default {
 			default: "确定",
 			type: String
 		},
-		// 无库存禁用
-		notStockDisabled: {
+		// 不相关sku是否禁用
+		skuUnrelatedDisabled: {
 			default: false,
 			type: Boolean
 		},
-		// 无库存禁用样式
-		notStockDisabledStyle: {
+		// sku禁用时的样式
+		skuDisabledStyle: {
 			default: () => {
 				return {}
 			},

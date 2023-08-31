@@ -235,7 +235,7 @@ export default {
 
 			&__text {
 				margin-top: 5px;
-				color: $u-content-color;
+				color: $wu-content-color;
 				font-size: 12px;
 				text-align: center;
 			}

@@ -1,10 +1,14 @@
 {
   "id": "wu-transition",
   "displayName": "wu-transition 用于组件的动画过渡效果 全端兼容，无论平台，一致体验",
-  "version": "1.0.1",
-  "description": "wu-用于组件的动画过渡效果",
+  "version": "1.0.3",
+  "description": "wu-transition 用于组件的动画过渡效果",
   "keywords": [
-    "wu-transition"
+    "wu-ui",
+    "wuui",
+    "wu-transition",
+    "transition",
+    "动画过渡"
 ],
   "repository": "",
   "engines": {

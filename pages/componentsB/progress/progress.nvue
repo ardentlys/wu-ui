@@ -120,7 +120,7 @@
 
 	.u-percentage-slot {
 		padding: 1px 5px;
-		background-color: $u-warning;
+		background-color: $wu-warning;
 		color: #fff;
 		border-radius: 100px;
 		font-size: 10px;

@@ -3,29 +3,29 @@
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">基本案列</text>
 			<view class="wu-page__gap-item">
-				<u-gap bgColor="#f3f4f6"></u-gap>
+				<wu-gap bgColor="#f3f4f6"></wu-gap>
 			</view>
 		</view>
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">自定义颜色</text>
 			<view class="wu-page__gap-item">
-				<u-gap bgColor="#2979ff"></u-gap>
+				<wu-gap bgColor="#2979ff"></wu-gap>
 			</view>
 		</view>
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">自定义高度</text>
 			<view class="wu-page__gap-item">
-				<u-gap bgColor="#f3f4f6" height="40"></u-gap>
+				<wu-gap bgColor="#f3f4f6" height="40"></wu-gap>
 			</view>
 		</view>	
 		<view class="wu-demo-block">
 			<text class="wu-demo-block__title">自定义上下边距</text>
 			<view class="wu-page__gap-item">
-			<u-gap
+			<wu-gap
 				bgColor="#f3f4f6"
 			    marginTop="20"
 			    marginBottom="20"
-			></u-gap>
+			></wu-gap>
 			</view>
 		</view>
 	</view>

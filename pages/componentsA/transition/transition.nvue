@@ -159,6 +159,6 @@ export default {
 }
 
 .transition {
-    background-color: $u-primary;
+    background-color: $wu-primary;
 }
 </style>

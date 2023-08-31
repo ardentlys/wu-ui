@@ -1,5 +1,5 @@
 <template>
-	<view v-if="inited" class="wu-transition" ref="wu-transition" @tap="clickHandler" :class="classes"
+	<view v-if="inited" class="wu-transition" @tap="clickHandler" :class="[classes, customClass]"
 		:style="[mergeStyle]" @touchmove="noop">
 		<slot />
 	</view>

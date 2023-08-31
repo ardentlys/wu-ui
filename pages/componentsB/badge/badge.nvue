@@ -140,7 +140,7 @@
 		justify-content: space-between;
 	}
 
-	"wu-demo__tag-item {
+	.wu-page__tag-item {
 		margin-right: 40px;
 		margin-top: 10px;
 	}

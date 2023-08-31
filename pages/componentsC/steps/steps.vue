@@ -206,7 +206,7 @@
 	.slot-icon {
 		width: 21px;
 		height: 21px;
-		background-color: $u-warning;
+		background-color: $wu-warning;
 		border-radius: 100px;
 		font-size: 12px;
 		color: #fff;

@@ -39,28 +39,60 @@
 				title="个人中心"
 				:safeAreaInsetTop="false"
 			>
+				<template #left>
+					<view
+						class="wu-nav-slot"
+					>
+						<wu-icon
+							name="arrow-left"
+							size="19"
+						></wu-icon>
+						<wu-line
+							direction="column"
+							:hairline="false"
+							length="16"
+							margin="0 8px"
+						></wu-line>
+						<wu-icon
+							name="home"
+							size="20"
+						></wu-icon>
+					</view>
+				</template>
+			</wu-navbar>
+		</view>
+		<view class="wu-page__item">
+			<text class="wu-page__item__title">自定义背景色</text>
+			<wu-navbar
+				:fixed="false"
+				title="个人中心"
+				:safeAreaInsetTop="false"
+				leftIconColor="#fff"
+				titleStyle="color: #fff"
+				bgColor="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"
+			>
 				<view
-					class="u-nav-slot"
+					class="wu-nav-slot"
 					slot="left"
 				>
-					<u-icon
+					<wu-icon
 						name="arrow-left"
 						size="19"
-					></u-icon>
-					<u-line
+					></wu-icon>
+					<wu-line
 						direction="column"
 						:hairline="false"
 						length="16"
 						margin="0 8px"
-					></u-line>
-					<u-icon
+					></wu-line>
+					<wu-icon
 						name="home"
 						size="20"
-					></u-icon>
+					></wu-icon>
 				</view>
 			</wu-navbar>
 		</view>
-		<u-gap height="50"></u-gap>
+		<wu-gap height="50"></wu-gap>
 	</view>
 </template>
 
@@ -90,38 +122,38 @@
 <style lang="scss">
 	/* #ifndef APP-NVUE */
 	page {
-		background-color: $u-bg-color;
+		background-color: $wu-bg-color;
 	}
 	/* #endif */
 	
 	.wu-page {
 		padding: 0;
 		flex: 1;
-		background-color: $u-bg-color;
+		background-color: $wu-bg-color;
 
 		&__item {
 
 			&__title {
-				color: $u-tips-color;
-				background-color: $u-bg-color;
+				color: $wu-tips-color;
+				background-color: $wu-bg-color;
 				padding: 15px;
 				font-size: 15px;
 
 				&__slot-title {
-					color: $u-primary;
+					color: $wu-primary;
 					font-size: 14px;
 				}
 			}
 		}
 	}
 
-	.u-nav-slot {
+	.wu-nav-slot {
 		@include flex;
 		align-items: center;
 		justify-content: space-between;
 		border-width: 0.5px;
 		border-radius: 100px;
-		border-color: $u-border-color;
+		border-color: $wu-border-color;
 		padding: 3px 7px;
 		opacity: 0.8;
 	}

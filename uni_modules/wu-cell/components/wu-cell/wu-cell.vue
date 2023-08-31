@@ -4,10 +4,11 @@
 		@tap="clickHandler">
 		<view class="wu-cell__body" :class="[ center && 'wu-cell--center', size === 'large' && 'wu-cell__body--large']">
 			<view class="wu-cell__body__content">
-				<view class="wu-cell__left-icon-wrap" v-if="$slots.icon || icon">
-					<slot name="icon" v-if="$slots.icon">
+				<view class="wu-cell__left-icon-wrap">
+					<slot name="icon">
+						<wu-icon v-if="icon" :name="icon" :custom-style="iconStyle"
+							:size="size === 'large' ? 22 : 18"></wu-icon>
 					</slot>
-					<wu-icon v-else :name="icon" :custom-style="iconStyle" :size="size === 'large' ? 22 : 18"></wu-icon>
 				</view>
 				<view class="wu-cell__title">
 					<slot name="title">
@@ -25,12 +26,12 @@
 					:class="[disabled && 'wu-cell--disabled', size === 'large' && 'wu-cell__value--large']"
 					v-if="!$w.test.empty(value)">{{ value }}</text>
 			</slot>
-			<view class="wu-cell__right-icon-wrap" v-if="$slots['right-icon'] || isLink"
-				:class="[`wu-cell__right-icon-wrap--${arrowDirection}`]">
-				<slot name="right-icon" v-if="$slots['right-icon']">
+
+			<view class="wu-cell__right-icon-wrap">
+				<slot name="right-icon">
+					<wu-icon v-if="isLink"  :class="[`wu-cell__right-icon-wrap--${arrowDirection}`]" :name="rightIcon" :custom-style="rightIconStyle"
+						:color="disabled ? '#c8c9cc' : 'info'" :size="size === 'large' ? 18 : 16"></wu-icon>
 				</slot>
-				<wu-icon v-else :name="rightIcon" :custom-style="rightIconStyle" :color="disabled ? '#c8c9cc' : 'info'"
-					:size="size === 'large' ? 18 : 16"></wu-icon>
 			</view>
 		</view>
 		<wu-line v-if="border"></wu-line>
@@ -124,8 +125,8 @@
 	$wu-cell-title-font-size-large: 16px !default;
 	$wu-cell-left-icon-wrap-margin-right: 4px !default;
 	$wu-cell-right-icon-wrap-margin-left: 4px !default;
-	$wu-cell-title-flex:1 !default;
-	$wu-cell-label-margin-top:5px !default;
+	$wu-cell-title-flex: 1 !default;
+	$wu-cell-label-margin-top: 5px !default;
 
 
 	.wu-cell {
