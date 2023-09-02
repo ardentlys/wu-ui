@@ -43,7 +43,7 @@ wu-ui(如虎添翼) 是 全面兼容多端的uniapp生态框架，基于vue2、v
 通过微信或浏览器扫码查看演示效果，后续上线小程序端等。
 <br>
 <br>
-<img src="https://wu.geeks.ink/ys.png" width="250" height="250" >
+<img src="https://wu.geeks.ink/ys.png?v2" width="250" height="250" >
 
 ## 链接
 

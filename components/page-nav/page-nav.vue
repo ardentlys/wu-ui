@@ -1,7 +1,7 @@
 <template>
 	<view class="nav-wrap">
 		<view class="nav-title">
-			<wu-image :showLoading="true" src="https://wu.geeks.ink/logo.png" width="78px" height="88px"/>
+			<wu-image :showLoading="true" src="https://wu.geeks.ink/logo.png" width="73px" height="84px"/>
 			<view class="nav-info">
 				<view class="nav-info__title" @tap="jumpToWx">
 					<text class="nav-info__title__text">WU-UI 1.0.0</text>
@@ -94,12 +94,12 @@
         background-clip: text;
         color: transparent !important;
         font-weight: 800;
-		font-size: 15px;
+		font-size: 14px;
 	}
 
 	.nav-desc {
 		margin-top: 10px;
-		font-size: 15px;
+		font-size: 14px;
 		color: $wu-content-color;
 		line-height: 20px;
 	}
