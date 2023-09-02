@@ -1,8 +1,25 @@
 <p align="center">
-    <img alt="logo" src="https://wu.geeks.ink/logo.png" width="120" height="120" style="margin-bottom: 10px;">
+    <img alt="logo" src="https://wu.geeks.ink/logo.png" width="150">
 </p>
-<h3 align="center" style="margin: 30px 0 30px;font-weight: bold;font-size:40px;">wu-ui</h3>
-<h3 align="center">多平台快速开发的UI框架</h3>
+<strong>
+    <h3 align="center" size="40px" style="
+        margin: 0 0 30px;
+        line-height: 40px !important;
+        font-size: 40px !important;
+        font-weight: bold;
+        background: linear-gradient(to right, #94fcf0 0%, #6696ff 60%);
+        -webkit-background-clip: text;
+        color: transparent;">
+        WU-UI
+    </h3>
+</strong>
+<h3 align="center" size="20px" style="
+    font-size: 20px;
+    font-weight: bold; 
+    background: linear-gradient(to right, #94fcf0 0%, #6696ff 60%);
+    -webkit-background-clip: text;
+    color: transparent;">多平台快速开发的UI框架(无论平台，一致体验)
+</h3>
 
 [![stars](https://img.shields.io/github/stars/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui)
 [![forks](https://img.shields.io/github/forks/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui)
