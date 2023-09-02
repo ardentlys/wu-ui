@@ -21,15 +21,14 @@
     color: transparent;">多平台快速开发的UI框架(无论平台，一致体验)
 </h3>
 
+[![stars](https://gitee.com/ardentlys/wu-ui/badge/star.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
+[![forks](https://gitee.com/ardentlys/wu-ui/badge/fork.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
 [![stars](https://img.shields.io/github/stars/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui)
 [![forks](https://img.shields.io/github/forks/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui)
 [![issues](https://img.shields.io/github/issues/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui/issues)
 [![Website](https://img.shields.io/badge/wuui-Up-ui?style=flat-square)](https://wu.geeks.ink/)
 [![version](https://img.shields.io/github/package-json/v/ardentlys/wu-ui)](https://wu.geeks.ink/zh-CN/components/changelog.html)
 [![license](https://img.shields.io/github/license/ardentlys/wu-ui)](https://en.wikipedia.org/wiki/MIT_License)
-
-[![stars](https://gitee.com/ardentlys/wu-ui/badge/star.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
-[![forks](https://gitee.com/ardentlys/wu-ui/badge/fork.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
 
 ## 官方群
 ### wu-ui官方1群: <a href="https://qm.qq.com/cgi-bin/qm/qr?k=wMDUlZILOnS_yBmzBYH1ADD85NqdC9uE&amp;jump_from=webapi&amp;authKey=8RK3knFoAV6/a/HnDEUWorC8EKN1RNezJJ4Y0CZoVU4RcOOGLoYwK79FhKEorai0" target="_blank">767943089</a>
