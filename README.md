@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="logo" src="https://wu.geeks.ink/logo.png" width="150">
+    <img alt="logo" src="https://wu.geeks.ink/logo.png?v2" width="150">
 </p>
 <strong>
     <h3 align="center" size="40px" style="
