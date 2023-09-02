@@ -1,8 +1,25 @@
 <p align="center">
-    <img alt="logo" src="https://wu.geeks.ink/logo.png" width="120" height="120" style="margin-bottom: 10px;">
+    <img alt="logo" src="https://wu.geeks.ink/logo.png" width="150">
 </p>
-<h3 align="center" style="margin: 30px 0 30px;font-weight: bold;font-size:40px;">wu-ui</h3>
-<h3 align="center">多平台快速开发的UI框架</h3>
+<strong>
+    <h3 align="center" size="40px" style="
+        margin: 0 0 30px;
+        line-height: 40px !important;
+        font-size: 40px !important;
+        font-weight: bold;
+        background: linear-gradient(to right, #94fcf0 0%, #6696ff 60%);
+        -webkit-background-clip: text;
+        color: transparent;">
+        WU-UI
+    </h3>
+</strong>
+<h3 align="center" size="20px" style="
+    font-size: 20px;
+    font-weight: bold; 
+    background: linear-gradient(to right, #94fcf0 0%, #6696ff 60%);
+    -webkit-background-clip: text;
+    color: transparent;">多平台快速开发的UI框架(无论平台，一致体验)
+</h3>
 
 [![stars](https://img.shields.io/github/stars/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui)
 [![forks](https://img.shields.io/github/forks/ardentlys/wu-ui?style=flat-square&logo=GitHub)](https://github.com/ardentlys/wu-ui)
@@ -10,6 +27,9 @@
 [![Website](https://img.shields.io/badge/wuui-Up-ui?style=flat-square)](https://wu.geeks.ink/)
 [![version](https://img.shields.io/github/package-json/v/ardentlys/wu-ui)](https://wu.geeks.ink/zh-CN/components/changelog.html)
 [![license](https://img.shields.io/github/license/ardentlys/wu-ui)](https://en.wikipedia.org/wiki/MIT_License)
+
+[![stars](https://gitee.com/ardentlys/wu-ui/badge/star.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
+[![forks](https://gitee.com/ardentlys/wu-ui/badge/fork.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
 
 ## 说明
 wu-ui(如虎添翼) 是 全面兼容多端的uniapp生态框架，基于vue2、vue3和nvue开发。丰富组件库，便捷工具库，简单高效。无论平台，一致体验。选择我们，开发更轻松！

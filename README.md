@@ -28,6 +28,9 @@
 [![version](https://img.shields.io/github/package-json/v/ardentlys/wu-ui)](https://wu.geeks.ink/zh-CN/components/changelog.html)
 [![license](https://img.shields.io/github/license/ardentlys/wu-ui)](https://en.wikipedia.org/wiki/MIT_License)
 
+[![stars](https://gitee.com/ardentlys/wu-ui/badge/star.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
+[![forks](https://gitee.com/ardentlys/wu-ui/badge/fork.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
+
 ## 说明
 wu-ui(如虎添翼) 是 全面兼容多端的uniapp生态框架，基于vue2、vue3和nvue开发。丰富组件库，便捷工具库，简单高效。无论平台，一致体验。选择我们，开发更轻松！
 
