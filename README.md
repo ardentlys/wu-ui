@@ -31,6 +31,9 @@
 [![stars](https://gitee.com/ardentlys/wu-ui/badge/star.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
 [![forks](https://gitee.com/ardentlys/wu-ui/badge/fork.svg?theme=gvp)](https://gitee.com/ardentlys/wu-ui)
 
+## 官方群
+### wu-ui官方1群: <a href="https://qm.qq.com/cgi-bin/qm/qr?k=wMDUlZILOnS_yBmzBYH1ADD85NqdC9uE&amp;jump_from=webapi&amp;authKey=8RK3knFoAV6/a/HnDEUWorC8EKN1RNezJJ4Y0CZoVU4RcOOGLoYwK79FhKEorai0" target="_blank">767943089</a>
+
 ## 说明
 wu-ui(如虎添翼) 是 全面兼容多端的uniapp生态框架，基于vue2、vue3和nvue开发。丰富组件库，便捷工具库，简单高效。无论平台，一致体验。选择我们，开发更轻松！
 
