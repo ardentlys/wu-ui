@@ -1,4 +1,4 @@
-<p align="center" class="">
+<p align="center">
     <img alt="logo" src="https://wu.geeks.ink/logo.png" width="150">
 </p>
 <strong>
