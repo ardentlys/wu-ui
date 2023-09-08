@@ -68,7 +68,7 @@
 					</view>
 				</view>
 				<!-- 滑动切换 -->
-				<swiper v-if="slideSwitchMode !== 'none'" style="height: 765rpx" :duration="500"
+				<swiper v-if="slideSwitchMode !== 'none'" :style="{height: monthShowCurrentMonth ? '640rpx' : '765rpx'}" :duration="500"
 					:vertical="slideSwitchMode == 'vertical'" circular :current="swiperCurrent" @change="swiperChange">
 					<swiper-item>
 						<view class="wu-calendar__weeks_box">
@@ -145,6 +145,7 @@
 	 * @property {String} startDate 日期选择范围-开始日期
 	 * @property {String} endDate 日期选择范围-结束日期
 	 * @property {Boolean} range 范围选择
+	 * @property {Boolean} monthShowCurrentMonth 当月是否仅展示当月数据
 	 * @property {Boolean} insert = [true|false] 插入模式,默认为false
 	 * 	@value true 弹窗模式
 	 * 	@value false 插入模式
@@ -227,16 +228,20 @@
 			startDate(val) {
 				this.cale.resetSatrtDate(val)
 				this.cale.setDate(this.nowDate.fullDate)
-				this.weeks = this.cale.weeks
+				this.assignmentWeeks();
 			},
 			endDate(val) {
 				this.cale.resetEndDate(val)
 				this.cale.setDate(this.nowDate.fullDate)
-				this.weeks = this.cale.weeks
+				this.assignmentWeeks();
+			},
+			monthShowCurrentMonth(val) {
+				this.cale.resetMonthShowCurrentMonth(val)
+				this.setDate(this.nowDate.fullDate)
 			},
 			selected(newVal) {
 				this.cale.setSelectInfo(this.nowDate.fullDate, newVal)
-				this.weeks = this.cale.weeks
+				this.assignmentWeeks();
 			}
 		},
 		created() {
@@ -245,6 +250,7 @@
 				startDate: this.startDate,
 				endDate: this.endDate,
 				range: this.range,
+				monthShowCurrentMonth: this.monthShowCurrentMonth
 			})
 			this.init(this.date)
 		},
@@ -348,7 +354,7 @@
 					fullDate,
 					lunar,
 					extraInfo
-				} = this.calendar
+				} = this.calendar;
 				this.$emit(name, {
 					range: this.cale.multipleStatus,
 					year,
@@ -364,7 +370,8 @@
 			 * @param {Object} weeks
 			 */
 			choiceDate(weeks) {
-				if (weeks.disable) return
+				// 如果为禁用 或者 空数据
+				if (weeks.disable || weeks.empty) return;
 				this.calendar = weeks;
 				// 设置多选
 				this.cale.setMultiple(this.calendar.fullDate);
@@ -449,6 +456,13 @@
 			 */
 			setDate(date) {
 				this.cale.setDate(date)
+				this.assignmentWeeks()
+				this.nowDate = this.cale.getInfo(date)
+			},
+			/**
+			 * 用来将cale.weeks 赋值到 weeks
+			 */
+			assignmentWeeks() {
 				let weekName = '';
 				switch (this.swiperCurrent) {
 					case 0:
@@ -462,7 +476,6 @@
 						break;
 				}
 				this[weekName] = this.cale.weeks
-				this.nowDate = this.cale.getInfo(date)
 			},
 			/**
 			 * 滑动切换日期

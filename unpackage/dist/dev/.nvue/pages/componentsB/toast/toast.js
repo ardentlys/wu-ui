@@ -4,6 +4,7 @@ import { r as resolveEasycom } from "../../../uni-app.es.js";
 import { _ as _export_sfc } from "../../../_plugin-vue_export-helper.js";
 import "../../../wu-icon.js";
 import "../../../mixin.js";
+import "../../../wu-line.js";
 const _style_0 = { "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0 } }, "wu-cell-icon": { "": { "width": "36rpx", "height": "36rpx", "marginRight": "8rpx" } }, "wu-cell-group__title__text": { "": { "fontWeight": "bold" } } };
 const _sfc_main = {
   data() {

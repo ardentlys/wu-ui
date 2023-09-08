@@ -9628,13 +9628,13 @@ if (uni.restoreGlobal) {
         default: "确定",
         type: String
       },
-      // 无库存禁用
-      notStockDisabled: {
+      // 不相关sku是否禁用
+      skuUnrelatedDisabled: {
         default: false,
         type: Boolean
       },
-      // 无库存禁用样式
-      notStockDisabledStyle: {
+      // sku禁用时的样式
+      skuDisabledStyle: {
         default: () => {
           return {};
         },
@@ -9738,7 +9738,7 @@ if (uni.restoreGlobal) {
             obj[attr_info.name].value = attr_info.value;
             obj[attr_info.name].active = false;
             obj[attr_info.name].disabled = false;
-            if (this.notStockDisabled) {
+            if (this.skuUnrelatedDisabled) {
               obj[attr_info.name].discard = false;
             }
             if (Object.prototype.toString.call(item2) === "[object Object]") {
@@ -9885,21 +9885,17 @@ if (uni.restoreGlobal) {
             var curr = CryptoJS.MD5(this.trimSpliter(copy.join(this.spliter), this.spliter)).toString();
             var resCurr = this.res[curr];
             if (resCurr) {
-              item.disabled = false;
-              if (this.notStockDisabled) {
-                let itemNotStock = true;
-                resCurr.skus.forEach((skuID) => {
-                  let sku = this.r.items.filter((sku2) => sku2.sku === skuID)[0];
-                  if (sku.stock > 0)
-                    itemNotStock = false;
-                });
-                item.discard = itemNotStock;
+              if (this.skuUnrelatedDisabled) {
+                item.discard = false;
+              } else {
+                item.disabled = false;
               }
             } else {
-              if (this.notStockDisabled) {
-                item.discard = false;
+              if (this.skuUnrelatedDisabled) {
+                item.discard = true;
+              } else {
+                item.disabled = true;
               }
-              item.disabled = true;
               item.active = false;
             }
           });
@@ -9936,7 +9932,11 @@ if (uni.restoreGlobal) {
           Object.keys(resObj).forEach((key1, index2) => {
             Object.keys(resObj[key1]).forEach((key2) => {
               let item = resObj[key1][key2];
-              item.disabled = false;
+              if (this.skuUnrelatedDisabled) {
+                item.discard = false;
+              } else {
+                item.disabled = false;
+              }
             });
           });
         }
@@ -9967,7 +9967,7 @@ if (uni.restoreGlobal) {
       selectAppointSku(index2) {
         this.$nextTick(() => {
           if (!this.data[index2])
-            return formatAppLog("error", "at uni_modules/wu-sku/components/wu-sku/wu-sku.vue:522", "请输入正确的sku下标");
+            return formatAppLog("error", "at uni_modules/wu-sku/components/wu-sku/wu-sku.vue:516", "请输入正确的sku下标");
           let sku_attrs = this.data[index2].sku_attrs;
           for (var key in sku_attrs) {
             let attr_info = this.getObjAppointAttr(sku_attrs[key]);
@@ -10119,7 +10119,7 @@ if (uni.restoreGlobal) {
         if (sku.discard) {
           style = {
             ...style,
-            ...this.notStockDisabledStyle
+            ...this.skuDisabledStyle
           };
         }
         return style;
@@ -11618,7 +11618,7 @@ if (uni.restoreGlobal) {
       }, wait);
     }
   }
-  const version = "1.0.0";
+  const version = "1.0.6";
   {
     formatAppLog("log", "at uni_modules/wu-ui-tools/libs/config/config.js:6", `
  %c wuui V${version} https://wuui.geeks.ink/ 

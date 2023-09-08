@@ -2079,7 +2079,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
     return trim(string2);
   }
-  function addUnit(value = "auto", unit = ((_b5) => (_b5 = ((_a5) => (_a5 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a5.config)()) == null ? void 0 : _b5.unit)() ? ((_d3) => (_d3 = ((_c3) => (_c3 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c3.config)()) == null ? void 0 : _d3.unit)() : "px") {
+  function addUnit(value = "auto", unit = ((_b6) => (_b6 = ((_a6) => (_a6 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a6.config)()) == null ? void 0 : _b6.unit)() ? ((_d3) => (_d3 = ((_c3) => (_c3 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c3.config)()) == null ? void 0 : _d3.unit)() : "px") {
     value = String(value);
     return number(value) ? `${value}${unit}` : value;
   }
@@ -2422,9 +2422,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   }
   function page() {
-    var _a5;
+    var _a6;
     const pages2 = getCurrentPages();
-    const route2 = (_a5 = pages2[pages2.length - 1]) == null ? void 0 : _a5.route;
+    const route2 = (_a6 = pages2[pages2.length - 1]) == null ? void 0 : _a6.route;
     return `/${route2 ? route2 : ""}`;
   }
   function pages() {
@@ -2437,7 +2437,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     return pages2[len - 1 + back];
   }
   function setConfig({
-    props: props5 = {},
+    props: props6 = {},
     config = {},
     color: color2 = {},
     zIndex = {}
@@ -2446,7 +2446,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       deepMerge: deepMerge2
     } = uni.$w;
     uni.$w.config = deepMerge2(uni.$w.config, config);
-    uni.$w.props = deepMerge2(uni.$w.props, props5);
+    uni.$w.props = deepMerge2(uni.$w.props, props6);
     uni.$w.color = deepMerge2(uni.$w.color, color2);
     uni.$w.zIndex = deepMerge2(uni.$w.zIndex, zIndex);
   }
@@ -2620,9 +2620,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var import_vue3 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/_plugin-vue_export-helper.js
-  var _export_sfc = (sfc, props5) => {
+  var _export_sfc = (sfc, props6) => {
     const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props5) {
+    for (const [key, val] of props6) {
       target[key] = val;
     }
     return target;
@@ -3022,6 +3022,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       bgColor: {
         type: String,
         default: "transparent"
+      },
+      customStyle: {
+        type: [Object, String],
+        default: () => {
+          return "";
+        }
       }
     }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.statusBar)
   };
@@ -3036,7 +3042,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       style() {
         const style = {};
         style.height = this.$w.addUnit(this.$w.sys().statusBarHeight, "px");
-        style.backgroundColor = this.bgColor;
+        style.background = this.bgColor;
         return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
       }
     }
@@ -3079,6 +3085,11 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: Boolean,
         default: false
       },
+      // 是否显示左边
+      showLeft: {
+        type: Boolean,
+        default: true
+      },
       // 左边的图标
       leftIcon: {
         type: String,
@@ -3089,7 +3100,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: String,
         default: ""
       },
-      // 左右的提示文字
+      // 小程序端导航栏右侧是否预留胶囊位置
+      mpRightReserveCapsule: {
+        type: Boolean,
+        default: true
+      },
+      // 左边的提示文字
       rightText: {
         type: String,
         default: ""
@@ -3160,6 +3176,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       rightClick() {
         this.$emit("rightClick");
       }
+    },
+    computed: {
+      // 小程序胶囊右侧所在位置 仅在小程序端且 mpRightReserveCapsule 为 true 是预留胶囊位置
+      mpCapsuleRightPosition() {
+        return 0;
+      }
     }
   };
   function _sfc_render2(_ctx, _cache, $props, $setup, $data, $options) {
@@ -3195,14 +3217,15 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           (0, import_vue3.createElementVNode)(
             "view",
             {
-              class: (0, import_vue3.normalizeClass)(["wu-navbar__content", [_ctx.border && "u-border-bottom"]]),
+              class: (0, import_vue3.normalizeClass)(["wu-navbar__content", [_ctx.border && "wu-border-bottom"]]),
               style: (0, import_vue3.normalizeStyle)({
                 height: _ctx.$w.addUnit(_ctx.height),
-                backgroundColor: _ctx.bgColor
+                background: _ctx.bgColor
               })
             },
             [
-              (0, import_vue3.createElementVNode)("view", {
+              _ctx.showLeft ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
+                key: 0,
                 class: "wu-navbar__content__left",
                 hoverClass: "wu-navbar__content__left--hover",
                 hoverStartTime: "150",
@@ -3229,12 +3252,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                     /* TEXT, STYLE */
                   )) : (0, import_vue3.createCommentVNode)("v-if", true)
                 ])
-              ]),
+              ])) : (0, import_vue3.createCommentVNode)("v-if", true),
               (0, import_vue3.renderSlot)(_ctx.$slots, "center", {}, () => [
                 (0, import_vue3.createElementVNode)(
                   "u-text",
                   {
-                    class: "u-line-1 wu-navbar__content__title",
+                    class: "wu-line-1 wu-navbar__content__title",
                     style: (0, import_vue3.normalizeStyle)([{
                       width: _ctx.$w.addUnit(_ctx.titleWidth)
                     }, _ctx.$w.addStyle(_ctx.titleStyle)])
@@ -3244,29 +3267,35 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                   /* TEXT, STYLE */
                 )
               ]),
-              _ctx.$slots.right || _ctx.rightIcon || _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
-                key: 0,
-                class: "wu-navbar__content__right",
-                onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
-              }, [
-                (0, import_vue3.renderSlot)(_ctx.$slots, "right", {}, () => [
-                  _ctx.rightIcon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
-                    key: 0,
-                    name: _ctx.rightIcon,
-                    size: "20"
-                  }, null, 8, ["name"])) : (0, import_vue3.createCommentVNode)("v-if", true),
-                  _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-                    "u-text",
-                    {
-                      key: 1,
-                      class: "wu-navbar__content__right__text"
-                    },
-                    (0, import_vue3.toDisplayString)(_ctx.rightText),
-                    1
-                    /* TEXT */
-                  )) : (0, import_vue3.createCommentVNode)("v-if", true)
-                ])
-              ])) : (0, import_vue3.createCommentVNode)("v-if", true)
+              (0, import_vue3.createElementVNode)(
+                "view",
+                {
+                  class: "wu-navbar__content__right",
+                  style: (0, import_vue3.normalizeStyle)({ right: $options.mpCapsuleRightPosition }),
+                  onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
+                },
+                [
+                  (0, import_vue3.renderSlot)(_ctx.$slots, "right", {}, () => [
+                    _ctx.rightIcon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
+                      key: 0,
+                      name: _ctx.rightIcon,
+                      size: "20"
+                    }, null, 8, ["name"])) : (0, import_vue3.createCommentVNode)("v-if", true),
+                    _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+                      "u-text",
+                      {
+                        key: 1,
+                        class: "wu-navbar__content__right__text"
+                      },
+                      (0, import_vue3.toDisplayString)(_ctx.rightText),
+                      1
+                      /* TEXT */
+                    )) : (0, import_vue3.createCommentVNode)("v-if", true)
+                  ])
+                ],
+                4
+                /* STYLE */
+              )
             ],
             6
             /* CLASS, STYLE */
@@ -3280,17 +3309,16 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var __easycom_02 = /* @__PURE__ */ _export_sfc(_sfc_main2, [["render", _sfc_render2], ["styles", [_style_02]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-navbar/components/wu-navbar/wu-navbar.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/calendar/calendar.js
-  var import_vue5 = __toESM(require_vue());
+  var import_vue6 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-cell-group.js
+  var import_vue5 = __toESM(require_vue());
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-line.js
   var import_vue4 = __toESM(require_vue());
   var _a3;
   var _b3;
-  var _c2;
-  var _d2;
-  var _e;
-  var _f;
-  var props$2 = {
+  var props3 = {
     props: __spreadValues({
       color: {
         type: String,
@@ -3323,10 +3351,10 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }, (_b3 = (_a3 = uni.$w) == null ? void 0 : _a3.props) == null ? void 0 : _b3.line)
   };
-  var _style_0$2 = {};
-  var _sfc_main$2 = {
+  var _style_03 = {};
+  var _sfc_main3 = {
     name: "wu-line",
-    mixins: [mpMixin, mixin, props$2],
+    mixins: [mpMixin, mixin, props3],
     computed: {
       lineStyle() {
         const style = {};
@@ -3349,7 +3377,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
     return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
       "view",
       {
@@ -3362,7 +3390,13 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       /* STYLE */
     );
   }
-  var __easycom_03 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["styles", [_style_0$2]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
+  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-cell-group.js
+  var _a4;
+  var _b4;
+  var _c2;
+  var _d2;
   var props$12 = {
     props: __spreadValues({
       // 标题
@@ -3478,7 +3512,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return "";
         }
       }
-    }, (_d2 = (_c2 = uni.$w) == null ? void 0 : _c2.props) == null ? void 0 : _d2.cell)
+    }, (_b4 = (_a4 = uni.$w) == null ? void 0 : _a4.props) == null ? void 0 : _b4.cell)
   };
   var _style_0$12 = { "wu-cell__body": { "": { "flexDirection": "row", "paddingTop": 10, "paddingRight": 15, "paddingBottom": 10, "paddingLeft": 15, "fontSize": 15, "color": "#303133", "alignItems": "center" } }, "wu-cell__body__content": { "": { "flexDirection": "row", "alignItems": "center", "flex": 1 } }, "wu-cell__body--large": { "": { "paddingTop": 13, "paddingBottom": 13 } }, "wu-cell__left-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginRight": 4 } }, "wu-cell__right-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginLeft": 4, "transitionProperty": "transform", "transitionDuration": 300 } }, "wu-cell__right-icon-wrap--up": { "": { "transform": "rotate(-90deg)" } }, "wu-cell__right-icon-wrap--down": { "": { "transform": "rotate(90deg)" } }, "wu-cell__title": { "": { "flex": 1 } }, "wu-cell__title-text": { "": { "fontSize": 15, "lineHeight": 22, "color": "#303133" } }, "wu-cell__title-text--large": { "": { "fontSize": 16 } }, "wu-cell__label": { "": { "marginTop": 5, "fontSize": 12, "color": "#909193", "lineHeight": 18 } }, "wu-cell__label--large": { "": { "fontSize": 14 } }, "wu-cell__value": { "": { "textAlign": "right", "fontSize": 14, "lineHeight": 24, "color": "#606266" } }, "wu-cell__value--large": { "": { "fontSize": 15 } }, "wu-cell--clickable": { "": { "backgroundColor": "#f3f4f6" } }, "wu-cell--disabled": { "": { "color": "#c8c9cc" } }, "wu-cell--center": { "": { "alignItems": "center" } }, "@TRANSITION": { "wu-cell__right-icon-wrap": { "property": "transform", "duration": 300 } } };
   var _sfc_main$12 = {
@@ -3506,94 +3540,94 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   };
   function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_icon = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    const _component_wu_line = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-line"), __easycom_03);
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
-      class: (0, import_vue4.normalizeClass)(["wu-cell", [_ctx.customClass]]),
-      style: (0, import_vue4.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
+    const _component_wu_icon = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-icon"), __easycom_0);
+    const _component_wu_line = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-line"), __easycom_2);
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+      class: (0, import_vue5.normalizeClass)(["wu-cell", [_ctx.customClass]]),
+      style: (0, import_vue5.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
       hoverClass: !_ctx.disabled && (_ctx.clickable || _ctx.isLink) ? "wu-cell--clickable" : "",
       hoverStayTime: 250,
       onClick: _cache[0] || (_cache[0] = (...args) => $options.clickHandler && $options.clickHandler(...args)),
       renderWhole: true
     }, [
-      (0, import_vue4.createElementVNode)(
+      (0, import_vue5.createElementVNode)(
         "view",
         {
-          class: (0, import_vue4.normalizeClass)(["wu-cell__body", [_ctx.center && "wu-cell--center", _ctx.size === "large" && "wu-cell__body--large"]])
+          class: (0, import_vue5.normalizeClass)(["wu-cell__body", [_ctx.center && "wu-cell--center", _ctx.size === "large" && "wu-cell__body--large"]])
         },
         [
-          (0, import_vue4.createElementVNode)("view", { class: "wu-cell__body__content" }, [
-            (0, import_vue4.createElementVNode)("view", { class: "wu-cell__left-icon-wrap" }, [
-              (0, import_vue4.renderSlot)(_ctx.$slots, "icon", {}, () => [
-                _ctx.icon ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_icon, {
+          (0, import_vue5.createElementVNode)("view", { class: "wu-cell__body__content" }, [
+            (0, import_vue5.createElementVNode)("view", { class: "wu-cell__left-icon-wrap" }, [
+              (0, import_vue5.renderSlot)(_ctx.$slots, "icon", {}, () => [
+                _ctx.icon ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_icon, {
                   key: 0,
                   name: _ctx.icon,
                   "custom-style": _ctx.iconStyle,
                   size: _ctx.size === "large" ? 22 : 18
-                }, null, 8, ["name", "custom-style", "size"])) : (0, import_vue4.createCommentVNode)("v-if", true)
+                }, null, 8, ["name", "custom-style", "size"])) : (0, import_vue5.createCommentVNode)("v-if", true)
               ])
             ]),
-            (0, import_vue4.createElementVNode)("view", { class: "wu-cell__title" }, [
-              (0, import_vue4.renderSlot)(_ctx.$slots, "title", {}, () => [
-                _ctx.title ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+            (0, import_vue5.createElementVNode)("view", { class: "wu-cell__title" }, [
+              (0, import_vue5.renderSlot)(_ctx.$slots, "title", {}, () => [
+                _ctx.title ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
                   "u-text",
                   {
                     key: 0,
-                    class: (0, import_vue4.normalizeClass)(["wu-cell__title-text", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__title-text--large"]]),
-                    style: (0, import_vue4.normalizeStyle)([$options.titleTextStyle])
+                    class: (0, import_vue5.normalizeClass)(["wu-cell__title-text", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__title-text--large"]]),
+                    style: (0, import_vue5.normalizeStyle)([$options.titleTextStyle])
                   },
-                  (0, import_vue4.toDisplayString)(_ctx.title),
+                  (0, import_vue5.toDisplayString)(_ctx.title),
                   7
                   /* TEXT, CLASS, STYLE */
-                )) : (0, import_vue4.createCommentVNode)("v-if", true)
+                )) : (0, import_vue5.createCommentVNode)("v-if", true)
               ]),
-              (0, import_vue4.renderSlot)(_ctx.$slots, "label", {}, () => [
-                _ctx.label ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+              (0, import_vue5.renderSlot)(_ctx.$slots, "label", {}, () => [
+                _ctx.label ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
                   "u-text",
                   {
                     key: 0,
-                    class: (0, import_vue4.normalizeClass)(["wu-cell__label", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__label--large"]])
+                    class: (0, import_vue5.normalizeClass)(["wu-cell__label", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__label--large"]])
                   },
-                  (0, import_vue4.toDisplayString)(_ctx.label),
+                  (0, import_vue5.toDisplayString)(_ctx.label),
                   3
                   /* TEXT, CLASS */
-                )) : (0, import_vue4.createCommentVNode)("v-if", true)
+                )) : (0, import_vue5.createCommentVNode)("v-if", true)
               ])
             ])
           ]),
-          (0, import_vue4.renderSlot)(_ctx.$slots, "value", {}, () => [
-            !_ctx.$w.test.empty(_ctx.value) ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+          (0, import_vue5.renderSlot)(_ctx.$slots, "value", {}, () => [
+            !_ctx.$w.test.empty(_ctx.value) ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
               "u-text",
               {
                 key: 0,
-                class: (0, import_vue4.normalizeClass)(["wu-cell__value", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__value--large"]])
+                class: (0, import_vue5.normalizeClass)(["wu-cell__value", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__value--large"]])
               },
-              (0, import_vue4.toDisplayString)(_ctx.value),
+              (0, import_vue5.toDisplayString)(_ctx.value),
               3
               /* TEXT, CLASS */
-            )) : (0, import_vue4.createCommentVNode)("v-if", true)
+            )) : (0, import_vue5.createCommentVNode)("v-if", true)
           ]),
-          (0, import_vue4.createElementVNode)("view", { class: "wu-cell__right-icon-wrap" }, [
-            (0, import_vue4.renderSlot)(_ctx.$slots, "right-icon", {}, () => [
-              _ctx.isLink ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_icon, {
+          (0, import_vue5.createElementVNode)("view", { class: "wu-cell__right-icon-wrap" }, [
+            (0, import_vue5.renderSlot)(_ctx.$slots, "right-icon", {}, () => [
+              _ctx.isLink ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_icon, {
                 key: 0,
-                class: (0, import_vue4.normalizeClass)([`wu-cell__right-icon-wrap--${_ctx.arrowDirection}`]),
+                class: (0, import_vue5.normalizeClass)([`wu-cell__right-icon-wrap--${_ctx.arrowDirection}`]),
                 name: _ctx.rightIcon,
                 "custom-style": _ctx.rightIconStyle,
                 color: _ctx.disabled ? "#c8c9cc" : "info",
                 size: _ctx.size === "large" ? 18 : 16
-              }, null, 8, ["class", "name", "custom-style", "color", "size"])) : (0, import_vue4.createCommentVNode)("v-if", true)
+              }, null, 8, ["class", "name", "custom-style", "color", "size"])) : (0, import_vue5.createCommentVNode)("v-if", true)
             ])
           ])
         ],
         2
         /* CLASS */
       ),
-      _ctx.border ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue4.createCommentVNode)("v-if", true)
+      _ctx.border ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue5.createCommentVNode)("v-if", true)
     ], 14, ["hoverClass"]);
   }
   var __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["styles", [_style_0$12]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell/wu-cell.vue"]]);
-  var props3 = {
+  var props4 = {
     props: __spreadValues({
       // 分组标题
       title: {
@@ -3611,51 +3645,51 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return "";
         }
       }
-    }, (_f = (_e = uni.$w) == null ? void 0 : _e.props) == null ? void 0 : _f.cellGroup)
+    }, (_d2 = (_c2 = uni.$w) == null ? void 0 : _c2.props) == null ? void 0 : _d2.cellGroup)
   };
-  var _style_03 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
-  var _sfc_main3 = {
+  var _style_04 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
+  var _sfc_main4 = {
     name: "wu-cell-group",
-    mixins: [mpMixin, mixin, props3]
+    mixins: [mpMixin, mixin, props4]
   };
-  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_line = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-line"), __easycom_03);
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+  function _sfc_render4(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_line = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-line"), __easycom_2);
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
       "view",
       {
-        style: (0, import_vue4.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
-        class: (0, import_vue4.normalizeClass)([[_ctx.customClass], "wu-cell-group"]),
+        style: (0, import_vue5.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
+        class: (0, import_vue5.normalizeClass)([[_ctx.customClass], "wu-cell-group"]),
         renderWhole: true
       },
       [
-        _ctx.title ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
+        _ctx.title ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
           key: 0,
           class: "wu-cell-group__title"
         }, [
-          (0, import_vue4.renderSlot)(_ctx.$slots, "title", {}, () => [
-            (0, import_vue4.createElementVNode)(
+          (0, import_vue5.renderSlot)(_ctx.$slots, "title", {}, () => [
+            (0, import_vue5.createElementVNode)(
               "u-text",
               { class: "wu-cell-group__title__text" },
-              (0, import_vue4.toDisplayString)(_ctx.title),
+              (0, import_vue5.toDisplayString)(_ctx.title),
               1
               /* TEXT */
             )
           ])
-        ])) : (0, import_vue4.createCommentVNode)("v-if", true),
-        (0, import_vue4.createElementVNode)("view", { class: "wu-cell-group__wrapper" }, [
-          _ctx.border ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue4.createCommentVNode)("v-if", true),
-          (0, import_vue4.renderSlot)(_ctx.$slots, "default")
+        ])) : (0, import_vue5.createCommentVNode)("v-if", true),
+        (0, import_vue5.createElementVNode)("view", { class: "wu-cell-group__wrapper" }, [
+          _ctx.border ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue5.createCommentVNode)("v-if", true),
+          (0, import_vue5.renderSlot)(_ctx.$slots, "default")
         ])
       ],
       6
       /* CLASS, STYLE */
     );
   }
-  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell-group/wu-cell-group.vue"]]);
+  var __easycom_22 = /* @__PURE__ */ _export_sfc(_sfc_main4, [["render", _sfc_render4], ["styles", [_style_04]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell-group/wu-cell-group.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/calendar/calendar.js
-  var _a4;
-  var _b4;
+  var _a5;
+  var _b5;
   var props$13 = {
     props: {
       color: {
@@ -4025,11 +4059,11 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     "zh-Hans": zhHans,
     "zh-Hant": zhHant
   };
-  var _style_0$22 = { "wu-calendar-item__weeks-box": { "": { "flex": 1, "flexDirection": "column", "justifyContent": "center", "alignItems": "center" } }, "wu-calendar-item__weeks-box-text": { "": { "fontSize": "28rpx", "color": "#333333" } }, "wu-calendar-item__weeks-lunar-text": { "": { "fontSize": "24rpx", "color": "#333333" } }, "wu-calendar-item__weeks-box-item": { "": { "position": "relative", "flexDirection": "column", "justifyContent": "center", "alignItems": "center", "width": "100rpx", "height": "120rpx" } }, "wu-calendar-item__weeks-box-circle": { "": { "position": "absolute", "width": "16rpx", "height": "15rpx", "borderRadius": "16rpx", "backgroundColor": "#e43d33" } }, "wu-calendar-item--disable": { "": { "backgroundColor": "rgba(249,249,249,0.3)", "color": "#c0c0c0" } }, "wu-calendar-item--extra": { "": { "color": "#e43d33", "opacity": 0.8 } }, "wu-calendar-item--checked": { "": { "color": "#ffffff" } } };
+  var _style_0$2 = { "wu-calendar-item__weeks-box": { "": { "flex": 1, "flexDirection": "column", "justifyContent": "center", "alignItems": "center" } }, "wu-calendar-item__weeks-box-text": { "": { "fontSize": "28rpx", "color": "#333333" } }, "wu-calendar-item__weeks-lunar-text": { "": { "fontSize": "24rpx", "color": "#333333" } }, "wu-calendar-item__weeks-box-item": { "": { "position": "relative", "flexDirection": "column", "justifyContent": "center", "alignItems": "center", "width": "100rpx", "height": "120rpx" } }, "wu-calendar-item__weeks-box-circle": { "": { "position": "absolute", "width": "16rpx", "height": "15rpx", "borderRadius": "16rpx", "backgroundColor": "#e43d33" } }, "wu-calendar-item--disable": { "": { "backgroundColor": "rgba(249,249,249,0.3)", "color": "#c0c0c0" } }, "wu-calendar-item--extra": { "": { "color": "#e43d33", "opacity": 0.8 } }, "wu-calendar-item--checked": { "": { "color": "#ffffff" } } };
   var {
     t: t$1
   } = initVueI18n(i18nMessages);
-  var _sfc_main$22 = {
+  var _sfc_main$2 = {
     emits: ["change"],
     mixins: [mpMixin, mixin, props$13],
     computed: {
@@ -4070,23 +4104,28 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       // 徽标样式
       badgeStyle() {
         let style = {
-          backgroundColor: this.weeks.disable ? "#c0c0c0" : this.weeks.extraInfo.infoColor || "#e43d33"
+          backgroundColor: this.weeks.disable ? "#c0c0c0" : "#e43d33"
         };
-        if (!this.weeks.extraInfo.badgePosition) {
-          style.right = "10rpx";
-          style.top = "10rpx";
-        } else if (this.weeks.extraInfo.badgePosition == "top-left") {
-          style.top = "10rpx";
-          style.left = "10rpx";
-        } else if (this.weeks.extraInfo.badgePosition == "top-right") {
-          style.top = "10rpx";
-          style.right = "10rpx";
-        } else if (this.weeks.extraInfo.badgePosition == "bottom-left") {
-          style.bottom = "10rpx";
-          style.left = "10rpx";
-        } else if (this.weeks.extraInfo.badgePosition == "bottom-right") {
-          style.bottom = "10rpx";
-          style.right = "10rpx";
+        if (this.weeks.extraInfo) {
+          if (this.weeks.extraInfo.infoColor) {
+            style.backgroundColor = this.weeks.extraInfo.infoColor;
+          }
+          if (!this.weeks.extraInfo.badgePosition) {
+            style.right = "10rpx";
+            style.top = "10rpx";
+          } else if (this.weeks.extraInfo.badgePosition == "top-left") {
+            style.top = "10rpx";
+            style.left = "10rpx";
+          } else if (this.weeks.extraInfo.badgePosition == "top-right") {
+            style.top = "10rpx";
+            style.right = "10rpx";
+          } else if (this.weeks.extraInfo.badgePosition == "bottom-left") {
+            style.bottom = "10rpx";
+            style.left = "10rpx";
+          } else if (this.weeks.extraInfo.badgePosition == "bottom-right") {
+            style.bottom = "10rpx";
+            style.right = "10rpx";
+          }
         }
         return style;
       },
@@ -4119,12 +4158,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render$22(_ctx, _cache, $props, $setup, $data, $options) {
-    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
       "view",
       {
         class: "wu-calendar-item__weeks-box",
-        style: (0, import_vue5.normalizeStyle)([$options.calendarItemStyle, {
+        style: (0, import_vue6.normalizeStyle)([$options.calendarItemStyle, {
           borderTopLeftRadius: _ctx.weeks.beforeMultiple ? "12rpx" : "",
           borderBottomLeftRadius: _ctx.weeks.beforeMultiple ? "12rpx" : "",
           borderTopRightRadius: _ctx.weeks.afterMultiple ? "12rpx" : "",
@@ -4134,89 +4173,89 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         renderWhole: true
       },
       [
-        (0, import_vue5.createElementVNode)(
+        (0, import_vue6.createElementVNode)(
           "view",
           {
             class: "wu-calendar-item__weeks-box-item",
-            style: (0, import_vue5.normalizeStyle)([$options.actMultipleStyle])
+            style: (0, import_vue6.normalizeStyle)([$options.actMultipleStyle])
           },
           [
-            (0, import_vue5.createCommentVNode)(" \u81EA\u5B9A\u4E49\u6253\u70B9\u4E0A\u65B9\u4FE1\u606F "),
-            _ctx.weeks.extraInfo && _ctx.weeks.extraInfo.topInfo ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+            (0, import_vue6.createCommentVNode)(" \u81EA\u5B9A\u4E49\u6253\u70B9\u4E0A\u65B9\u4FE1\u606F "),
+            _ctx.weeks.extraInfo && _ctx.weeks.extraInfo.topInfo ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
               "u-text",
               {
                 key: 0,
                 class: "wu-calendar-item__weeks-lunar-text",
-                style: (0, import_vue5.normalizeStyle)([{ color: _ctx.weeks.extraInfo.topInfoColor || "#e43d33" }, $options.calendarItemStyle, $options.actMultipleStyle])
+                style: (0, import_vue6.normalizeStyle)([{ color: _ctx.weeks.extraInfo.topInfoColor || "#e43d33" }, $options.calendarItemStyle, $options.actMultipleStyle])
               },
-              (0, import_vue5.toDisplayString)(_ctx.weeks.extraInfo.topInfo),
+              (0, import_vue6.toDisplayString)(_ctx.weeks.extraInfo.topInfo),
               5
               /* TEXT, STYLE */
-            )) : (0, import_vue5.createCommentVNode)("v-if", true),
-            (0, import_vue5.createCommentVNode)(" \u5FBD\u6807 "),
-            _ctx.selected && _ctx.weeks.extraInfo && _ctx.weeks.extraInfo.badge ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+            )) : (0, import_vue6.createCommentVNode)("v-if", true),
+            (0, import_vue6.createCommentVNode)(" \u5FBD\u6807 "),
+            _ctx.selected && _ctx.weeks.extraInfo && _ctx.weeks.extraInfo.badge ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
               "u-text",
               {
                 key: 1,
                 class: "wu-calendar-item__weeks-box-circle",
-                style: (0, import_vue5.normalizeStyle)([$options.badgeStyle])
+                style: (0, import_vue6.normalizeStyle)([$options.badgeStyle])
               },
               null,
               4
               /* STYLE */
-            )) : (0, import_vue5.createCommentVNode)("v-if", true),
-            (0, import_vue5.createCommentVNode)(" \u65E5\u671F\u6587\u5B57 "),
-            (0, import_vue5.createElementVNode)(
+            )) : (0, import_vue6.createCommentVNode)("v-if", true),
+            (0, import_vue6.createCommentVNode)(" \u65E5\u671F\u6587\u5B57 "),
+            (0, import_vue6.createElementVNode)(
               "u-text",
               {
                 class: "wu-calendar-item__weeks-box-text",
-                style: (0, import_vue5.normalizeStyle)([$options.calendarItemStyle, $options.actMultipleStyle])
+                style: (0, import_vue6.normalizeStyle)([$options.calendarItemStyle, $options.actMultipleStyle])
               },
-              (0, import_vue5.toDisplayString)(_ctx.weeks.date),
+              (0, import_vue6.toDisplayString)(_ctx.weeks.date),
               5
               /* TEXT, STYLE */
             ),
-            (0, import_vue5.createCommentVNode)(" \u4ECA\u65E5\u7684\u6587\u5B57 "),
-            !_ctx.lunar && !_ctx.weeks.extraInfo && _ctx.weeks.isDay && !_ctx.weeks.beforeMultiple && !_ctx.weeks.afterMultiple ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("u-text", {
+            (0, import_vue6.createCommentVNode)(" \u4ECA\u65E5\u7684\u6587\u5B57 "),
+            !_ctx.lunar && !_ctx.weeks.extraInfo && _ctx.weeks.isDay && !_ctx.weeks.beforeMultiple && !_ctx.weeks.afterMultiple ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("u-text", {
               key: 2,
               class: "wu-calendar-item__weeks-lunar-text"
-            })) : (0, import_vue5.createCommentVNode)("v-if", true),
-            (0, import_vue5.createCommentVNode)(" \u519C\u5386\u6587\u5B57 "),
-            _ctx.lunar && !_ctx.weeks.extraInfo && !_ctx.weeks.beforeMultiple && !_ctx.weeks.afterMultiple ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+            })) : (0, import_vue6.createCommentVNode)("v-if", true),
+            (0, import_vue6.createCommentVNode)(" \u519C\u5386\u6587\u5B57 "),
+            _ctx.lunar && !_ctx.weeks.extraInfo && !_ctx.weeks.beforeMultiple && !_ctx.weeks.afterMultiple ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
               "u-text",
               {
                 key: 3,
                 class: "wu-calendar-item__weeks-lunar-text",
-                style: (0, import_vue5.normalizeStyle)([$options.calendarItemStyle, $options.actMultipleStyle])
+                style: (0, import_vue6.normalizeStyle)([$options.calendarItemStyle, $options.actMultipleStyle])
               },
-              (0, import_vue5.toDisplayString)($options.dayText),
+              (0, import_vue6.toDisplayString)($options.dayText),
               5
               /* TEXT, STYLE */
-            )) : (0, import_vue5.createCommentVNode)("v-if", true),
-            (0, import_vue5.createCommentVNode)(" \u9009\u4E2D\u7684\u6587\u5B57\u5C55\u793A "),
-            !_ctx.weeks.extraInfo && (_ctx.weeks.beforeMultiple || _ctx.weeks.afterMultiple) ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+            )) : (0, import_vue6.createCommentVNode)("v-if", true),
+            (0, import_vue6.createCommentVNode)(" \u9009\u4E2D\u7684\u6587\u5B57\u5C55\u793A "),
+            !_ctx.weeks.extraInfo && (_ctx.weeks.beforeMultiple || _ctx.weeks.afterMultiple) ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
               "u-text",
               {
                 key: 4,
                 class: "wu-calendar-item__weeks-lunar-text",
-                style: (0, import_vue5.normalizeStyle)([$options.calendarItemStyle, $options.actMultipleStyle])
+                style: (0, import_vue6.normalizeStyle)([$options.calendarItemStyle, $options.actMultipleStyle])
               },
-              (0, import_vue5.toDisplayString)($options.multipleText),
+              (0, import_vue6.toDisplayString)($options.multipleText),
               5
               /* TEXT, STYLE */
-            )) : (0, import_vue5.createCommentVNode)("v-if", true),
-            (0, import_vue5.createCommentVNode)(" \u81EA\u5B9A\u4E49\u6253\u70B9\u4E0B\u65B9\u4FE1\u606F "),
-            _ctx.weeks.extraInfo && _ctx.weeks.extraInfo.info ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+            )) : (0, import_vue6.createCommentVNode)("v-if", true),
+            (0, import_vue6.createCommentVNode)(" \u81EA\u5B9A\u4E49\u6253\u70B9\u4E0B\u65B9\u4FE1\u606F "),
+            _ctx.weeks.extraInfo && _ctx.weeks.extraInfo.info ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
               "u-text",
               {
                 key: 5,
                 class: "wu-calendar-item__weeks-lunar-text",
-                style: (0, import_vue5.normalizeStyle)([{ color: _ctx.weeks.extraInfo.infoColor || "#e43d33" }, $options.calendarItemStyle, $options.actMultipleStyle])
+                style: (0, import_vue6.normalizeStyle)([{ color: _ctx.weeks.extraInfo.infoColor || "#e43d33" }, $options.calendarItemStyle, $options.actMultipleStyle])
               },
-              (0, import_vue5.toDisplayString)(_ctx.weeks.extraInfo.info),
+              (0, import_vue6.toDisplayString)(_ctx.weeks.extraInfo.info),
               5
               /* TEXT, STYLE */
-            )) : (0, import_vue5.createCommentVNode)("v-if", true)
+            )) : (0, import_vue6.createCommentVNode)("v-if", true)
           ],
           4
           /* STYLE */
@@ -4226,7 +4265,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       /* STYLE */
     );
   }
-  var __easycom_04 = /* @__PURE__ */ _export_sfc(_sfc_main$22, [["render", _sfc_render$22], ["styles", [_style_0$22]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-calendar/components/wu-calendar-item/wu-calendar-item.vue"]]);
+  var __easycom_03 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["styles", [_style_0$2]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-calendar/components/wu-calendar-item/wu-calendar-item.vue"]]);
   var calendar$1 = {
     /**
         * 农历1900-2100的润大小信息表
@@ -5072,13 +5111,15 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       selected,
       startDate,
       endDate,
-      range: range2
+      range: range2,
+      monthShowCurrentMonth
     } = {}) {
       this.date = this.getDate(/* @__PURE__ */ new Date());
       this.selected = selected || [];
       this.startDate = startDate;
       this.endDate = endDate;
       this.range = range2;
+      this.monthShowCurrentMonth = monthShowCurrentMonth;
       this.cleanMultipleStatus();
       this.weeks = {};
     }
@@ -5111,6 +5152,13 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
      */
     resetEndDate(endDate) {
       this.endDate = endDate;
+    }
+    /**
+     * 重置是否每月仅显示当月数据
+     * @param {Boolean} show 是否仅显示当月数据 
+     */
+    resetMonthShowCurrentMonth(show) {
+      this.monthShowCurrentMonth = show;
     }
     /**
      * 获取任意时间
@@ -5284,6 +5332,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
      * @param {Object} end
      */
     geDateAll(begin, end) {
+      let disableList = this.selected.filter((item) => item.date && item.disable).map((item) => item.date);
       var arr = [];
       var ab = begin.split("-");
       var ae = end.split("-");
@@ -5295,7 +5344,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       var unixDe = de.getTime() - 24 * 60 * 60 * 1e3;
       for (var k = unixDb; k <= unixDe; ) {
         k = k + 24 * 60 * 60 * 1e3;
-        arr.push(this.getDate(new Date(parseInt(k))).fullDate);
+        let fullDate = this.getDate(new Date(parseInt(k))).fullDate;
+        if (!disableList.includes(fullDate))
+          arr.push(fullDate);
       }
       return arr;
     }
@@ -5350,31 +5401,44 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         year,
         month
       } = this.getDate(dateData);
-      let firstDay = new Date(year, month - 1, 1).getDay();
       let currentDay = new Date(year, month, 0).getDate();
       let dates = {
-        lastMonthDays: this._getLastMonthDays(firstDay, this.getDate(dateData)),
-        // 上个月末尾几天
         currentMonthDys: this._currentMonthDys(currentDay, this.getDate(dateData)),
         // 本月天数
-        nextMonthDays: [],
-        // 下个月开始几天
         weeks: []
       };
       let canlender = [];
-      const surplus = 42 - (dates.lastMonthDays.length + dates.currentMonthDys.length);
-      dates.nextMonthDays = this._getNextMonthDays(surplus, this.getDate(dateData));
-      canlender = canlender.concat(dates.lastMonthDays, dates.currentMonthDys, dates.nextMonthDays);
+      if (this.monthShowCurrentMonth) {
+        canlender = dates.currentMonthDys;
+      } else {
+        let firstDay = new Date(year, month - 1, 1).getDay();
+        dates.lastMonthDays = this._getLastMonthDays(firstDay, this.getDate(dateData));
+        const surplus = 42 - (dates.lastMonthDays.length + dates.currentMonthDys.length);
+        dates.nextMonthDays = this._getNextMonthDays(surplus, this.getDate(dateData));
+        canlender = canlender.concat(dates.lastMonthDays, dates.currentMonthDys, dates.nextMonthDays);
+      }
       let weeks = {};
       for (let i = 0; i < canlender.length; i++) {
         if (i % 7 === 0) {
           weeks[parseInt(i / 7)] = new Array(7);
         }
-        weeks[parseInt(i / 7)][i % 7] = canlender[i];
+        weeks[parseInt(i / 7)][i % 7] = canlender[i] || {};
       }
       if (useWeeks) {
         this.canlender = canlender;
         this.weeks = weeks;
+      }
+      formatAppLog("log", "at uni_modules/wu-calendar/components/wu-calendar/util.js:383", weeks);
+      if (this.monthShowCurrentMonth) {
+        let endIndex = Math.ceil(canlender.length / 7) - 1;
+        for (let i = 0; i < weeks[endIndex].length; i++) {
+          if (!weeks[endIndex][i]) {
+            weeks[endIndex][i] = {
+              empty: true,
+              lunar: {}
+            };
+          }
+        }
       }
       return weeks;
     }
@@ -5386,7 +5450,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     // 	return this.instance;
     // }
   };
-  var props4 = {
+  var props5 = {
     props: __spreadValues({
       // 自定义当前时间，默认为今天
       date: {
@@ -5445,6 +5509,11 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: Boolean,
         default: false
       },
+      // 每月是否仅显示当月数据
+      monthShowCurrentMonth: {
+        type: Boolean,
+        default: false
+      },
       // 插入模式,可选值，ture：插入模式；false：弹窗模式；默认为插入模式
       insert: {
         type: Boolean,
@@ -5465,14 +5534,14 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: Boolean,
         default: true
       }
-    }, (_b4 = (_a4 = uni.$w) == null ? void 0 : _a4.props) == null ? void 0 : _b4.calendar)
+    }, (_b5 = (_a5 = uni.$w) == null ? void 0 : _a5.props) == null ? void 0 : _b5.calendar)
   };
-  var _style_0$13 = { "wu-calendar": { "": { "flexDirection": "column" } }, "wu-calendar__mask": { "": { "position": "fixed", "bottom": 0, "top": 0, "left": 0, "right": 0, "backgroundColor": "rgba(0,0,0,0.4)", "transitionProperty": "opacity", "transitionDuration": 300, "opacity": 0 } }, "wu-calendar--mask-show": { "": { "opacity": 1 } }, "wu-calendar--fixed": { "": { "position": "fixed", "bottom": 0, "left": 0, "right": 0, "transitionProperty": "transform", "transitionDuration": 300, "transform": "translateY(920rpx)" } }, "wu-calendar--ani-show": { "": { "transform": "translateY(0)" } }, "wu-calendar__content": { "": { "backgroundColor": "#ffffff" } }, "wu-calendar__header": { "": { "position": "relative", "flexDirection": "row", "justifyContent": "center", "alignItems": "center", "borderBottomColor": "#EDEDED", "borderBottomStyle": "solid", "borderBottomWidth": "2rpx" } }, "wu-calendar--fixed-top": { "": { "height": "90rpx", "flexDirection": "row", "justifyContent": "space-between", "borderTopColor": "#EDEDED", "borderTopStyle": "solid", "borderTopWidth": "2rpx" } }, "wu-calendar--fixed-width": { "": { "width": "100rpx" } }, "wu-calendar__backtoday": { "": { "position": "absolute", "right": 0, "top": "25rpx", "paddingTop": 0, "paddingRight": "10rpx", "paddingBottom": 0, "paddingLeft": "20rpx", "height": "50rpx", "lineHeight": "50rpx", "fontSize": "24rpx", "borderTopLeftRadius": "50rpx", "borderBottomLeftRadius": "50rpx", "color": "#333333", "backgroundColor": "#f1f1f1" }, ".vertical": { "top": "38rpx" } }, "wu-calendar__header-text": { "": { "textAlign": "center", "width": "200rpx", "fontSize": "32rpx", "color": "#333333" } }, "wu-calendar__header-btn-box": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "center" }, ".horizontal": { "width": "100rpx", "height": "100rpx" }, ".vertical": { "flexDirection": "column", "paddingTop": "20rpx", "paddingRight": 0, "paddingBottom": "20rpx", "paddingLeft": 0 } }, "wu-calendar__header-btn": { ".wu-calendar__header-btn-box ": { "width": "20rpx", "height": "20rpx" }, "": { "borderLeftColor": "#808080", "borderLeftStyle": "solid", "borderLeftWidth": "4rpx", "borderTopColor": "#555555", "borderTopStyle": "solid", "borderTopWidth": "4rpx" } }, "wu-calendar--left": { "": { "transform": "rotate(-45deg)" } }, "wu-calendar--right": { "": { "transform": "rotate(135deg)" } }, "wu-calendar--top": { "": { "transform": "rotate(45deg)" } }, "wu-calendar--bottom": { "": { "transform": "rotate(225deg)" } }, "wu-calendar__weeks": { "": { "position": "relative", "flexDirection": "row", "paddingTop": 0, "paddingRight": "8rpx", "paddingBottom": 0, "paddingLeft": "8rpx" } }, "wu-calendar__weeks-item": { "": { "flex": 1, "marginBottom": "8rpx" } }, "wu-calendar__weeks-day": { "": { "flex": 1, "flexDirection": "column", "justifyContent": "center", "alignItems": "center", "height": "90rpx", "borderBottomColor": "#F5F5F5", "borderBottomStyle": "solid", "borderBottomWidth": "2rpx" } }, "wu-calendar__weeks-day-text": { "": { "fontSize": "28rpx" } }, "wu-calendar__box": { "": { "position": "relative" } }, "wu-calendar__box-bg": { "": { "justifyContent": "center", "alignItems": "center", "position": "absolute", "top": 0, "left": 0, "right": 0, "bottom": 0 } }, "wu-calendar__box-bg-text": { "": { "fontSize": "100rpx", "transform": "scale(4)", "fontWeight": "bold", "color": "#999999", "opacity": 0.1, "textAlign": "center" } }, "@TRANSITION": { "wu-calendar__mask": { "property": "opacity", "duration": 300 }, "wu-calendar--fixed": { "property": "transform", "duration": 300 } } };
+  var _style_0$13 = { "wu-calendar": { "": { "flexDirection": "column" } }, "wu-calendar__mask": { "": { "position": "fixed", "bottom": 0, "top": 0, "left": 0, "right": 0, "backgroundColor": "rgba(0,0,0,0.4)", "transitionProperty": "opacity", "transitionDuration": 300, "opacity": 0 } }, "wu-calendar--mask-show": { "": { "opacity": 1 } }, "wu-calendar--fixed": { "": { "position": "fixed", "bottom": 0, "left": 0, "right": 0, "transitionProperty": "transform", "transitionDuration": 300, "transform": "translateY(920rpx)" } }, "wu-calendar--ani-show": { "": { "transform": "translateY(0)" } }, "wu-calendar__content": { "": { "backgroundColor": "#ffffff" } }, "wu-calendar__header": { "": { "position": "relative", "flexDirection": "row", "justifyContent": "center", "alignItems": "center", "borderBottomColor": "#EDEDED", "borderBottomStyle": "solid", "borderBottomWidth": "2rpx" } }, "wu-calendar--fixed-top": { "": { "height": "90rpx", "flexDirection": "row", "justifyContent": "space-between", "borderTopColor": "#EDEDED", "borderTopStyle": "solid", "borderTopWidth": "2rpx" } }, "wu-calendar--fixed-width": { "": { "width": "100rpx" } }, "wu-calendar__backtoday": { "": { "position": "absolute", "right": 0, "top": "25rpx", "paddingTop": 0, "paddingRight": "10rpx", "paddingBottom": 0, "paddingLeft": "20rpx", "height": "50rpx", "lineHeight": "50rpx", "fontSize": "24rpx", "borderTopLeftRadius": "50rpx", "borderBottomLeftRadius": "50rpx", "color": "#333333", "backgroundColor": "#f1f1f1" }, ".vertical": { "top": "38rpx" } }, "wu-calendar__header-text": { "": { "textAlign": "center", "width": "200rpx", "fontSize": "32rpx", "color": "#333333" } }, "wu-calendar__header-btn-box": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "center" }, ".horizontal": { "width": "100rpx", "height": "100rpx" }, ".vertical": { "flexDirection": "column", "paddingTop": "20rpx", "paddingRight": 0, "paddingBottom": "20rpx", "paddingLeft": 0 } }, "wu-calendar__header-btn": { ".wu-calendar__header-btn-box ": { "width": "20rpx", "height": "20rpx" }, "": { "borderLeftColor": "#808080", "borderLeftStyle": "solid", "borderLeftWidth": "4rpx", "borderTopColor": "#555555", "borderTopStyle": "solid", "borderTopWidth": "4rpx" } }, "wu-calendar--left": { "": { "transform": "rotate(-45deg)" } }, "wu-calendar--right": { "": { "transform": "rotate(135deg)" } }, "wu-calendar--top": { "": { "transform": "rotate(45deg)" } }, "wu-calendar--bottom": { "": { "transform": "rotate(225deg)" } }, "wu-calendar__weeks_box": { "": { "height": "765rpx" } }, "wu-calendar__weeks": { "": { "position": "relative", "flexDirection": "row", "paddingTop": 0, "paddingRight": "8rpx", "paddingBottom": 0, "paddingLeft": "8rpx" } }, "wu-calendar__weeks-item": { "": { "flex": 1, "marginBottom": "8rpx" } }, "wu-calendar__weeks-day": { "": { "flex": 1, "flexDirection": "column", "justifyContent": "center", "alignItems": "center", "height": "90rpx", "borderBottomColor": "#F5F5F5", "borderBottomStyle": "solid", "borderBottomWidth": "2rpx" } }, "wu-calendar__weeks-day-text": { "": { "fontSize": "28rpx" } }, "wu-calendar__box": { "": { "position": "relative" } }, "wu-calendar__box-bg": { "": { "justifyContent": "center", "alignItems": "center", "position": "absolute", "top": 0, "left": 0, "right": 0, "bottom": 0 } }, "wu-calendar__box-bg-text": { "": { "fontSize": "100rpx", "transform": "scale(4)", "fontWeight": "bold", "color": "#999999", "opacity": 0.1, "textAlign": "center" } }, "@TRANSITION": { "wu-calendar__mask": { "property": "opacity", "duration": 300 }, "wu-calendar--fixed": { "property": "transform", "duration": 300 } } };
   var {
     t
   } = initVueI18n(i18nMessages);
   var _sfc_main$13 = {
-    mixins: [mpMixin, mixin, props4],
+    mixins: [mpMixin, mixin, props5],
     emits: ["close", "confirm", "change", "monthSwitch"],
     data() {
       return {
@@ -5535,16 +5604,20 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       startDate(val) {
         this.cale.resetSatrtDate(val);
         this.cale.setDate(this.nowDate.fullDate);
-        this.weeks = this.cale.weeks;
+        this.assignmentWeeks();
       },
       endDate(val) {
         this.cale.resetEndDate(val);
         this.cale.setDate(this.nowDate.fullDate);
-        this.weeks = this.cale.weeks;
+        this.assignmentWeeks();
+      },
+      monthShowCurrentMonth(val) {
+        this.cale.resetMonthShowCurrentMonth(val);
+        this.setDate(this.nowDate.fullDate);
       },
       selected(newVal) {
         this.cale.setSelectInfo(this.nowDate.fullDate, newVal);
-        this.weeks = this.cale.weeks;
+        this.assignmentWeeks();
       }
     },
     created() {
@@ -5552,7 +5625,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         selected: this.selected,
         startDate: this.startDate,
         endDate: this.endDate,
-        range: this.range
+        range: this.range,
+        monthShowCurrentMonth: this.monthShowCurrentMonth
       });
       this.init(this.date);
     },
@@ -5675,7 +5749,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
        * @param {Object} weeks
        */
       choiceDate(weeks) {
-        if (weeks.disable)
+        if (weeks.disable || weeks.empty)
           return;
         this.calendar = weeks;
         this.cale.setMultiple(this.calendar.fullDate);
@@ -5726,7 +5800,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         }
         const date2 = this.cale.getDate(/* @__PURE__ */ new Date());
         this.cale.setMultiple(date2.fullDate);
-        this.nowDate = this.calendar = this.cale.getInfo(date2.fullDate);
+        this.nowDate = this.calendar = date2;
         const todayYearMonth = `${date2.year}-${date2.month}`;
         if (nowYearMonth !== todayYearMonth) {
           this.monthSwitch();
@@ -5755,6 +5829,13 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
        */
       setDate(date2) {
         this.cale.setDate(date2);
+        this.assignmentWeeks();
+        this.nowDate = this.cale.getInfo(date2);
+      },
+      /**
+       * 用来将cale.weeks 赋值到 weeks
+       */
+      assignmentWeeks() {
         let weekName = "";
         switch (this.swiperCurrent) {
           case 0:
@@ -5768,7 +5849,6 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             break;
         }
         this[weekName] = this.cale.weeks;
-        this.nowDate = this.cale.getInfo(date2);
       },
       /**
        * 滑动切换日期
@@ -5833,83 +5913,83 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   };
   function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_picker = (0, import_vue5.resolveComponent)("picker");
-    const _component_wu_calendar_item = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-calendar-item"), __easycom_04);
-    const _component_swiper_item = (0, import_vue5.resolveComponent)("swiper-item");
-    const _component_swiper = (0, import_vue5.resolveComponent)("swiper");
-    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+    const _component_picker = (0, import_vue6.resolveComponent)("picker");
+    const _component_wu_calendar_item = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-calendar-item"), __easycom_03);
+    const _component_swiper_item = (0, import_vue6.resolveComponent)("swiper-item");
+    const _component_swiper = (0, import_vue6.resolveComponent)("swiper");
+    return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
       class: "wu-calendar",
       renderWhole: true
     }, [
-      !_ctx.insert && $data.show ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+      !_ctx.insert && $data.show ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
         "view",
         {
           key: 0,
-          class: (0, import_vue5.normalizeClass)(["wu-calendar__mask", { "wu-calendar--mask-show": $data.aniMaskShow }]),
+          class: (0, import_vue6.normalizeClass)(["wu-calendar__mask", { "wu-calendar--mask-show": $data.aniMaskShow }]),
           onClick: _cache[0] || (_cache[0] = (...args) => $options.clean && $options.clean(...args))
         },
         null,
         2
         /* CLASS */
-      )) : (0, import_vue5.createCommentVNode)("v-if", true),
-      _ctx.insert || $data.show ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+      )) : (0, import_vue6.createCommentVNode)("v-if", true),
+      _ctx.insert || $data.show ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
         "view",
         {
           key: 1,
-          class: (0, import_vue5.normalizeClass)(["wu-calendar__content", { "wu-calendar--fixed": !_ctx.insert, "wu-calendar--ani-show": $data.aniMaskShow }])
+          class: (0, import_vue6.normalizeClass)(["wu-calendar__content", { "wu-calendar--fixed": !_ctx.insert, "wu-calendar--ani-show": $data.aniMaskShow }])
         },
         [
-          !_ctx.insert ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+          !_ctx.insert ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
             key: 0,
             class: "wu-calendar__header wu-calendar--fixed-top"
           }, [
-            (0, import_vue5.createElementVNode)("view", {
+            (0, import_vue6.createElementVNode)("view", {
               class: "wu-calendar__header-btn-box",
               onClick: _cache[1] || (_cache[1] = (...args) => $options.close && $options.close(...args))
             }, [
-              (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)(
                 "u-text",
                 { class: "wu-calendar__header-text wu-calendar--fixed-width" },
-                (0, import_vue5.toDisplayString)($options.cancelText),
+                (0, import_vue6.toDisplayString)($options.cancelText),
                 1
                 /* TEXT */
               )
             ]),
-            (0, import_vue5.createElementVNode)("view", {
+            (0, import_vue6.createElementVNode)("view", {
               class: "wu-calendar__header-btn-box",
               onClick: _cache[2] || (_cache[2] = (...args) => $options.confirm && $options.confirm(...args))
             }, [
-              (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)(
                 "u-text",
                 { class: "wu-calendar__header-text wu-calendar--fixed-width" },
-                (0, import_vue5.toDisplayString)($options.okText),
+                (0, import_vue6.toDisplayString)($options.okText),
                 1
                 /* TEXT */
               )
             ])
-          ])) : (0, import_vue5.createCommentVNode)("v-if", true),
-          (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__header" }, [
-            (0, import_vue5.createCommentVNode)(" \u7EB5\u5411\u6ED1\u52A8\u5207\u6362\u5C55\u793A\u5185\u5BB9 "),
-            _ctx.slideSwitchMode == "vertical" ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
-              import_vue5.Fragment,
+          ])) : (0, import_vue6.createCommentVNode)("v-if", true),
+          (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__header" }, [
+            (0, import_vue6.createCommentVNode)(" \u7EB5\u5411\u6ED1\u52A8\u5207\u6362\u5C55\u793A\u5185\u5BB9 "),
+            _ctx.slideSwitchMode == "vertical" ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
+              import_vue6.Fragment,
               { key: 0 },
               [
-                (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__header-btn-box vertical" }, [
-                  (0, import_vue5.createElementVNode)("view", {
+                (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__header-btn-box vertical" }, [
+                  (0, import_vue6.createElementVNode)("view", {
                     class: "wu-calendar__header-btn wu-calendar--top",
-                    onClick: _cache[3] || (_cache[3] = (0, import_vue5.withModifiers)((...args) => $options.pre && $options.pre(...args), ["stop"]))
+                    onClick: _cache[3] || (_cache[3] = (0, import_vue6.withModifiers)((...args) => $options.pre && $options.pre(...args), ["stop"]))
                   }),
-                  (0, import_vue5.createVNode)(_component_picker, {
+                  (0, import_vue6.createVNode)(_component_picker, {
                     mode: "date",
                     value: _ctx.date,
                     fields: "month",
                     onChange: $options.bindDateChange
                   }, {
-                    default: (0, import_vue5.withCtx)(() => [
-                      (0, import_vue5.createElementVNode)(
+                    default: (0, import_vue6.withCtx)(() => [
+                      (0, import_vue6.createElementVNode)(
                         "u-text",
                         { class: "wu-calendar__header-text" },
-                        (0, import_vue5.toDisplayString)(($data.nowDate.year || "") + $options.YearText + ($data.nowDate.month || "") + $options.MonthText),
+                        (0, import_vue6.toDisplayString)(($data.nowDate.year || "") + $options.YearText + ($data.nowDate.month || "") + $options.MonthText),
                         1
                         /* TEXT */
                       )
@@ -5917,46 +5997,46 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                     _: 1
                     /* STABLE */
                   }, 8, ["value", "onChange"]),
-                  (0, import_vue5.createElementVNode)("view", {
+                  (0, import_vue6.createElementVNode)("view", {
                     class: "wu-calendar__header-btn wu-calendar--bottom",
-                    onClick: _cache[4] || (_cache[4] = (0, import_vue5.withModifiers)((...args) => $options.next && $options.next(...args), ["stop"]))
+                    onClick: _cache[4] || (_cache[4] = (0, import_vue6.withModifiers)((...args) => $options.next && $options.next(...args), ["stop"]))
                   })
                 ]),
-                (0, import_vue5.createElementVNode)(
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   {
                     class: "wu-calendar__backtoday vertical",
                     onClick: _cache[5] || (_cache[5] = (...args) => $options.backToday && $options.backToday(...args))
                   },
-                  (0, import_vue5.toDisplayString)($options.todayText),
+                  (0, import_vue6.toDisplayString)($options.todayText),
                   1
                   /* TEXT */
                 )
               ],
               64
               /* STABLE_FRAGMENT */
-            )) : ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
-              import_vue5.Fragment,
+            )) : ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
+              import_vue6.Fragment,
               { key: 1 },
               [
-                (0, import_vue5.createCommentVNode)(" \u6A2A\u5411\u51E0\u65E0\u6ED1\u52A8\u5C55\u793A\u5185\u5BB9 "),
-                (0, import_vue5.createElementVNode)("view", {
+                (0, import_vue6.createCommentVNode)(" \u6A2A\u5411\u51E0\u65E0\u6ED1\u52A8\u5C55\u793A\u5185\u5BB9 "),
+                (0, import_vue6.createElementVNode)("view", {
                   class: "wu-calendar__header-btn-box horizontal",
-                  onClick: _cache[6] || (_cache[6] = (0, import_vue5.withModifiers)((...args) => $options.pre && $options.pre(...args), ["stop"]))
+                  onClick: _cache[6] || (_cache[6] = (0, import_vue6.withModifiers)((...args) => $options.pre && $options.pre(...args), ["stop"]))
                 }, [
-                  (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__header-btn wu-calendar--left" })
+                  (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__header-btn wu-calendar--left" })
                 ]),
-                (0, import_vue5.createVNode)(_component_picker, {
+                (0, import_vue6.createVNode)(_component_picker, {
                   mode: "date",
                   value: _ctx.date,
                   fields: "month",
                   onChange: $options.bindDateChange
                 }, {
-                  default: (0, import_vue5.withCtx)(() => [
-                    (0, import_vue5.createElementVNode)(
+                  default: (0, import_vue6.withCtx)(() => [
+                    (0, import_vue6.createElementVNode)(
                       "u-text",
                       { class: "wu-calendar__header-text" },
-                      (0, import_vue5.toDisplayString)(($data.nowDate.year || "") + $options.YearText + ($data.nowDate.month || "") + $options.MonthText),
+                      (0, import_vue6.toDisplayString)(($data.nowDate.year || "") + $options.YearText + ($data.nowDate.month || "") + $options.MonthText),
                       1
                       /* TEXT */
                     )
@@ -5964,19 +6044,19 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                   _: 1
                   /* STABLE */
                 }, 8, ["value", "onChange"]),
-                (0, import_vue5.createElementVNode)("view", {
+                (0, import_vue6.createElementVNode)("view", {
                   class: "wu-calendar__header-btn-box horizontal",
-                  onClick: _cache[7] || (_cache[7] = (0, import_vue5.withModifiers)((...args) => $options.next && $options.next(...args), ["stop"]))
+                  onClick: _cache[7] || (_cache[7] = (0, import_vue6.withModifiers)((...args) => $options.next && $options.next(...args), ["stop"]))
                 }, [
-                  (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__header-btn wu-calendar--right" })
+                  (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__header-btn wu-calendar--right" })
                 ]),
-                (0, import_vue5.createElementVNode)(
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   {
                     class: "wu-calendar__backtoday",
                     onClick: _cache[8] || (_cache[8] = (...args) => $options.backToday && $options.backToday(...args))
                   },
-                  (0, import_vue5.toDisplayString)($options.todayText),
+                  (0, import_vue6.toDisplayString)($options.todayText),
                   1
                   /* TEXT */
                 )
@@ -5985,220 +6065,226 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               /* STABLE_FRAGMENT */
             ))
           ]),
-          (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__box" }, [
-            _ctx.showMonth ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+          (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__box" }, [
+            _ctx.showMonth ? ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
               key: 0,
               class: "wu-calendar__box-bg"
             }, [
-              (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)(
                 "u-text",
                 { class: "wu-calendar__box-bg-text" },
-                (0, import_vue5.toDisplayString)($data.nowDate.month),
+                (0, import_vue6.toDisplayString)($data.nowDate.month),
                 1
                 /* TEXT */
               )
-            ])) : (0, import_vue5.createCommentVNode)("v-if", true),
-            (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__weeks" }, [
-              (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
-                (0, import_vue5.createElementVNode)(
+            ])) : (0, import_vue6.createCommentVNode)("v-if", true),
+            (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks" }, [
+              (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   { class: "wu-calendar__weeks-day-text" },
-                  (0, import_vue5.toDisplayString)($options.SUNText),
+                  (0, import_vue6.toDisplayString)($options.SUNText),
                   1
                   /* TEXT */
                 )
               ]),
-              (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
-                (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   { class: "wu-calendar__weeks-day-text" },
-                  (0, import_vue5.toDisplayString)($options.monText),
+                  (0, import_vue6.toDisplayString)($options.monText),
                   1
                   /* TEXT */
                 )
               ]),
-              (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
-                (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   { class: "wu-calendar__weeks-day-text" },
-                  (0, import_vue5.toDisplayString)($options.TUEText),
+                  (0, import_vue6.toDisplayString)($options.TUEText),
                   1
                   /* TEXT */
                 )
               ]),
-              (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
-                (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   { class: "wu-calendar__weeks-day-text" },
-                  (0, import_vue5.toDisplayString)($options.WEDText),
+                  (0, import_vue6.toDisplayString)($options.WEDText),
                   1
                   /* TEXT */
                 )
               ]),
-              (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
-                (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   { class: "wu-calendar__weeks-day-text" },
-                  (0, import_vue5.toDisplayString)($options.THUText),
+                  (0, import_vue6.toDisplayString)($options.THUText),
                   1
                   /* TEXT */
                 )
               ]),
-              (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
-                (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   { class: "wu-calendar__weeks-day-text" },
-                  (0, import_vue5.toDisplayString)($options.FRIText),
+                  (0, import_vue6.toDisplayString)($options.FRIText),
                   1
                   /* TEXT */
                 )
               ]),
-              (0, import_vue5.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
-                (0, import_vue5.createElementVNode)(
+              (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks-day" }, [
+                (0, import_vue6.createElementVNode)(
                   "u-text",
                   { class: "wu-calendar__weeks-day-text" },
-                  (0, import_vue5.toDisplayString)($options.SATText),
+                  (0, import_vue6.toDisplayString)($options.SATText),
                   1
                   /* TEXT */
                 )
               ])
             ]),
-            (0, import_vue5.createCommentVNode)(" \u6ED1\u52A8\u5207\u6362 "),
-            _ctx.slideSwitchMode !== "none" ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_swiper, {
+            (0, import_vue6.createCommentVNode)(" \u6ED1\u52A8\u5207\u6362 "),
+            _ctx.slideSwitchMode !== "none" ? ((0, import_vue6.openBlock)(), (0, import_vue6.createBlock)(_component_swiper, {
               key: 1,
-              style: { "height": "765rpx" },
+              style: (0, import_vue6.normalizeStyle)({ height: _ctx.monthShowCurrentMonth ? "640rpx" : "765rpx" }),
               duration: 500,
               vertical: _ctx.slideSwitchMode == "vertical",
               circular: "",
               current: $data.swiperCurrent,
               onChange: $options.swiperChange
             }, {
-              default: (0, import_vue5.withCtx)(() => [
-                (0, import_vue5.createVNode)(_component_swiper_item, null, {
-                  default: (0, import_vue5.withCtx)(() => [
-                    ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                      import_vue5.Fragment,
-                      null,
-                      (0, import_vue5.renderList)($data.preWeeks, (item, weekIndex) => {
-                        return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
-                          class: "wu-calendar__weeks",
-                          key: weekIndex
-                        }, [
-                          ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                            import_vue5.Fragment,
-                            null,
-                            (0, import_vue5.renderList)(item, (weeks, weeksIndex) => {
-                              return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
-                                class: "wu-calendar__weeks-item",
-                                key: weeksIndex
-                              }, [
-                                (0, import_vue5.createVNode)(_component_wu_calendar_item, {
-                                  class: "wu-calendar-item--hook",
-                                  weeks,
-                                  calendar: $data.calendar,
-                                  selected: _ctx.selected,
-                                  lunar: _ctx.lunar,
-                                  onChange: $options.choiceDate,
-                                  color: _ctx.color,
-                                  startText: _ctx.startText,
-                                  endText: _ctx.endText
-                                }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
-                              ]);
-                            }),
-                            128
-                            /* KEYED_FRAGMENT */
-                          ))
-                        ]);
-                      }),
-                      128
-                      /* KEYED_FRAGMENT */
-                    ))
+              default: (0, import_vue6.withCtx)(() => [
+                (0, import_vue6.createVNode)(_component_swiper_item, null, {
+                  default: (0, import_vue6.withCtx)(() => [
+                    (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks_box" }, [
+                      ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+                        import_vue6.Fragment,
+                        null,
+                        (0, import_vue6.renderList)($data.preWeeks, (item, weekIndex) => {
+                          return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
+                            class: "wu-calendar__weeks",
+                            key: weekIndex
+                          }, [
+                            ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+                              import_vue6.Fragment,
+                              null,
+                              (0, import_vue6.renderList)(item, (weeks, weeksIndex) => {
+                                return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
+                                  class: "wu-calendar__weeks-item",
+                                  key: weeksIndex
+                                }, [
+                                  (0, import_vue6.createVNode)(_component_wu_calendar_item, {
+                                    class: "wu-calendar-item--hook",
+                                    weeks,
+                                    calendar: $data.calendar,
+                                    selected: _ctx.selected,
+                                    lunar: _ctx.lunar,
+                                    onChange: $options.choiceDate,
+                                    color: _ctx.color,
+                                    startText: _ctx.startText,
+                                    endText: _ctx.endText
+                                  }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
+                                ]);
+                              }),
+                              128
+                              /* KEYED_FRAGMENT */
+                            ))
+                          ]);
+                        }),
+                        128
+                        /* KEYED_FRAGMENT */
+                      ))
+                    ])
                   ]),
                   _: 1
                   /* STABLE */
                 }),
-                (0, import_vue5.createVNode)(_component_swiper_item, null, {
-                  default: (0, import_vue5.withCtx)(() => [
-                    ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                      import_vue5.Fragment,
-                      null,
-                      (0, import_vue5.renderList)($data.weeks, (item, weekIndex) => {
-                        return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
-                          class: "wu-calendar__weeks",
-                          key: weekIndex
-                        }, [
-                          ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                            import_vue5.Fragment,
-                            null,
-                            (0, import_vue5.renderList)(item, (weeks, weeksIndex) => {
-                              return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
-                                class: "wu-calendar__weeks-item",
-                                key: weeksIndex
-                              }, [
-                                (0, import_vue5.createVNode)(_component_wu_calendar_item, {
-                                  class: "wu-calendar-item--hook",
-                                  weeks,
-                                  calendar: $data.calendar,
-                                  selected: _ctx.selected,
-                                  lunar: _ctx.lunar,
-                                  onChange: $options.choiceDate,
-                                  color: _ctx.color,
-                                  startText: _ctx.startText,
-                                  endText: _ctx.endText
-                                }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
-                              ]);
-                            }),
-                            128
-                            /* KEYED_FRAGMENT */
-                          ))
-                        ]);
-                      }),
-                      128
-                      /* KEYED_FRAGMENT */
-                    ))
+                (0, import_vue6.createVNode)(_component_swiper_item, null, {
+                  default: (0, import_vue6.withCtx)(() => [
+                    (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks_box" }, [
+                      ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+                        import_vue6.Fragment,
+                        null,
+                        (0, import_vue6.renderList)($data.weeks, (item, weekIndex) => {
+                          return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
+                            class: "wu-calendar__weeks",
+                            key: weekIndex
+                          }, [
+                            ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+                              import_vue6.Fragment,
+                              null,
+                              (0, import_vue6.renderList)(item, (weeks, weeksIndex) => {
+                                return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
+                                  class: "wu-calendar__weeks-item",
+                                  key: weeksIndex
+                                }, [
+                                  (0, import_vue6.createVNode)(_component_wu_calendar_item, {
+                                    class: "wu-calendar-item--hook",
+                                    weeks,
+                                    calendar: $data.calendar,
+                                    selected: _ctx.selected,
+                                    lunar: _ctx.lunar,
+                                    onChange: $options.choiceDate,
+                                    color: _ctx.color,
+                                    startText: _ctx.startText,
+                                    endText: _ctx.endText
+                                  }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
+                                ]);
+                              }),
+                              128
+                              /* KEYED_FRAGMENT */
+                            ))
+                          ]);
+                        }),
+                        128
+                        /* KEYED_FRAGMENT */
+                      ))
+                    ])
                   ]),
                   _: 1
                   /* STABLE */
                 }),
-                (0, import_vue5.createVNode)(_component_swiper_item, null, {
-                  default: (0, import_vue5.withCtx)(() => [
-                    ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                      import_vue5.Fragment,
-                      null,
-                      (0, import_vue5.renderList)($data.nextWeeks, (item, weekIndex) => {
-                        return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
-                          class: "wu-calendar__weeks",
-                          key: weekIndex
-                        }, [
-                          ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                            import_vue5.Fragment,
-                            null,
-                            (0, import_vue5.renderList)(item, (weeks, weeksIndex) => {
-                              return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
-                                class: "wu-calendar__weeks-item",
-                                key: weeksIndex
-                              }, [
-                                (0, import_vue5.createVNode)(_component_wu_calendar_item, {
-                                  class: "wu-calendar-item--hook",
-                                  weeks,
-                                  calendar: $data.calendar,
-                                  selected: _ctx.selected,
-                                  lunar: _ctx.lunar,
-                                  onChange: $options.choiceDate,
-                                  color: _ctx.color,
-                                  startText: _ctx.startText,
-                                  endText: _ctx.endText
-                                }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
-                              ]);
-                            }),
-                            128
-                            /* KEYED_FRAGMENT */
-                          ))
-                        ]);
-                      }),
-                      128
-                      /* KEYED_FRAGMENT */
-                    ))
+                (0, import_vue6.createVNode)(_component_swiper_item, null, {
+                  default: (0, import_vue6.withCtx)(() => [
+                    (0, import_vue6.createElementVNode)("view", { class: "wu-calendar__weeks_box" }, [
+                      ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+                        import_vue6.Fragment,
+                        null,
+                        (0, import_vue6.renderList)($data.nextWeeks, (item, weekIndex) => {
+                          return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
+                            class: "wu-calendar__weeks",
+                            key: weekIndex
+                          }, [
+                            ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+                              import_vue6.Fragment,
+                              null,
+                              (0, import_vue6.renderList)(item, (weeks, weeksIndex) => {
+                                return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
+                                  class: "wu-calendar__weeks-item",
+                                  key: weeksIndex
+                                }, [
+                                  (0, import_vue6.createVNode)(_component_wu_calendar_item, {
+                                    class: "wu-calendar-item--hook",
+                                    weeks,
+                                    calendar: $data.calendar,
+                                    selected: _ctx.selected,
+                                    lunar: _ctx.lunar,
+                                    onChange: $options.choiceDate,
+                                    color: _ctx.color,
+                                    startText: _ctx.startText,
+                                    endText: _ctx.endText
+                                  }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
+                                ]);
+                              }),
+                              128
+                              /* KEYED_FRAGMENT */
+                            ))
+                          ]);
+                        }),
+                        128
+                        /* KEYED_FRAGMENT */
+                      ))
+                    ])
                   ]),
                   _: 1
                   /* STABLE */
@@ -6206,28 +6292,28 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               ]),
               _: 1
               /* STABLE */
-            }, 8, ["vertical", "current", "onChange"])) : ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
-              import_vue5.Fragment,
+            }, 8, ["style", "vertical", "current", "onChange"])) : ((0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
+              import_vue6.Fragment,
               { key: 2 },
               [
-                (0, import_vue5.createCommentVNode)(" \u65E0\u6ED1\u52A8\u5207\u6362 "),
-                ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                  import_vue5.Fragment,
+                (0, import_vue6.createCommentVNode)(" \u65E0\u6ED1\u52A8\u5207\u6362 "),
+                ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+                  import_vue6.Fragment,
                   null,
-                  (0, import_vue5.renderList)($data.weeks, (item, weekIndex) => {
-                    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+                  (0, import_vue6.renderList)($data.weeks, (item, weekIndex) => {
+                    return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
                       class: "wu-calendar__weeks",
                       key: weekIndex
                     }, [
-                      ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                        import_vue5.Fragment,
+                      ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+                        import_vue6.Fragment,
                         null,
-                        (0, import_vue5.renderList)(item, (weeks, weeksIndex) => {
-                          return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+                        (0, import_vue6.renderList)(item, (weeks, weeksIndex) => {
+                          return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("view", {
                             class: "wu-calendar__weeks-item",
                             key: weeksIndex
                           }, [
-                            (0, import_vue5.createVNode)(_component_wu_calendar_item, {
+                            (0, import_vue6.createVNode)(_component_wu_calendar_item, {
                               class: "wu-calendar-item--hook",
                               weeks,
                               calendar: $data.calendar,
@@ -6256,12 +6342,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         ],
         2
         /* CLASS */
-      )) : (0, import_vue5.createCommentVNode)("v-if", true)
+      )) : (0, import_vue6.createCommentVNode)("v-if", true)
     ]);
   }
   var __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$13, [["render", _sfc_render$13], ["styles", [_style_0$13]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-calendar/components/wu-calendar/wu-calendar.vue"]]);
-  var _style_04 = { "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0 } }, "wu-cell-icon": { "": { "width": "36rpx", "height": "36rpx", "marginRight": "8rpx" } } };
-  var _sfc_main4 = {
+  var _style_05 = { "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0 } }, "wu-cell-icon": { "": { "width": "36rpx", "height": "36rpx", "marginRight": "8rpx" } } };
+  var _sfc_main5 = {
     data() {
       const d = /* @__PURE__ */ new Date();
       const year = d.getFullYear();
@@ -6315,6 +6401,10 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           {
             title: "\u663E\u793A\u519C\u5386",
             iconUrl: "https://cdn.uviewui.com/uview/demo/calendar/5.png"
+          },
+          {
+            title: "\u6BCF\u6708\u4EC5\u663E\u793A\u5F53\u6708\u7684\u6570\u636E",
+            iconUrl: "https://cdn.uviewui.com/uview/demo/calendar/5.png"
           }
         ]
       };
@@ -6329,7 +6419,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       },
       confirm(e) {
         this[`show${this.index}`] = false;
-        formatAppLog("log", "at pages/componentsC/calendar/calendar.nvue:153", e);
+        formatAppLog("log", "at pages/componentsC/calendar/calendar.nvue:163", e);
         switch (this.index - 1) {
           case 0:
             this.values[this.index - 1] = e[0];
@@ -6412,41 +6502,41 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render4(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_navbar = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-navbar"), __easycom_02);
-    const _component_wu_cell = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-cell"), __easycom_1);
-    const _component_wu_cell_group = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-cell-group"), __easycom_2);
-    const _component_wu_calendar = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-calendar"), __easycom_3);
-    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("scroll-view", {
+  function _sfc_render5(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_navbar = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-navbar"), __easycom_02);
+    const _component_wu_cell = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-cell"), __easycom_1);
+    const _component_wu_cell_group = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-cell-group"), __easycom_22);
+    const _component_wu_calendar = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-calendar"), __easycom_3);
+    return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("scroll-view", {
       scrollY: true,
       showScrollbar: true,
       enableBackToTop: true,
       bubble: "true",
       style: { flexDirection: "column" }
     }, [
-      (0, import_vue5.createElementVNode)("view", { class: "wu-page" }, [
-        (0, import_vue5.createVNode)(_component_wu_navbar, {
+      (0, import_vue6.createElementVNode)("view", { class: "wu-page" }, [
+        (0, import_vue6.createVNode)(_component_wu_navbar, {
           title: "\u65E5\u5386",
           onLeftClick: $options.navigateBack,
           safeAreaInsetTop: "",
           fixed: "",
           placeholder: ""
         }, null, 8, ["onLeftClick"]),
-        (0, import_vue5.createVNode)(_component_wu_cell_group, null, {
-          default: (0, import_vue5.withCtx)(() => [
-            ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-              import_vue5.Fragment,
+        (0, import_vue6.createVNode)(_component_wu_cell_group, null, {
+          default: (0, import_vue6.withCtx)(() => [
+            ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+              import_vue6.Fragment,
               null,
-              (0, import_vue5.renderList)($data.list, (item, index2) => {
-                return (0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_cell, {
+              (0, import_vue6.renderList)($data.list, (item, index2) => {
+                return (0, import_vue6.openBlock)(), (0, import_vue6.createBlock)(_component_wu_cell, {
                   onClick: ($event) => $options.showCalendar(index2),
                   title: item.title,
                   key: index2,
                   label: $data.values[index2],
                   isLink: ""
                 }, {
-                  icon: (0, import_vue5.withCtx)(() => [
-                    (0, import_vue5.createElementVNode)("u-image", {
+                  icon: (0, import_vue6.withCtx)(() => [
+                    (0, import_vue6.createElementVNode)("u-image", {
                       class: "wu-cell-icon",
                       src: item.iconUrl,
                       mode: "widthFix"
@@ -6463,8 +6553,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           _: 1
           /* STABLE */
         }),
-        (0, import_vue5.createCommentVNode)(" \u6A2A\u5411\u6ED1\u52A8 "),
-        (0, import_vue5.createVNode)(
+        (0, import_vue6.createCommentVNode)(" \u6A2A\u5411\u6ED1\u52A8 "),
+        (0, import_vue6.createVNode)(
           _component_wu_calendar,
           {
             ref: "wuCalendar1",
@@ -6475,8 +6565,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           512
           /* NEED_PATCH */
         ),
-        (0, import_vue5.createCommentVNode)(" \u7EB5\u5411\u6ED1\u52A8 "),
-        (0, import_vue5.createVNode)(
+        (0, import_vue6.createCommentVNode)(" \u7EB5\u5411\u6ED1\u52A8 "),
+        (0, import_vue6.createVNode)(
           _component_wu_calendar,
           {
             ref: "wuCalendar2",
@@ -6488,8 +6578,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           512
           /* NEED_PATCH */
         ),
-        (0, import_vue5.createCommentVNode)(" \u65E0\u6ED1\u52A8\u5207\u6362 "),
-        (0, import_vue5.createVNode)(
+        (0, import_vue6.createCommentVNode)(" \u65E0\u6ED1\u52A8\u5207\u6362 "),
+        (0, import_vue6.createVNode)(
           _component_wu_calendar,
           {
             ref: "wuCalendar3",
@@ -6501,8 +6591,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           512
           /* NEED_PATCH */
         ),
-        (0, import_vue5.createCommentVNode)(" \u5355\u4E2A\u65E5\u671F "),
-        (0, import_vue5.createVNode)(
+        (0, import_vue6.createCommentVNode)(" \u5355\u4E2A\u65E5\u671F "),
+        (0, import_vue6.createVNode)(
           _component_wu_calendar,
           {
             ref: "wuCalendar4",
@@ -6512,8 +6602,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           512
           /* NEED_PATCH */
         ),
-        (0, import_vue5.createCommentVNode)(" \u81EA\u5B9A\u4E49\u4E3B\u9898\u989C\u8272 "),
-        (0, import_vue5.createVNode)(
+        (0, import_vue6.createCommentVNode)(" \u81EA\u5B9A\u4E49\u4E3B\u9898\u989C\u8272 "),
+        (0, import_vue6.createVNode)(
           _component_wu_calendar,
           {
             ref: "wuCalendar5",
@@ -6525,8 +6615,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           512
           /* NEED_PATCH */
         ),
-        (0, import_vue5.createCommentVNode)(" \u81EA\u5B9A\u4E49\u6253\u70B9 "),
-        (0, import_vue5.createVNode)(_component_wu_calendar, {
+        (0, import_vue6.createCommentVNode)(" \u81EA\u5B9A\u4E49\u6253\u70B9 "),
+        (0, import_vue6.createVNode)(_component_wu_calendar, {
           ref: "wuCalendar6",
           insert: false,
           range: "",
@@ -6536,8 +6626,16 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           "end-text": "\u8FD4\u7A0B",
           color: "#6ac695"
         }, null, 8, ["selected", "startDate"]),
-        (0, import_vue5.createCommentVNode)(" \u663E\u793A\u519C\u5386 "),
-        (0, import_vue5.createVNode)(
+        (0, import_vue6.createCommentVNode)(" \u65E5\u671F\u6700\u5927\u8303\u56F4 "),
+        (0, import_vue6.createVNode)(_component_wu_calendar, {
+          ref: "wuCalendar7",
+          insert: false,
+          startDate: $options.wuCalendar7StartDate,
+          endDate: $options.wuCalendar7EndDate,
+          range: ""
+        }, null, 8, ["startDate", "endDate"]),
+        (0, import_vue6.createCommentVNode)(" \u663E\u793A\u519C\u5386 "),
+        (0, import_vue6.createVNode)(
           _component_wu_calendar,
           {
             ref: "wuCalendar8",
@@ -6549,18 +6647,23 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           512
           /* NEED_PATCH */
         ),
-        (0, import_vue5.createCommentVNode)(" \u65E5\u671F\u6700\u5927\u8303\u56F4 "),
-        (0, import_vue5.createVNode)(_component_wu_calendar, {
-          ref: "wuCalendar7",
-          insert: false,
-          startDate: $options.wuCalendar7StartDate,
-          endDate: $options.wuCalendar7EndDate,
-          range: ""
-        }, null, 8, ["startDate", "endDate"])
+        (0, import_vue6.createCommentVNode)(" \u6BCF\u6708\u4EC5\u663E\u793A\u5F53\u6708\u7684\u6570\u636E "),
+        (0, import_vue6.createVNode)(
+          _component_wu_calendar,
+          {
+            ref: "wuCalendar9",
+            monthShowCurrentMonth: "",
+            insert: false,
+            range: ""
+          },
+          null,
+          512
+          /* NEED_PATCH */
+        )
       ])
     ]);
   }
-  var calendar = /* @__PURE__ */ _export_sfc(_sfc_main4, [["render", _sfc_render4], ["styles", [_style_04]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/calendar/calendar.nvue"]]);
+  var calendar = /* @__PURE__ */ _export_sfc(_sfc_main5, [["render", _sfc_render5], ["styles", [_style_05]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/calendar/calendar.nvue"]]);
 
   // <stdin>
   var webview = plus.webview.currentWebview();

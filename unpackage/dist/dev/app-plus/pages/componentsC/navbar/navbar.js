@@ -2079,7 +2079,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
     return trim(string2);
   }
-  function addUnit(value = "auto", unit = ((_b3) => (_b3 = ((_a3) => (_a3 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a3.config)()) == null ? void 0 : _b3.unit)() ? ((_d2) => (_d2 = ((_c2) => (_c2 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c2.config)()) == null ? void 0 : _d2.unit)() : "px") {
+  function addUnit(value = "auto", unit = ((_b5) => (_b5 = ((_a5) => (_a5 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a5.config)()) == null ? void 0 : _b5.unit)() ? ((_d2) => (_d2 = ((_c2) => (_c2 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c2.config)()) == null ? void 0 : _d2.unit)() : "px") {
     value = String(value);
     return number(value) ? `${value}${unit}` : value;
   }
@@ -2422,9 +2422,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   }
   function page() {
-    var _a3;
+    var _a5;
     const pages2 = getCurrentPages();
-    const route2 = (_a3 = pages2[pages2.length - 1]) == null ? void 0 : _a3.route;
+    const route2 = (_a5 = pages2[pages2.length - 1]) == null ? void 0 : _a5.route;
     return `/${route2 ? route2 : ""}`;
   }
   function pages() {
@@ -2437,7 +2437,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     return pages2[len - 1 + back];
   }
   function setConfig({
-    props: props3 = {},
+    props: props5 = {},
     config = {},
     color: color2 = {},
     zIndex = {}
@@ -2446,7 +2446,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       deepMerge: deepMerge2
     } = uni.$w;
     uni.$w.config = deepMerge2(uni.$w.config, config);
-    uni.$w.props = deepMerge2(uni.$w.props, props3);
+    uni.$w.props = deepMerge2(uni.$w.props, props5);
     uni.$w.color = deepMerge2(uni.$w.color, color2);
     uni.$w.zIndex = deepMerge2(uni.$w.zIndex, zIndex);
   }
@@ -2620,9 +2620,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var import_vue3 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/_plugin-vue_export-helper.js
-  var _export_sfc = (sfc, props3) => {
+  var _export_sfc = (sfc, props5) => {
     const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props3) {
+    for (const [key, val] of props5) {
       target[key] = val;
     }
     return target;
@@ -3022,6 +3022,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       bgColor: {
         type: String,
         default: "transparent"
+      },
+      customStyle: {
+        type: [Object, String],
+        default: () => {
+          return "";
+        }
       }
     }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.statusBar)
   };
@@ -3036,7 +3042,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       style() {
         const style = {};
         style.height = this.$w.addUnit(this.$w.sys().statusBarHeight, "px");
-        style.backgroundColor = this.bgColor;
+        style.background = this.bgColor;
         return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
       }
     }
@@ -3079,6 +3085,11 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: Boolean,
         default: false
       },
+      // 是否显示左边
+      showLeft: {
+        type: Boolean,
+        default: true
+      },
       // 左边的图标
       leftIcon: {
         type: String,
@@ -3089,7 +3100,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: String,
         default: ""
       },
-      // 左右的提示文字
+      // 小程序端导航栏右侧是否预留胶囊位置
+      mpRightReserveCapsule: {
+        type: Boolean,
+        default: true
+      },
+      // 左边的提示文字
       rightText: {
         type: String,
         default: ""
@@ -3160,6 +3176,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       rightClick() {
         this.$emit("rightClick");
       }
+    },
+    computed: {
+      // 小程序胶囊右侧所在位置 仅在小程序端且 mpRightReserveCapsule 为 true 是预留胶囊位置
+      mpCapsuleRightPosition() {
+        return 0;
+      }
     }
   };
   function _sfc_render2(_ctx, _cache, $props, $setup, $data, $options) {
@@ -3195,14 +3217,15 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           (0, import_vue3.createElementVNode)(
             "view",
             {
-              class: (0, import_vue3.normalizeClass)(["wu-navbar__content", [_ctx.border && "u-border-bottom"]]),
+              class: (0, import_vue3.normalizeClass)(["wu-navbar__content", [_ctx.border && "wu-border-bottom"]]),
               style: (0, import_vue3.normalizeStyle)({
                 height: _ctx.$w.addUnit(_ctx.height),
-                backgroundColor: _ctx.bgColor
+                background: _ctx.bgColor
               })
             },
             [
-              (0, import_vue3.createElementVNode)("view", {
+              _ctx.showLeft ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
+                key: 0,
                 class: "wu-navbar__content__left",
                 hoverClass: "wu-navbar__content__left--hover",
                 hoverStartTime: "150",
@@ -3229,12 +3252,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                     /* TEXT, STYLE */
                   )) : (0, import_vue3.createCommentVNode)("v-if", true)
                 ])
-              ]),
+              ])) : (0, import_vue3.createCommentVNode)("v-if", true),
               (0, import_vue3.renderSlot)(_ctx.$slots, "center", {}, () => [
                 (0, import_vue3.createElementVNode)(
                   "u-text",
                   {
-                    class: "u-line-1 wu-navbar__content__title",
+                    class: "wu-line-1 wu-navbar__content__title",
                     style: (0, import_vue3.normalizeStyle)([{
                       width: _ctx.$w.addUnit(_ctx.titleWidth)
                     }, _ctx.$w.addStyle(_ctx.titleStyle)])
@@ -3244,29 +3267,35 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                   /* TEXT, STYLE */
                 )
               ]),
-              _ctx.$slots.right || _ctx.rightIcon || _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
-                key: 0,
-                class: "wu-navbar__content__right",
-                onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
-              }, [
-                (0, import_vue3.renderSlot)(_ctx.$slots, "right", {}, () => [
-                  _ctx.rightIcon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
-                    key: 0,
-                    name: _ctx.rightIcon,
-                    size: "20"
-                  }, null, 8, ["name"])) : (0, import_vue3.createCommentVNode)("v-if", true),
-                  _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-                    "u-text",
-                    {
-                      key: 1,
-                      class: "wu-navbar__content__right__text"
-                    },
-                    (0, import_vue3.toDisplayString)(_ctx.rightText),
-                    1
-                    /* TEXT */
-                  )) : (0, import_vue3.createCommentVNode)("v-if", true)
-                ])
-              ])) : (0, import_vue3.createCommentVNode)("v-if", true)
+              (0, import_vue3.createElementVNode)(
+                "view",
+                {
+                  class: "wu-navbar__content__right",
+                  style: (0, import_vue3.normalizeStyle)({ right: $options.mpCapsuleRightPosition }),
+                  onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
+                },
+                [
+                  (0, import_vue3.renderSlot)(_ctx.$slots, "right", {}, () => [
+                    _ctx.rightIcon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
+                      key: 0,
+                      name: _ctx.rightIcon,
+                      size: "20"
+                    }, null, 8, ["name"])) : (0, import_vue3.createCommentVNode)("v-if", true),
+                    _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+                      "u-text",
+                      {
+                        key: 1,
+                        class: "wu-navbar__content__right__text"
+                      },
+                      (0, import_vue3.toDisplayString)(_ctx.rightText),
+                      1
+                      /* TEXT */
+                    )) : (0, import_vue3.createCommentVNode)("v-if", true)
+                  ])
+                ],
+                4
+                /* STYLE */
+              )
             ],
             6
             /* CLASS, STYLE */
@@ -3280,9 +3309,155 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var __easycom_02 = /* @__PURE__ */ _export_sfc(_sfc_main2, [["render", _sfc_render2], ["styles", [_style_02]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-navbar/components/wu-navbar/wu-navbar.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/navbar/navbar.js
+  var import_vue6 = __toESM(require_vue());
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-line.js
   var import_vue4 = __toESM(require_vue());
-  var _style_03 = { "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0, "flex": 1, "backgroundColor": "#f3f4f6" } }, "wu-page__item__title": { "": { "color": "#909193", "backgroundColor": "#f3f4f6", "paddingTop": 15, "paddingRight": 15, "paddingBottom": 15, "paddingLeft": 15, "fontSize": 15 } }, "wu-page__item__title__slot-title": { "": { "color": "#3c9cff", "fontSize": 14 } }, "u-nav-slot": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between", "borderWidth": 0.5, "borderRadius": 100, "borderColor": "#dadbde", "paddingTop": 3, "paddingRight": 7, "paddingBottom": 3, "paddingLeft": 7, "opacity": 0.8 } } };
+  var _a3;
+  var _b3;
+  var props3 = {
+    props: __spreadValues({
+      color: {
+        type: String,
+        default: "#d6d7d9"
+      },
+      // 长度，竖向时表现为高度，横向时表现为长度，可以为百分比，带px单位的值等
+      length: {
+        type: [String, Number],
+        default: "100%"
+      },
+      // 线条方向，col-竖向，row-横向
+      direction: {
+        type: String,
+        default: "row"
+      },
+      // 是否显示细边框
+      hairline: {
+        type: Boolean,
+        default: true
+      },
+      // 线条与上下左右元素的间距，字符串形式，如"30px"、"20px 30px"
+      margin: {
+        type: [String, Number],
+        default: 0
+      },
+      // 是否虚线，true-虚线，false-实线
+      dashed: {
+        type: Boolean,
+        default: false
+      }
+    }, (_b3 = (_a3 = uni.$w) == null ? void 0 : _a3.props) == null ? void 0 : _b3.line)
+  };
+  var _style_03 = {};
   var _sfc_main3 = {
+    name: "wu-line",
+    mixins: [mpMixin, mixin, props3],
+    computed: {
+      lineStyle() {
+        const style = {};
+        style.margin = this.margin;
+        if (this.direction === "row") {
+          style.borderBottomWidth = "2rpx";
+          style.borderBottomStyle = this.dashed ? "dashed" : "solid";
+          style.width = this.$w.addUnit(this.length);
+          if (this.hairline)
+            style.transform = "scaleY(0.5)";
+        } else {
+          style.borderLeftWidth = "2rpx";
+          style.borderLeftStyle = this.dashed ? "dashed" : "solid";
+          style.height = this.$w.addUnit(this.length);
+          if (this.hairline)
+            style.transform = "scaleX(0.5)";
+        }
+        style.borderColor = this.color;
+        return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
+      }
+    }
+  };
+  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
+    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+      "view",
+      {
+        class: "wu-line",
+        style: (0, import_vue4.normalizeStyle)([$options.lineStyle]),
+        renderWhole: true
+      },
+      null,
+      4
+      /* STYLE */
+    );
+  }
+  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-gap.js
+  var import_vue5 = __toESM(require_vue());
+  var _a4;
+  var _b4;
+  var props4 = {
+    props: __spreadValues({
+      // 背景颜色（默认transparent）
+      bgColor: {
+        type: String,
+        default: "transparent"
+      },
+      // 分割槽高度，单位px（默认20）
+      height: {
+        type: [String, Number],
+        default: 20
+      },
+      // 与上一个组件的距离
+      marginTop: {
+        type: [String, Number],
+        default: 0
+      },
+      // 与下一个组件的距离
+      marginBottom: {
+        type: [String, Number],
+        default: 0
+      },
+      // 自定义样式
+      customStyle: {
+        type: [Object, String],
+        default: () => {
+          return "";
+        }
+      }
+    }, (_b4 = (_a4 = uni.$w) == null ? void 0 : _a4.props) == null ? void 0 : _b4.gap)
+  };
+  var _style_04 = {};
+  var _sfc_main4 = {
+    name: "wu-gap",
+    mixins: [mpMixin, mixin, props4],
+    computed: {
+      gapStyle() {
+        const style = {
+          backgroundColor: this.bgColor,
+          height: this.$w.addUnit(this.height),
+          marginTop: this.$w.addUnit(this.marginTop),
+          marginBottom: this.$w.addUnit(this.marginBottom)
+        };
+        return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
+      }
+    }
+  };
+  function _sfc_render4(_ctx, _cache, $props, $setup, $data, $options) {
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
+      "view",
+      {
+        class: "wu-gap",
+        style: (0, import_vue5.normalizeStyle)([$options.gapStyle]),
+        renderWhole: true
+      },
+      null,
+      4
+      /* STYLE */
+    );
+  }
+  var __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main4, [["render", _sfc_render4], ["styles", [_style_04]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-gap/components/wu-gap/wu-gap.vue"]]);
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/navbar/navbar.js
+  var _style_05 = { "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0, "flex": 1, "backgroundColor": "#f3f4f6" } }, "wu-page__item__title": { "": { "color": "#909193", "backgroundColor": "#f3f4f6", "paddingTop": 15, "paddingRight": 15, "paddingBottom": 15, "paddingLeft": 15, "fontSize": 15 } }, "wu-page__item__title__slot-title": { "": { "color": "#3c9cff", "fontSize": 14 } }, "wu-nav-slot": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between", "borderWidth": 0.5, "borderRadius": 100, "borderColor": "#dadbde", "paddingTop": 3, "paddingRight": 7, "paddingBottom": 3, "paddingLeft": 7, "opacity": 0.8 } } };
+  var _sfc_main5 = {
     data() {
       return {};
     },
@@ -3293,37 +3468,37 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         });
       },
       rightClick() {
-        formatAppLog("log", "at pages/componentsC/navbar/navbar.nvue:81", "rightClick");
+        formatAppLog("log", "at pages/componentsC/navbar/navbar.nvue:113", "rightClick");
       },
       leftClick() {
-        formatAppLog("log", "at pages/componentsC/navbar/navbar.nvue:84", "leftClick");
+        formatAppLog("log", "at pages/componentsC/navbar/navbar.nvue:116", "leftClick");
       }
     }
   };
-  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_navbar = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-navbar"), __easycom_02);
-    const _component_u_icon = (0, import_vue4.resolveComponent)("u-icon");
-    const _component_u_line = (0, import_vue4.resolveComponent)("u-line");
-    const _component_u_gap = (0, import_vue4.resolveComponent)("u-gap");
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("scroll-view", {
+  function _sfc_render5(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_navbar = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-navbar"), __easycom_02);
+    const _component_wu_icon = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-icon"), __easycom_0);
+    const _component_wu_line = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-line"), __easycom_2);
+    const _component_wu_gap = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-gap"), __easycom_4);
+    return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("scroll-view", {
       scrollY: true,
       showScrollbar: true,
       enableBackToTop: true,
       bubble: "true",
       style: { flexDirection: "column" }
     }, [
-      (0, import_vue4.createElementVNode)("view", { class: "wu-page" }, [
-        (0, import_vue4.createCommentVNode)(" 2.0.19\u652F\u6301autoBack\uFF0C\u9ED8\u8BA4\u4E3Afalse "),
-        (0, import_vue4.createVNode)(_component_wu_navbar, {
+      (0, import_vue6.createElementVNode)("view", { class: "wu-page" }, [
+        (0, import_vue6.createCommentVNode)(" 2.0.19\u652F\u6301autoBack\uFF0C\u9ED8\u8BA4\u4E3Afalse "),
+        (0, import_vue6.createVNode)(_component_wu_navbar, {
           title: "\u5BFC\u822A\u680F",
           safeAreaInsetTop: "",
           fixed: "",
           placeholder: "",
           autoBack: true
         }),
-        (0, import_vue4.createElementVNode)("view", { class: "wu-page__item" }, [
-          (0, import_vue4.createElementVNode)("u-text", { class: "wu-page__item__title" }, "\u57FA\u7840\u529F\u80FD"),
-          (0, import_vue4.createVNode)(_component_wu_navbar, {
+        (0, import_vue6.createElementVNode)("view", { class: "wu-page__item" }, [
+          (0, import_vue6.createElementVNode)("u-text", { class: "wu-page__item__title" }, "\u57FA\u7840\u529F\u80FD"),
+          (0, import_vue6.createVNode)(_component_wu_navbar, {
             title: "\u4E2A\u4EBA\u4E2D\u5FC3",
             safeAreaInsetTop: false,
             fixed: false,
@@ -3331,9 +3506,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             onLeftClick: $options.leftClick
           }, null, 8, ["onRightClick", "onLeftClick"])
         ]),
-        (0, import_vue4.createElementVNode)("view", { class: "wu-page__item" }, [
-          (0, import_vue4.createElementVNode)("u-text", { class: "wu-page__item__title" }, "\u81EA\u5B9A\u4E49\u6587\u672C"),
-          (0, import_vue4.createVNode)(_component_wu_navbar, {
+        (0, import_vue6.createElementVNode)("view", { class: "wu-page__item" }, [
+          (0, import_vue6.createElementVNode)("u-text", { class: "wu-page__item__title" }, "\u81EA\u5B9A\u4E49\u6587\u672C"),
+          (0, import_vue6.createVNode)(_component_wu_navbar, {
             safeAreaInsetTop: false,
             title: "\u4E2A\u4EBA\u4E2D\u5FC3",
             fixed: false,
@@ -3341,30 +3516,27 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             rightIcon: "map"
           })
         ]),
-        (0, import_vue4.createElementVNode)("view", { class: "wu-page__item" }, [
-          (0, import_vue4.createElementVNode)("u-text", { class: "wu-page__item__title" }, "\u81EA\u5B9A\u4E49\u63D2\u69FD"),
-          (0, import_vue4.createVNode)(_component_wu_navbar, {
+        (0, import_vue6.createElementVNode)("view", { class: "wu-page__item" }, [
+          (0, import_vue6.createElementVNode)("u-text", { class: "wu-page__item__title" }, "\u81EA\u5B9A\u4E49\u63D2\u69FD"),
+          (0, import_vue6.createVNode)(_component_wu_navbar, {
             leftText: "\u8FD4\u56DE",
             fixed: false,
             title: "\u4E2A\u4EBA\u4E2D\u5FC3",
             safeAreaInsetTop: false
           }, {
-            default: (0, import_vue4.withCtx)(() => [
-              (0, import_vue4.createElementVNode)("view", {
-                class: "u-nav-slot",
-                slot: "left"
-              }, [
-                (0, import_vue4.createVNode)(_component_u_icon, {
+            left: (0, import_vue6.withCtx)(() => [
+              (0, import_vue6.createElementVNode)("view", { class: "wu-nav-slot" }, [
+                (0, import_vue6.createVNode)(_component_wu_icon, {
                   name: "arrow-left",
                   size: "19"
                 }),
-                (0, import_vue4.createVNode)(_component_u_line, {
+                (0, import_vue6.createVNode)(_component_wu_line, {
                   direction: "column",
                   hairline: false,
                   length: "16",
                   margin: "0 8px"
                 }),
-                (0, import_vue4.createVNode)(_component_u_icon, {
+                (0, import_vue6.createVNode)(_component_wu_icon, {
                   name: "home",
                   size: "20"
                 })
@@ -3374,11 +3546,46 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             /* STABLE */
           })
         ]),
-        (0, import_vue4.createVNode)(_component_u_gap, { height: "50" })
+        (0, import_vue6.createElementVNode)("view", { class: "wu-page__item" }, [
+          (0, import_vue6.createElementVNode)("u-text", { class: "wu-page__item__title" }, "\u81EA\u5B9A\u4E49\u80CC\u666F\u8272"),
+          (0, import_vue6.createVNode)(_component_wu_navbar, {
+            fixed: false,
+            title: "\u4E2A\u4EBA\u4E2D\u5FC3",
+            safeAreaInsetTop: false,
+            leftIconColor: "#fff",
+            titleStyle: "color: #fff",
+            bgColor: "linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"
+          }, {
+            default: (0, import_vue6.withCtx)(() => [
+              (0, import_vue6.createElementVNode)("view", {
+                class: "wu-nav-slot",
+                slot: "left"
+              }, [
+                (0, import_vue6.createVNode)(_component_wu_icon, {
+                  name: "arrow-left",
+                  size: "19"
+                }),
+                (0, import_vue6.createVNode)(_component_wu_line, {
+                  direction: "column",
+                  hairline: false,
+                  length: "16",
+                  margin: "0 8px"
+                }),
+                (0, import_vue6.createVNode)(_component_wu_icon, {
+                  name: "home",
+                  size: "20"
+                })
+              ])
+            ]),
+            _: 1
+            /* STABLE */
+          })
+        ]),
+        (0, import_vue6.createVNode)(_component_wu_gap, { height: "50" })
       ])
     ]);
   }
-  var navbar = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/navbar/navbar.nvue"]]);
+  var navbar = /* @__PURE__ */ _export_sfc(_sfc_main5, [["render", _sfc_render5], ["styles", [_style_05]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/navbar/navbar.nvue"]]);
 
   // <stdin>
   var webview = plus.webview.currentWebview();

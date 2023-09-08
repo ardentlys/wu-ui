@@ -57,6 +57,11 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		// 每月是否仅显示当月数据
+		monthShowCurrentMonth: {
+			type: Boolean,
+			default: false
+		},
 		// 插入模式,可选值，ture：插入模式；false：弹窗模式；默认为插入模式
 		insert: {
 			type: Boolean,

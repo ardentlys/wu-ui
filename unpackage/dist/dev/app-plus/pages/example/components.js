@@ -84,9 +84,6 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/uni-app.es.js
   var import_vue = __toESM(require_vue());
   var isString = (val) => typeof val === "string";
-  function requireNativePlugin(name) {
-    return weex.requireModule(name);
-  }
   function formatAppLog(type, filename, ...args) {
     if (uni.__log__) {
       uni.__log__(type, filename, ...args);
@@ -2082,7 +2079,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
     return trim(string2);
   }
-  function addUnit(value = "auto", unit = ((_b4) => (_b4 = ((_a4) => (_a4 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a4.config)()) == null ? void 0 : _b4.unit)() ? ((_d2) => (_d2 = ((_c2) => (_c2 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c2.config)()) == null ? void 0 : _d2.unit)() : "px") {
+  function addUnit(value = "auto", unit = ((_b5) => (_b5 = ((_a5) => (_a5 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a5.config)()) == null ? void 0 : _b5.unit)() ? ((_d2) => (_d2 = ((_c2) => (_c2 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c2.config)()) == null ? void 0 : _d2.unit)() : "px") {
     value = String(value);
     return number(value) ? `${value}${unit}` : value;
   }
@@ -2425,9 +2422,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   }
   function page() {
-    var _a4;
+    var _a5;
     const pages22 = getCurrentPages();
-    const route2 = (_a4 = pages22[pages22.length - 1]) == null ? void 0 : _a4.route;
+    const route2 = (_a5 = pages22[pages22.length - 1]) == null ? void 0 : _a5.route;
     return `/${route2 ? route2 : ""}`;
   }
   function pages() {
@@ -2440,7 +2437,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     return pages22[len - 1 + back];
   }
   function setConfig({
-    props: props4 = {},
+    props: props6 = {},
     config = {},
     color: color2 = {},
     zIndex = {}
@@ -2449,7 +2446,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       deepMerge: deepMerge2
     } = uni.$w;
     uni.$w.config = deepMerge2(uni.$w.config, config);
-    uni.$w.props = deepMerge2(uni.$w.props, props4);
+    uni.$w.props = deepMerge2(uni.$w.props, props6);
     uni.$w.color = deepMerge2(uni.$w.color, color2);
     uni.$w.zIndex = deepMerge2(uni.$w.zIndex, zIndex);
   }
@@ -2623,9 +2620,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var import_vue2 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/_plugin-vue_export-helper.js
-  var _export_sfc = (sfc, props4) => {
+  var _export_sfc = (sfc, props6) => {
     const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props4) {
+    for (const [key, val] of props6) {
       target[key] = val;
     }
     return target;
@@ -3016,232 +3013,6 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-image.js
   var import_vue3 = __toESM(require_vue());
-  var _a2;
-  var _b2;
-  var props$1 = {
-    props: __spreadValues({
-      // 是否展示组件
-      show: {
-        type: Boolean,
-        default: false
-      },
-      // 使用的动画模式
-      mode: {
-        type: String,
-        default: "fade"
-      },
-      // 动画的执行时间，单位ms
-      duration: {
-        type: [String, Number],
-        default: 300
-      },
-      // 使用的动画过渡函数
-      timingFunction: {
-        type: String,
-        default: "ease-out"
-      }
-    }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.transition)
-  };
-  var animationMap = {
-    fade: {
-      enter: { opacity: 0 },
-      "enter-to": { opacity: 1 },
-      leave: { opacity: 1 },
-      "leave-to": { opacity: 0 }
-    },
-    "fade-up": {
-      enter: { opacity: 0, transform: "translateY(100%)" },
-      "enter-to": { opacity: 1, transform: "translateY(0)" },
-      leave: { opacity: 1, transform: "translateY(0)" },
-      "leave-to": { opacity: 0, transform: "translateY(100%)" }
-    },
-    "fade-down": {
-      enter: { opacity: 0, transform: "translateY(-100%)" },
-      "enter-to": { opacity: 1, transform: "translateY(0)" },
-      leave: { opacity: 1, transform: "translateY(0)" },
-      "leave-to": { opacity: 0, transform: "translateY(-100%)" }
-    },
-    "fade-left": {
-      enter: { opacity: 0, transform: "translateX(-100%)" },
-      "enter-to": { opacity: 1, transform: "translateY(0)" },
-      leave: { opacity: 1, transform: "translateY(0)" },
-      "leave-to": { opacity: 0, transform: "translateX(-100%)" }
-    },
-    "fade-right": {
-      enter: { opacity: 0, transform: "translateX(100%)" },
-      "enter-to": { opacity: 1, transform: "translateY(0)" },
-      leave: { opacity: 1, transform: "translateY(0)" },
-      "leave-to": { opacity: 0, transform: "translateX(100%)" }
-    },
-    "slide-up": {
-      enter: { transform: "translateY(100%)" },
-      "enter-to": { transform: "translateY(0)" },
-      leave: { transform: "translateY(0)" },
-      "leave-to": { transform: "translateY(100%)" }
-    },
-    "slide-down": {
-      enter: { transform: "translateY(-100%)" },
-      "enter-to": { transform: "translateY(0)" },
-      leave: { transform: "translateY(0)" },
-      "leave-to": { transform: "translateY(-100%)" }
-    },
-    "slide-left": {
-      enter: { transform: "translateX(-100%)" },
-      "enter-to": { transform: "translateY(0)" },
-      leave: { transform: "translateY(0)" },
-      "leave-to": { transform: "translateX(-100%)" }
-    },
-    "slide-right": {
-      enter: { transform: "translateX(100%)" },
-      "enter-to": { transform: "translateY(0)" },
-      leave: { transform: "translateY(0)" },
-      "leave-to": { transform: "translateX(100%)" }
-    },
-    zoom: {
-      enter: { transform: "scale(0.95)" },
-      "enter-to": { transform: "scale(1)" },
-      leave: { transform: "scale(1)" },
-      "leave-to": { transform: "scale(0.95)" }
-    },
-    "fade-zoom": {
-      enter: { opacity: 0, transform: "scale(0.95)" },
-      "enter-to": { opacity: 1, transform: "scale(1)" },
-      leave: { opacity: 1, transform: "scale(1)" },
-      "leave-to": { opacity: 0, transform: "scale(0.95)" }
-    }
-  };
-  var nextTick = () => new Promise((resolve) => setTimeout(resolve, 1e3 / 50));
-  var animation = requireNativePlugin("animation");
-  var getStyle = (name) => animationMap[name];
-  var transition = {
-    methods: {
-      // 组件被点击发出事件
-      clickHandler() {
-        this.$emit("click");
-      },
-      // nvue版本动画进场
-      nvueEnter() {
-        const currentStyle = getStyle(this.mode);
-        this.status = "enter";
-        this.$emit("beforeEnter");
-        this.inited = true;
-        this.display = true;
-        this.viewStyle = {
-          opacity: 0
-        };
-        this.$nextTick(() => {
-          this.viewStyle = currentStyle.enter;
-          Promise.resolve().then(nextTick).then(() => {
-            this.$emit("enter");
-            animation.transition(this.$refs["wu-transition"].ref, {
-              styles: currentStyle["enter-to"],
-              duration: this.duration,
-              timingFunction: this.timingFunction,
-              needLayout: false,
-              delay: 0
-            }, () => {
-              this.$emit("afterEnter");
-            });
-          }).catch(() => {
-          });
-        });
-      },
-      nvueLeave() {
-        if (!this.display) {
-          return;
-        }
-        const currentStyle = getStyle(this.mode);
-        this.status = "leave";
-        this.$emit("beforeLeave");
-        this.viewStyle = currentStyle.leave;
-        Promise.resolve().then(nextTick).then(() => {
-          this.transitionEnded = false;
-          this.$emit("leave");
-          animation.transition(this.$refs["wu-transition"].ref, {
-            styles: currentStyle["leave-to"],
-            duration: this.duration,
-            timingFunction: this.timingFunction,
-            needLayout: false,
-            delay: 0
-          }, () => {
-            this.onTransitionEnd();
-          });
-        }).catch(() => {
-        });
-      },
-      // 完成过渡后触发
-      onTransitionEnd() {
-        if (this.transitionEnded)
-          return;
-        this.transitionEnded = true;
-        this.$emit(this.status === "leave" ? "afterLeave" : "afterEnter");
-        if (!this.show && this.display) {
-          this.display = false;
-          this.inited = false;
-        }
-      }
-    }
-  };
-  var _style_0$1 = {};
-  var _sfc_main$1 = {
-    name: "wu-transition",
-    data() {
-      return {
-        inited: false,
-        // 是否显示/隐藏组件
-        viewStyle: {},
-        // 组件内部的样式
-        status: "",
-        // 记录组件动画的状态
-        transitionEnded: false,
-        // 组件是否结束的标记
-        display: false,
-        // 组件是否展示
-        classes: ""
-        // 应用的类名
-      };
-    },
-    computed: {
-      mergeStyle() {
-        const {
-          viewStyle,
-          customStyle
-        } = this;
-        return __spreadValues(__spreadValues({}, this.$w.addStyle(customStyle)), viewStyle);
-      }
-    },
-    // 将mixin挂在到组件中，uni.$w.mixin实际上为一个vue格式对象
-    mixins: [mpMixin, mixin, transition, props$1],
-    watch: {
-      show: {
-        handler(newVal) {
-          newVal ? this.nvueEnter() : this.nvueLeave();
-        },
-        // 表示同时监听初始化时的props的show的意思
-        immediate: true
-      }
-    }
-  };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    return $data.inited ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-      "view",
-      {
-        key: 0,
-        class: (0, import_vue3.normalizeClass)(["wu-transition", $data.classes]),
-        ref: "wu-transition",
-        onClick: _cache[0] || (_cache[0] = (...args) => _ctx.clickHandler && _ctx.clickHandler(...args)),
-        style: (0, import_vue3.normalizeStyle)([$options.mergeStyle]),
-        onTouchmove: _cache[1] || (_cache[1] = (...args) => _ctx.noop && _ctx.noop(...args)),
-        renderWhole: true
-      },
-      [
-        (0, import_vue3.renderSlot)(_ctx.$slots, "default")
-      ],
-      38
-      /* CLASS, STYLE, HYDRATE_EVENTS */
-    )) : (0, import_vue3.createCommentVNode)("v-if", true);
-  }
-  var __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["styles", [_style_0$1]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-transition/components/wu-transition/wu-transition.vue"]]);
   var props2 = {
     props: {
       // 图片地址
@@ -3419,105 +3190,94 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   };
   function _sfc_render2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_wu_icon = resolveEasycom((0, import_vue3.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    const _component_wu_transition = resolveEasycom((0, import_vue3.resolveDynamicComponent)("wu-transition"), __easycom_1);
-    return (0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_transition, {
-      mode: "fade",
-      show: $data.show,
-      duration: _ctx.fade ? 1e3 : 0
-    }, {
-      default: (0, import_vue3.withCtx)(() => [
-        (0, import_vue3.createElementVNode)(
+    return (0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+      "view",
+      {
+        class: "wu-image",
+        onClick: _cache[2] || (_cache[2] = (...args) => $options.onClick && $options.onClick(...args)),
+        style: (0, import_vue3.normalizeStyle)([$options.wrapStyle, $data.backgroundStyle]),
+        renderWhole: true
+      },
+      [
+        !$data.isError && $data.loadingImage ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("u-image", {
+          key: 0,
+          src: _ctx.src,
+          mode: _ctx.mode,
+          onError: _cache[0] || (_cache[0] = (...args) => $options.onErrorHandler && $options.onErrorHandler(...args)),
+          onLoad: _cache[1] || (_cache[1] = (...args) => $options.onLoadHandler && $options.onLoadHandler(...args)),
+          showMenuByLongpress: _ctx.showMenuByLongpress,
+          class: "wu-image__image",
+          style: (0, import_vue3.normalizeStyle)({
+            borderRadius: _ctx.shape == "circle" ? "10000px" : _ctx.$w.addUnit(_ctx.radius),
+            width: _ctx.$w.addUnit(_ctx.width),
+            height: _ctx.$w.addUnit(_ctx.height)
+          })
+        }, null, 44, ["src", "mode", "showMenuByLongpress"])) : (0, import_vue3.createCommentVNode)("v-if", true),
+        _ctx.showLoading && $data.loading ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
           "view",
           {
-            class: "wu-image",
-            onClick: _cache[2] || (_cache[2] = (...args) => $options.onClick && $options.onClick(...args)),
-            style: (0, import_vue3.normalizeStyle)([$options.wrapStyle, $data.backgroundStyle])
+            key: 1,
+            class: "wu-image__loading",
+            style: (0, import_vue3.normalizeStyle)({
+              borderRadius: _ctx.shape == "circle" ? "50%" : _ctx.$w.addUnit(_ctx.radius),
+              backgroundColor: this.bgColor,
+              width: _ctx.$w.addUnit(_ctx.width),
+              height: _ctx.$w.addUnit(_ctx.height)
+            })
           },
           [
-            !$data.isError && $data.loadingImage ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("u-image", {
-              key: 0,
-              src: _ctx.src,
-              mode: _ctx.mode,
-              onError: _cache[0] || (_cache[0] = (...args) => $options.onErrorHandler && $options.onErrorHandler(...args)),
-              onLoad: _cache[1] || (_cache[1] = (...args) => $options.onLoadHandler && $options.onLoadHandler(...args)),
-              showMenuByLongpress: _ctx.showMenuByLongpress,
-              class: "wu-image__image",
-              style: (0, import_vue3.normalizeStyle)({
-                borderRadius: _ctx.shape == "circle" ? "10000px" : _ctx.$w.addUnit(_ctx.radius),
-                width: _ctx.$w.addUnit(_ctx.width),
-                height: _ctx.$w.addUnit(_ctx.height)
-              })
-            }, null, 44, ["src", "mode", "showMenuByLongpress"])) : (0, import_vue3.createCommentVNode)("v-if", true),
-            _ctx.showLoading && $data.loading ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-              "view",
-              {
-                key: 1,
-                class: "wu-image__loading",
-                style: (0, import_vue3.normalizeStyle)({
-                  borderRadius: _ctx.shape == "circle" ? "50%" : _ctx.$w.addUnit(_ctx.radius),
-                  backgroundColor: this.bgColor,
-                  width: _ctx.$w.addUnit(_ctx.width),
-                  height: _ctx.$w.addUnit(_ctx.height)
-                })
-              },
-              [
-                (0, import_vue3.renderSlot)(_ctx.$slots, "loading", {}, () => [
-                  (0, import_vue3.createVNode)(_component_wu_icon, {
-                    name: _ctx.loadingIcon,
-                    width: _ctx.width,
-                    height: _ctx.height
-                  }, null, 8, ["name", "width", "height"])
-                ])
-              ],
-              4
-              /* STYLE */
-            )) : (0, import_vue3.createCommentVNode)("v-if", true),
-            _ctx.showError && $data.isError && !$data.loading ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-              "view",
-              {
-                key: 2,
-                class: "wu-image__error",
-                style: (0, import_vue3.normalizeStyle)({
-                  borderRadius: _ctx.shape == "circle" ? "50%" : _ctx.$w.addUnit(_ctx.radius),
-                  width: _ctx.$w.addUnit(_ctx.width),
-                  height: _ctx.$w.addUnit(_ctx.height)
-                })
-              },
-              [
-                (0, import_vue3.renderSlot)(_ctx.$slots, "error", {}, () => [
-                  (0, import_vue3.createVNode)(_component_wu_icon, {
-                    name: _ctx.errorIcon,
-                    width: _ctx.width,
-                    height: _ctx.height
-                  }, null, 8, ["name", "width", "height"])
-                ])
-              ],
-              4
-              /* STYLE */
-            )) : (0, import_vue3.createCommentVNode)("v-if", true)
+            (0, import_vue3.renderSlot)(_ctx.$slots, "loading", {}, () => [
+              (0, import_vue3.createVNode)(_component_wu_icon, {
+                name: _ctx.loadingIcon,
+                width: _ctx.width,
+                height: _ctx.height
+              }, null, 8, ["name", "width", "height"])
+            ])
           ],
           4
           /* STYLE */
-        )
-      ]),
-      _: 3
-      /* FORWARDED */
-    }, 8, ["show", "duration"]);
+        )) : (0, import_vue3.createCommentVNode)("v-if", true),
+        _ctx.showError && $data.isError && !$data.loading ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+          "view",
+          {
+            key: 2,
+            class: "wu-image__error",
+            style: (0, import_vue3.normalizeStyle)({
+              borderRadius: _ctx.shape == "circle" ? "50%" : _ctx.$w.addUnit(_ctx.radius),
+              width: _ctx.$w.addUnit(_ctx.width),
+              height: _ctx.$w.addUnit(_ctx.height)
+            })
+          },
+          [
+            (0, import_vue3.renderSlot)(_ctx.$slots, "error", {}, () => [
+              (0, import_vue3.createVNode)(_component_wu_icon, {
+                name: _ctx.errorIcon,
+                width: _ctx.width,
+                height: _ctx.height
+              }, null, 8, ["name", "width", "height"])
+            ])
+          ],
+          4
+          /* STYLE */
+        )) : (0, import_vue3.createCommentVNode)("v-if", true)
+      ],
+      4
+      /* STYLE */
+    );
   }
   var __easycom_02 = /* @__PURE__ */ _export_sfc(_sfc_main2, [["render", _sfc_render2], ["styles", [_style_02]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-image/components/wu-image/wu-image.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/example/components.js
-  var import_vue5 = __toESM(require_vue());
+  var import_vue7 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-cell-group.js
+  var import_vue5 = __toESM(require_vue());
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-line.js
   var import_vue4 = __toESM(require_vue());
-  var _a3;
-  var _b3;
-  var _c;
-  var _d;
-  var _e;
-  var _f;
-  var props$2 = {
+  var _a2;
+  var _b2;
+  var props3 = {
     props: __spreadValues({
       color: {
         type: String,
@@ -3548,12 +3308,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: Boolean,
         default: false
       }
-    }, (_b3 = (_a3 = uni.$w) == null ? void 0 : _a3.props) == null ? void 0 : _b3.line)
+    }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.line)
   };
-  var _style_0$2 = {};
-  var _sfc_main$2 = {
+  var _style_03 = {};
+  var _sfc_main3 = {
     name: "wu-line",
-    mixins: [mpMixin, mixin, props$2],
+    mixins: [mpMixin, mixin, props3],
     computed: {
       lineStyle() {
         const style = {};
@@ -3576,7 +3336,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
     return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
       "view",
       {
@@ -3589,8 +3349,14 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       /* STYLE */
     );
   }
-  var __easycom_03 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["styles", [_style_0$2]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
-  var props$12 = {
+  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-cell-group.js
+  var _a3;
+  var _b3;
+  var _c;
+  var _d;
+  var props$1 = {
     props: __spreadValues({
       // 标题
       title: {
@@ -3705,15 +3471,15 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return "";
         }
       }
-    }, (_d = (_c = uni.$w) == null ? void 0 : _c.props) == null ? void 0 : _d.cell)
+    }, (_b3 = (_a3 = uni.$w) == null ? void 0 : _a3.props) == null ? void 0 : _b3.cell)
   };
-  var _style_0$12 = { "wu-cell__body": { "": { "flexDirection": "row", "paddingTop": 10, "paddingRight": 15, "paddingBottom": 10, "paddingLeft": 15, "fontSize": 15, "color": "#303133", "alignItems": "center" } }, "wu-cell__body__content": { "": { "flexDirection": "row", "alignItems": "center", "flex": 1 } }, "wu-cell__body--large": { "": { "paddingTop": 13, "paddingBottom": 13 } }, "wu-cell__left-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginRight": 4 } }, "wu-cell__right-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginLeft": 4, "transitionProperty": "transform", "transitionDuration": 300 } }, "wu-cell__right-icon-wrap--up": { "": { "transform": "rotate(-90deg)" } }, "wu-cell__right-icon-wrap--down": { "": { "transform": "rotate(90deg)" } }, "wu-cell__title": { "": { "flex": 1 } }, "wu-cell__title-text": { "": { "fontSize": 15, "lineHeight": 22, "color": "#303133" } }, "wu-cell__title-text--large": { "": { "fontSize": 16 } }, "wu-cell__label": { "": { "marginTop": 5, "fontSize": 12, "color": "#909193", "lineHeight": 18 } }, "wu-cell__label--large": { "": { "fontSize": 14 } }, "wu-cell__value": { "": { "textAlign": "right", "fontSize": 14, "lineHeight": 24, "color": "#606266" } }, "wu-cell__value--large": { "": { "fontSize": 15 } }, "wu-cell--clickable": { "": { "backgroundColor": "#f3f4f6" } }, "wu-cell--disabled": { "": { "color": "#c8c9cc" } }, "wu-cell--center": { "": { "alignItems": "center" } }, "@TRANSITION": { "wu-cell__right-icon-wrap": { "property": "transform", "duration": 300 } } };
-  var _sfc_main$12 = {
+  var _style_0$1 = { "wu-cell__body": { "": { "flexDirection": "row", "paddingTop": 10, "paddingRight": 15, "paddingBottom": 10, "paddingLeft": 15, "fontSize": 15, "color": "#303133", "alignItems": "center" } }, "wu-cell__body__content": { "": { "flexDirection": "row", "alignItems": "center", "flex": 1 } }, "wu-cell__body--large": { "": { "paddingTop": 13, "paddingBottom": 13 } }, "wu-cell__left-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginRight": 4 } }, "wu-cell__right-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginLeft": 4, "transitionProperty": "transform", "transitionDuration": 300 } }, "wu-cell__right-icon-wrap--up": { "": { "transform": "rotate(-90deg)" } }, "wu-cell__right-icon-wrap--down": { "": { "transform": "rotate(90deg)" } }, "wu-cell__title": { "": { "flex": 1 } }, "wu-cell__title-text": { "": { "fontSize": 15, "lineHeight": 22, "color": "#303133" } }, "wu-cell__title-text--large": { "": { "fontSize": 16 } }, "wu-cell__label": { "": { "marginTop": 5, "fontSize": 12, "color": "#909193", "lineHeight": 18 } }, "wu-cell__label--large": { "": { "fontSize": 14 } }, "wu-cell__value": { "": { "textAlign": "right", "fontSize": 14, "lineHeight": 24, "color": "#606266" } }, "wu-cell__value--large": { "": { "fontSize": 15 } }, "wu-cell--clickable": { "": { "backgroundColor": "#f3f4f6" } }, "wu-cell--disabled": { "": { "color": "#c8c9cc" } }, "wu-cell--center": { "": { "alignItems": "center" } }, "@TRANSITION": { "wu-cell__right-icon-wrap": { "property": "transform", "duration": 300 } } };
+  var _sfc_main$1 = {
     name: "wu-cell",
     data() {
       return {};
     },
-    mixins: [mpMixin, mixin, props$12],
+    mixins: [mpMixin, mixin, props$1],
     computed: {
       titleTextStyle() {
         return this.$w.addStyle(this.titleStyle);
@@ -3732,95 +3498,95 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_icon = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    const _component_wu_line = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-line"), __easycom_03);
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
-      class: (0, import_vue4.normalizeClass)(["wu-cell", [_ctx.customClass]]),
-      style: (0, import_vue4.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_icon = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-icon"), __easycom_0);
+    const _component_wu_line = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-line"), __easycom_2);
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+      class: (0, import_vue5.normalizeClass)(["wu-cell", [_ctx.customClass]]),
+      style: (0, import_vue5.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
       hoverClass: !_ctx.disabled && (_ctx.clickable || _ctx.isLink) ? "wu-cell--clickable" : "",
       hoverStayTime: 250,
       onClick: _cache[0] || (_cache[0] = (...args) => $options.clickHandler && $options.clickHandler(...args)),
       renderWhole: true
     }, [
-      (0, import_vue4.createElementVNode)(
+      (0, import_vue5.createElementVNode)(
         "view",
         {
-          class: (0, import_vue4.normalizeClass)(["wu-cell__body", [_ctx.center && "wu-cell--center", _ctx.size === "large" && "wu-cell__body--large"]])
+          class: (0, import_vue5.normalizeClass)(["wu-cell__body", [_ctx.center && "wu-cell--center", _ctx.size === "large" && "wu-cell__body--large"]])
         },
         [
-          (0, import_vue4.createElementVNode)("view", { class: "wu-cell__body__content" }, [
-            (0, import_vue4.createElementVNode)("view", { class: "wu-cell__left-icon-wrap" }, [
-              (0, import_vue4.renderSlot)(_ctx.$slots, "icon", {}, () => [
-                _ctx.icon ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_icon, {
+          (0, import_vue5.createElementVNode)("view", { class: "wu-cell__body__content" }, [
+            (0, import_vue5.createElementVNode)("view", { class: "wu-cell__left-icon-wrap" }, [
+              (0, import_vue5.renderSlot)(_ctx.$slots, "icon", {}, () => [
+                _ctx.icon ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_icon, {
                   key: 0,
                   name: _ctx.icon,
                   "custom-style": _ctx.iconStyle,
                   size: _ctx.size === "large" ? 22 : 18
-                }, null, 8, ["name", "custom-style", "size"])) : (0, import_vue4.createCommentVNode)("v-if", true)
+                }, null, 8, ["name", "custom-style", "size"])) : (0, import_vue5.createCommentVNode)("v-if", true)
               ])
             ]),
-            (0, import_vue4.createElementVNode)("view", { class: "wu-cell__title" }, [
-              (0, import_vue4.renderSlot)(_ctx.$slots, "title", {}, () => [
-                _ctx.title ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+            (0, import_vue5.createElementVNode)("view", { class: "wu-cell__title" }, [
+              (0, import_vue5.renderSlot)(_ctx.$slots, "title", {}, () => [
+                _ctx.title ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
                   "u-text",
                   {
                     key: 0,
-                    class: (0, import_vue4.normalizeClass)(["wu-cell__title-text", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__title-text--large"]]),
-                    style: (0, import_vue4.normalizeStyle)([$options.titleTextStyle])
+                    class: (0, import_vue5.normalizeClass)(["wu-cell__title-text", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__title-text--large"]]),
+                    style: (0, import_vue5.normalizeStyle)([$options.titleTextStyle])
                   },
-                  (0, import_vue4.toDisplayString)(_ctx.title),
+                  (0, import_vue5.toDisplayString)(_ctx.title),
                   7
                   /* TEXT, CLASS, STYLE */
-                )) : (0, import_vue4.createCommentVNode)("v-if", true)
+                )) : (0, import_vue5.createCommentVNode)("v-if", true)
               ]),
-              (0, import_vue4.renderSlot)(_ctx.$slots, "label", {}, () => [
-                _ctx.label ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+              (0, import_vue5.renderSlot)(_ctx.$slots, "label", {}, () => [
+                _ctx.label ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
                   "u-text",
                   {
                     key: 0,
-                    class: (0, import_vue4.normalizeClass)(["wu-cell__label", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__label--large"]])
+                    class: (0, import_vue5.normalizeClass)(["wu-cell__label", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__label--large"]])
                   },
-                  (0, import_vue4.toDisplayString)(_ctx.label),
+                  (0, import_vue5.toDisplayString)(_ctx.label),
                   3
                   /* TEXT, CLASS */
-                )) : (0, import_vue4.createCommentVNode)("v-if", true)
+                )) : (0, import_vue5.createCommentVNode)("v-if", true)
               ])
             ])
           ]),
-          (0, import_vue4.renderSlot)(_ctx.$slots, "value", {}, () => [
-            !_ctx.$w.test.empty(_ctx.value) ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+          (0, import_vue5.renderSlot)(_ctx.$slots, "value", {}, () => [
+            !_ctx.$w.test.empty(_ctx.value) ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
               "u-text",
               {
                 key: 0,
-                class: (0, import_vue4.normalizeClass)(["wu-cell__value", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__value--large"]])
+                class: (0, import_vue5.normalizeClass)(["wu-cell__value", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__value--large"]])
               },
-              (0, import_vue4.toDisplayString)(_ctx.value),
+              (0, import_vue5.toDisplayString)(_ctx.value),
               3
               /* TEXT, CLASS */
-            )) : (0, import_vue4.createCommentVNode)("v-if", true)
+            )) : (0, import_vue5.createCommentVNode)("v-if", true)
           ]),
-          (0, import_vue4.createElementVNode)("view", { class: "wu-cell__right-icon-wrap" }, [
-            (0, import_vue4.renderSlot)(_ctx.$slots, "right-icon", {}, () => [
-              _ctx.isLink ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_icon, {
+          (0, import_vue5.createElementVNode)("view", { class: "wu-cell__right-icon-wrap" }, [
+            (0, import_vue5.renderSlot)(_ctx.$slots, "right-icon", {}, () => [
+              _ctx.isLink ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_icon, {
                 key: 0,
-                class: (0, import_vue4.normalizeClass)([`wu-cell__right-icon-wrap--${_ctx.arrowDirection}`]),
+                class: (0, import_vue5.normalizeClass)([`wu-cell__right-icon-wrap--${_ctx.arrowDirection}`]),
                 name: _ctx.rightIcon,
                 "custom-style": _ctx.rightIconStyle,
                 color: _ctx.disabled ? "#c8c9cc" : "info",
                 size: _ctx.size === "large" ? 18 : 16
-              }, null, 8, ["class", "name", "custom-style", "color", "size"])) : (0, import_vue4.createCommentVNode)("v-if", true)
+              }, null, 8, ["class", "name", "custom-style", "color", "size"])) : (0, import_vue5.createCommentVNode)("v-if", true)
             ])
           ])
         ],
         2
         /* CLASS */
       ),
-      _ctx.border ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue4.createCommentVNode)("v-if", true)
+      _ctx.border ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue5.createCommentVNode)("v-if", true)
     ], 14, ["hoverClass"]);
   }
-  var __easycom_12 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["styles", [_style_0$12]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell/wu-cell.vue"]]);
-  var props3 = {
+  var __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["styles", [_style_0$1]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell/wu-cell.vue"]]);
+  var props4 = {
     props: __spreadValues({
       // 分组标题
       title: {
@@ -3838,51 +3604,117 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return "";
         }
       }
-    }, (_f = (_e = uni.$w) == null ? void 0 : _e.props) == null ? void 0 : _f.cellGroup)
+    }, (_d = (_c = uni.$w) == null ? void 0 : _c.props) == null ? void 0 : _d.cellGroup)
   };
-  var _style_03 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
-  var _sfc_main3 = {
+  var _style_04 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
+  var _sfc_main4 = {
     name: "wu-cell-group",
-    mixins: [mpMixin, mixin, props3]
+    mixins: [mpMixin, mixin, props4]
   };
-  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_line = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-line"), __easycom_03);
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+  function _sfc_render4(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_line = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-line"), __easycom_2);
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
       "view",
       {
-        style: (0, import_vue4.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
-        class: (0, import_vue4.normalizeClass)([[_ctx.customClass], "wu-cell-group"]),
+        style: (0, import_vue5.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
+        class: (0, import_vue5.normalizeClass)([[_ctx.customClass], "wu-cell-group"]),
         renderWhole: true
       },
       [
-        _ctx.title ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
+        _ctx.title ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
           key: 0,
           class: "wu-cell-group__title"
         }, [
-          (0, import_vue4.renderSlot)(_ctx.$slots, "title", {}, () => [
-            (0, import_vue4.createElementVNode)(
+          (0, import_vue5.renderSlot)(_ctx.$slots, "title", {}, () => [
+            (0, import_vue5.createElementVNode)(
               "u-text",
               { class: "wu-cell-group__title__text" },
-              (0, import_vue4.toDisplayString)(_ctx.title),
+              (0, import_vue5.toDisplayString)(_ctx.title),
               1
               /* TEXT */
             )
           ])
-        ])) : (0, import_vue4.createCommentVNode)("v-if", true),
-        (0, import_vue4.createElementVNode)("view", { class: "wu-cell-group__wrapper" }, [
-          _ctx.border ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue4.createCommentVNode)("v-if", true),
-          (0, import_vue4.renderSlot)(_ctx.$slots, "default")
+        ])) : (0, import_vue5.createCommentVNode)("v-if", true),
+        (0, import_vue5.createElementVNode)("view", { class: "wu-cell-group__wrapper" }, [
+          _ctx.border ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue5.createCommentVNode)("v-if", true),
+          (0, import_vue5.renderSlot)(_ctx.$slots, "default")
         ])
       ],
       6
       /* CLASS, STYLE */
     );
   }
-  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell-group/wu-cell-group.vue"]]);
+  var __easycom_22 = /* @__PURE__ */ _export_sfc(_sfc_main4, [["render", _sfc_render4], ["styles", [_style_04]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell-group/wu-cell-group.vue"]]);
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-gap.js
+  var import_vue6 = __toESM(require_vue());
+  var _a4;
+  var _b4;
+  var props5 = {
+    props: __spreadValues({
+      // 背景颜色（默认transparent）
+      bgColor: {
+        type: String,
+        default: "transparent"
+      },
+      // 分割槽高度，单位px（默认20）
+      height: {
+        type: [String, Number],
+        default: 20
+      },
+      // 与上一个组件的距离
+      marginTop: {
+        type: [String, Number],
+        default: 0
+      },
+      // 与下一个组件的距离
+      marginBottom: {
+        type: [String, Number],
+        default: 0
+      },
+      // 自定义样式
+      customStyle: {
+        type: [Object, String],
+        default: () => {
+          return "";
+        }
+      }
+    }, (_b4 = (_a4 = uni.$w) == null ? void 0 : _a4.props) == null ? void 0 : _b4.gap)
+  };
+  var _style_05 = {};
+  var _sfc_main5 = {
+    name: "wu-gap",
+    mixins: [mpMixin, mixin, props5],
+    computed: {
+      gapStyle() {
+        const style = {
+          backgroundColor: this.bgColor,
+          height: this.$w.addUnit(this.height),
+          marginTop: this.$w.addUnit(this.marginTop),
+          marginBottom: this.$w.addUnit(this.marginBottom)
+        };
+        return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
+      }
+    }
+  };
+  function _sfc_render5(_ctx, _cache, $props, $setup, $data, $options) {
+    return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)(
+      "view",
+      {
+        class: "wu-gap",
+        style: (0, import_vue6.normalizeStyle)([$options.gapStyle]),
+        renderWhole: true
+      },
+      null,
+      4
+      /* STYLE */
+    );
+  }
+  var __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main5, [["render", _sfc_render5], ["styles", [_style_05]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-gap/components/wu-gap/wu-gap.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/example/components.js
-  var _style_0$13 = { "nav-wrap": { "": { "paddingTop": 15, "paddingRight": 15, "paddingBottom": 15, "paddingLeft": 15, "position": "relative" } }, "lang": { "": { "position": "absolute", "top": 15, "right": 15 } }, "nav-title": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "flex-start" } }, "nav-info": { "": { "marginLeft": 15 } }, "nav-info__title": { "": { "flexDirection": "row", "alignItems": "center" } }, "nav-info__title__text": { "": { "color": "#303133", "fontSize": 25, "fontWeight": "bold", "textAlign": "left" } }, "nav-info__title__jump": { "": { "fontSize": 12, "color": "#3c9cff", "fontWeight": "normal", "marginLeft": 20 } }, "logo": { "": { "width": 70, "height": 70 } }, "nav-slogan": { "": { "color": "#909193", "fontSize": 14 } }, "nav-desc": { "": { "marginTop": 10, "fontSize": 14, "color": "#606266", "lineHeight": 20 } } };
-  var _sfc_main$13 = {
+  var _style_0$12 = { "nav-wrap": { "": { "paddingTop": 15, "paddingRight": 15, "paddingBottom": 15, "paddingLeft": 15, "position": "relative" } }, "lang": { "": { "position": "absolute", "top": 15, "right": 15 } }, "nav-title": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "flex-start" } }, "nav-info": { "": { "marginLeft": 15 } }, "nav-info__title": { "": { "flexDirection": "row", "alignItems": "center" } }, "nav-info__title__text": { "": { "color": "#6696ff", "fontSize": 25, "fontWeight": "bold", "textAlign": "left" } }, "logo": { "": { "width": 70, "height": 70 } }, "nav-slogan": { "": { "color": "#6696ff", "fontWeight": "800", "fontSize": 14, "marginTop": 5 } }, "nav-desc": { "": { "marginTop": 10, "fontSize": 14, "color": "#606266", "lineHeight": 20 } } };
+  var _sfc_main$12 = {
     props: {
       desc: String,
       title: String
@@ -3897,39 +3729,44 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_image = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-image"), __easycom_02);
-    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+  function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_image = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-image"), __easycom_02);
+    return (0, import_vue7.openBlock)(), (0, import_vue7.createElementBlock)("view", {
       class: "nav-wrap",
       renderWhole: true
     }, [
-      (0, import_vue5.createElementVNode)("view", { class: "nav-title" }, [
-        (0, import_vue5.createVNode)(_component_wu_image, {
-          showLoading: true,
-          src: "/static/logo.png",
-          width: "70px",
-          height: "70px"
+      (0, import_vue7.createElementVNode)("view", { class: "nav-title" }, [
+        (0, import_vue7.createVNode)(_component_wu_image, {
+          src: "https://wu.geeks.ink/logo.png",
+          width: "73px",
+          height: "84px"
         }),
-        (0, import_vue5.createElementVNode)("view", { class: "nav-info" }, [
-          (0, import_vue5.createElementVNode)("view", {
+        (0, import_vue7.createElementVNode)("view", { class: "nav-info" }, [
+          (0, import_vue7.createElementVNode)("view", {
             class: "nav-info__title",
             onClick: _cache[0] || (_cache[0] = (...args) => $options.jumpToWx && $options.jumpToWx(...args))
           }, [
-            (0, import_vue5.createElementVNode)("u-text", { class: "nav-info__title__text" }, "wu 1.0.0")
+            (0, import_vue7.createElementVNode)(
+              "u-text",
+              { class: "nav-info__title__text" },
+              "WU-UI " + (0, import_vue7.toDisplayString)($data.version),
+              1
+              /* TEXT */
+            )
           ]),
-          (0, import_vue5.createElementVNode)("u-text", { class: "nav-slogan" }, "\u591A\u5E73\u53F0\u5FEB\u901F\u5F00\u53D1\u7684UI\u6846\u67B6")
+          (0, import_vue7.createElementVNode)("u-text", { class: "nav-slogan" }, "\u591A\u5E73\u53F0\u5FEB\u901F\u5F00\u53D1\u7684UI\u6846\u67B6")
         ])
       ]),
-      (0, import_vue5.createElementVNode)(
+      (0, import_vue7.createElementVNode)(
         "u-text",
         { class: "nav-desc" },
-        (0, import_vue5.toDisplayString)($props.desc),
+        (0, import_vue7.toDisplayString)($props.desc),
         1
         /* TEXT */
       )
     ]);
   }
-  var __easycom_04 = /* @__PURE__ */ _export_sfc(_sfc_main$13, [["render", _sfc_render$13], ["styles", [_style_0$13]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/components/page-nav/page-nav.vue"]]);
+  var __easycom_03 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["styles", [_style_0$12]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/components/page-nav/page-nav.vue"]]);
   var list = [
     {
       groupName: "\u6700\u65B0\u7EC4\u4EF6",
@@ -3994,13 +3831,14 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           icon: "layout",
           title: "Layout \u5E03\u5C40",
           title_en: "Layout"
+        },
+        {
+          path: "/pages/componentsA/cell/cell",
+          icon: "cell",
+          title: "Cell \u5355\u5143\u683C",
+          title_en: "Cell"
         }
         // {
-        // 	path: '/pages/componentsA/cell/cell',
-        // 	icon: 'cell',
-        // 	title: 'Cell 单元格',
-        // 	title_en: 'Cell'
-        // }, {
         // 	path: '/pages/componentsB/badge/badge',
         // 	icon: 'badge',
         // 	title: 'Badge 徽标数',
@@ -4088,23 +3926,26 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           icon: "field",
           title: "Input \u8F93\u5165\u6846",
           title_en: "Input"
+        },
+        {
+          path: "/pages/componentsC/textarea/textarea",
+          icon: "textarea",
+          title: "Textarea \u6587\u672C\u57DF",
+          title_en: "Textarea"
+        },
+        {
+          path: "/pages/componentsA/checkbox/checkbox",
+          icon: "checkbox",
+          title: "Checkbox \u590D\u9009\u6846",
+          title_en: "Checkbox"
+        },
+        {
+          path: "/pages/componentsA/radio/radio",
+          icon: "radio",
+          title: "Radio \u5355\u9009\u6846",
+          title_en: "Radio"
         }
         // {
-        // 	path: '/pages/componentsC/textarea/textarea',
-        // 	icon: 'textarea',
-        // 	title: 'Textarea 文本域',
-        // 	title_en: 'Textarea'
-        // }, {
-        // 	path: '/pages/componentsA/checkbox/checkbox',
-        // 	icon: 'checkbox',
-        // 	title: 'Checkbox 复选框',
-        // 	title_en: 'Checkbox'
-        // }, {
-        // 	path: '/pages/componentsA/radio/radio',
-        // 	icon: 'radio',
-        // 	title: 'Radio 单选框',
-        // 	title_en: 'Radio'
-        // }, {
         // 	path: '/pages/componentsB/switch/switch',
         // 	icon: 'switch',
         // 	title: 'Switch 开关选择器',
@@ -4274,127 +4115,132 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     // 		}
     // 	]
     // },
-    // {
-    // 	groupName: '导航组件',
-    // 	groupName_en: 'Navigation components',
-    // 	list: [
-    // 		// {
-    // 		// 	path: '/pages/componentsB/dropdown/dropdown',
-    // 		// 	icon: 'dropdown',
-    // 		// 	title: 'Dropdown 下拉菜单',
-    // 		// 	title_en: 'Dropdown',
-    // 		// },
-    // 		{
-    // 			path: '/pages/componentsB/tabbar/tabbar',
-    // 			icon: 'tabbar',
-    // 			title: 'Tabbar 底部导航栏',
-    // 			title_en: 'Tabbar'
-    // 		}, {
-    // 			path: '/pages/componentsA/backtop/backtop',
-    // 			icon: 'backTop',
-    // 			title: 'BackTop 返回顶部',
-    // 			title_en: 'BackTop'
-    // 		}, {
-    // 			path: '/pages/componentsC/navbar/navbar',
-    // 			icon: 'navbar',
-    // 			title: 'Navbar 导航栏',
-    // 			title_en: 'Navbar'
-    // 		}, {
-    // 			path: '/pages/componentsC/tabs/tabs',
-    // 			icon: 'tabs',
-    // 			title: 'Tabs 标签',
-    // 			title_en: 'Tabs'
-    // 		},
-    // 		//
-    // 		// {
-    // 		// 	path: '/pages/template/order/order',
-    // 		// 	icon: 'tabsSwiper',
-    // 		// 	title: 'TabsSwiper 全屏选项卡（暂无）',
-    // 		// 	title_en: 'TabsSwiper',
-    // 		// },
-    // 		//
-    // 		{
-    // 			path: '/pages/componentsC/subsection/subsection',
-    // 			icon: 'subsection',
-    // 			title: 'Subsection 分段器',
-    // 			title_en: 'Subsection'
-    // 		}, {
-    // 			path: '/pages/componentsC/indexList/indexList',
-    // 			icon: 'indexList',
-    // 			title: 'IndexList 索引列表',
-    // 			title_en: 'IndexList'
-    // 		}, {
-    // 			path: '/pages/componentsC/steps/steps',
-    // 			icon: 'steps',
-    // 			title: 'Steps 步骤条',
-    // 			title_en: 'Steps'
-    // 		}, {
-    // 			path: '/pages/componentsA/empty/empty',
-    // 			icon: 'empty',
-    // 			title: 'Empty 内容为空',
-    // 			title_en: 'Empty'
-    // 		}
-    // 	]
-    // }, {
-    // 	groupName: '其他组件',
-    // 	groupName_en: 'Other components',
-    // 	list: [{
-    // 			path: '/pages/componentsB/parse/parse',
-    // 			icon: 'parse',
-    // 			title: 'Parse 富文本解析器',
-    // 			title_en: 'Parse'
-    // 		}, {
-    // 			path: '/pages/componentsC/codeInput/codeInput',
-    // 			icon: 'messageInput',
-    // 			title: 'CodeInput 验证码输入',
-    // 			title_en: 'CodeInput'
-    // 		},
-    // 		// {
-    // 		// 	path: '/pages/componentsC/avatarCropper/avatarCropper',
-    // 		// 	icon: 'avatarCropper',
-    // 		// 	title: 'AvatarCropper 头像裁剪（暂无）',
-    // 		// 	title_en: 'AvatarCropper',
-    // 		// },
-    // 		{
-    // 			path: '/pages/componentsC/loadmore/loadmore',
-    // 			icon: 'loadmore',
-    // 			title: 'Loadmore 加载更多',
-    // 			title_en: 'Loadmore'
-    // 		}, {
-    // 			path: '/pages/componentsC/readMore/readMore',
-    // 			icon: 'readMore',
-    // 			title: 'ReadMore 展开阅读更多',
-    // 			title_en: 'ReadMore'
-    // 		},
-    // 		// {
-    // 		// 	path: '/pages/componentsA/lazyLoad/lazyLoad',
-    // 		// 	icon: 'lazyLoad',
-    // 		// 	title: 'LazyLoad 懒加载（暂无）',
-    // 		// 	title_en: 'LazyLoad',
-    // 		// },
-    // 		{
-    // 			path: '/pages/componentsA/gap/gap',
-    // 			icon: 'gap',
-    // 			title: 'Gap 间隔槽',
-    // 			title_en: 'Gap'
-    // 		}, {
-    // 			path: '/pages/componentsC/avatar/avatar',
-    // 			icon: 'avatar',
-    // 			title: 'Avatar 头像',
-    // 			title_en: 'Avatar'
-    // 		}, {
-    // 			path: '/pages/componentsA/link/link',
-    // 			icon: 'link',
-    // 			title: 'Link 超链接',
-    // 			title_en: 'Link'
-    // 		}, {
-    // 			path: '/pages/componentsA/transition/transition',
-    // 			icon: 'transition',
-    // 			title: 'transition 动画',
-    // 			title_en: '动画'
-    // 		}
-    // 	]
-    // },
+    {
+      groupName: "\u5BFC\u822A\u7EC4\u4EF6",
+      groupName_en: "Navigation components",
+      list: [
+        // 		// {
+        // 		// 	path: '/pages/componentsB/dropdown/dropdown',
+        // 		// 	icon: 'dropdown',
+        // 		// 	title: 'Dropdown 下拉菜单',
+        // 		// 	title_en: 'Dropdown',
+        // 		// },
+        // 		{
+        // 			path: '/pages/componentsB/tabbar/tabbar',
+        // 			icon: 'tabbar',
+        // 			title: 'Tabbar 底部导航栏',
+        // 			title_en: 'Tabbar'
+        // 		}, {
+        // 			path: '/pages/componentsA/backtop/backtop',
+        // 			icon: 'backTop',
+        // 			title: 'BackTop 返回顶部',
+        // 			title_en: 'BackTop'
+        // 		},
+        {
+          path: "/pages/componentsC/navbar/navbar",
+          icon: "navbar",
+          title: "Navbar \u5BFC\u822A\u680F",
+          title_en: "Navbar"
+        }
+        // {
+        // 			path: '/pages/componentsC/tabs/tabs',
+        // 			icon: 'tabs',
+        // 			title: 'Tabs 标签',
+        // 			title_en: 'Tabs'
+        // 		},
+        // 		//
+        // 		// {
+        // 		// 	path: '/pages/template/order/order',
+        // 		// 	icon: 'tabsSwiper',
+        // 		// 	title: 'TabsSwiper 全屏选项卡（暂无）',
+        // 		// 	title_en: 'TabsSwiper',
+        // 		// },
+        // 		//
+        // 		{
+        // 			path: '/pages/componentsC/subsection/subsection',
+        // 			icon: 'subsection',
+        // 			title: 'Subsection 分段器',
+        // 			title_en: 'Subsection'
+        // 		}, {
+        // 			path: '/pages/componentsC/indexList/indexList',
+        // 			icon: 'indexList',
+        // 			title: 'IndexList 索引列表',
+        // 			title_en: 'IndexList'
+        // 		}, {
+        // 			path: '/pages/componentsC/steps/steps',
+        // 			icon: 'steps',
+        // 			title: 'Steps 步骤条',
+        // 			title_en: 'Steps'
+        // 		}, {
+        // 			path: '/pages/componentsA/empty/empty',
+        // 			icon: 'empty',
+        // 			title: 'Empty 内容为空',
+        // 			title_en: 'Empty'
+        // 		}
+      ]
+    },
+    {
+      groupName: "\u5176\u4ED6\u7EC4\u4EF6",
+      groupName_en: "Other components",
+      list: [
+        //  {
+        // 			path: '/pages/componentsB/parse/parse',
+        // 			icon: 'parse',
+        // 			title: 'Parse 富文本解析器',
+        // 			title_en: 'Parse'
+        // 		}, {
+        // 			path: '/pages/componentsC/codeInput/codeInput',
+        // 			icon: 'messageInput',
+        // 			title: 'CodeInput 验证码输入',
+        // 			title_en: 'CodeInput'
+        // 		},
+        // 		// {
+        // 		// 	path: '/pages/componentsC/avatarCropper/avatarCropper',
+        // 		// 	icon: 'avatarCropper',
+        // 		// 	title: 'AvatarCropper 头像裁剪（暂无）',
+        // 		// 	title_en: 'AvatarCropper',
+        // 		// },
+        // 		{
+        // 			path: '/pages/componentsC/loadmore/loadmore',
+        // 			icon: 'loadmore',
+        // 			title: 'Loadmore 加载更多',
+        // 			title_en: 'Loadmore'
+        // 		}, {
+        // 			path: '/pages/componentsC/readMore/readMore',
+        // 			icon: 'readMore',
+        // 			title: 'ReadMore 展开阅读更多',
+        // 			title_en: 'ReadMore'
+        // 		},
+        // 		// {
+        // 		// 	path: '/pages/componentsA/lazyLoad/lazyLoad',
+        // 		// 	icon: 'lazyLoad',
+        // 		// 	title: 'LazyLoad 懒加载（暂无）',
+        // 		// 	title_en: 'LazyLoad',
+        // 		// },
+        {
+          path: "/pages/componentsA/gap/gap",
+          icon: "gap",
+          title: "Gap \u95F4\u9694\u69FD",
+          title_en: "Gap"
+        }
+        // {
+        // 			path: '/pages/componentsC/avatar/avatar',
+        // 			icon: 'avatar',
+        // 			title: 'Avatar 头像',
+        // 			title_en: 'Avatar'
+        // 		}, {
+        // 			path: '/pages/componentsA/link/link',
+        // 			icon: 'link',
+        // 			title: 'Link 超链接',
+        // 			title_en: 'Link'
+        // 		}, {
+        // 			path: '/pages/componentsA/transition/transition',
+        // 			icon: 'transition',
+        // 			title: 'transition 动画',
+        // 			title_en: '动画'
+        // 		}
+      ]
+    },
     {
       groupName: "\u4E1A\u52A1\u7EC4\u4EF6",
       groupName_en: "business component",
@@ -4900,9 +4746,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     preloadRule,
     globalStyle
   };
-  var _style_04 = {};
+  var _style_06 = {};
   var _style_1 = { "wu-cell-icon1": { "": { "width": "36rpx", "height": "36rpx", "marginRight": "8rpx" } }, "wu-cell-group__title__text": { "": { "fontWeight": "bold" } } };
-  var _sfc_main4 = {
+  var _sfc_main6 = {
     data() {
       return {
         list,
@@ -4952,35 +4798,36 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render4(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_page_nav = resolveEasycom((0, import_vue5.resolveDynamicComponent)("page-nav"), __easycom_04);
-    const _component_wu_cell = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-cell"), __easycom_12);
-    const _component_wu_cell_group = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-cell-group"), __easycom_2);
-    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("scroll-view", {
+  function _sfc_render6(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_page_nav = resolveEasycom((0, import_vue7.resolveDynamicComponent)("page-nav"), __easycom_03);
+    const _component_wu_cell = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-cell"), __easycom_1);
+    const _component_wu_cell_group = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-cell-group"), __easycom_22);
+    const _component_wu_gap = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-gap"), __easycom_4);
+    return (0, import_vue7.openBlock)(), (0, import_vue7.createElementBlock)("scroll-view", {
       scrollY: true,
       showScrollbar: true,
       enableBackToTop: true,
       bubble: "true",
       style: { flexDirection: "column" }
     }, [
-      (0, import_vue5.createElementVNode)("view", { class: "wrap" }, [
-        (0, import_vue5.createVNode)(_component_page_nav, { desc: $data.desc }, null, 8, ["desc"]),
-        (0, import_vue5.createElementVNode)("view", { class: "list-wrap" }, [
-          ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-            import_vue5.Fragment,
+      (0, import_vue7.createElementVNode)("view", { class: "wrap" }, [
+        (0, import_vue7.createVNode)(_component_page_nav, { desc: $data.desc }, null, 8, ["desc"]),
+        (0, import_vue7.createElementVNode)("view", { class: "list-wrap" }, [
+          ((0, import_vue7.openBlock)(true), (0, import_vue7.createElementBlock)(
+            import_vue7.Fragment,
             null,
-            (0, import_vue5.renderList)($data.list, (item, index2) => {
-              return (0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_cell_group, {
+            (0, import_vue7.renderList)($data.list, (item, index2) => {
+              return (0, import_vue7.openBlock)(), (0, import_vue7.createBlock)(_component_wu_cell_group, {
                 "title-bg-color": "rgb(243, 244, 246)",
                 title: item.groupName,
                 key: index2
               }, {
-                default: (0, import_vue5.withCtx)(() => [
-                  ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-                    import_vue5.Fragment,
+                default: (0, import_vue7.withCtx)(() => [
+                  ((0, import_vue7.openBlock)(true), (0, import_vue7.createElementBlock)(
+                    import_vue7.Fragment,
                     null,
-                    (0, import_vue5.renderList)(item.list, (item1, index1) => {
-                      return (0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_cell, {
+                    (0, import_vue7.renderList)(item.list, (item1, index1) => {
+                      return (0, import_vue7.openBlock)(), (0, import_vue7.createBlock)(_component_wu_cell, {
                         titleStyle: { fontWeight: 500 },
                         title: item1.title,
                         key: index1,
@@ -4988,8 +4835,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                         onClick: $options.openPage,
                         name: item1.path
                       }, {
-                        icon: (0, import_vue5.withCtx)(() => [
-                          (0, import_vue5.createElementVNode)("u-image", {
+                        icon: (0, import_vue7.withCtx)(() => [
+                          (0, import_vue7.createElementVNode)("u-image", {
                             class: "wu-cell-icon1",
                             src: $options.getIcon(item1.icon),
                             mode: "widthFix"
@@ -5011,11 +4858,14 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             /* KEYED_FRAGMENT */
           ))
         ]),
-        (0, import_vue5.createCommentVNode)(' <u-gap height="30" bgColor="#fff"></u-gap> ')
+        (0, import_vue7.createVNode)(_component_wu_gap, {
+          height: "30",
+          bgColor: "#fff"
+        })
       ])
     ]);
   }
-  var components = /* @__PURE__ */ _export_sfc(_sfc_main4, [["render", _sfc_render4], ["styles", [_style_04, _style_1]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/example/components.nvue"]]);
+  var components = /* @__PURE__ */ _export_sfc(_sfc_main6, [["render", _sfc_render6], ["styles", [_style_06, _style_1]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/example/components.nvue"]]);
 
   // <stdin>
   var webview = plus.webview.currentWebview();

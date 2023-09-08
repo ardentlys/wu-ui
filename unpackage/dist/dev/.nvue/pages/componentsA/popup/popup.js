@@ -5,6 +5,7 @@ import { _ as __easycom_1, a as __easycom_2 } from "../../../wu-cell-group.js";
 import { _ as _export_sfc } from "../../../_plugin-vue_export-helper.js";
 import "../../../mixin.js";
 import "../../../wu-icon.js";
+import "../../../wu-line.js";
 const _style_0 = { "u-popup-slot": { "": { "width": 200, "height": 150, "flexDirection": "row", "justifyContent": "center", "alignItems": "center" } } };
 const _sfc_main = {
   data() {

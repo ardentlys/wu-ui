@@ -1,3 +1,4 @@
+import calendar from './calendar.js';
 import CALENDAR from './calendar.js'
 
 class Calendar {
@@ -6,7 +7,8 @@ class Calendar {
 		selected,
 		startDate,
 		endDate,
-		range
+		range,
+		monthShowCurrentMonth
 	} = {}) {
 		// 当前日期
 		this.date = this.getDate(new Date()) // 当前初入日期
@@ -18,6 +20,8 @@ class Calendar {
 		this.endDate = endDate
 		// 是否范围选择
 		this.range = range
+		// 每月是否仅显示当月的数据
+		this.monthShowCurrentMonth = monthShowCurrentMonth
 		// 多选状态
 		this.cleanMultipleStatus()
 		// 每周日期
@@ -50,7 +54,6 @@ class Calendar {
 	resetSatrtDate(startDate) {
 		// 范围开始
 		this.startDate = startDate
-
 	}
 
 	/**
@@ -59,6 +62,15 @@ class Calendar {
 	resetEndDate(endDate) {
 		// 范围结束
 		this.endDate = endDate
+	}
+	
+	/**
+	 * 重置是否每月仅显示当月数据
+	 * @param {Boolean} show 是否仅显示当月数据 
+	 */
+	resetMonthShowCurrentMonth(show) {
+		// 
+		this.monthShowCurrentMonth = show
 	}
 
 	/**
@@ -258,6 +270,9 @@ class Calendar {
 	 * @param {Object} end
 	 */
 	geDateAll(begin, end) {
+		// 找出所有打点中已禁用的部分 不让其被添加在日期选择范围内
+		let disableList = this.selected.filter(item=>item.date && item.disable).map(item=>item.date)
+
 		var arr = []
 		var ab = begin.split('-')
 		var ae = end.split('-')
@@ -269,7 +284,9 @@ class Calendar {
 		var unixDe = de.getTime() - 24 * 60 * 60 * 1000
 		for (var k = unixDb; k <= unixDe;) {
 			k = k + 24 * 60 * 60 * 1000
-			arr.push(this.getDate(new Date(parseInt(k))).fullDate)
+			let fullDate = this.getDate(new Date(parseInt(k))).fullDate
+			// 如果不在打点禁止列表中
+			if(!disableList.includes(fullDate)) arr.push(fullDate);
 		}
 		return arr
 	}
@@ -326,30 +343,59 @@ class Calendar {
 			year,
 			month
 		} = this.getDate(dateData)
-		let firstDay = new Date(year, month - 1, 1).getDay()
+		
 		let currentDay = new Date(year, month, 0).getDate()
+		// 日期数据
 		let dates = {
-			lastMonthDays: this._getLastMonthDays(firstDay, this.getDate(dateData)), // 上个月末尾几天
 			currentMonthDys: this._currentMonthDys(currentDay, this.getDate(dateData)), // 本月天数
-			nextMonthDays: [], // 下个月开始几天
 			weeks: []
 		}
-		let canlender = []
-		const surplus = 42 - (dates.lastMonthDays.length + dates.currentMonthDys.length)
-		dates.nextMonthDays = this._getNextMonthDays(surplus, this.getDate(dateData))
-		canlender = canlender.concat(dates.lastMonthDays, dates.currentMonthDys, dates.nextMonthDays)
+		
+		// 日历数据
+		let canlender = [];
+		// 如果仅显示当月
+		if(this.monthShowCurrentMonth) {
+			// 日历数据
+			canlender = dates.currentMonthDys
+		} else {
+			let firstDay = new Date(year, month - 1, 1).getDay()
+			// 上个月末尾几天
+			dates.lastMonthDays = this._getLastMonthDays(firstDay, this.getDate(dateData))
+			const surplus = 42 - (dates.lastMonthDays.length + dates.currentMonthDys.length)
+			// 下月开始几天
+			dates.nextMonthDays = this._getNextMonthDays(surplus, this.getDate(dateData))
+			// 日历数据
+			// 拼接数组  上个月开始几天 + 本月天数+ 下个月开始几天
+			canlender = canlender.concat(dates.lastMonthDays, dates.currentMonthDys, dates.nextMonthDays)
+		}
+		
 		let weeks = {}
-		// 拼接数组  上个月开始几天 + 本月天数+ 下个月开始几天
 		for (let i = 0; i < canlender.length; i++) {
 			if (i % 7 === 0) {
 				weeks[parseInt(i / 7)] = new Array(7)
 			}
-			weeks[parseInt(i / 7)][i % 7] = canlender[i]
+			weeks[parseInt(i / 7)][i % 7] = canlender[i] || {};
 		}
 		if (useWeeks) {
 			this.canlender = canlender
 			this.weeks = weeks
 		}
+		console.log(weeks)
+		// 如果每月仅展示当月数据则删除多余的空数组
+		if(this.monthShowCurrentMonth) {
+			// 结尾index
+			let endIndex = Math.ceil(canlender.length / 7) - 1;
+			// 填充禁用空数据
+			for(let i = 0; i < weeks[endIndex].length; i++) {
+				if(!weeks[endIndex][i]) {
+					weeks[endIndex][i] = {
+						empty: true,
+						lunar: {},
+					};
+				}
+			}
+		}
+		
 		return weeks
 	}
 

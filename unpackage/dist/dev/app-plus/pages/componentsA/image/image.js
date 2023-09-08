@@ -84,9 +84,6 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/uni-app.es.js
   var import_vue = __toESM(require_vue());
   var isString = (val) => typeof val === "string";
-  function requireNativePlugin(name) {
-    return weex.requireModule(name);
-  }
   function formatAppLog(type, filename, ...args) {
     if (uni.__log__) {
       uni.__log__(type, filename, ...args);
@@ -2082,7 +2079,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
     return trim(string2);
   }
-  function addUnit(value = "auto", unit = ((_b4) => (_b4 = ((_a4) => (_a4 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a4.config)()) == null ? void 0 : _b4.unit)() ? ((_d) => (_d = ((_c) => (_c = uni == null ? void 0 : uni.$w) == null ? void 0 : _c.config)()) == null ? void 0 : _d.unit)() : "px") {
+  function addUnit(value = "auto", unit = ((_b3) => (_b3 = ((_a3) => (_a3 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a3.config)()) == null ? void 0 : _b3.unit)() ? ((_d) => (_d = ((_c) => (_c = uni == null ? void 0 : uni.$w) == null ? void 0 : _c.config)()) == null ? void 0 : _d.unit)() : "px") {
     value = String(value);
     return number(value) ? `${value}${unit}` : value;
   }
@@ -2425,9 +2422,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   }
   function page() {
-    var _a4;
+    var _a3;
     const pages2 = getCurrentPages();
-    const route2 = (_a4 = pages2[pages2.length - 1]) == null ? void 0 : _a4.route;
+    const route2 = (_a3 = pages2[pages2.length - 1]) == null ? void 0 : _a3.route;
     return `/${route2 ? route2 : ""}`;
   }
   function pages() {
@@ -3016,232 +3013,6 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-image.js
   var import_vue3 = __toESM(require_vue());
-  var _a2;
-  var _b2;
-  var props$1 = {
-    props: __spreadValues({
-      // 是否展示组件
-      show: {
-        type: Boolean,
-        default: false
-      },
-      // 使用的动画模式
-      mode: {
-        type: String,
-        default: "fade"
-      },
-      // 动画的执行时间，单位ms
-      duration: {
-        type: [String, Number],
-        default: 300
-      },
-      // 使用的动画过渡函数
-      timingFunction: {
-        type: String,
-        default: "ease-out"
-      }
-    }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.transition)
-  };
-  var animationMap = {
-    fade: {
-      enter: { opacity: 0 },
-      "enter-to": { opacity: 1 },
-      leave: { opacity: 1 },
-      "leave-to": { opacity: 0 }
-    },
-    "fade-up": {
-      enter: { opacity: 0, transform: "translateY(100%)" },
-      "enter-to": { opacity: 1, transform: "translateY(0)" },
-      leave: { opacity: 1, transform: "translateY(0)" },
-      "leave-to": { opacity: 0, transform: "translateY(100%)" }
-    },
-    "fade-down": {
-      enter: { opacity: 0, transform: "translateY(-100%)" },
-      "enter-to": { opacity: 1, transform: "translateY(0)" },
-      leave: { opacity: 1, transform: "translateY(0)" },
-      "leave-to": { opacity: 0, transform: "translateY(-100%)" }
-    },
-    "fade-left": {
-      enter: { opacity: 0, transform: "translateX(-100%)" },
-      "enter-to": { opacity: 1, transform: "translateY(0)" },
-      leave: { opacity: 1, transform: "translateY(0)" },
-      "leave-to": { opacity: 0, transform: "translateX(-100%)" }
-    },
-    "fade-right": {
-      enter: { opacity: 0, transform: "translateX(100%)" },
-      "enter-to": { opacity: 1, transform: "translateY(0)" },
-      leave: { opacity: 1, transform: "translateY(0)" },
-      "leave-to": { opacity: 0, transform: "translateX(100%)" }
-    },
-    "slide-up": {
-      enter: { transform: "translateY(100%)" },
-      "enter-to": { transform: "translateY(0)" },
-      leave: { transform: "translateY(0)" },
-      "leave-to": { transform: "translateY(100%)" }
-    },
-    "slide-down": {
-      enter: { transform: "translateY(-100%)" },
-      "enter-to": { transform: "translateY(0)" },
-      leave: { transform: "translateY(0)" },
-      "leave-to": { transform: "translateY(-100%)" }
-    },
-    "slide-left": {
-      enter: { transform: "translateX(-100%)" },
-      "enter-to": { transform: "translateY(0)" },
-      leave: { transform: "translateY(0)" },
-      "leave-to": { transform: "translateX(-100%)" }
-    },
-    "slide-right": {
-      enter: { transform: "translateX(100%)" },
-      "enter-to": { transform: "translateY(0)" },
-      leave: { transform: "translateY(0)" },
-      "leave-to": { transform: "translateX(100%)" }
-    },
-    zoom: {
-      enter: { transform: "scale(0.95)" },
-      "enter-to": { transform: "scale(1)" },
-      leave: { transform: "scale(1)" },
-      "leave-to": { transform: "scale(0.95)" }
-    },
-    "fade-zoom": {
-      enter: { opacity: 0, transform: "scale(0.95)" },
-      "enter-to": { opacity: 1, transform: "scale(1)" },
-      leave: { opacity: 1, transform: "scale(1)" },
-      "leave-to": { opacity: 0, transform: "scale(0.95)" }
-    }
-  };
-  var nextTick = () => new Promise((resolve) => setTimeout(resolve, 1e3 / 50));
-  var animation = requireNativePlugin("animation");
-  var getStyle = (name) => animationMap[name];
-  var transition = {
-    methods: {
-      // 组件被点击发出事件
-      clickHandler() {
-        this.$emit("click");
-      },
-      // nvue版本动画进场
-      nvueEnter() {
-        const currentStyle = getStyle(this.mode);
-        this.status = "enter";
-        this.$emit("beforeEnter");
-        this.inited = true;
-        this.display = true;
-        this.viewStyle = {
-          opacity: 0
-        };
-        this.$nextTick(() => {
-          this.viewStyle = currentStyle.enter;
-          Promise.resolve().then(nextTick).then(() => {
-            this.$emit("enter");
-            animation.transition(this.$refs["wu-transition"].ref, {
-              styles: currentStyle["enter-to"],
-              duration: this.duration,
-              timingFunction: this.timingFunction,
-              needLayout: false,
-              delay: 0
-            }, () => {
-              this.$emit("afterEnter");
-            });
-          }).catch(() => {
-          });
-        });
-      },
-      nvueLeave() {
-        if (!this.display) {
-          return;
-        }
-        const currentStyle = getStyle(this.mode);
-        this.status = "leave";
-        this.$emit("beforeLeave");
-        this.viewStyle = currentStyle.leave;
-        Promise.resolve().then(nextTick).then(() => {
-          this.transitionEnded = false;
-          this.$emit("leave");
-          animation.transition(this.$refs["wu-transition"].ref, {
-            styles: currentStyle["leave-to"],
-            duration: this.duration,
-            timingFunction: this.timingFunction,
-            needLayout: false,
-            delay: 0
-          }, () => {
-            this.onTransitionEnd();
-          });
-        }).catch(() => {
-        });
-      },
-      // 完成过渡后触发
-      onTransitionEnd() {
-        if (this.transitionEnded)
-          return;
-        this.transitionEnded = true;
-        this.$emit(this.status === "leave" ? "afterLeave" : "afterEnter");
-        if (!this.show && this.display) {
-          this.display = false;
-          this.inited = false;
-        }
-      }
-    }
-  };
-  var _style_0$1 = {};
-  var _sfc_main$1 = {
-    name: "wu-transition",
-    data() {
-      return {
-        inited: false,
-        // 是否显示/隐藏组件
-        viewStyle: {},
-        // 组件内部的样式
-        status: "",
-        // 记录组件动画的状态
-        transitionEnded: false,
-        // 组件是否结束的标记
-        display: false,
-        // 组件是否展示
-        classes: ""
-        // 应用的类名
-      };
-    },
-    computed: {
-      mergeStyle() {
-        const {
-          viewStyle,
-          customStyle
-        } = this;
-        return __spreadValues(__spreadValues({}, this.$w.addStyle(customStyle)), viewStyle);
-      }
-    },
-    // 将mixin挂在到组件中，uni.$w.mixin实际上为一个vue格式对象
-    mixins: [mpMixin, mixin, transition, props$1],
-    watch: {
-      show: {
-        handler(newVal) {
-          newVal ? this.nvueEnter() : this.nvueLeave();
-        },
-        // 表示同时监听初始化时的props的show的意思
-        immediate: true
-      }
-    }
-  };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    return $data.inited ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-      "view",
-      {
-        key: 0,
-        class: (0, import_vue3.normalizeClass)(["wu-transition", $data.classes]),
-        ref: "wu-transition",
-        onClick: _cache[0] || (_cache[0] = (...args) => _ctx.clickHandler && _ctx.clickHandler(...args)),
-        style: (0, import_vue3.normalizeStyle)([$options.mergeStyle]),
-        onTouchmove: _cache[1] || (_cache[1] = (...args) => _ctx.noop && _ctx.noop(...args)),
-        renderWhole: true
-      },
-      [
-        (0, import_vue3.renderSlot)(_ctx.$slots, "default")
-      ],
-      38
-      /* CLASS, STYLE, HYDRATE_EVENTS */
-    )) : (0, import_vue3.createCommentVNode)("v-if", true);
-  }
-  var __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["styles", [_style_0$1]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-transition/components/wu-transition/wu-transition.vue"]]);
   var props2 = {
     props: {
       // 图片地址
@@ -3419,90 +3190,80 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   };
   function _sfc_render2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_wu_icon = resolveEasycom((0, import_vue3.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    const _component_wu_transition = resolveEasycom((0, import_vue3.resolveDynamicComponent)("wu-transition"), __easycom_1);
-    return (0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_transition, {
-      mode: "fade",
-      show: $data.show,
-      duration: _ctx.fade ? 1e3 : 0
-    }, {
-      default: (0, import_vue3.withCtx)(() => [
-        (0, import_vue3.createElementVNode)(
+    return (0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+      "view",
+      {
+        class: "wu-image",
+        onClick: _cache[2] || (_cache[2] = (...args) => $options.onClick && $options.onClick(...args)),
+        style: (0, import_vue3.normalizeStyle)([$options.wrapStyle, $data.backgroundStyle]),
+        renderWhole: true
+      },
+      [
+        !$data.isError && $data.loadingImage ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("u-image", {
+          key: 0,
+          src: _ctx.src,
+          mode: _ctx.mode,
+          onError: _cache[0] || (_cache[0] = (...args) => $options.onErrorHandler && $options.onErrorHandler(...args)),
+          onLoad: _cache[1] || (_cache[1] = (...args) => $options.onLoadHandler && $options.onLoadHandler(...args)),
+          showMenuByLongpress: _ctx.showMenuByLongpress,
+          class: "wu-image__image",
+          style: (0, import_vue3.normalizeStyle)({
+            borderRadius: _ctx.shape == "circle" ? "10000px" : _ctx.$w.addUnit(_ctx.radius),
+            width: _ctx.$w.addUnit(_ctx.width),
+            height: _ctx.$w.addUnit(_ctx.height)
+          })
+        }, null, 44, ["src", "mode", "showMenuByLongpress"])) : (0, import_vue3.createCommentVNode)("v-if", true),
+        _ctx.showLoading && $data.loading ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
           "view",
           {
-            class: "wu-image",
-            onClick: _cache[2] || (_cache[2] = (...args) => $options.onClick && $options.onClick(...args)),
-            style: (0, import_vue3.normalizeStyle)([$options.wrapStyle, $data.backgroundStyle])
+            key: 1,
+            class: "wu-image__loading",
+            style: (0, import_vue3.normalizeStyle)({
+              borderRadius: _ctx.shape == "circle" ? "50%" : _ctx.$w.addUnit(_ctx.radius),
+              backgroundColor: this.bgColor,
+              width: _ctx.$w.addUnit(_ctx.width),
+              height: _ctx.$w.addUnit(_ctx.height)
+            })
           },
           [
-            !$data.isError && $data.loadingImage ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("u-image", {
-              key: 0,
-              src: _ctx.src,
-              mode: _ctx.mode,
-              onError: _cache[0] || (_cache[0] = (...args) => $options.onErrorHandler && $options.onErrorHandler(...args)),
-              onLoad: _cache[1] || (_cache[1] = (...args) => $options.onLoadHandler && $options.onLoadHandler(...args)),
-              showMenuByLongpress: _ctx.showMenuByLongpress,
-              class: "wu-image__image",
-              style: (0, import_vue3.normalizeStyle)({
-                borderRadius: _ctx.shape == "circle" ? "10000px" : _ctx.$w.addUnit(_ctx.radius),
-                width: _ctx.$w.addUnit(_ctx.width),
-                height: _ctx.$w.addUnit(_ctx.height)
-              })
-            }, null, 44, ["src", "mode", "showMenuByLongpress"])) : (0, import_vue3.createCommentVNode)("v-if", true),
-            _ctx.showLoading && $data.loading ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-              "view",
-              {
-                key: 1,
-                class: "wu-image__loading",
-                style: (0, import_vue3.normalizeStyle)({
-                  borderRadius: _ctx.shape == "circle" ? "50%" : _ctx.$w.addUnit(_ctx.radius),
-                  backgroundColor: this.bgColor,
-                  width: _ctx.$w.addUnit(_ctx.width),
-                  height: _ctx.$w.addUnit(_ctx.height)
-                })
-              },
-              [
-                (0, import_vue3.renderSlot)(_ctx.$slots, "loading", {}, () => [
-                  (0, import_vue3.createVNode)(_component_wu_icon, {
-                    name: _ctx.loadingIcon,
-                    width: _ctx.width,
-                    height: _ctx.height
-                  }, null, 8, ["name", "width", "height"])
-                ])
-              ],
-              4
-              /* STYLE */
-            )) : (0, import_vue3.createCommentVNode)("v-if", true),
-            _ctx.showError && $data.isError && !$data.loading ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-              "view",
-              {
-                key: 2,
-                class: "wu-image__error",
-                style: (0, import_vue3.normalizeStyle)({
-                  borderRadius: _ctx.shape == "circle" ? "50%" : _ctx.$w.addUnit(_ctx.radius),
-                  width: _ctx.$w.addUnit(_ctx.width),
-                  height: _ctx.$w.addUnit(_ctx.height)
-                })
-              },
-              [
-                (0, import_vue3.renderSlot)(_ctx.$slots, "error", {}, () => [
-                  (0, import_vue3.createVNode)(_component_wu_icon, {
-                    name: _ctx.errorIcon,
-                    width: _ctx.width,
-                    height: _ctx.height
-                  }, null, 8, ["name", "width", "height"])
-                ])
-              ],
-              4
-              /* STYLE */
-            )) : (0, import_vue3.createCommentVNode)("v-if", true)
+            (0, import_vue3.renderSlot)(_ctx.$slots, "loading", {}, () => [
+              (0, import_vue3.createVNode)(_component_wu_icon, {
+                name: _ctx.loadingIcon,
+                width: _ctx.width,
+                height: _ctx.height
+              }, null, 8, ["name", "width", "height"])
+            ])
           ],
           4
           /* STYLE */
-        )
-      ]),
-      _: 3
-      /* FORWARDED */
-    }, 8, ["show", "duration"]);
+        )) : (0, import_vue3.createCommentVNode)("v-if", true),
+        _ctx.showError && $data.isError && !$data.loading ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+          "view",
+          {
+            key: 2,
+            class: "wu-image__error",
+            style: (0, import_vue3.normalizeStyle)({
+              borderRadius: _ctx.shape == "circle" ? "50%" : _ctx.$w.addUnit(_ctx.radius),
+              width: _ctx.$w.addUnit(_ctx.width),
+              height: _ctx.$w.addUnit(_ctx.height)
+            })
+          },
+          [
+            (0, import_vue3.renderSlot)(_ctx.$slots, "error", {}, () => [
+              (0, import_vue3.createVNode)(_component_wu_icon, {
+                name: _ctx.errorIcon,
+                width: _ctx.width,
+                height: _ctx.height
+              }, null, 8, ["name", "width", "height"])
+            ])
+          ],
+          4
+          /* STYLE */
+        )) : (0, import_vue3.createCommentVNode)("v-if", true)
+      ],
+      4
+      /* STYLE */
+    );
   }
   var __easycom_02 = /* @__PURE__ */ _export_sfc(_sfc_main2, [["render", _sfc_render2], ["styles", [_style_02]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-image/components/wu-image/wu-image.vue"]]);
 
@@ -3511,8 +3272,8 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-loading-icon.js
   var import_vue4 = __toESM(require_vue());
-  var _a3;
-  var _b3;
+  var _a2;
+  var _b2;
   var props3 = {
     props: __spreadValues({
       // 是否显示组件
@@ -3570,10 +3331,10 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: String,
         default: ""
       }
-    }, (_b3 = (_a3 = uni.$w) == null ? void 0 : _a3.props) == null ? void 0 : _b3.loadingIcon)
+    }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.loadingIcon)
   };
   var _style_03 = { "wu-loading-icon": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "center", "color": "#c8c9cc" } }, "wu-loading-icon__text": { "": { "marginLeft": 4, "color": "#606266", "fontSize": 14, "lineHeight": 20 } }, "wu-loading-icon__spinner": { "": { "width": 30, "height": 30, "position": "relative" } }, "wu-loading-icon__spinner--semicircle": { "": { "borderWidth": 2, "borderColor": "rgba(0,0,0,0)", "borderTopRightRadius": 100, "borderTopLeftRadius": 100, "borderBottomLeftRadius": 100, "borderBottomRightRadius": 100, "borderStyle": "solid" } }, "wu-loading-icon__spinner--circle": { "": { "borderTopRightRadius": 100, "borderTopLeftRadius": 100, "borderBottomLeftRadius": 100, "borderBottomRightRadius": 100, "borderWidth": 2, "borderTopColor": "#e5e5e5", "borderRightColor": "#e5e5e5", "borderBottomColor": "#e5e5e5", "borderLeftColor": "#e5e5e5", "borderStyle": "solid" } }, "wu-loading-icon--vertical": { "": { "flexDirection": "column" } } };
-  var animation2 = weex.requireModule("animation");
+  var animation = weex.requireModule("animation");
   var _sfc_main3 = {
     name: "wu-loading-icon",
     mixins: [mpMixin, mixin, props3],
@@ -3647,7 +3408,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         const ani = this.$refs.ani;
         if (!ani)
           return;
-        animation2.transition(ani, {
+        animation.transition(ani, {
           // 进行角度旋转
           styles: {
             transform: `rotate(${this.aniAngel}deg)`,

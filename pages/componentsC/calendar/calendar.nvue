@@ -68,6 +68,14 @@
 			end-text="返程"
 			color="#6ac695"
 		></wu-calendar>
+		<!-- 日期最大范围 -->
+		<wu-calendar
+			ref="wuCalendar7"
+			:insert="false"
+			:startDate="wuCalendar7StartDate"
+			:endDate="wuCalendar7EndDate"
+			range
+		></wu-calendar>
 		<!-- 显示农历 -->
 		<wu-calendar
 			ref="wuCalendar8"
@@ -75,12 +83,11 @@
 			range
 			lunar
 		></wu-calendar>
-		<!-- 日期最大范围 -->
+		<!-- 每月仅显示当月的数据 -->
 		<wu-calendar
-			ref="wuCalendar7"
+			ref="wuCalendar9"
+			monthShowCurrentMonth
 			:insert="false"
-			:startDate="wuCalendar7StartDate"
-			:endDate="wuCalendar7EndDate"
 			range
 		></wu-calendar>
 	</view>
@@ -135,6 +142,9 @@
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/13.png'
 					},{
 						title: '显示农历',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
+					},{
+						title: '每月仅显示当月的数据',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
 					}
 				]

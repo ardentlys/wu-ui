@@ -1,25 +1,27 @@
 import { f as formatAppLog, r as resolveEasycom } from "../../../uni-app.es.js";
 import { _ as __easycom_1, a as __easycom_2 } from "../../../wu-cell-group.js";
 import { resolveDynamicComponent, resolveComponent, openBlock, createElementBlock, createElementVNode, createVNode, withCtx } from "vue";
+import { _ as __easycom_4 } from "../../../wu-gap.js";
 import { _ as _export_sfc } from "../../../_plugin-vue_export-helper.js";
 import "../../../wu-icon.js";
 import "../../../mixin.js";
-const _style_0 = { "cell-page": { "": { "paddingBottom": 20 } }, "cell-box__title": { "": { "fontSize": 14, "color": "#8f9ca2", "marginTop": 20, "marginRight": 0, "marginBottom": 0, "marginLeft": 15 } }, "cell-box__block": { "": { "marginTop": 20 } }, "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0 } }, "wu-page__item__title": { "": { "color": "#909193", "backgroundColor": "#f3f4f6", "paddingTop": 15, "paddingRight": 15, "paddingBottom": 15, "paddingLeft": 15, "fontSize": 15 } }, "wu-page__item__title__slot-title": { "": { "color": "#3c9cff", "fontSize": 14 } }, "u-slot-title": { "": { "flexDirection": "row", "alignItems": "center" } }, "wu-cell-text": { "": { "fontSize": 15, "lineHeight": 22, "color": "#303133", "marginRight": 5 } }, "u-slot-value": { "": { "lineHeight": 17, "textAlign": "center", "fontSize": 10, "paddingTop": 0, "paddingRight": 5, "paddingBottom": 0, "paddingLeft": 5, "height": 17, "color": "#FFFFFF", "borderRadius": 100, "backgroundColor": "#f56c6c" } } };
+import "../../../wu-line.js";
+const _style_0 = { "cell-page": { "": { "paddingBottom": 20 } }, "cell-box__title": { "": { "fontSize": 14, "color": "#8f9ca2", "marginTop": 20, "marginRight": 0, "marginBottom": 0, "marginLeft": 15 } }, "cell-box__block": { "": { "marginTop": 20 } }, "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0 } }, "wu-page__item__title": { "": { "color": "#909193", "backgroundColor": "#f3f4f6", "paddingTop": 15, "paddingRight": 15, "paddingBottom": 15, "paddingLeft": 15, "fontSize": 15 } }, "wu-page__item__title__slot-title": { "": { "color": "#3c9cff", "fontSize": 14 } }, "wu-slot-title": { "": { "flexDirection": "row", "alignItems": "center" } }, "wu-cell-text": { "": { "fontSize": 15, "lineHeight": 22, "color": "#303133", "marginRight": 5 } }, "wu-slot-value": { "": { "lineHeight": 17, "textAlign": "center", "fontSize": 10, "paddingTop": 0, "paddingRight": 5, "paddingBottom": 0, "paddingLeft": 5, "height": 17, "color": "#FFFFFF", "borderRadius": 100, "backgroundColor": "#f56c6c" } } };
 const _sfc_main = {
   data() {
     return {};
   },
   methods: {
     click() {
-      formatAppLog("log", "at pages/componentsA/cell/cell.nvue:135", "Cell is clicked.");
+      formatAppLog("log", "at pages/componentsA/cell/cell.nvue:137", "Cell is clicked.");
     }
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_wu_cell = resolveEasycom(resolveDynamicComponent("wu-cell"), __easycom_1);
   const _component_wu_cell_group = resolveEasycom(resolveDynamicComponent("wu-cell-group"), __easycom_2);
-  const _component_u_tag = resolveComponent("u-tag");
-  const _component_u_gap = resolveComponent("u-gap");
+  const _component_wu_tag = resolveComponent("wu-tag");
+  const _component_wu_gap = resolveEasycom(resolveDynamicComponent("wu-gap"), __easycom_4);
   return openBlock(), createElementBlock("scroll-view", {
     scrollY: true,
     showScrollbar: true,
@@ -33,14 +35,14 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         createVNode(_component_wu_cell_group, null, {
           default: withCtx(() => [
             createVNode(_component_wu_cell, {
-              title: "uview UI",
+              title: "WU-UI",
               value: "内容",
               isLink: true
             }),
             createVNode(_component_wu_cell, {
-              title: "利剑出鞘,一统江湖",
+              title: "如虎添翼",
               value: "内容",
-              label: "挣脱束缚,向往自由"
+              label: "增加buff, 变得更强"
             })
           ]),
           _: 1
@@ -150,13 +152,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         createVNode(_component_wu_cell_group, null, {
           default: withCtx(() => [
             createVNode(_component_wu_cell, { value: "内容" }, {
-              default: withCtx(() => [
-                createElementVNode("view", {
-                  slot: "title",
-                  class: "u-slot-title"
-                }, [
+              title: withCtx(() => [
+                createElementVNode("view", { class: "wu-slot-title" }, [
                   createElementVNode("u-text", { class: "wu-cell-text" }, "单元格"),
-                  createVNode(_component_u_tag, {
+                  createVNode(_component_wu_tag, {
                     text: "标签",
                     plain: "",
                     size: "mini",
@@ -171,11 +170,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               title: "单元格",
               isLink: ""
             }, {
-              default: withCtx(() => [
-                createElementVNode("u-text", {
-                  slot: "value",
-                  class: "u-slot-value"
-                }, "99")
+              value: withCtx(() => [
+                createElementVNode("u-text", { class: "wu-slot-value" }, "99")
               ]),
               _: 1
               /* STABLE */
@@ -185,7 +181,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           /* STABLE */
         })
       ]),
-      createVNode(_component_u_gap, { height: "30" })
+      createVNode(_component_wu_gap, { height: "30" })
     ])
   ]);
 }

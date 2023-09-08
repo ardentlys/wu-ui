@@ -5,6 +5,7 @@ import { resolveDynamicComponent, openBlock, createElementBlock, withModifiers, 
 import { m as mpMixin, a as mixin } from "../../../mixin.js";
 import { _ as _export_sfc } from "../../../_plugin-vue_export-helper.js";
 import { _ as __easycom_1, a as __easycom_2 } from "../../../wu-cell-group.js";
+import "../../../wu-line.js";
 const props = {
   props: {
     // 步进器标识符，在change回调返回

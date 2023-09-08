@@ -2079,7 +2079,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
     return trim(string2);
   }
-  function addUnit(value = "auto", unit = ((_b4) => (_b4 = ((_a4) => (_a4 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a4.config)()) == null ? void 0 : _b4.unit)() ? ((_d2) => (_d2 = ((_c2) => (_c2 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c2.config)()) == null ? void 0 : _d2.unit)() : "px") {
+  function addUnit(value = "auto", unit = ((_b5) => (_b5 = ((_a5) => (_a5 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a5.config)()) == null ? void 0 : _b5.unit)() ? ((_d2) => (_d2 = ((_c2) => (_c2 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c2.config)()) == null ? void 0 : _d2.unit)() : "px") {
     value = String(value);
     return number(value) ? `${value}${unit}` : value;
   }
@@ -2422,9 +2422,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   }
   function page() {
-    var _a4;
+    var _a5;
     const pages2 = getCurrentPages();
-    const route2 = (_a4 = pages2[pages2.length - 1]) == null ? void 0 : _a4.route;
+    const route2 = (_a5 = pages2[pages2.length - 1]) == null ? void 0 : _a5.route;
     return `/${route2 ? route2 : ""}`;
   }
   function pages() {
@@ -2437,7 +2437,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     return pages2[len - 1 + back];
   }
   function setConfig({
-    props: props4 = {},
+    props: props5 = {},
     config = {},
     color: color2 = {},
     zIndex = {}
@@ -2446,7 +2446,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       deepMerge: deepMerge2
     } = uni.$w;
     uni.$w.config = deepMerge2(uni.$w.config, config);
-    uni.$w.props = deepMerge2(uni.$w.props, props4);
+    uni.$w.props = deepMerge2(uni.$w.props, props5);
     uni.$w.color = deepMerge2(uni.$w.color, color2);
     uni.$w.zIndex = deepMerge2(uni.$w.zIndex, zIndex);
   }
@@ -2620,9 +2620,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var import_vue2 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/_plugin-vue_export-helper.js
-  var _export_sfc = (sfc, props4) => {
+  var _export_sfc = (sfc, props5) => {
     const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props4) {
+    for (const [key, val] of props5) {
       target[key] = val;
     }
     return target;
@@ -3012,17 +3012,16 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["styles", [_style_0]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-icon/components/wu-icon/wu-icon.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsB/numberBox/numberBox.js
-  var import_vue4 = __toESM(require_vue());
+  var import_vue5 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-cell-group.js
+  var import_vue4 = __toESM(require_vue());
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-line.js
   var import_vue3 = __toESM(require_vue());
   var _a2;
   var _b2;
-  var _c;
-  var _d;
-  var _e;
-  var _f;
-  var props$2 = {
+  var props2 = {
     props: __spreadValues({
       color: {
         type: String,
@@ -3055,10 +3054,10 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.line)
   };
-  var _style_0$2 = {};
-  var _sfc_main$2 = {
+  var _style_02 = {};
+  var _sfc_main2 = {
     name: "wu-line",
-    mixins: [mpMixin, mixin, props$2],
+    mixins: [mpMixin, mixin, props2],
     computed: {
       lineStyle() {
         const style = {};
@@ -3081,7 +3080,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render2(_ctx, _cache, $props, $setup, $data, $options) {
     return (0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
       "view",
       {
@@ -3094,7 +3093,13 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       /* STYLE */
     );
   }
-  var __easycom_02 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["styles", [_style_0$2]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
+  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main2, [["render", _sfc_render2], ["styles", [_style_02]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-cell-group.js
+  var _a3;
+  var _b3;
+  var _c;
+  var _d;
   var props$1 = {
     props: __spreadValues({
       // 标题
@@ -3210,7 +3215,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return "";
         }
       }
-    }, (_d = (_c = uni.$w) == null ? void 0 : _c.props) == null ? void 0 : _d.cell)
+    }, (_b3 = (_a3 = uni.$w) == null ? void 0 : _a3.props) == null ? void 0 : _b3.cell)
   };
   var _style_0$1 = { "wu-cell__body": { "": { "flexDirection": "row", "paddingTop": 10, "paddingRight": 15, "paddingBottom": 10, "paddingLeft": 15, "fontSize": 15, "color": "#303133", "alignItems": "center" } }, "wu-cell__body__content": { "": { "flexDirection": "row", "alignItems": "center", "flex": 1 } }, "wu-cell__body--large": { "": { "paddingTop": 13, "paddingBottom": 13 } }, "wu-cell__left-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginRight": 4 } }, "wu-cell__right-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginLeft": 4, "transitionProperty": "transform", "transitionDuration": 300 } }, "wu-cell__right-icon-wrap--up": { "": { "transform": "rotate(-90deg)" } }, "wu-cell__right-icon-wrap--down": { "": { "transform": "rotate(90deg)" } }, "wu-cell__title": { "": { "flex": 1 } }, "wu-cell__title-text": { "": { "fontSize": 15, "lineHeight": 22, "color": "#303133" } }, "wu-cell__title-text--large": { "": { "fontSize": 16 } }, "wu-cell__label": { "": { "marginTop": 5, "fontSize": 12, "color": "#909193", "lineHeight": 18 } }, "wu-cell__label--large": { "": { "fontSize": 14 } }, "wu-cell__value": { "": { "textAlign": "right", "fontSize": 14, "lineHeight": 24, "color": "#606266" } }, "wu-cell__value--large": { "": { "fontSize": 15 } }, "wu-cell--clickable": { "": { "backgroundColor": "#f3f4f6" } }, "wu-cell--disabled": { "": { "color": "#c8c9cc" } }, "wu-cell--center": { "": { "alignItems": "center" } }, "@TRANSITION": { "wu-cell__right-icon-wrap": { "property": "transform", "duration": 300 } } };
   var _sfc_main$1 = {
@@ -3238,94 +3243,94 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_icon = resolveEasycom((0, import_vue3.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    const _component_wu_line = resolveEasycom((0, import_vue3.resolveDynamicComponent)("wu-line"), __easycom_02);
-    return (0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
-      class: (0, import_vue3.normalizeClass)(["wu-cell", [_ctx.customClass]]),
-      style: (0, import_vue3.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
+    const _component_wu_icon = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-icon"), __easycom_0);
+    const _component_wu_line = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-line"), __easycom_2);
+    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
+      class: (0, import_vue4.normalizeClass)(["wu-cell", [_ctx.customClass]]),
+      style: (0, import_vue4.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
       hoverClass: !_ctx.disabled && (_ctx.clickable || _ctx.isLink) ? "wu-cell--clickable" : "",
       hoverStayTime: 250,
       onClick: _cache[0] || (_cache[0] = (...args) => $options.clickHandler && $options.clickHandler(...args)),
       renderWhole: true
     }, [
-      (0, import_vue3.createElementVNode)(
+      (0, import_vue4.createElementVNode)(
         "view",
         {
-          class: (0, import_vue3.normalizeClass)(["wu-cell__body", [_ctx.center && "wu-cell--center", _ctx.size === "large" && "wu-cell__body--large"]])
+          class: (0, import_vue4.normalizeClass)(["wu-cell__body", [_ctx.center && "wu-cell--center", _ctx.size === "large" && "wu-cell__body--large"]])
         },
         [
-          (0, import_vue3.createElementVNode)("view", { class: "wu-cell__body__content" }, [
-            (0, import_vue3.createElementVNode)("view", { class: "wu-cell__left-icon-wrap" }, [
-              (0, import_vue3.renderSlot)(_ctx.$slots, "icon", {}, () => [
-                _ctx.icon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
+          (0, import_vue4.createElementVNode)("view", { class: "wu-cell__body__content" }, [
+            (0, import_vue4.createElementVNode)("view", { class: "wu-cell__left-icon-wrap" }, [
+              (0, import_vue4.renderSlot)(_ctx.$slots, "icon", {}, () => [
+                _ctx.icon ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_icon, {
                   key: 0,
                   name: _ctx.icon,
                   "custom-style": _ctx.iconStyle,
                   size: _ctx.size === "large" ? 22 : 18
-                }, null, 8, ["name", "custom-style", "size"])) : (0, import_vue3.createCommentVNode)("v-if", true)
+                }, null, 8, ["name", "custom-style", "size"])) : (0, import_vue4.createCommentVNode)("v-if", true)
               ])
             ]),
-            (0, import_vue3.createElementVNode)("view", { class: "wu-cell__title" }, [
-              (0, import_vue3.renderSlot)(_ctx.$slots, "title", {}, () => [
-                _ctx.title ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+            (0, import_vue4.createElementVNode)("view", { class: "wu-cell__title" }, [
+              (0, import_vue4.renderSlot)(_ctx.$slots, "title", {}, () => [
+                _ctx.title ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
                   "u-text",
                   {
                     key: 0,
-                    class: (0, import_vue3.normalizeClass)(["wu-cell__title-text", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__title-text--large"]]),
-                    style: (0, import_vue3.normalizeStyle)([$options.titleTextStyle])
+                    class: (0, import_vue4.normalizeClass)(["wu-cell__title-text", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__title-text--large"]]),
+                    style: (0, import_vue4.normalizeStyle)([$options.titleTextStyle])
                   },
-                  (0, import_vue3.toDisplayString)(_ctx.title),
+                  (0, import_vue4.toDisplayString)(_ctx.title),
                   7
                   /* TEXT, CLASS, STYLE */
-                )) : (0, import_vue3.createCommentVNode)("v-if", true)
+                )) : (0, import_vue4.createCommentVNode)("v-if", true)
               ]),
-              (0, import_vue3.renderSlot)(_ctx.$slots, "label", {}, () => [
-                _ctx.label ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+              (0, import_vue4.renderSlot)(_ctx.$slots, "label", {}, () => [
+                _ctx.label ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
                   "u-text",
                   {
                     key: 0,
-                    class: (0, import_vue3.normalizeClass)(["wu-cell__label", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__label--large"]])
+                    class: (0, import_vue4.normalizeClass)(["wu-cell__label", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__label--large"]])
                   },
-                  (0, import_vue3.toDisplayString)(_ctx.label),
+                  (0, import_vue4.toDisplayString)(_ctx.label),
                   3
                   /* TEXT, CLASS */
-                )) : (0, import_vue3.createCommentVNode)("v-if", true)
+                )) : (0, import_vue4.createCommentVNode)("v-if", true)
               ])
             ])
           ]),
-          (0, import_vue3.renderSlot)(_ctx.$slots, "value", {}, () => [
-            !_ctx.$w.test.empty(_ctx.value) ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+          (0, import_vue4.renderSlot)(_ctx.$slots, "value", {}, () => [
+            !_ctx.$w.test.empty(_ctx.value) ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
               "u-text",
               {
                 key: 0,
-                class: (0, import_vue3.normalizeClass)(["wu-cell__value", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__value--large"]])
+                class: (0, import_vue4.normalizeClass)(["wu-cell__value", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__value--large"]])
               },
-              (0, import_vue3.toDisplayString)(_ctx.value),
+              (0, import_vue4.toDisplayString)(_ctx.value),
               3
               /* TEXT, CLASS */
-            )) : (0, import_vue3.createCommentVNode)("v-if", true)
+            )) : (0, import_vue4.createCommentVNode)("v-if", true)
           ]),
-          (0, import_vue3.createElementVNode)("view", { class: "wu-cell__right-icon-wrap" }, [
-            (0, import_vue3.renderSlot)(_ctx.$slots, "right-icon", {}, () => [
-              _ctx.isLink ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
+          (0, import_vue4.createElementVNode)("view", { class: "wu-cell__right-icon-wrap" }, [
+            (0, import_vue4.renderSlot)(_ctx.$slots, "right-icon", {}, () => [
+              _ctx.isLink ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_icon, {
                 key: 0,
-                class: (0, import_vue3.normalizeClass)([`wu-cell__right-icon-wrap--${_ctx.arrowDirection}`]),
+                class: (0, import_vue4.normalizeClass)([`wu-cell__right-icon-wrap--${_ctx.arrowDirection}`]),
                 name: _ctx.rightIcon,
                 "custom-style": _ctx.rightIconStyle,
                 color: _ctx.disabled ? "#c8c9cc" : "info",
                 size: _ctx.size === "large" ? 18 : 16
-              }, null, 8, ["class", "name", "custom-style", "color", "size"])) : (0, import_vue3.createCommentVNode)("v-if", true)
+              }, null, 8, ["class", "name", "custom-style", "color", "size"])) : (0, import_vue4.createCommentVNode)("v-if", true)
             ])
           ])
         ],
         2
         /* CLASS */
       ),
-      _ctx.border ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue3.createCommentVNode)("v-if", true)
+      _ctx.border ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue4.createCommentVNode)("v-if", true)
     ], 14, ["hoverClass"]);
   }
   var __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["styles", [_style_0$1]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell/wu-cell.vue"]]);
-  var props2 = {
+  var props3 = {
     props: __spreadValues({
       // 分组标题
       title: {
@@ -3343,52 +3348,52 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return "";
         }
       }
-    }, (_f = (_e = uni.$w) == null ? void 0 : _e.props) == null ? void 0 : _f.cellGroup)
+    }, (_d = (_c = uni.$w) == null ? void 0 : _c.props) == null ? void 0 : _d.cellGroup)
   };
-  var _style_02 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
-  var _sfc_main2 = {
+  var _style_03 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
+  var _sfc_main3 = {
     name: "wu-cell-group",
-    mixins: [mpMixin, mixin, props2]
+    mixins: [mpMixin, mixin, props3]
   };
-  function _sfc_render2(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_line = resolveEasycom((0, import_vue3.resolveDynamicComponent)("wu-line"), __easycom_02);
-    return (0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_line = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-line"), __easycom_2);
+    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
       "view",
       {
-        style: (0, import_vue3.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
-        class: (0, import_vue3.normalizeClass)([[_ctx.customClass], "wu-cell-group"]),
+        style: (0, import_vue4.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
+        class: (0, import_vue4.normalizeClass)([[_ctx.customClass], "wu-cell-group"]),
         renderWhole: true
       },
       [
-        _ctx.title ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
+        _ctx.title ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
           key: 0,
           class: "wu-cell-group__title"
         }, [
-          (0, import_vue3.renderSlot)(_ctx.$slots, "title", {}, () => [
-            (0, import_vue3.createElementVNode)(
+          (0, import_vue4.renderSlot)(_ctx.$slots, "title", {}, () => [
+            (0, import_vue4.createElementVNode)(
               "u-text",
               { class: "wu-cell-group__title__text" },
-              (0, import_vue3.toDisplayString)(_ctx.title),
+              (0, import_vue4.toDisplayString)(_ctx.title),
               1
               /* TEXT */
             )
           ])
-        ])) : (0, import_vue3.createCommentVNode)("v-if", true),
-        (0, import_vue3.createElementVNode)("view", { class: "wu-cell-group__wrapper" }, [
-          _ctx.border ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue3.createCommentVNode)("v-if", true),
-          (0, import_vue3.renderSlot)(_ctx.$slots, "default")
+        ])) : (0, import_vue4.createCommentVNode)("v-if", true),
+        (0, import_vue4.createElementVNode)("view", { class: "wu-cell-group__wrapper" }, [
+          _ctx.border ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue4.createCommentVNode)("v-if", true),
+          (0, import_vue4.renderSlot)(_ctx.$slots, "default")
         ])
       ],
       6
       /* CLASS, STYLE */
     );
   }
-  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main2, [["render", _sfc_render2], ["styles", [_style_02]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell-group/wu-cell-group.vue"]]);
+  var __easycom_22 = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell-group/wu-cell-group.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsB/numberBox/numberBox.js
-  var _a3;
-  var _b3;
-  var props3 = {
+  var _a4;
+  var _b4;
+  var props4 = {
     props: __spreadValues({
       // 步进器标识符，在change回调返回
       name: {
@@ -3495,12 +3500,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: [Object, String],
         default: ""
       }
-    }, (_b3 = (_a3 = uni.$w) == null ? void 0 : _a3.props) == null ? void 0 : _b3.numberBox)
+    }, (_b4 = (_a4 = uni.$w) == null ? void 0 : _a4.props) == null ? void 0 : _b4.numberBox)
   };
   var _style_0$12 = { "wu-line-1": { "": { "lines": 1, "textOverflow": "ellipsis", "overflow": "hidden", "flex": 1 } }, "wu-line-2": { "": { "lines": 2, "textOverflow": "ellipsis", "overflow": "hidden", "flex": 1 } }, "wu-line-3": { "": { "lines": 3, "textOverflow": "ellipsis", "overflow": "hidden", "flex": 1 } }, "wu-line-4": { "": { "lines": 4, "textOverflow": "ellipsis", "overflow": "hidden", "flex": 1 } }, "wu-line-5": { "": { "lines": 5, "textOverflow": "ellipsis", "overflow": "hidden", "flex": 1 } }, "wu-border": { "": { "!borderWidth": 0.5, "!borderColor": "#dadbde", "borderStyle": "solid" } }, "wu-border-top": { "": { "!borderTopWidth": 0.5, "!borderColor": "#dadbde", "borderTopStyle": "solid" } }, "wu-border-left": { "": { "!borderLeftWidth": 0.5, "!borderColor": "#dadbde", "borderLeftStyle": "solid" } }, "wu-border-right": { "": { "!borderRightWidth": 0.5, "!borderColor": "#dadbde", "borderRightStyle": "solid" } }, "wu-border-bottom": { "": { "!borderBottomWidth": 0.5, "!borderColor": "#dadbde", "borderBottomStyle": "solid" } }, "wu-border-top-bottom": { "": { "!borderTopWidth": 0.5, "!borderBottomWidth": 0.5, "!borderColor": "#dadbde", "borderTopStyle": "solid", "borderBottomStyle": "solid" } }, "wu-reset-button": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0, "backgroundColor": "rgba(0,0,0,0)", "borderWidth": 0 } }, "wu-hover-class": { "": { "opacity": 0.7 } }, "wu-number-box": { "": { "flexDirection": "row", "alignItems": "center" } }, "wu-number-box__plus": { "": { "width": 35, "flexDirection": "row", "justifyContent": "center", "alignItems": "center", "borderTopRightRadius": 4, "borderBottomRightRadius": 4 } }, "wu-number-box__minus": { "": { "width": 35, "flexDirection": "row", "justifyContent": "center", "alignItems": "center", "borderTopLeftRadius": 4, "borderBottomLeftRadius": 4 } }, "wu-number-box__plus--hover": { "": { "!backgroundColor": "#E6E6E6" } }, "wu-number-box__minus--hover": { "": { "!backgroundColor": "#E6E6E6" } }, "wu-number-box__plus--disabled": { "": { "color": "#c8c9cc", "backgroundColor": "#f7f8fa" } }, "wu-number-box__minus--disabled": { "": { "color": "#c8c9cc", "backgroundColor": "#f7f8fa" } }, "wu-number-box__input": { "": { "position": "relative", "textAlign": "center", "fontSize": 15, "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0, "marginTop": 0, "marginRight": 2, "marginBottom": 0, "marginLeft": 2, "flexDirection": "row", "alignItems": "center", "justifyContent": "center" } }, "wu-number-box__input--disabled": { "": { "color": "#c8c9cc", "backgroundColor": "#f2f3f5" } } };
   var _sfc_main$12 = {
     name: "wu-number-box",
-    mixins: [mpMixin, mixin, props3],
+    mixins: [mpMixin, mixin, props4],
     data() {
       return {
         // 输入框实际操作的值
@@ -3710,32 +3715,32 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   };
   function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_icon = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
+    const _component_wu_icon = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-icon"), __easycom_0);
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
       class: "wu-number-box",
       renderWhole: true
     }, [
-      _ctx.showMinus ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+      _ctx.showMinus ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
         "view",
         {
           key: 0,
           class: "wu-number-box__slot",
-          onClick: _cache[0] || (_cache[0] = (0, import_vue4.withModifiers)(($event) => $options.clickHandler("minus"), ["stop"])),
+          onClick: _cache[0] || (_cache[0] = (0, import_vue5.withModifiers)(($event) => $options.clickHandler("minus"), ["stop"])),
           onTouchstart: _cache[1] || (_cache[1] = ($event) => $options.onTouchStart("minus")),
-          onTouchend: _cache[2] || (_cache[2] = (0, import_vue4.withModifiers)((...args) => $options.clearTimeout && $options.clearTimeout(...args), ["stop"]))
+          onTouchend: _cache[2] || (_cache[2] = (0, import_vue5.withModifiers)((...args) => $options.clearTimeout && $options.clearTimeout(...args), ["stop"]))
         },
         [
-          (0, import_vue4.renderSlot)(_ctx.$slots, "minus", {}, () => [
-            (0, import_vue4.createElementVNode)(
+          (0, import_vue5.renderSlot)(_ctx.$slots, "minus", {}, () => [
+            (0, import_vue5.createElementVNode)(
               "view",
               {
-                class: (0, import_vue4.normalizeClass)(["wu-number-box__minus", { "wu-number-box__minus--disabled": $options.isDisabled("minus") }]),
+                class: (0, import_vue5.normalizeClass)(["wu-number-box__minus", { "wu-number-box__minus--disabled": $options.isDisabled("minus") }]),
                 hoverClass: "wu-number-box__minus--hover",
                 hoverStayTime: "150",
-                style: (0, import_vue4.normalizeStyle)([$options.buttonStyle("minus")])
+                style: (0, import_vue5.normalizeStyle)([$options.buttonStyle("minus")])
               },
               [
-                (0, import_vue4.createVNode)(_component_wu_icon, {
+                (0, import_vue5.createVNode)(_component_wu_icon, {
                   name: "minus",
                   color: $options.isDisabled("minus") ? "#c8c9cc" : "#323233",
                   size: "15",
@@ -3750,12 +3755,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         ],
         32
         /* HYDRATE_EVENTS */
-      )) : (0, import_vue4.createCommentVNode)("v-if", true),
-      (0, import_vue4.renderSlot)(_ctx.$slots, "input", {}, () => [
-        (0, import_vue4.createElementVNode)("u-input", {
+      )) : (0, import_vue5.createCommentVNode)("v-if", true),
+      (0, import_vue5.renderSlot)(_ctx.$slots, "input", {}, () => [
+        (0, import_vue5.createElementVNode)("u-input", {
           disabled: _ctx.disabledInput || _ctx.disabled,
           cursorSpacing: $options.getCursorSpacing,
-          class: (0, import_vue4.normalizeClass)([{ "wu-number-box__input--disabled": _ctx.disabled || _ctx.disabledInput }, "wu-number-box__input"]),
+          class: (0, import_vue5.normalizeClass)([{ "wu-number-box__input--disabled": _ctx.disabled || _ctx.disabledInput }, "wu-number-box__input"]),
           modelValue: $data.currentValue,
           onInput: [
             _cache[3] || (_cache[3] = ($event) => $data.currentValue = $event.detail.value),
@@ -3764,30 +3769,30 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           onBlur: _cache[4] || (_cache[4] = (...args) => $options.onBlur && $options.onBlur(...args)),
           onFocus: _cache[5] || (_cache[5] = (...args) => $options.onFocus && $options.onFocus(...args)),
           type: "number",
-          style: (0, import_vue4.normalizeStyle)([$options.inputStyle])
+          style: (0, import_vue5.normalizeStyle)([$options.inputStyle])
         }, null, 46, ["disabled", "cursorSpacing", "modelValue"])
       ]),
-      _ctx.showPlus ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+      _ctx.showPlus ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
         "view",
         {
           key: 1,
           class: "wu-number-box__slot",
-          onClick: _cache[7] || (_cache[7] = (0, import_vue4.withModifiers)(($event) => $options.clickHandler("plus"), ["stop"])),
+          onClick: _cache[7] || (_cache[7] = (0, import_vue5.withModifiers)(($event) => $options.clickHandler("plus"), ["stop"])),
           onTouchstart: _cache[8] || (_cache[8] = ($event) => $options.onTouchStart("plus")),
-          onTouchend: _cache[9] || (_cache[9] = (0, import_vue4.withModifiers)((...args) => $options.clearTimeout && $options.clearTimeout(...args), ["stop"]))
+          onTouchend: _cache[9] || (_cache[9] = (0, import_vue5.withModifiers)((...args) => $options.clearTimeout && $options.clearTimeout(...args), ["stop"]))
         },
         [
-          (0, import_vue4.renderSlot)(_ctx.$slots, "plus", {}, () => [
-            (0, import_vue4.createElementVNode)(
+          (0, import_vue5.renderSlot)(_ctx.$slots, "plus", {}, () => [
+            (0, import_vue5.createElementVNode)(
               "view",
               {
-                class: (0, import_vue4.normalizeClass)(["wu-number-box__plus", { "wu-number-box__minus--disabled": $options.isDisabled("plus") }]),
+                class: (0, import_vue5.normalizeClass)(["wu-number-box__plus", { "wu-number-box__minus--disabled": $options.isDisabled("plus") }]),
                 hoverClass: "wu-number-box__plus--hover",
                 hoverStayTime: "150",
-                style: (0, import_vue4.normalizeStyle)([$options.buttonStyle("plus")])
+                style: (0, import_vue5.normalizeStyle)([$options.buttonStyle("plus")])
               },
               [
-                (0, import_vue4.createVNode)(_component_wu_icon, {
+                (0, import_vue5.createVNode)(_component_wu_icon, {
                   name: "plus",
                   color: $options.isDisabled("plus") ? "#c8c9cc" : "#323233",
                   size: "15",
@@ -3802,12 +3807,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         ],
         32
         /* HYDRATE_EVENTS */
-      )) : (0, import_vue4.createCommentVNode)("v-if", true)
+      )) : (0, import_vue5.createCommentVNode)("v-if", true)
     ]);
   }
-  var __easycom_03 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["styles", [_style_0$12]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-number-box/components/wu-number-box/wu-number-box.vue"]]);
-  var _style_03 = { "minus": { "": { "width": 22, "height": 22, "borderWidth": 1, "flexDirection": "row", "justifyContent": "center", "alignItems": "center", "borderStyle": "solid", "borderColor": "#E6E6E6", "borderRadius": 100 } }, "input": { "": { "paddingTop": 0, "paddingRight": 10, "paddingBottom": 0, "paddingLeft": 10 } }, "plus": { "": { "width": 22, "height": 22, "backgroundColor": "#FF0000", "borderRadius": 50, "justifyContent": "center", "alignItems": "center" } } };
-  var _sfc_main3 = {
+  var __easycom_02 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["styles", [_style_0$12]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-number-box/components/wu-number-box/wu-number-box.vue"]]);
+  var _style_04 = { "minus": { "": { "width": 22, "height": 22, "borderWidth": 1, "flexDirection": "row", "justifyContent": "center", "alignItems": "center", "borderStyle": "solid", "borderColor": "#E6E6E6", "borderRadius": 100 } }, "input": { "": { "paddingTop": 0, "paddingRight": 10, "paddingBottom": 0, "paddingLeft": 10 } }, "plus": { "": { "width": 22, "height": 22, "backgroundColor": "#FF0000", "borderRadius": 50, "justifyContent": "center", "alignItems": "center" } } };
+  var _sfc_main4 = {
     data() {
       return {
         value1: 3,
@@ -3847,27 +3852,27 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_number_box = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-number-box"), __easycom_03);
-    const _component_wu_cell = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-cell"), __easycom_1);
-    const _component_wu_icon = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    const _component_wu_cell_group = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-cell-group"), __easycom_2);
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("scroll-view", {
+  function _sfc_render4(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_number_box = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-number-box"), __easycom_02);
+    const _component_wu_cell = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-cell"), __easycom_1);
+    const _component_wu_icon = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-icon"), __easycom_0);
+    const _component_wu_cell_group = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-cell-group"), __easycom_22);
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("scroll-view", {
       scrollY: true,
       showScrollbar: true,
       enableBackToTop: true,
       bubble: "true",
       style: { flexDirection: "column" }
     }, [
-      (0, import_vue4.createElementVNode)("view", { class: "" }, [
-        (0, import_vue4.createVNode)(_component_wu_cell_group, { border: true }, {
-          default: (0, import_vue4.withCtx)(() => [
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+      (0, import_vue5.createElementVNode)("view", { class: "" }, [
+        (0, import_vue5.createVNode)(_component_wu_cell_group, { border: true }, {
+          default: (0, import_vue5.withCtx)(() => [
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u57FA\u7840\u7528\u6CD5"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value1,
                   "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $data.value1 = $event),
                   step: "1",
@@ -3877,12 +3882,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u6B65\u957F\u8BBE\u7F6E"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value2,
                   "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $data.value2 = $event),
                   step: $data.step1,
@@ -3892,12 +3897,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u9650\u5236\u8F93\u5165\u8303\u56F4"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value3,
                   "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $data.value3 = $event),
                   step: "1",
@@ -3909,12 +3914,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u9650\u5236\u8F93\u5165\u6574\u6570"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value4,
                   "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $data.value4 = $event),
                   step: "1",
@@ -3925,12 +3930,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u7981\u7528\u72B6\u6001"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value5,
                   "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $data.value5 = $event),
                   step: "1",
@@ -3941,12 +3946,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u7981\u7528\u8F93\u5165\u6846"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value6,
                   "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $data.value6 = $event),
                   step: "1",
@@ -3957,12 +3962,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u7981\u7528\u957F\u6309"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value7,
                   "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $data.value7 = $event),
                   step: "1",
@@ -3973,12 +3978,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u56FA\u5B9A\u5C0F\u6570\u4F4D\u6570"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value8,
                   "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $data.value8 = $event),
                   step: "0.2",
@@ -3989,12 +3994,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u5F02\u6B65\u53D8\u66F4"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value9,
                   "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $data.value9 = $event),
                   step: "1",
@@ -4005,12 +4010,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u81EA\u5B9A\u4E49\u5927\u5C0F\u989C\u8272\u6837\u5F0F"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value10,
                   "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $data.value10 = $event),
                   step: "1",
@@ -4024,41 +4029,41 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               _: 1
               /* STABLE */
             }),
-            (0, import_vue4.createVNode)(_component_wu_cell, {
+            (0, import_vue5.createVNode)(_component_wu_cell, {
               border: true,
               title: "\u81EA\u5B9A\u4E49(\u4E3A0\u65F6\u51CF\u5C11\u6309\u94AE\u4F1A\u6D88\u5931)"
             }, {
-              "right-icon": (0, import_vue4.withCtx)(() => [
-                (0, import_vue4.createVNode)(_component_wu_number_box, {
+              "right-icon": (0, import_vue5.withCtx)(() => [
+                (0, import_vue5.createVNode)(_component_wu_number_box, {
                   modelValue: $data.value11,
                   "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $data.value11 = $event),
                   step: "1",
                   min: 0,
                   showMinus: $data.value11 > 0
                 }, {
-                  minus: (0, import_vue4.withCtx)(() => [
-                    (0, import_vue4.createElementVNode)("view", { class: "minus" }, [
-                      (0, import_vue4.createVNode)(_component_wu_icon, {
+                  minus: (0, import_vue5.withCtx)(() => [
+                    (0, import_vue5.createElementVNode)("view", { class: "minus" }, [
+                      (0, import_vue5.createVNode)(_component_wu_icon, {
                         name: "minus",
                         size: "12"
                       })
                     ])
                   ]),
-                  input: (0, import_vue4.withCtx)(() => [
-                    (0, import_vue4.createElementVNode)(
+                  input: (0, import_vue5.withCtx)(() => [
+                    (0, import_vue5.createElementVNode)(
                       "u-text",
                       {
                         style: { "width": "60px", "text-align": "center" },
                         class: "input"
                       },
-                      (0, import_vue4.toDisplayString)($data.value11),
+                      (0, import_vue5.toDisplayString)($data.value11),
                       1
                       /* TEXT */
                     )
                   ]),
-                  plus: (0, import_vue4.withCtx)(() => [
-                    (0, import_vue4.createElementVNode)("view", { class: "plus" }, [
-                      (0, import_vue4.createVNode)(_component_wu_icon, {
+                  plus: (0, import_vue5.withCtx)(() => [
+                    (0, import_vue5.createElementVNode)("view", { class: "plus" }, [
+                      (0, import_vue5.createVNode)(_component_wu_icon, {
                         name: "plus",
                         color: "#FFFFFF",
                         size: "12"
@@ -4079,7 +4084,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       ])
     ]);
   }
-  var numberBox = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsB/numberBox/numberBox.nvue"]]);
+  var numberBox = /* @__PURE__ */ _export_sfc(_sfc_main4, [["render", _sfc_render4], ["styles", [_style_04]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsB/numberBox/numberBox.nvue"]]);
 
   // <stdin>
   var webview = plus.webview.currentWebview();

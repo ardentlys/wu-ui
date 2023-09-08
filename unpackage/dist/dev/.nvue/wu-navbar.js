@@ -10,6 +10,12 @@ const props$1 = {
       type: String,
       default: "transparent"
     },
+    customStyle: {
+      type: [Object, String],
+      default: () => {
+        return "";
+      }
+    },
     ...(_b = (_a = uni.$w) == null ? void 0 : _a.props) == null ? void 0 : _b.statusBar
   }
 };
@@ -24,7 +30,7 @@ const _sfc_main$1 = {
     style() {
       const style = {};
       style.height = this.$w.addUnit(this.$w.sys().statusBarHeight, "px");
-      style.backgroundColor = this.bgColor;
+      style.background = this.bgColor;
       return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
     }
   }
@@ -67,6 +73,11 @@ const props = {
       type: Boolean,
       default: false
     },
+    // 是否显示左边
+    showLeft: {
+      type: Boolean,
+      default: true
+    },
     // 左边的图标
     leftIcon: {
       type: String,
@@ -77,7 +88,12 @@ const props = {
       type: String,
       default: ""
     },
-    // 左右的提示文字
+    // 小程序端导航栏右侧是否预留胶囊位置
+    mpRightReserveCapsule: {
+      type: Boolean,
+      default: true
+    },
+    // 左边的提示文字
     rightText: {
       type: String,
       default: ""
@@ -149,6 +165,12 @@ const _sfc_main = {
     rightClick() {
       this.$emit("rightClick");
     }
+  },
+  computed: {
+    // 小程序胶囊右侧所在位置 仅在小程序端且 mpRightReserveCapsule 为 true 是预留胶囊位置
+    mpCapsuleRightPosition() {
+      return 0;
+    }
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -184,14 +206,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         createElementVNode(
           "view",
           {
-            class: normalizeClass(["wu-navbar__content", [_ctx.border && "u-border-bottom"]]),
+            class: normalizeClass(["wu-navbar__content", [_ctx.border && "wu-border-bottom"]]),
             style: normalizeStyle({
               height: _ctx.$w.addUnit(_ctx.height),
-              backgroundColor: _ctx.bgColor
+              background: _ctx.bgColor
             })
           },
           [
-            createElementVNode("view", {
+            _ctx.showLeft ? (openBlock(), createElementBlock("view", {
+              key: 0,
               class: "wu-navbar__content__left",
               hoverClass: "wu-navbar__content__left--hover",
               hoverStartTime: "150",
@@ -218,12 +241,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                   /* TEXT, STYLE */
                 )) : createCommentVNode("v-if", true)
               ])
-            ]),
+            ])) : createCommentVNode("v-if", true),
             renderSlot(_ctx.$slots, "center", {}, () => [
               createElementVNode(
                 "u-text",
                 {
-                  class: "u-line-1 wu-navbar__content__title",
+                  class: "wu-line-1 wu-navbar__content__title",
                   style: normalizeStyle([{
                     width: _ctx.$w.addUnit(_ctx.titleWidth)
                   }, _ctx.$w.addStyle(_ctx.titleStyle)])
@@ -233,29 +256,35 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 /* TEXT, STYLE */
               )
             ]),
-            _ctx.$slots.right || _ctx.rightIcon || _ctx.rightText ? (openBlock(), createElementBlock("view", {
-              key: 0,
-              class: "wu-navbar__content__right",
-              onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
-            }, [
-              renderSlot(_ctx.$slots, "right", {}, () => [
-                _ctx.rightIcon ? (openBlock(), createBlock(_component_wu_icon, {
-                  key: 0,
-                  name: _ctx.rightIcon,
-                  size: "20"
-                }, null, 8, ["name"])) : createCommentVNode("v-if", true),
-                _ctx.rightText ? (openBlock(), createElementBlock(
-                  "u-text",
-                  {
-                    key: 1,
-                    class: "wu-navbar__content__right__text"
-                  },
-                  toDisplayString(_ctx.rightText),
-                  1
-                  /* TEXT */
-                )) : createCommentVNode("v-if", true)
-              ])
-            ])) : createCommentVNode("v-if", true)
+            createElementVNode(
+              "view",
+              {
+                class: "wu-navbar__content__right",
+                style: normalizeStyle({ right: $options.mpCapsuleRightPosition }),
+                onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
+              },
+              [
+                renderSlot(_ctx.$slots, "right", {}, () => [
+                  _ctx.rightIcon ? (openBlock(), createBlock(_component_wu_icon, {
+                    key: 0,
+                    name: _ctx.rightIcon,
+                    size: "20"
+                  }, null, 8, ["name"])) : createCommentVNode("v-if", true),
+                  _ctx.rightText ? (openBlock(), createElementBlock(
+                    "u-text",
+                    {
+                      key: 1,
+                      class: "wu-navbar__content__right__text"
+                    },
+                    toDisplayString(_ctx.rightText),
+                    1
+                    /* TEXT */
+                  )) : createCommentVNode("v-if", true)
+                ])
+              ],
+              4
+              /* STYLE */
+            )
           ],
           6
           /* CLASS, STYLE */

@@ -2079,7 +2079,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
     return trim(string2);
   }
-  function addUnit(value2 = "auto", unit = ((_b7) => (_b7 = ((_a7) => (_a7 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a7.config)()) == null ? void 0 : _b7.unit)() ? ((_d3) => (_d3 = ((_c3) => (_c3 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c3.config)()) == null ? void 0 : _d3.unit)() : "px") {
+  function addUnit(value2 = "auto", unit = ((_b8) => (_b8 = ((_a8) => (_a8 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a8.config)()) == null ? void 0 : _b8.unit)() ? ((_d2) => (_d2 = ((_c2) => (_c2 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c2.config)()) == null ? void 0 : _d2.unit)() : "px") {
     value2 = String(value2);
     return number(value2) ? `${value2}${unit}` : value2;
   }
@@ -2422,9 +2422,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   }
   function page() {
-    var _a7;
+    var _a8;
     const pages2 = getCurrentPages();
-    const route2 = (_a7 = pages2[pages2.length - 1]) == null ? void 0 : _a7.route;
+    const route2 = (_a8 = pages2[pages2.length - 1]) == null ? void 0 : _a8.route;
     return `/${route2 ? route2 : ""}`;
   }
   function pages() {
@@ -2437,7 +2437,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     return pages2[len - 1 + back];
   }
   function setConfig({
-    props: props7 = {},
+    props: props8 = {},
     config = {},
     color: color2 = {},
     zIndex = {}
@@ -2446,7 +2446,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       deepMerge: deepMerge2
     } = uni.$w;
     uni.$w.config = deepMerge2(uni.$w.config, config);
-    uni.$w.props = deepMerge2(uni.$w.props, props7);
+    uni.$w.props = deepMerge2(uni.$w.props, props8);
     uni.$w.color = deepMerge2(uni.$w.color, color2);
     uni.$w.zIndex = deepMerge2(uni.$w.zIndex, zIndex);
   }
@@ -2620,9 +2620,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var import_vue2 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/_plugin-vue_export-helper.js
-  var _export_sfc = (sfc, props7) => {
+  var _export_sfc = (sfc, props8) => {
     const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props7) {
+    for (const [key, val] of props8) {
       target[key] = val;
     }
     return target;
@@ -3012,7 +3012,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["styles", [_style_0]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-icon/components/wu-icon/wu-icon.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/input/input.js
-  var import_vue7 = __toESM(require_vue());
+  var import_vue8 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-text.js
   var import_vue3 = __toESM(require_vue());
@@ -4151,12 +4151,76 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   }
   var __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main5, [["render", _sfc_render5], ["styles", [_style_05]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-button/components/wu-button/wu-button.vue"]]);
 
-  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/input/input.js
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-gap.js
+  var import_vue7 = __toESM(require_vue());
   var _a6;
   var _b6;
-  var _c2;
-  var _d2;
-  var props$12 = {
+  var props6 = {
+    props: __spreadValues({
+      // 背景颜色（默认transparent）
+      bgColor: {
+        type: String,
+        default: "transparent"
+      },
+      // 分割槽高度，单位px（默认20）
+      height: {
+        type: [String, Number],
+        default: 20
+      },
+      // 与上一个组件的距离
+      marginTop: {
+        type: [String, Number],
+        default: 0
+      },
+      // 与下一个组件的距离
+      marginBottom: {
+        type: [String, Number],
+        default: 0
+      },
+      // 自定义样式
+      customStyle: {
+        type: [Object, String],
+        default: () => {
+          return "";
+        }
+      }
+    }, (_b6 = (_a6 = uni.$w) == null ? void 0 : _a6.props) == null ? void 0 : _b6.gap)
+  };
+  var _style_06 = {};
+  var _sfc_main6 = {
+    name: "wu-gap",
+    mixins: [mpMixin, mixin, props6],
+    computed: {
+      gapStyle() {
+        const style = {
+          backgroundColor: this.bgColor,
+          height: this.$w.addUnit(this.height),
+          marginTop: this.$w.addUnit(this.marginTop),
+          marginBottom: this.$w.addUnit(this.marginBottom)
+        };
+        return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
+      }
+    }
+  };
+  function _sfc_render6(_ctx, _cache, $props, $setup, $data, $options) {
+    return (0, import_vue7.openBlock)(), (0, import_vue7.createElementBlock)(
+      "view",
+      {
+        class: "wu-gap",
+        style: (0, import_vue7.normalizeStyle)([$options.gapStyle]),
+        renderWhole: true
+      },
+      null,
+      4
+      /* STYLE */
+    );
+  }
+  var __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main6, [["render", _sfc_render6], ["styles", [_style_06]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-gap/components/wu-gap/wu-gap.vue"]]);
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/input/input.js
+  var _a7;
+  var _b7;
+  var props7 = {
     props: __spreadValues({
       // 输入的值
       modelValue: {
@@ -4348,12 +4412,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return {};
         }
       }
-    }, (_b6 = (_a6 = uni.$w) == null ? void 0 : _a6.props) == null ? void 0 : _b6.input)
+    }, (_b7 = (_a7 = uni.$w) == null ? void 0 : _a7.props) == null ? void 0 : _b7.input)
   };
-  var _style_0$2 = { "wu-input": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between", "flex": 1 } }, "wu-input--radius": { "": { "borderRadius": 4 } }, "wu-input--square": { "": { "borderRadius": 4 } }, "wu-input--no-radius": { "": { "borderRadius": 0 } }, "wu-input--circle": { "": { "borderRadius": 100 } }, "wu-input__content": { "": { "flex": 1, "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between" } }, "wu-input__content__field-wrapper": { "": { "position": "relative", "flexDirection": "row", "marginTop": 0, "marginRight": 0, "marginBottom": 0, "marginLeft": 0, "flex": 1 } }, "wu-input__content__field-wrapper__field": { "": { "lineHeight": 26, "textAlign": "left", "color": "#303133", "backgroundColor": "#ffffff", "height": 24, "fontSize": 15, "flex": 1 } }, "wu-input__content__clear": { "": { "width": 20, "height": 20, "borderRadius": 100, "backgroundColor": "#c6c7cb", "flexDirection": "row", "alignItems": "center", "justifyContent": "center", "transform": "scale(0.82)", "marginLeft": 4 } }, "wu-input__content__subfix-icon": { "": { "marginLeft": 4 } }, "wu-input__content__prefix-icon": { "": { "marginRight": 4 } } };
-  var _sfc_main$2 = {
+  var _style_0$12 = { "wu-input": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between", "flex": 1 } }, "wu-input--radius": { "": { "borderRadius": 4 } }, "wu-input--square": { "": { "borderRadius": 4 } }, "wu-input--no-radius": { "": { "borderRadius": 0 } }, "wu-input--circle": { "": { "borderRadius": 100 } }, "wu-input__content": { "": { "flex": 1, "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between" } }, "wu-input__content__field-wrapper": { "": { "position": "relative", "flexDirection": "row", "marginTop": 0, "marginRight": 0, "marginBottom": 0, "marginLeft": 0, "flex": 1 } }, "wu-input__content__field-wrapper__field": { "": { "lineHeight": 26, "textAlign": "left", "color": "#303133", "backgroundColor": "#ffffff", "height": 24, "fontSize": 15, "flex": 1 } }, "wu-input__content__clear": { "": { "width": 20, "height": 20, "borderRadius": 100, "backgroundColor": "#c6c7cb", "flexDirection": "row", "alignItems": "center", "justifyContent": "center", "transform": "scale(0.82)", "marginLeft": 4 } }, "wu-input__content__subfix-icon": { "": { "marginLeft": 4 } }, "wu-input__content__prefix-icon": { "": { "marginRight": 4 } } };
+  var _sfc_main$12 = {
     name: "wu-input",
-    mixins: [mpMixin, mixin, props$12],
+    mixins: [mpMixin, mixin, props7],
     data() {
       return {
         // 输入框的值
@@ -4512,35 +4576,35 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_icon = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    return (0, import_vue7.openBlock)(), (0, import_vue7.createElementBlock)(
+  function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_icon = resolveEasycom((0, import_vue8.resolveDynamicComponent)("wu-icon"), __easycom_0);
+    return (0, import_vue8.openBlock)(), (0, import_vue8.createElementBlock)(
       "view",
       {
-        class: (0, import_vue7.normalizeClass)(["wu-input", $options.inputClass]),
-        style: (0, import_vue7.normalizeStyle)([$options.wrapperStyle]),
+        class: (0, import_vue8.normalizeClass)(["wu-input", $options.inputClass]),
+        style: (0, import_vue8.normalizeStyle)([$options.wrapperStyle]),
         renderWhole: true
       },
       [
-        (0, import_vue7.createElementVNode)("view", { class: "wu-input__content" }, [
-          (0, import_vue7.createElementVNode)("view", { class: "wu-input__content__prefix-icon" }, [
-            (0, import_vue7.renderSlot)(_ctx.$slots, "prefix", {}, () => [
-              _ctx.prefixIcon ? ((0, import_vue7.openBlock)(), (0, import_vue7.createBlock)(_component_wu_icon, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-input__content" }, [
+          (0, import_vue8.createElementVNode)("view", { class: "wu-input__content__prefix-icon" }, [
+            (0, import_vue8.renderSlot)(_ctx.$slots, "prefix", {}, () => [
+              _ctx.prefixIcon ? ((0, import_vue8.openBlock)(), (0, import_vue8.createBlock)(_component_wu_icon, {
                 key: 0,
                 name: _ctx.prefixIcon,
                 size: "18",
                 customStyle: _ctx.prefixIconStyle
-              }, null, 8, ["name", "customStyle"])) : (0, import_vue7.createCommentVNode)("v-if", true)
+              }, null, 8, ["name", "customStyle"])) : (0, import_vue8.createCommentVNode)("v-if", true)
             ])
           ]),
-          (0, import_vue7.createElementVNode)("view", {
+          (0, import_vue8.createElementVNode)("view", {
             class: "wu-input__content__field-wrapper",
             onClick: _cache[5] || (_cache[5] = (...args) => $options.clickHandler && $options.clickHandler(...args))
           }, [
-            (0, import_vue7.createCommentVNode)(" \u6839\u636Euni-app\u7684input\u7EC4\u4EF6\u6587\u6863\uFF0CH5\u548CAPP\u4E2D\u53EA\u8981\u58F0\u660E\u4E86password\u53C2\u6570(\u65E0\u8BBAtrue\u8FD8\u662Ffalse)\uFF0Ctype\u5747\u5931\u6548\uFF0C\u6B64\u65F6\r\n					\u4E3A\u4E86\u9632\u6B62type=number\u65F6\uFF0C\u53C8\u5B58\u5728password\u5C5E\u6027\uFF0Ctype\u65E0\u6548\uFF0C\u6B64\u65F6\u9700\u8981\u8BBE\u7F6Epassword\u4E3Aundefined\r\n				 "),
-            (0, import_vue7.createElementVNode)("u-input", {
+            (0, import_vue8.createCommentVNode)(" \u6839\u636Euni-app\u7684input\u7EC4\u4EF6\u6587\u6863\uFF0CH5\u548CAPP\u4E2D\u53EA\u8981\u58F0\u660E\u4E86password\u53C2\u6570(\u65E0\u8BBAtrue\u8FD8\u662Ffalse)\uFF0Ctype\u5747\u5931\u6548\uFF0C\u6B64\u65F6\r\n					\u4E3A\u4E86\u9632\u6B62type=number\u65F6\uFF0C\u53C8\u5B58\u5728password\u5C5E\u6027\uFF0Ctype\u65E0\u6548\uFF0C\u6B64\u65F6\u9700\u8981\u8BBE\u7F6Epassword\u4E3Aundefined\r\n				 "),
+            (0, import_vue8.createElementVNode)("u-input", {
               class: "wu-input__content__field-wrapper__field",
-              style: (0, import_vue7.normalizeStyle)([$options.inputStyle]),
+              style: (0, import_vue8.normalizeStyle)([$options.inputStyle]),
               type: _ctx.type,
               focus: _ctx.focus,
               cursor: _ctx.cursor,
@@ -4567,26 +4631,26 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               onKeyboardheightchange: _cache[4] || (_cache[4] = (...args) => $options.onkeyboardheightchange && $options.onkeyboardheightchange(...args))
             }, null, 44, ["type", "focus", "cursor", "value", "autoBlur", "disabled", "maxlength", "placeholder", "placeholderStyle", "placeholderClass", "confirmType", "confirmHold", "holdKeyboard", "cursorSpacing", "adjustPosition", "selectionEnd", "selectionStart", "password", "ignoreCompositionEvent"])
           ]),
-          $options.isShowClear ? ((0, import_vue7.openBlock)(), (0, import_vue7.createElementBlock)("view", {
+          $options.isShowClear ? ((0, import_vue8.openBlock)(), (0, import_vue8.createElementBlock)("view", {
             key: 0,
             class: "wu-input__content__clear",
             onClick: _cache[6] || (_cache[6] = (...args) => $options.onClear && $options.onClear(...args))
           }, [
-            (0, import_vue7.createVNode)(_component_wu_icon, {
+            (0, import_vue8.createVNode)(_component_wu_icon, {
               name: "close",
               size: "11",
               color: "#ffffff",
               customStyle: "line-height: 12px"
             })
-          ])) : (0, import_vue7.createCommentVNode)("v-if", true),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-input__content__subfix-icon" }, [
-            (0, import_vue7.renderSlot)(_ctx.$slots, "suffix", {}, () => [
-              _ctx.suffixIcon ? ((0, import_vue7.openBlock)(), (0, import_vue7.createBlock)(_component_wu_icon, {
+          ])) : (0, import_vue8.createCommentVNode)("v-if", true),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-input__content__subfix-icon" }, [
+            (0, import_vue8.renderSlot)(_ctx.$slots, "suffix", {}, () => [
+              _ctx.suffixIcon ? ((0, import_vue8.openBlock)(), (0, import_vue8.createBlock)(_component_wu_icon, {
                 key: 0,
                 name: _ctx.suffixIcon,
                 size: "18",
                 customStyle: _ctx.suffixIconStyle
-              }, null, 8, ["name", "customStyle"])) : (0, import_vue7.createCommentVNode)("v-if", true)
+              }, null, 8, ["name", "customStyle"])) : (0, import_vue8.createCommentVNode)("v-if", true)
             ])
           ])
         ])
@@ -4595,70 +4659,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       /* CLASS, STYLE */
     );
   }
-  var __easycom_03 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["styles", [_style_0$2]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-input/components/wu-input/wu-input.vue"]]);
-  var props6 = {
-    props: __spreadValues({
-      // 背景颜色（默认transparent）
-      bgColor: {
-        type: String,
-        default: "transparent"
-      },
-      // 分割槽高度，单位px（默认20）
-      height: {
-        type: [String, Number],
-        default: 20
-      },
-      // 与上一个组件的距离
-      marginTop: {
-        type: [String, Number],
-        default: 0
-      },
-      // 与下一个组件的距离
-      marginBottom: {
-        type: [String, Number],
-        default: 0
-      },
-      // 自定义样式
-      customStyle: {
-        type: [Object, String],
-        default: () => {
-          return "";
-        }
-      }
-    }, (_d2 = (_c2 = uni.$w) == null ? void 0 : _c2.props) == null ? void 0 : _d2.gap)
-  };
-  var _style_0$12 = {};
-  var _sfc_main$12 = {
-    name: "wu-gap",
-    mixins: [mpMixin, mixin, props6],
-    computed: {
-      gapStyle() {
-        const style = {
-          backgroundColor: this.bgColor,
-          height: this.$w.addUnit(this.height),
-          marginTop: this.$w.addUnit(this.marginTop),
-          marginBottom: this.$w.addUnit(this.marginBottom)
-        };
-        return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
-      }
-    }
-  };
-  function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
-    return (0, import_vue7.openBlock)(), (0, import_vue7.createElementBlock)(
-      "view",
-      {
-        class: "wu-gap",
-        style: (0, import_vue7.normalizeStyle)([$options.gapStyle]),
-        renderWhole: true
-      },
-      null,
-      4
-      /* STYLE */
-    );
-  }
-  var __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["styles", [_style_0$12]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-gap/components/wu-gap/wu-gap.vue"]]);
-  var _style_06 = { "wu-demo-block__title": { ".wu-demo-block ": { "fontSize": "32rpx", "color": "#999999" } }, "wu-input": { ".wu-demo-block .wu-demo-block__content ": { "marginTop": "15rpx", "borderWidth": 1, "borderStyle": "solid", "borderColor": "#999999" } } };
-  var _sfc_main6 = {
+  var __easycom_03 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["styles", [_style_0$12]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-input/components/wu-input/wu-input.vue"]]);
+  var _style_07 = { "wu-demo-block__title": { ".wu-demo-block ": { "fontSize": "32rpx", "color": "#999999" } }, "wu-input": { ".wu-demo-block .wu-demo-block__content ": { "marginTop": "15rpx", "borderWidth": 1, "borderStyle": "solid", "borderColor": "#999999" } } };
+  var _sfc_main7 = {
     data() {
       return {
         tips: "",
@@ -4693,24 +4696,24 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render6(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_input = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-input"), __easycom_03);
-    const _component_wu_text = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-text"), __easycom_1);
-    const _component_wu_code = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-code"), __easycom_2);
-    const _component_wu_button = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-button"), __easycom_3);
-    const _component_wu_gap = resolveEasycom((0, import_vue7.resolveDynamicComponent)("wu-gap"), __easycom_4);
-    return (0, import_vue7.openBlock)(), (0, import_vue7.createElementBlock)("scroll-view", {
+  function _sfc_render7(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_input = resolveEasycom((0, import_vue8.resolveDynamicComponent)("wu-input"), __easycom_03);
+    const _component_wu_text = resolveEasycom((0, import_vue8.resolveDynamicComponent)("wu-text"), __easycom_1);
+    const _component_wu_code = resolveEasycom((0, import_vue8.resolveDynamicComponent)("wu-code"), __easycom_2);
+    const _component_wu_button = resolveEasycom((0, import_vue8.resolveDynamicComponent)("wu-button"), __easycom_3);
+    const _component_wu_gap = resolveEasycom((0, import_vue8.resolveDynamicComponent)("wu-gap"), __easycom_4);
+    return (0, import_vue8.openBlock)(), (0, import_vue8.createElementBlock)("scroll-view", {
       scrollY: true,
       showScrollbar: true,
       enableBackToTop: true,
       bubble: "true",
       style: { flexDirection: "column" }
     }, [
-      (0, import_vue7.createElementVNode)("view", { class: "wu-page" }, [
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u57FA\u7840\u4F7F\u7528"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+      (0, import_vue8.createElementVNode)("view", { class: "wu-page" }, [
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u57FA\u7840\u4F7F\u7528"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createVNode)(_component_wu_input, {
               modelValue: $data.text1,
               "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $data.text1 = $event),
               placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
@@ -4719,20 +4722,20 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             }, null, 8, ["modelValue", "onChange"])
           ])
         ]),
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u53EF\u6E05\u7A7A\u5185\u5BB9"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u53EF\u6E05\u7A7A\u5185\u5BB9"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createVNode)(_component_wu_input, {
               placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
               border: "surround",
               clearable: ""
             })
           ])
         ]),
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u6570\u5B57\u952E\u76D8"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u6570\u5B57\u952E\u76D8"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createVNode)(_component_wu_input, {
               placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
               border: "surround",
               type: "number",
@@ -4740,10 +4743,10 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             })
           ])
         ]),
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u5BC6\u7801\u7C7B\u578B"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u5BC6\u7801\u7C7B\u578B"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createVNode)(_component_wu_input, {
               placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
               border: "surround",
               password: "",
@@ -4751,10 +4754,10 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             })
           ])
         ]),
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u663E\u793A\u4E0B\u5212\u7EBF"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u663E\u793A\u4E0B\u5212\u7EBF"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createVNode)(_component_wu_input, {
               shape: "circle",
               placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
               border: "surround",
@@ -4762,53 +4765,53 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             })
           ])
         ]),
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u7981\u7528\u72B6\u6001"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u7981\u7528\u72B6\u6001"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createVNode)(_component_wu_input, {
               placeholder: "\u7981\u7528\u72B6\u6001",
               border: "surround",
               disabled: ""
             })
           ])
         ]),
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u5706\u5F62"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u5706\u5F62"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createVNode)(_component_wu_input, {
               placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
               border: "surround",
               shape: "circle"
             })
           ])
         ]),
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u524D\u540E\u56FE\u6807"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u524D\u540E\u56FE\u6807"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createVNode)(_component_wu_input, {
               placeholder: "\u524D\u7F6E\u56FE\u6807",
               prefixIcon: "search",
               prefixIconStyle: "font-size: 22px;color: #909399"
             })
           ]),
-          (0, import_vue7.createElementVNode)("view", {
+          (0, import_vue8.createElementVNode)("view", {
             class: "wu-demo-block__content",
             style: { "margin-top": "15px" }
           }, [
-            (0, import_vue7.createVNode)(_component_wu_input, {
+            (0, import_vue8.createVNode)(_component_wu_input, {
               placeholder: "\u540E\u7F6E\u56FE\u6807",
               suffixIcon: "map-fill",
               suffixIconStyle: "color: #909399"
             })
           ])
         ]),
-        (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block" }, [
-          (0, import_vue7.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u524D\u540E\u63D2\u69FD"),
-          (0, import_vue7.createElementVNode)("view", { class: "wu-demo-block__content" }, [
-            (0, import_vue7.createCommentVNode)(" \u6CE8\u610F\uFF1A\u7531\u4E8E\u517C\u5BB9\u6027\u5DEE\u5F02\uFF0C\u5982\u679C\u9700\u8981\u4F7F\u7528\u524D\u540E\u63D2\u69FD\uFF0Cnvue\u4E0B\u9700\u4F7F\u7528wu-input\uFF0C\u975Envue\u4E0B\u9700\u4F7F\u7528u-input "),
-            (0, import_vue7.createVNode)(_component_wu_input, { placeholder: "\u524D\u7F6E\u63D2\u69FD" }, {
-              prefix: (0, import_vue7.withCtx)(() => [
-                (0, import_vue7.createVNode)(_component_wu_text, {
+        (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block" }, [
+          (0, import_vue8.createElementVNode)("u-text", { class: "wu-demo-block__title" }, "\u524D\u540E\u63D2\u69FD"),
+          (0, import_vue8.createElementVNode)("view", { class: "wu-demo-block__content" }, [
+            (0, import_vue8.createCommentVNode)(" \u6CE8\u610F\uFF1A\u7531\u4E8E\u517C\u5BB9\u6027\u5DEE\u5F02\uFF0C\u5982\u679C\u9700\u8981\u4F7F\u7528\u524D\u540E\u63D2\u69FD\uFF0Cnvue\u4E0B\u9700\u4F7F\u7528wu-input\uFF0C\u975Envue\u4E0B\u9700\u4F7F\u7528u-input "),
+            (0, import_vue8.createVNode)(_component_wu_input, { placeholder: "\u524D\u7F6E\u63D2\u69FD" }, {
+              prefix: (0, import_vue8.withCtx)(() => [
+                (0, import_vue8.createVNode)(_component_wu_text, {
                   text: "http://",
                   margin: "0 3px 0 0",
                   type: "tips"
@@ -4818,20 +4821,20 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
               /* STABLE */
             })
           ]),
-          (0, import_vue7.createElementVNode)("view", {
+          (0, import_vue8.createElementVNode)("view", {
             class: "wu-demo-block__content",
             style: { "margin-top": "15px" }
           }, [
-            (0, import_vue7.createCommentVNode)(" \u6CE8\u610F\uFF1A\u7531\u4E8E\u517C\u5BB9\u6027\u5DEE\u5F02\uFF0C\u5982\u679C\u9700\u8981\u4F7F\u7528\u524D\u540E\u63D2\u69FD\uFF0Cnvue\u4E0B\u9700\u4F7F\u7528wu-input\uFF0C\u975Envue\u4E0B\u9700\u4F7F\u7528u-input "),
-            (0, import_vue7.createVNode)(_component_wu_input, { placeholder: "\u540E\u7F6E\u63D2\u69FD" }, {
-              suffix: (0, import_vue7.withCtx)(() => [
-                (0, import_vue7.createVNode)(_component_wu_code, {
+            (0, import_vue8.createCommentVNode)(" \u6CE8\u610F\uFF1A\u7531\u4E8E\u517C\u5BB9\u6027\u5DEE\u5F02\uFF0C\u5982\u679C\u9700\u8981\u4F7F\u7528\u524D\u540E\u63D2\u69FD\uFF0Cnvue\u4E0B\u9700\u4F7F\u7528wu-input\uFF0C\u975Envue\u4E0B\u9700\u4F7F\u7528u-input "),
+            (0, import_vue8.createVNode)(_component_wu_input, { placeholder: "\u540E\u7F6E\u63D2\u69FD" }, {
+              suffix: (0, import_vue8.withCtx)(() => [
+                (0, import_vue8.createVNode)(_component_wu_code, {
                   ref: "wuCode",
                   onChange: $options.codeChange,
                   seconds: "20",
                   changeText: "X\u79D2\u91CD\u65B0\u83B7\u53D6\u54C8\u54C8\u54C8"
                 }, null, 8, ["onChange"]),
-                (0, import_vue7.createVNode)(_component_wu_button, {
+                (0, import_vue8.createVNode)(_component_wu_button, {
                   onClick: $options.getCode,
                   text: $data.tips,
                   type: "success",
@@ -4843,14 +4846,14 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
             })
           ])
         ]),
-        (0, import_vue7.createVNode)(_component_wu_gap, {
+        (0, import_vue8.createVNode)(_component_wu_gap, {
           bgColor: "#fff",
           height: "50"
         })
       ])
     ]);
   }
-  var input = /* @__PURE__ */ _export_sfc(_sfc_main6, [["render", _sfc_render6], ["styles", [_style_06]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/input/input.nvue"]]);
+  var input = /* @__PURE__ */ _export_sfc(_sfc_main7, [["render", _sfc_render7], ["styles", [_style_07]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/input/input.nvue"]]);
 
   // <stdin>
   var webview = plus.webview.currentWebview();

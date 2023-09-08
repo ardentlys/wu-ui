@@ -4,6 +4,7 @@ import { r as resolveEasycom } from "../../../uni-app.es.js";
 import { _ as _export_sfc } from "../../../_plugin-vue_export-helper.js";
 import "../../../wu-icon.js";
 import "../../../mixin.js";
+import "../../../wu-line.js";
 const _style_0 = { "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0 } } };
 const _sfc_main = {
   data() {

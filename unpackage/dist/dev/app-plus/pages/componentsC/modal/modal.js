@@ -2079,7 +2079,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
     return trim(string2);
   }
-  function addUnit(value = "auto", unit = ((_b4) => (_b4 = ((_a4) => (_a4 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a4.config)()) == null ? void 0 : _b4.unit)() ? ((_d3) => (_d3 = ((_c3) => (_c3 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c3.config)()) == null ? void 0 : _d3.unit)() : "px") {
+  function addUnit(value = "auto", unit = ((_b5) => (_b5 = ((_a5) => (_a5 = uni == null ? void 0 : uni.$w) == null ? void 0 : _a5.config)()) == null ? void 0 : _b5.unit)() ? ((_d3) => (_d3 = ((_c3) => (_c3 = uni == null ? void 0 : uni.$w) == null ? void 0 : _c3.config)()) == null ? void 0 : _d3.unit)() : "px") {
     value = String(value);
     return number(value) ? `${value}${unit}` : value;
   }
@@ -2422,9 +2422,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   }
   function page() {
-    var _a4;
+    var _a5;
     const pages2 = getCurrentPages();
-    const route2 = (_a4 = pages2[pages2.length - 1]) == null ? void 0 : _a4.route;
+    const route2 = (_a5 = pages2[pages2.length - 1]) == null ? void 0 : _a5.route;
     return `/${route2 ? route2 : ""}`;
   }
   function pages() {
@@ -2437,7 +2437,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     return pages2[len - 1 + back];
   }
   function setConfig({
-    props: props4 = {},
+    props: props5 = {},
     config = {},
     color: color2 = {},
     zIndex = {}
@@ -2446,7 +2446,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       deepMerge: deepMerge2
     } = uni.$w;
     uni.$w.config = deepMerge2(uni.$w.config, config);
-    uni.$w.props = deepMerge2(uni.$w.props, props4);
+    uni.$w.props = deepMerge2(uni.$w.props, props5);
     uni.$w.color = deepMerge2(uni.$w.color, color2);
     uni.$w.zIndex = deepMerge2(uni.$w.zIndex, zIndex);
   }
@@ -2620,9 +2620,9 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var import_vue3 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/_plugin-vue_export-helper.js
-  var _export_sfc = (sfc, props4) => {
+  var _export_sfc = (sfc, props5) => {
     const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props4) {
+    for (const [key, val] of props5) {
       target[key] = val;
     }
     return target;
@@ -3022,6 +3022,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       bgColor: {
         type: String,
         default: "transparent"
+      },
+      customStyle: {
+        type: [Object, String],
+        default: () => {
+          return "";
+        }
       }
     }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.statusBar)
   };
@@ -3036,7 +3042,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       style() {
         const style = {};
         style.height = this.$w.addUnit(this.$w.sys().statusBarHeight, "px");
-        style.backgroundColor = this.bgColor;
+        style.background = this.bgColor;
         return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
       }
     }
@@ -3079,6 +3085,11 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: Boolean,
         default: false
       },
+      // 是否显示左边
+      showLeft: {
+        type: Boolean,
+        default: true
+      },
       // 左边的图标
       leftIcon: {
         type: String,
@@ -3089,7 +3100,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: String,
         default: ""
       },
-      // 左右的提示文字
+      // 小程序端导航栏右侧是否预留胶囊位置
+      mpRightReserveCapsule: {
+        type: Boolean,
+        default: true
+      },
+      // 左边的提示文字
       rightText: {
         type: String,
         default: ""
@@ -3160,6 +3176,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       rightClick() {
         this.$emit("rightClick");
       }
+    },
+    computed: {
+      // 小程序胶囊右侧所在位置 仅在小程序端且 mpRightReserveCapsule 为 true 是预留胶囊位置
+      mpCapsuleRightPosition() {
+        return 0;
+      }
     }
   };
   function _sfc_render2(_ctx, _cache, $props, $setup, $data, $options) {
@@ -3195,14 +3217,15 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           (0, import_vue3.createElementVNode)(
             "view",
             {
-              class: (0, import_vue3.normalizeClass)(["wu-navbar__content", [_ctx.border && "u-border-bottom"]]),
+              class: (0, import_vue3.normalizeClass)(["wu-navbar__content", [_ctx.border && "wu-border-bottom"]]),
               style: (0, import_vue3.normalizeStyle)({
                 height: _ctx.$w.addUnit(_ctx.height),
-                backgroundColor: _ctx.bgColor
+                background: _ctx.bgColor
               })
             },
             [
-              (0, import_vue3.createElementVNode)("view", {
+              _ctx.showLeft ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
+                key: 0,
                 class: "wu-navbar__content__left",
                 hoverClass: "wu-navbar__content__left--hover",
                 hoverStartTime: "150",
@@ -3229,12 +3252,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                     /* TEXT, STYLE */
                   )) : (0, import_vue3.createCommentVNode)("v-if", true)
                 ])
-              ]),
+              ])) : (0, import_vue3.createCommentVNode)("v-if", true),
               (0, import_vue3.renderSlot)(_ctx.$slots, "center", {}, () => [
                 (0, import_vue3.createElementVNode)(
                   "u-text",
                   {
-                    class: "u-line-1 wu-navbar__content__title",
+                    class: "wu-line-1 wu-navbar__content__title",
                     style: (0, import_vue3.normalizeStyle)([{
                       width: _ctx.$w.addUnit(_ctx.titleWidth)
                     }, _ctx.$w.addStyle(_ctx.titleStyle)])
@@ -3244,29 +3267,35 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                   /* TEXT, STYLE */
                 )
               ]),
-              _ctx.$slots.right || _ctx.rightIcon || _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
-                key: 0,
-                class: "wu-navbar__content__right",
-                onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
-              }, [
-                (0, import_vue3.renderSlot)(_ctx.$slots, "right", {}, () => [
-                  _ctx.rightIcon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
-                    key: 0,
-                    name: _ctx.rightIcon,
-                    size: "20"
-                  }, null, 8, ["name"])) : (0, import_vue3.createCommentVNode)("v-if", true),
-                  _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-                    "u-text",
-                    {
-                      key: 1,
-                      class: "wu-navbar__content__right__text"
-                    },
-                    (0, import_vue3.toDisplayString)(_ctx.rightText),
-                    1
-                    /* TEXT */
-                  )) : (0, import_vue3.createCommentVNode)("v-if", true)
-                ])
-              ])) : (0, import_vue3.createCommentVNode)("v-if", true)
+              (0, import_vue3.createElementVNode)(
+                "view",
+                {
+                  class: "wu-navbar__content__right",
+                  style: (0, import_vue3.normalizeStyle)({ right: $options.mpCapsuleRightPosition }),
+                  onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
+                },
+                [
+                  (0, import_vue3.renderSlot)(_ctx.$slots, "right", {}, () => [
+                    _ctx.rightIcon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
+                      key: 0,
+                      name: _ctx.rightIcon,
+                      size: "20"
+                    }, null, 8, ["name"])) : (0, import_vue3.createCommentVNode)("v-if", true),
+                    _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+                      "u-text",
+                      {
+                        key: 1,
+                        class: "wu-navbar__content__right__text"
+                      },
+                      (0, import_vue3.toDisplayString)(_ctx.rightText),
+                      1
+                      /* TEXT */
+                    )) : (0, import_vue3.createCommentVNode)("v-if", true)
+                  ])
+                ],
+                4
+                /* STYLE */
+              )
             ],
             6
             /* CLASS, STYLE */
@@ -3280,17 +3309,16 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
   var __easycom_02 = /* @__PURE__ */ _export_sfc(_sfc_main2, [["render", _sfc_render2], ["styles", [_style_02]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-navbar/components/wu-navbar/wu-navbar.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/modal/modal.js
-  var import_vue5 = __toESM(require_vue());
+  var import_vue6 = __toESM(require_vue());
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-cell-group.js
+  var import_vue5 = __toESM(require_vue());
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-line.js
   var import_vue4 = __toESM(require_vue());
   var _a3;
   var _b3;
-  var _c2;
-  var _d2;
-  var _e;
-  var _f;
-  var props$2 = {
+  var props3 = {
     props: __spreadValues({
       color: {
         type: String,
@@ -3323,10 +3351,10 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }, (_b3 = (_a3 = uni.$w) == null ? void 0 : _a3.props) == null ? void 0 : _b3.line)
   };
-  var _style_0$2 = {};
-  var _sfc_main$2 = {
+  var _style_03 = {};
+  var _sfc_main3 = {
     name: "wu-line",
-    mixins: [mpMixin, mixin, props$2],
+    mixins: [mpMixin, mixin, props3],
     computed: {
       lineStyle() {
         const style = {};
@@ -3349,7 +3377,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
     return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
       "view",
       {
@@ -3362,7 +3390,13 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       /* STYLE */
     );
   }
-  var __easycom_03 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["styles", [_style_0$2]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
+  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
+
+  // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/wu-cell-group.js
+  var _a4;
+  var _b4;
+  var _c2;
+  var _d2;
   var props$12 = {
     props: __spreadValues({
       // 标题
@@ -3478,7 +3512,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return "";
         }
       }
-    }, (_d2 = (_c2 = uni.$w) == null ? void 0 : _c2.props) == null ? void 0 : _d2.cell)
+    }, (_b4 = (_a4 = uni.$w) == null ? void 0 : _a4.props) == null ? void 0 : _b4.cell)
   };
   var _style_0$12 = { "wu-cell__body": { "": { "flexDirection": "row", "paddingTop": 10, "paddingRight": 15, "paddingBottom": 10, "paddingLeft": 15, "fontSize": 15, "color": "#303133", "alignItems": "center" } }, "wu-cell__body__content": { "": { "flexDirection": "row", "alignItems": "center", "flex": 1 } }, "wu-cell__body--large": { "": { "paddingTop": 13, "paddingBottom": 13 } }, "wu-cell__left-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginRight": 4 } }, "wu-cell__right-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginLeft": 4, "transitionProperty": "transform", "transitionDuration": 300 } }, "wu-cell__right-icon-wrap--up": { "": { "transform": "rotate(-90deg)" } }, "wu-cell__right-icon-wrap--down": { "": { "transform": "rotate(90deg)" } }, "wu-cell__title": { "": { "flex": 1 } }, "wu-cell__title-text": { "": { "fontSize": 15, "lineHeight": 22, "color": "#303133" } }, "wu-cell__title-text--large": { "": { "fontSize": 16 } }, "wu-cell__label": { "": { "marginTop": 5, "fontSize": 12, "color": "#909193", "lineHeight": 18 } }, "wu-cell__label--large": { "": { "fontSize": 14 } }, "wu-cell__value": { "": { "textAlign": "right", "fontSize": 14, "lineHeight": 24, "color": "#606266" } }, "wu-cell__value--large": { "": { "fontSize": 15 } }, "wu-cell--clickable": { "": { "backgroundColor": "#f3f4f6" } }, "wu-cell--disabled": { "": { "color": "#c8c9cc" } }, "wu-cell--center": { "": { "alignItems": "center" } }, "@TRANSITION": { "wu-cell__right-icon-wrap": { "property": "transform", "duration": 300 } } };
   var _sfc_main$12 = {
@@ -3506,94 +3540,94 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
     }
   };
   function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_icon = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-icon"), __easycom_0);
-    const _component_wu_line = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-line"), __easycom_03);
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
-      class: (0, import_vue4.normalizeClass)(["wu-cell", [_ctx.customClass]]),
-      style: (0, import_vue4.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
+    const _component_wu_icon = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-icon"), __easycom_0);
+    const _component_wu_line = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-line"), __easycom_2);
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
+      class: (0, import_vue5.normalizeClass)(["wu-cell", [_ctx.customClass]]),
+      style: (0, import_vue5.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
       hoverClass: !_ctx.disabled && (_ctx.clickable || _ctx.isLink) ? "wu-cell--clickable" : "",
       hoverStayTime: 250,
       onClick: _cache[0] || (_cache[0] = (...args) => $options.clickHandler && $options.clickHandler(...args)),
       renderWhole: true
     }, [
-      (0, import_vue4.createElementVNode)(
+      (0, import_vue5.createElementVNode)(
         "view",
         {
-          class: (0, import_vue4.normalizeClass)(["wu-cell__body", [_ctx.center && "wu-cell--center", _ctx.size === "large" && "wu-cell__body--large"]])
+          class: (0, import_vue5.normalizeClass)(["wu-cell__body", [_ctx.center && "wu-cell--center", _ctx.size === "large" && "wu-cell__body--large"]])
         },
         [
-          (0, import_vue4.createElementVNode)("view", { class: "wu-cell__body__content" }, [
-            (0, import_vue4.createElementVNode)("view", { class: "wu-cell__left-icon-wrap" }, [
-              (0, import_vue4.renderSlot)(_ctx.$slots, "icon", {}, () => [
-                _ctx.icon ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_icon, {
+          (0, import_vue5.createElementVNode)("view", { class: "wu-cell__body__content" }, [
+            (0, import_vue5.createElementVNode)("view", { class: "wu-cell__left-icon-wrap" }, [
+              (0, import_vue5.renderSlot)(_ctx.$slots, "icon", {}, () => [
+                _ctx.icon ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_icon, {
                   key: 0,
                   name: _ctx.icon,
                   "custom-style": _ctx.iconStyle,
                   size: _ctx.size === "large" ? 22 : 18
-                }, null, 8, ["name", "custom-style", "size"])) : (0, import_vue4.createCommentVNode)("v-if", true)
+                }, null, 8, ["name", "custom-style", "size"])) : (0, import_vue5.createCommentVNode)("v-if", true)
               ])
             ]),
-            (0, import_vue4.createElementVNode)("view", { class: "wu-cell__title" }, [
-              (0, import_vue4.renderSlot)(_ctx.$slots, "title", {}, () => [
-                _ctx.title ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+            (0, import_vue5.createElementVNode)("view", { class: "wu-cell__title" }, [
+              (0, import_vue5.renderSlot)(_ctx.$slots, "title", {}, () => [
+                _ctx.title ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
                   "u-text",
                   {
                     key: 0,
-                    class: (0, import_vue4.normalizeClass)(["wu-cell__title-text", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__title-text--large"]]),
-                    style: (0, import_vue4.normalizeStyle)([$options.titleTextStyle])
+                    class: (0, import_vue5.normalizeClass)(["wu-cell__title-text", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__title-text--large"]]),
+                    style: (0, import_vue5.normalizeStyle)([$options.titleTextStyle])
                   },
-                  (0, import_vue4.toDisplayString)(_ctx.title),
+                  (0, import_vue5.toDisplayString)(_ctx.title),
                   7
                   /* TEXT, CLASS, STYLE */
-                )) : (0, import_vue4.createCommentVNode)("v-if", true)
+                )) : (0, import_vue5.createCommentVNode)("v-if", true)
               ]),
-              (0, import_vue4.renderSlot)(_ctx.$slots, "label", {}, () => [
-                _ctx.label ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+              (0, import_vue5.renderSlot)(_ctx.$slots, "label", {}, () => [
+                _ctx.label ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
                   "u-text",
                   {
                     key: 0,
-                    class: (0, import_vue4.normalizeClass)(["wu-cell__label", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__label--large"]])
+                    class: (0, import_vue5.normalizeClass)(["wu-cell__label", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__label--large"]])
                   },
-                  (0, import_vue4.toDisplayString)(_ctx.label),
+                  (0, import_vue5.toDisplayString)(_ctx.label),
                   3
                   /* TEXT, CLASS */
-                )) : (0, import_vue4.createCommentVNode)("v-if", true)
+                )) : (0, import_vue5.createCommentVNode)("v-if", true)
               ])
             ])
           ]),
-          (0, import_vue4.renderSlot)(_ctx.$slots, "value", {}, () => [
-            !_ctx.$w.test.empty(_ctx.value) ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+          (0, import_vue5.renderSlot)(_ctx.$slots, "value", {}, () => [
+            !_ctx.$w.test.empty(_ctx.value) ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
               "u-text",
               {
                 key: 0,
-                class: (0, import_vue4.normalizeClass)(["wu-cell__value", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__value--large"]])
+                class: (0, import_vue5.normalizeClass)(["wu-cell__value", [_ctx.disabled && "wu-cell--disabled", _ctx.size === "large" && "wu-cell__value--large"]])
               },
-              (0, import_vue4.toDisplayString)(_ctx.value),
+              (0, import_vue5.toDisplayString)(_ctx.value),
               3
               /* TEXT, CLASS */
-            )) : (0, import_vue4.createCommentVNode)("v-if", true)
+            )) : (0, import_vue5.createCommentVNode)("v-if", true)
           ]),
-          (0, import_vue4.createElementVNode)("view", { class: "wu-cell__right-icon-wrap" }, [
-            (0, import_vue4.renderSlot)(_ctx.$slots, "right-icon", {}, () => [
-              _ctx.isLink ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_icon, {
+          (0, import_vue5.createElementVNode)("view", { class: "wu-cell__right-icon-wrap" }, [
+            (0, import_vue5.renderSlot)(_ctx.$slots, "right-icon", {}, () => [
+              _ctx.isLink ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_icon, {
                 key: 0,
-                class: (0, import_vue4.normalizeClass)([`wu-cell__right-icon-wrap--${_ctx.arrowDirection}`]),
+                class: (0, import_vue5.normalizeClass)([`wu-cell__right-icon-wrap--${_ctx.arrowDirection}`]),
                 name: _ctx.rightIcon,
                 "custom-style": _ctx.rightIconStyle,
                 color: _ctx.disabled ? "#c8c9cc" : "info",
                 size: _ctx.size === "large" ? 18 : 16
-              }, null, 8, ["class", "name", "custom-style", "color", "size"])) : (0, import_vue4.createCommentVNode)("v-if", true)
+              }, null, 8, ["class", "name", "custom-style", "color", "size"])) : (0, import_vue5.createCommentVNode)("v-if", true)
             ])
           ])
         ],
         2
         /* CLASS */
       ),
-      _ctx.border ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue4.createCommentVNode)("v-if", true)
+      _ctx.border ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue5.createCommentVNode)("v-if", true)
     ], 14, ["hoverClass"]);
   }
   var __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["styles", [_style_0$12]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell/wu-cell.vue"]]);
-  var props3 = {
+  var props4 = {
     props: __spreadValues({
       // 分组标题
       title: {
@@ -3611,51 +3645,51 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           return "";
         }
       }
-    }, (_f = (_e = uni.$w) == null ? void 0 : _e.props) == null ? void 0 : _f.cellGroup)
+    }, (_d2 = (_c2 = uni.$w) == null ? void 0 : _c2.props) == null ? void 0 : _d2.cellGroup)
   };
-  var _style_03 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
-  var _sfc_main3 = {
+  var _style_04 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
+  var _sfc_main4 = {
     name: "wu-cell-group",
-    mixins: [mpMixin, mixin, props3]
+    mixins: [mpMixin, mixin, props4]
   };
-  function _sfc_render3(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_line = resolveEasycom((0, import_vue4.resolveDynamicComponent)("wu-line"), __easycom_03);
-    return (0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)(
+  function _sfc_render4(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_line = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-line"), __easycom_2);
+    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)(
       "view",
       {
-        style: (0, import_vue4.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
-        class: (0, import_vue4.normalizeClass)([[_ctx.customClass], "wu-cell-group"]),
+        style: (0, import_vue5.normalizeStyle)([_ctx.$w.addStyle(_ctx.customStyle)]),
+        class: (0, import_vue5.normalizeClass)([[_ctx.customClass], "wu-cell-group"]),
         renderWhole: true
       },
       [
-        _ctx.title ? ((0, import_vue4.openBlock)(), (0, import_vue4.createElementBlock)("view", {
+        _ctx.title ? ((0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("view", {
           key: 0,
           class: "wu-cell-group__title"
         }, [
-          (0, import_vue4.renderSlot)(_ctx.$slots, "title", {}, () => [
-            (0, import_vue4.createElementVNode)(
+          (0, import_vue5.renderSlot)(_ctx.$slots, "title", {}, () => [
+            (0, import_vue5.createElementVNode)(
               "u-text",
               { class: "wu-cell-group__title__text" },
-              (0, import_vue4.toDisplayString)(_ctx.title),
+              (0, import_vue5.toDisplayString)(_ctx.title),
               1
               /* TEXT */
             )
           ])
-        ])) : (0, import_vue4.createCommentVNode)("v-if", true),
-        (0, import_vue4.createElementVNode)("view", { class: "wu-cell-group__wrapper" }, [
-          _ctx.border ? ((0, import_vue4.openBlock)(), (0, import_vue4.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue4.createCommentVNode)("v-if", true),
-          (0, import_vue4.renderSlot)(_ctx.$slots, "default")
+        ])) : (0, import_vue5.createCommentVNode)("v-if", true),
+        (0, import_vue5.createElementVNode)("view", { class: "wu-cell-group__wrapper" }, [
+          _ctx.border ? ((0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_line, { key: 0 })) : (0, import_vue5.createCommentVNode)("v-if", true),
+          (0, import_vue5.renderSlot)(_ctx.$slots, "default")
         ])
       ],
       6
       /* CLASS, STYLE */
     );
   }
-  var __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main3, [["render", _sfc_render3], ["styles", [_style_03]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell-group/wu-cell-group.vue"]]);
+  var __easycom_22 = /* @__PURE__ */ _export_sfc(_sfc_main4, [["render", _sfc_render4], ["styles", [_style_04]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-cell/components/wu-cell-group/wu-cell-group.vue"]]);
 
   // ../../../Documents/HBuilderProjects/wu-ui/unpackage/dist/dev/.nvue/pages/componentsC/modal/modal.js
-  var _style_04 = { "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0 } } };
-  var _sfc_main4 = {
+  var _style_05 = { "wu-page": { "": { "paddingTop": 0, "paddingRight": 0, "paddingBottom": 0, "paddingLeft": 0 } } };
+  var _sfc_main5 = {
     data() {
       return {
         content: "\u6A21\u6001\u6846\uFF0C\u5E38\u7528\u4E8E\u6D88\u606F\u63D0\u793A\u3001\u6D88\u606F\u786E\u8BA4\u3001\u5728\u5F53\u524D\u9875\u9762\u5185\u5B8C\u6210\u7279\u5B9A\u7684\u4EA4\u4E92\u64CD\u4F5C",
@@ -3734,46 +3768,46 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       }
     }
   };
-  function _sfc_render4(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_wu_navbar = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-navbar"), __easycom_02);
-    const _component_u_gap = (0, import_vue5.resolveComponent)("u-gap");
-    const _component_wu_cell = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-cell"), __easycom_1);
-    const _component_wu_cell_group = resolveEasycom((0, import_vue5.resolveDynamicComponent)("wu-cell-group"), __easycom_2);
-    const _component_u_modal = (0, import_vue5.resolveComponent)("u-modal");
-    const _component_u_button = (0, import_vue5.resolveComponent)("u-button");
-    return (0, import_vue5.openBlock)(), (0, import_vue5.createElementBlock)("scroll-view", {
+  function _sfc_render5(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_wu_navbar = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-navbar"), __easycom_02);
+    const _component_u_gap = (0, import_vue6.resolveComponent)("u-gap");
+    const _component_wu_cell = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-cell"), __easycom_1);
+    const _component_wu_cell_group = resolveEasycom((0, import_vue6.resolveDynamicComponent)("wu-cell-group"), __easycom_22);
+    const _component_u_modal = (0, import_vue6.resolveComponent)("u-modal");
+    const _component_u_button = (0, import_vue6.resolveComponent)("u-button");
+    return (0, import_vue6.openBlock)(), (0, import_vue6.createElementBlock)("scroll-view", {
       scrollY: true,
       showScrollbar: true,
       enableBackToTop: true,
       bubble: "true",
       style: { flexDirection: "column" }
     }, [
-      (0, import_vue5.createElementVNode)("view", { class: "wu-page" }, [
-        (0, import_vue5.createVNode)(_component_wu_navbar, {
+      (0, import_vue6.createElementVNode)("view", { class: "wu-page" }, [
+        (0, import_vue6.createVNode)(_component_wu_navbar, {
           title: "\u6A21\u6001\u6846",
           onLeftClick: $options.navigateBack,
           safeAreaInsetTop: "",
           fixed: "",
           placeholder: ""
         }, null, 8, ["onLeftClick"]),
-        (0, import_vue5.createVNode)(_component_u_gap, {
+        (0, import_vue6.createVNode)(_component_u_gap, {
           height: "20",
           bgColor: "#fff"
         }),
-        (0, import_vue5.createVNode)(_component_wu_cell_group, null, {
-          default: (0, import_vue5.withCtx)(() => [
-            ((0, import_vue5.openBlock)(true), (0, import_vue5.createElementBlock)(
-              import_vue5.Fragment,
+        (0, import_vue6.createVNode)(_component_wu_cell_group, null, {
+          default: (0, import_vue6.withCtx)(() => [
+            ((0, import_vue6.openBlock)(true), (0, import_vue6.createElementBlock)(
+              import_vue6.Fragment,
               null,
-              (0, import_vue5.renderList)($data.list, (item, index2) => {
-                return (0, import_vue5.openBlock)(), (0, import_vue5.createBlock)(_component_wu_cell, {
+              (0, import_vue6.renderList)($data.list, (item, index2) => {
+                return (0, import_vue6.openBlock)(), (0, import_vue6.createBlock)(_component_wu_cell, {
                   onClick: ($event) => $options.showModal(index2),
                   title: item.title,
                   key: index2,
                   isLink: ""
                 }, {
-                  default: (0, import_vue5.withCtx)(() => [
-                    (0, import_vue5.createElementVNode)("u-image", {
+                  default: (0, import_vue6.withCtx)(() => [
+                    (0, import_vue6.createElementVNode)("u-image", {
                       slot: "icon",
                       class: "wu-cell-icon",
                       src: item.iconUrl,
@@ -3791,18 +3825,18 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           _: 1
           /* STABLE */
         }),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           content: $data.content,
           title: "\u6807\u9898",
           show: $data.show1,
           onConfirm: _cache[0] || (_cache[0] = () => $data.show1 = false)
         }, null, 8, ["content", "show"]),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           content: $data.content,
           show: $data.show2,
           onConfirm: _cache[1] || (_cache[1] = () => $data.show2 = false)
         }, null, 8, ["content", "show"]),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           content: $data.content,
           show: $data.show3,
           showCancelButton: "",
@@ -3811,7 +3845,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           onCancel: $options.cancel,
           onClose: $options.close
         }, null, 8, ["content", "show", "onConfirm", "onCancel", "onClose"]),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           content: $data.content,
           show: $data.show4,
           showCancelButton: "",
@@ -3819,7 +3853,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           onConfirm: $options.confirm4,
           onCancel: _cache[2] || (_cache[2] = () => $data.show4 = false)
         }, null, 8, ["content", "show", "onConfirm"]),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           content: $data.content,
           show: $data.show5,
           showCancelButton: "",
@@ -3827,7 +3861,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           onConfirm: _cache[3] || (_cache[3] = () => $data.show5 = false),
           onCancel: _cache[4] || (_cache[4] = () => $data.show5 = false)
         }, null, 8, ["content", "show"]),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           content: $data.content,
           title: "\u6807\u9898",
           show: $data.show6,
@@ -3835,14 +3869,14 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           onConfirm: _cache[5] || (_cache[5] = () => $data.show6 = false),
           onClose: _cache[6] || (_cache[6] = () => $data.show6 = false)
         }, null, 8, ["content", "show"]),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           title: "\u5229\u5251\u51FA\u9798,\u4E00\u7EDF\u6C5F\u6E56",
           show: $data.show7,
           closeOnClickOverlay: "",
           onConfirm: _cache[7] || (_cache[7] = () => $data.show7 = false)
         }, {
-          default: (0, import_vue5.withCtx)(() => [
-            (0, import_vue5.createElementVNode)("u-image", {
+          default: (0, import_vue6.withCtx)(() => [
+            (0, import_vue6.createElementVNode)("u-image", {
               style: { "width": "80px", "height": "80px" },
               src: "/static/uview/common/logo.png"
             })
@@ -3850,15 +3884,15 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           _: 1
           /* STABLE */
         }, 8, ["show"]),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           title: "\u6807\u9898",
           show: $data.show8,
           content: $data.content,
           closeOnClickOverlay: "",
           showCancelButton: ""
         }, {
-          default: (0, import_vue5.withCtx)(() => [
-            (0, import_vue5.createVNode)(_component_u_button, {
+          default: (0, import_vue6.withCtx)(() => [
+            (0, import_vue6.createVNode)(_component_u_button, {
               slot: "confirmButton",
               text: "\u786E\u5B9A",
               type: "success",
@@ -3869,7 +3903,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           _: 1
           /* STABLE */
         }, 8, ["show", "content"]),
-        (0, import_vue5.createVNode)(_component_u_modal, {
+        (0, import_vue6.createVNode)(_component_u_modal, {
           content: $data.content,
           title: "\u6807\u9898",
           show: $data.show9,
@@ -3879,7 +3913,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       ])
     ]);
   }
-  var modal = /* @__PURE__ */ _export_sfc(_sfc_main4, [["render", _sfc_render4], ["styles", [_style_04]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/modal/modal.nvue"]]);
+  var modal = /* @__PURE__ */ _export_sfc(_sfc_main5, [["render", _sfc_render5], ["styles", [_style_05]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/modal/modal.nvue"]]);
 
   // <stdin>
   var webview = plus.webview.currentWebview();

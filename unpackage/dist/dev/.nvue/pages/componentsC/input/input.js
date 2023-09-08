@@ -1,4 +1,4 @@
-var _a, _b, _c, _d;
+var _a, _b;
 import { r as resolveEasycom, f as formatAppLog } from "../../../uni-app.es.js";
 import { _ as __easycom_0$1 } from "../../../wu-icon.js";
 import { resolveDynamicComponent, openBlock, createElementBlock, normalizeClass, normalizeStyle, createElementVNode, renderSlot, createBlock, createCommentVNode, createVNode, withCtx } from "vue";
@@ -7,8 +7,9 @@ import { _ as _export_sfc } from "../../../_plugin-vue_export-helper.js";
 import { _ as __easycom_1 } from "../../../wu-text.js";
 import { _ as __easycom_2 } from "../../../wu-code.js";
 import { _ as __easycom_3 } from "../../../wu-button.js";
+import { _ as __easycom_4 } from "../../../wu-gap.js";
 import "../../../wu-loading-icon.js";
-const props$1 = {
+const props = {
   props: {
     // 输入的值
     modelValue: {
@@ -203,10 +204,10 @@ const props$1 = {
     ...(_b = (_a = uni.$w) == null ? void 0 : _a.props) == null ? void 0 : _b.input
   }
 };
-const _style_0$2 = { "wu-input": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between", "flex": 1 } }, "wu-input--radius": { "": { "borderRadius": 4 } }, "wu-input--square": { "": { "borderRadius": 4 } }, "wu-input--no-radius": { "": { "borderRadius": 0 } }, "wu-input--circle": { "": { "borderRadius": 100 } }, "wu-input__content": { "": { "flex": 1, "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between" } }, "wu-input__content__field-wrapper": { "": { "position": "relative", "flexDirection": "row", "marginTop": 0, "marginRight": 0, "marginBottom": 0, "marginLeft": 0, "flex": 1 } }, "wu-input__content__field-wrapper__field": { "": { "lineHeight": 26, "textAlign": "left", "color": "#303133", "backgroundColor": "#ffffff", "height": 24, "fontSize": 15, "flex": 1 } }, "wu-input__content__clear": { "": { "width": 20, "height": 20, "borderRadius": 100, "backgroundColor": "#c6c7cb", "flexDirection": "row", "alignItems": "center", "justifyContent": "center", "transform": "scale(0.82)", "marginLeft": 4 } }, "wu-input__content__subfix-icon": { "": { "marginLeft": 4 } }, "wu-input__content__prefix-icon": { "": { "marginRight": 4 } } };
-const _sfc_main$2 = {
+const _style_0$1 = { "wu-input": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between", "flex": 1 } }, "wu-input--radius": { "": { "borderRadius": 4 } }, "wu-input--square": { "": { "borderRadius": 4 } }, "wu-input--no-radius": { "": { "borderRadius": 0 } }, "wu-input--circle": { "": { "borderRadius": 100 } }, "wu-input__content": { "": { "flex": 1, "flexDirection": "row", "alignItems": "center", "justifyContent": "space-between" } }, "wu-input__content__field-wrapper": { "": { "position": "relative", "flexDirection": "row", "marginTop": 0, "marginRight": 0, "marginBottom": 0, "marginLeft": 0, "flex": 1 } }, "wu-input__content__field-wrapper__field": { "": { "lineHeight": 26, "textAlign": "left", "color": "#303133", "backgroundColor": "#ffffff", "height": 24, "fontSize": 15, "flex": 1 } }, "wu-input__content__clear": { "": { "width": 20, "height": 20, "borderRadius": 100, "backgroundColor": "#c6c7cb", "flexDirection": "row", "alignItems": "center", "justifyContent": "center", "transform": "scale(0.82)", "marginLeft": 4 } }, "wu-input__content__subfix-icon": { "": { "marginLeft": 4 } }, "wu-input__content__prefix-icon": { "": { "marginRight": 4 } } };
+const _sfc_main$1 = {
   name: "wu-input",
-  mixins: [mpMixin, mixin, props$1],
+  mixins: [mpMixin, mixin, props],
   data() {
     return {
       // 输入框的值
@@ -365,7 +366,7 @@ const _sfc_main$2 = {
     }
   }
 };
-function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_wu_icon = resolveEasycom(resolveDynamicComponent("wu-icon"), __easycom_0$1);
   return openBlock(), createElementBlock(
     "view",
@@ -448,69 +449,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     /* CLASS, STYLE */
   );
 }
-const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["styles", [_style_0$2]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-input/components/wu-input/wu-input.vue"]]);
-const props = {
-  props: {
-    // 背景颜色（默认transparent）
-    bgColor: {
-      type: String,
-      default: "transparent"
-    },
-    // 分割槽高度，单位px（默认20）
-    height: {
-      type: [String, Number],
-      default: 20
-    },
-    // 与上一个组件的距离
-    marginTop: {
-      type: [String, Number],
-      default: 0
-    },
-    // 与下一个组件的距离
-    marginBottom: {
-      type: [String, Number],
-      default: 0
-    },
-    // 自定义样式
-    customStyle: {
-      type: [Object, String],
-      default: () => {
-        return "";
-      }
-    },
-    ...(_d = (_c = uni.$w) == null ? void 0 : _c.props) == null ? void 0 : _d.gap
-  }
-};
-const _style_0$1 = {};
-const _sfc_main$1 = {
-  name: "wu-gap",
-  mixins: [mpMixin, mixin, props],
-  computed: {
-    gapStyle() {
-      const style = {
-        backgroundColor: this.bgColor,
-        height: this.$w.addUnit(this.height),
-        marginTop: this.$w.addUnit(this.marginTop),
-        marginBottom: this.$w.addUnit(this.marginBottom)
-      };
-      return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
-    }
-  }
-};
-function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock(
-    "view",
-    {
-      class: "wu-gap",
-      style: normalizeStyle([$options.gapStyle]),
-      renderWhole: true
-    },
-    null,
-    4
-    /* STYLE */
-  );
-}
-const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["styles", [_style_0$1]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-gap/components/wu-gap/wu-gap.vue"]]);
+const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["styles", [_style_0$1]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-input/components/wu-input/wu-input.vue"]]);
 const _style_0 = { "wu-demo-block__title": { ".wu-demo-block ": { "fontSize": "32rpx", "color": "#999999" } }, "wu-input": { ".wu-demo-block .wu-demo-block__content ": { "marginTop": "15rpx", "borderWidth": 1, "borderStyle": "solid", "borderColor": "#999999" } } };
 const _sfc_main = {
   data() {

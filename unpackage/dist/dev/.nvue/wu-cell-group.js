@@ -1,83 +1,10 @@
-var _a, _b, _c, _d, _e, _f;
-import { _ as __easycom_0$1 } from "./wu-icon.js";
-import { openBlock, createElementBlock, normalizeStyle, resolveDynamicComponent, normalizeClass, createElementVNode, renderSlot, createBlock, createCommentVNode, toDisplayString } from "vue";
+var _a, _b, _c, _d;
+import { _ as __easycom_0 } from "./wu-icon.js";
+import { resolveDynamicComponent, openBlock, createElementBlock, normalizeClass, normalizeStyle, createElementVNode, renderSlot, createBlock, createCommentVNode, toDisplayString } from "vue";
 import { r as resolveEasycom } from "./uni-app.es.js";
+import { _ as __easycom_2$1 } from "./wu-line.js";
 import { m as mpMixin, a as mixin } from "./mixin.js";
 import { _ as _export_sfc } from "./_plugin-vue_export-helper.js";
-const props$2 = {
-  props: {
-    color: {
-      type: String,
-      default: "#d6d7d9"
-    },
-    // 长度，竖向时表现为高度，横向时表现为长度，可以为百分比，带px单位的值等
-    length: {
-      type: [String, Number],
-      default: "100%"
-    },
-    // 线条方向，col-竖向，row-横向
-    direction: {
-      type: String,
-      default: "row"
-    },
-    // 是否显示细边框
-    hairline: {
-      type: Boolean,
-      default: true
-    },
-    // 线条与上下左右元素的间距，字符串形式，如"30px"、"20px 30px"
-    margin: {
-      type: [String, Number],
-      default: 0
-    },
-    // 是否虚线，true-虚线，false-实线
-    dashed: {
-      type: Boolean,
-      default: false
-    },
-    ...(_b = (_a = uni.$w) == null ? void 0 : _a.props) == null ? void 0 : _b.line
-  }
-};
-const _style_0$2 = {};
-const _sfc_main$2 = {
-  name: "wu-line",
-  mixins: [mpMixin, mixin, props$2],
-  computed: {
-    lineStyle() {
-      const style = {};
-      style.margin = this.margin;
-      if (this.direction === "row") {
-        style.borderBottomWidth = "2rpx";
-        style.borderBottomStyle = this.dashed ? "dashed" : "solid";
-        style.width = this.$w.addUnit(this.length);
-        if (this.hairline)
-          style.transform = "scaleY(0.5)";
-      } else {
-        style.borderLeftWidth = "2rpx";
-        style.borderLeftStyle = this.dashed ? "dashed" : "solid";
-        style.height = this.$w.addUnit(this.length);
-        if (this.hairline)
-          style.transform = "scaleX(0.5)";
-      }
-      style.borderColor = this.color;
-      return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
-    }
-  }
-};
-function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock(
-    "view",
-    {
-      class: "wu-line",
-      style: normalizeStyle([$options.lineStyle]),
-      renderWhole: true
-    },
-    null,
-    4
-    /* STYLE */
-  );
-}
-const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["styles", [_style_0$2]], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-line/components/wu-line/wu-line.vue"]]);
 const props$1 = {
   props: {
     // 标题
@@ -193,7 +120,7 @@ const props$1 = {
         return "";
       }
     },
-    ...(_d = (_c = uni.$w) == null ? void 0 : _c.props) == null ? void 0 : _d.cell
+    ...(_b = (_a = uni.$w) == null ? void 0 : _a.props) == null ? void 0 : _b.cell
   }
 };
 const _style_0$1 = { "wu-cell__body": { "": { "flexDirection": "row", "paddingTop": 10, "paddingRight": 15, "paddingBottom": 10, "paddingLeft": 15, "fontSize": 15, "color": "#303133", "alignItems": "center" } }, "wu-cell__body__content": { "": { "flexDirection": "row", "alignItems": "center", "flex": 1 } }, "wu-cell__body--large": { "": { "paddingTop": 13, "paddingBottom": 13 } }, "wu-cell__left-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginRight": 4 } }, "wu-cell__right-icon-wrap": { "": { "flexDirection": "row", "alignItems": "center", "fontSize": 16, "marginLeft": 4, "transitionProperty": "transform", "transitionDuration": 300 } }, "wu-cell__right-icon-wrap--up": { "": { "transform": "rotate(-90deg)" } }, "wu-cell__right-icon-wrap--down": { "": { "transform": "rotate(90deg)" } }, "wu-cell__title": { "": { "flex": 1 } }, "wu-cell__title-text": { "": { "fontSize": 15, "lineHeight": 22, "color": "#303133" } }, "wu-cell__title-text--large": { "": { "fontSize": 16 } }, "wu-cell__label": { "": { "marginTop": 5, "fontSize": 12, "color": "#909193", "lineHeight": 18 } }, "wu-cell__label--large": { "": { "fontSize": 14 } }, "wu-cell__value": { "": { "textAlign": "right", "fontSize": 14, "lineHeight": 24, "color": "#606266" } }, "wu-cell__value--large": { "": { "fontSize": 15 } }, "wu-cell--clickable": { "": { "backgroundColor": "#f3f4f6" } }, "wu-cell--disabled": { "": { "color": "#c8c9cc" } }, "wu-cell--center": { "": { "alignItems": "center" } }, "@TRANSITION": { "wu-cell__right-icon-wrap": { "property": "transform", "duration": 300 } } };
@@ -222,8 +149,8 @@ const _sfc_main$1 = {
   }
 };
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_wu_icon = resolveEasycom(resolveDynamicComponent("wu-icon"), __easycom_0$1);
-  const _component_wu_line = resolveEasycom(resolveDynamicComponent("wu-line"), __easycom_0);
+  const _component_wu_icon = resolveEasycom(resolveDynamicComponent("wu-icon"), __easycom_0);
+  const _component_wu_line = resolveEasycom(resolveDynamicComponent("wu-line"), __easycom_2$1);
   return openBlock(), createElementBlock("view", {
     class: normalizeClass(["wu-cell", [_ctx.customClass]]),
     style: normalizeStyle([_ctx.$w.addStyle(_ctx.customStyle)]),
@@ -327,7 +254,7 @@ const props = {
         return "";
       }
     },
-    ...(_f = (_e = uni.$w) == null ? void 0 : _e.props) == null ? void 0 : _f.cellGroup
+    ...(_d = (_c = uni.$w) == null ? void 0 : _c.props) == null ? void 0 : _d.cellGroup
   }
 };
 const _style_0 = { "wu-cell-group": { "": { "flex": 1 } }, "wu-cell-group__title": { "": { "paddingTop": 16, "paddingRight": 16, "paddingBottom": 8, "paddingLeft": 16 } }, "wu-cell-group__title__text": { "": { "fontSize": 15, "lineHeight": 16, "color": "#303133" } }, "wu-cell-group__wrapper": { "": { "position": "relative" } } };
@@ -336,7 +263,7 @@ const _sfc_main = {
   mixins: [mpMixin, mixin, props]
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_wu_line = resolveEasycom(resolveDynamicComponent("wu-line"), __easycom_0);
+  const _component_wu_line = resolveEasycom(resolveDynamicComponent("wu-line"), __easycom_2$1);
   return openBlock(), createElementBlock(
     "view",
     {

@@ -1,11 +1,12 @@
 var _a, _b;
-import { r as resolveEasycom, f as formatAppLog } from "../../../uni-app.es.js";
+import { f as formatAppLog, r as resolveEasycom } from "../../../uni-app.es.js";
 import { _ as __easycom_0$1 } from "../../../wu-navbar.js";
 import { openBlock, createElementBlock, normalizeStyle, createElementVNode, createCommentVNode, toDisplayString, resolveComponent, resolveDynamicComponent, normalizeClass, Fragment, withModifiers, createVNode, withCtx, createBlock, renderList } from "vue";
 import { _ as __easycom_1, a as __easycom_2 } from "../../../wu-cell-group.js";
 import { m as mpMixin, a as mixin } from "../../../mixin.js";
 import { _ as _export_sfc } from "../../../_plugin-vue_export-helper.js";
 import "../../../wu-icon.js";
+import "../../../wu-line.js";
 const props$1 = {
   props: {
     color: {
@@ -420,23 +421,28 @@ const _sfc_main$2 = {
     // 徽标样式
     badgeStyle() {
       let style = {
-        backgroundColor: this.weeks.disable ? "#c0c0c0" : this.weeks.extraInfo.infoColor || "#e43d33"
+        backgroundColor: this.weeks.disable ? "#c0c0c0" : "#e43d33"
       };
-      if (!this.weeks.extraInfo.badgePosition) {
-        style.right = "10rpx";
-        style.top = "10rpx";
-      } else if (this.weeks.extraInfo.badgePosition == "top-left") {
-        style.top = "10rpx";
-        style.left = "10rpx";
-      } else if (this.weeks.extraInfo.badgePosition == "top-right") {
-        style.top = "10rpx";
-        style.right = "10rpx";
-      } else if (this.weeks.extraInfo.badgePosition == "bottom-left") {
-        style.bottom = "10rpx";
-        style.left = "10rpx";
-      } else if (this.weeks.extraInfo.badgePosition == "bottom-right") {
-        style.bottom = "10rpx";
-        style.right = "10rpx";
+      if (this.weeks.extraInfo) {
+        if (this.weeks.extraInfo.infoColor) {
+          style.backgroundColor = this.weeks.extraInfo.infoColor;
+        }
+        if (!this.weeks.extraInfo.badgePosition) {
+          style.right = "10rpx";
+          style.top = "10rpx";
+        } else if (this.weeks.extraInfo.badgePosition == "top-left") {
+          style.top = "10rpx";
+          style.left = "10rpx";
+        } else if (this.weeks.extraInfo.badgePosition == "top-right") {
+          style.top = "10rpx";
+          style.right = "10rpx";
+        } else if (this.weeks.extraInfo.badgePosition == "bottom-left") {
+          style.bottom = "10rpx";
+          style.left = "10rpx";
+        } else if (this.weeks.extraInfo.badgePosition == "bottom-right") {
+          style.bottom = "10rpx";
+          style.right = "10rpx";
+        }
       }
       return style;
     },
@@ -1422,13 +1428,15 @@ class Calendar {
     selected,
     startDate,
     endDate,
-    range
+    range,
+    monthShowCurrentMonth
   } = {}) {
     this.date = this.getDate(/* @__PURE__ */ new Date());
     this.selected = selected || [];
     this.startDate = startDate;
     this.endDate = endDate;
     this.range = range;
+    this.monthShowCurrentMonth = monthShowCurrentMonth;
     this.cleanMultipleStatus();
     this.weeks = {};
   }
@@ -1461,6 +1469,13 @@ class Calendar {
    */
   resetEndDate(endDate) {
     this.endDate = endDate;
+  }
+  /**
+   * 重置是否每月仅显示当月数据
+   * @param {Boolean} show 是否仅显示当月数据 
+   */
+  resetMonthShowCurrentMonth(show) {
+    this.monthShowCurrentMonth = show;
   }
   /**
    * 获取任意时间
@@ -1634,6 +1649,7 @@ class Calendar {
    * @param {Object} end
    */
   geDateAll(begin, end) {
+    let disableList = this.selected.filter((item) => item.date && item.disable).map((item) => item.date);
     var arr = [];
     var ab = begin.split("-");
     var ae = end.split("-");
@@ -1645,7 +1661,9 @@ class Calendar {
     var unixDe = de.getTime() - 24 * 60 * 60 * 1e3;
     for (var k = unixDb; k <= unixDe; ) {
       k = k + 24 * 60 * 60 * 1e3;
-      arr.push(this.getDate(new Date(parseInt(k))).fullDate);
+      let fullDate = this.getDate(new Date(parseInt(k))).fullDate;
+      if (!disableList.includes(fullDate))
+        arr.push(fullDate);
     }
     return arr;
   }
@@ -1700,31 +1718,44 @@ class Calendar {
       year,
       month
     } = this.getDate(dateData);
-    let firstDay = new Date(year, month - 1, 1).getDay();
     let currentDay = new Date(year, month, 0).getDate();
     let dates = {
-      lastMonthDays: this._getLastMonthDays(firstDay, this.getDate(dateData)),
-      // 上个月末尾几天
       currentMonthDys: this._currentMonthDys(currentDay, this.getDate(dateData)),
       // 本月天数
-      nextMonthDays: [],
-      // 下个月开始几天
       weeks: []
     };
     let canlender = [];
-    const surplus = 42 - (dates.lastMonthDays.length + dates.currentMonthDys.length);
-    dates.nextMonthDays = this._getNextMonthDays(surplus, this.getDate(dateData));
-    canlender = canlender.concat(dates.lastMonthDays, dates.currentMonthDys, dates.nextMonthDays);
+    if (this.monthShowCurrentMonth) {
+      canlender = dates.currentMonthDys;
+    } else {
+      let firstDay = new Date(year, month - 1, 1).getDay();
+      dates.lastMonthDays = this._getLastMonthDays(firstDay, this.getDate(dateData));
+      const surplus = 42 - (dates.lastMonthDays.length + dates.currentMonthDys.length);
+      dates.nextMonthDays = this._getNextMonthDays(surplus, this.getDate(dateData));
+      canlender = canlender.concat(dates.lastMonthDays, dates.currentMonthDys, dates.nextMonthDays);
+    }
     let weeks = {};
     for (let i = 0; i < canlender.length; i++) {
       if (i % 7 === 0) {
         weeks[parseInt(i / 7)] = new Array(7);
       }
-      weeks[parseInt(i / 7)][i % 7] = canlender[i];
+      weeks[parseInt(i / 7)][i % 7] = canlender[i] || {};
     }
     if (useWeeks) {
       this.canlender = canlender;
       this.weeks = weeks;
+    }
+    formatAppLog("log", "at uni_modules/wu-calendar/components/wu-calendar/util.js:383", weeks);
+    if (this.monthShowCurrentMonth) {
+      let endIndex = Math.ceil(canlender.length / 7) - 1;
+      for (let i = 0; i < weeks[endIndex].length; i++) {
+        if (!weeks[endIndex][i]) {
+          weeks[endIndex][i] = {
+            empty: true,
+            lunar: {}
+          };
+        }
+      }
     }
     return weeks;
   }
@@ -1795,6 +1826,11 @@ const props = {
       type: Boolean,
       default: false
     },
+    // 每月是否仅显示当月数据
+    monthShowCurrentMonth: {
+      type: Boolean,
+      default: false
+    },
     // 插入模式,可选值，ture：插入模式；false：弹窗模式；默认为插入模式
     insert: {
       type: Boolean,
@@ -1818,7 +1854,7 @@ const props = {
     ...(_b = (_a = uni.$w) == null ? void 0 : _a.props) == null ? void 0 : _b.calendar
   }
 };
-const _style_0$1 = { "wu-calendar": { "": { "flexDirection": "column" } }, "wu-calendar__mask": { "": { "position": "fixed", "bottom": 0, "top": 0, "left": 0, "right": 0, "backgroundColor": "rgba(0,0,0,0.4)", "transitionProperty": "opacity", "transitionDuration": 300, "opacity": 0 } }, "wu-calendar--mask-show": { "": { "opacity": 1 } }, "wu-calendar--fixed": { "": { "position": "fixed", "bottom": 0, "left": 0, "right": 0, "transitionProperty": "transform", "transitionDuration": 300, "transform": "translateY(920rpx)" } }, "wu-calendar--ani-show": { "": { "transform": "translateY(0)" } }, "wu-calendar__content": { "": { "backgroundColor": "#ffffff" } }, "wu-calendar__header": { "": { "position": "relative", "flexDirection": "row", "justifyContent": "center", "alignItems": "center", "borderBottomColor": "#EDEDED", "borderBottomStyle": "solid", "borderBottomWidth": "2rpx" } }, "wu-calendar--fixed-top": { "": { "height": "90rpx", "flexDirection": "row", "justifyContent": "space-between", "borderTopColor": "#EDEDED", "borderTopStyle": "solid", "borderTopWidth": "2rpx" } }, "wu-calendar--fixed-width": { "": { "width": "100rpx" } }, "wu-calendar__backtoday": { "": { "position": "absolute", "right": 0, "top": "25rpx", "paddingTop": 0, "paddingRight": "10rpx", "paddingBottom": 0, "paddingLeft": "20rpx", "height": "50rpx", "lineHeight": "50rpx", "fontSize": "24rpx", "borderTopLeftRadius": "50rpx", "borderBottomLeftRadius": "50rpx", "color": "#333333", "backgroundColor": "#f1f1f1" }, ".vertical": { "top": "38rpx" } }, "wu-calendar__header-text": { "": { "textAlign": "center", "width": "200rpx", "fontSize": "32rpx", "color": "#333333" } }, "wu-calendar__header-btn-box": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "center" }, ".horizontal": { "width": "100rpx", "height": "100rpx" }, ".vertical": { "flexDirection": "column", "paddingTop": "20rpx", "paddingRight": 0, "paddingBottom": "20rpx", "paddingLeft": 0 } }, "wu-calendar__header-btn": { ".wu-calendar__header-btn-box ": { "width": "20rpx", "height": "20rpx" }, "": { "borderLeftColor": "#808080", "borderLeftStyle": "solid", "borderLeftWidth": "4rpx", "borderTopColor": "#555555", "borderTopStyle": "solid", "borderTopWidth": "4rpx" } }, "wu-calendar--left": { "": { "transform": "rotate(-45deg)" } }, "wu-calendar--right": { "": { "transform": "rotate(135deg)" } }, "wu-calendar--top": { "": { "transform": "rotate(45deg)" } }, "wu-calendar--bottom": { "": { "transform": "rotate(225deg)" } }, "wu-calendar__weeks": { "": { "position": "relative", "flexDirection": "row", "paddingTop": 0, "paddingRight": "8rpx", "paddingBottom": 0, "paddingLeft": "8rpx" } }, "wu-calendar__weeks-item": { "": { "flex": 1, "marginBottom": "8rpx" } }, "wu-calendar__weeks-day": { "": { "flex": 1, "flexDirection": "column", "justifyContent": "center", "alignItems": "center", "height": "90rpx", "borderBottomColor": "#F5F5F5", "borderBottomStyle": "solid", "borderBottomWidth": "2rpx" } }, "wu-calendar__weeks-day-text": { "": { "fontSize": "28rpx" } }, "wu-calendar__box": { "": { "position": "relative" } }, "wu-calendar__box-bg": { "": { "justifyContent": "center", "alignItems": "center", "position": "absolute", "top": 0, "left": 0, "right": 0, "bottom": 0 } }, "wu-calendar__box-bg-text": { "": { "fontSize": "100rpx", "transform": "scale(4)", "fontWeight": "bold", "color": "#999999", "opacity": 0.1, "textAlign": "center" } }, "@TRANSITION": { "wu-calendar__mask": { "property": "opacity", "duration": 300 }, "wu-calendar--fixed": { "property": "transform", "duration": 300 } } };
+const _style_0$1 = { "wu-calendar": { "": { "flexDirection": "column" } }, "wu-calendar__mask": { "": { "position": "fixed", "bottom": 0, "top": 0, "left": 0, "right": 0, "backgroundColor": "rgba(0,0,0,0.4)", "transitionProperty": "opacity", "transitionDuration": 300, "opacity": 0 } }, "wu-calendar--mask-show": { "": { "opacity": 1 } }, "wu-calendar--fixed": { "": { "position": "fixed", "bottom": 0, "left": 0, "right": 0, "transitionProperty": "transform", "transitionDuration": 300, "transform": "translateY(920rpx)" } }, "wu-calendar--ani-show": { "": { "transform": "translateY(0)" } }, "wu-calendar__content": { "": { "backgroundColor": "#ffffff" } }, "wu-calendar__header": { "": { "position": "relative", "flexDirection": "row", "justifyContent": "center", "alignItems": "center", "borderBottomColor": "#EDEDED", "borderBottomStyle": "solid", "borderBottomWidth": "2rpx" } }, "wu-calendar--fixed-top": { "": { "height": "90rpx", "flexDirection": "row", "justifyContent": "space-between", "borderTopColor": "#EDEDED", "borderTopStyle": "solid", "borderTopWidth": "2rpx" } }, "wu-calendar--fixed-width": { "": { "width": "100rpx" } }, "wu-calendar__backtoday": { "": { "position": "absolute", "right": 0, "top": "25rpx", "paddingTop": 0, "paddingRight": "10rpx", "paddingBottom": 0, "paddingLeft": "20rpx", "height": "50rpx", "lineHeight": "50rpx", "fontSize": "24rpx", "borderTopLeftRadius": "50rpx", "borderBottomLeftRadius": "50rpx", "color": "#333333", "backgroundColor": "#f1f1f1" }, ".vertical": { "top": "38rpx" } }, "wu-calendar__header-text": { "": { "textAlign": "center", "width": "200rpx", "fontSize": "32rpx", "color": "#333333" } }, "wu-calendar__header-btn-box": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "center" }, ".horizontal": { "width": "100rpx", "height": "100rpx" }, ".vertical": { "flexDirection": "column", "paddingTop": "20rpx", "paddingRight": 0, "paddingBottom": "20rpx", "paddingLeft": 0 } }, "wu-calendar__header-btn": { ".wu-calendar__header-btn-box ": { "width": "20rpx", "height": "20rpx" }, "": { "borderLeftColor": "#808080", "borderLeftStyle": "solid", "borderLeftWidth": "4rpx", "borderTopColor": "#555555", "borderTopStyle": "solid", "borderTopWidth": "4rpx" } }, "wu-calendar--left": { "": { "transform": "rotate(-45deg)" } }, "wu-calendar--right": { "": { "transform": "rotate(135deg)" } }, "wu-calendar--top": { "": { "transform": "rotate(45deg)" } }, "wu-calendar--bottom": { "": { "transform": "rotate(225deg)" } }, "wu-calendar__weeks_box": { "": { "height": "765rpx" } }, "wu-calendar__weeks": { "": { "position": "relative", "flexDirection": "row", "paddingTop": 0, "paddingRight": "8rpx", "paddingBottom": 0, "paddingLeft": "8rpx" } }, "wu-calendar__weeks-item": { "": { "flex": 1, "marginBottom": "8rpx" } }, "wu-calendar__weeks-day": { "": { "flex": 1, "flexDirection": "column", "justifyContent": "center", "alignItems": "center", "height": "90rpx", "borderBottomColor": "#F5F5F5", "borderBottomStyle": "solid", "borderBottomWidth": "2rpx" } }, "wu-calendar__weeks-day-text": { "": { "fontSize": "28rpx" } }, "wu-calendar__box": { "": { "position": "relative" } }, "wu-calendar__box-bg": { "": { "justifyContent": "center", "alignItems": "center", "position": "absolute", "top": 0, "left": 0, "right": 0, "bottom": 0 } }, "wu-calendar__box-bg-text": { "": { "fontSize": "100rpx", "transform": "scale(4)", "fontWeight": "bold", "color": "#999999", "opacity": 0.1, "textAlign": "center" } }, "@TRANSITION": { "wu-calendar__mask": { "property": "opacity", "duration": 300 }, "wu-calendar--fixed": { "property": "transform", "duration": 300 } } };
 const {
   t
 } = initVueI18n(i18nMessages);
@@ -1886,16 +1922,20 @@ const _sfc_main$1 = {
     startDate(val) {
       this.cale.resetSatrtDate(val);
       this.cale.setDate(this.nowDate.fullDate);
-      this.weeks = this.cale.weeks;
+      this.assignmentWeeks();
     },
     endDate(val) {
       this.cale.resetEndDate(val);
       this.cale.setDate(this.nowDate.fullDate);
-      this.weeks = this.cale.weeks;
+      this.assignmentWeeks();
+    },
+    monthShowCurrentMonth(val) {
+      this.cale.resetMonthShowCurrentMonth(val);
+      this.setDate(this.nowDate.fullDate);
     },
     selected(newVal) {
       this.cale.setSelectInfo(this.nowDate.fullDate, newVal);
-      this.weeks = this.cale.weeks;
+      this.assignmentWeeks();
     }
   },
   created() {
@@ -1903,7 +1943,8 @@ const _sfc_main$1 = {
       selected: this.selected,
       startDate: this.startDate,
       endDate: this.endDate,
-      range: this.range
+      range: this.range,
+      monthShowCurrentMonth: this.monthShowCurrentMonth
     });
     this.init(this.date);
   },
@@ -2026,7 +2067,7 @@ const _sfc_main$1 = {
      * @param {Object} weeks
      */
     choiceDate(weeks) {
-      if (weeks.disable)
+      if (weeks.disable || weeks.empty)
         return;
       this.calendar = weeks;
       this.cale.setMultiple(this.calendar.fullDate);
@@ -2077,7 +2118,7 @@ const _sfc_main$1 = {
       }
       const date = this.cale.getDate(/* @__PURE__ */ new Date());
       this.cale.setMultiple(date.fullDate);
-      this.nowDate = this.calendar = this.cale.getInfo(date.fullDate);
+      this.nowDate = this.calendar = date;
       const todayYearMonth = `${date.year}-${date.month}`;
       if (nowYearMonth !== todayYearMonth) {
         this.monthSwitch();
@@ -2106,6 +2147,13 @@ const _sfc_main$1 = {
      */
     setDate(date) {
       this.cale.setDate(date);
+      this.assignmentWeeks();
+      this.nowDate = this.cale.getInfo(date);
+    },
+    /**
+     * 用来将cale.weeks 赋值到 weeks
+     */
+    assignmentWeeks() {
       let weekName = "";
       switch (this.swiperCurrent) {
         case 0:
@@ -2119,7 +2167,6 @@ const _sfc_main$1 = {
           break;
       }
       this[weekName] = this.cale.weeks;
-      this.nowDate = this.cale.getInfo(date);
     },
     /**
      * 滑动切换日期
@@ -2417,7 +2464,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
           createCommentVNode(" 滑动切换 "),
           _ctx.slideSwitchMode !== "none" ? (openBlock(), createBlock(_component_swiper, {
             key: 1,
-            style: { "height": "765rpx" },
+            style: normalizeStyle({ height: _ctx.monthShowCurrentMonth ? "640rpx" : "765rpx" }),
             duration: 500,
             vertical: _ctx.slideSwitchMode == "vertical",
             circular: "",
@@ -2427,129 +2474,135 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             default: withCtx(() => [
               createVNode(_component_swiper_item, null, {
                 default: withCtx(() => [
-                  (openBlock(true), createElementBlock(
-                    Fragment,
-                    null,
-                    renderList($data.preWeeks, (item, weekIndex) => {
-                      return openBlock(), createElementBlock("view", {
-                        class: "wu-calendar__weeks",
-                        key: weekIndex
-                      }, [
-                        (openBlock(true), createElementBlock(
-                          Fragment,
-                          null,
-                          renderList(item, (weeks, weeksIndex) => {
-                            return openBlock(), createElementBlock("view", {
-                              class: "wu-calendar__weeks-item",
-                              key: weeksIndex
-                            }, [
-                              createVNode(_component_wu_calendar_item, {
-                                class: "wu-calendar-item--hook",
-                                weeks,
-                                calendar: $data.calendar,
-                                selected: _ctx.selected,
-                                lunar: _ctx.lunar,
-                                onChange: $options.choiceDate,
-                                color: _ctx.color,
-                                startText: _ctx.startText,
-                                endText: _ctx.endText
-                              }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
-                            ]);
-                          }),
-                          128
-                          /* KEYED_FRAGMENT */
-                        ))
-                      ]);
-                    }),
-                    128
-                    /* KEYED_FRAGMENT */
-                  ))
+                  createElementVNode("view", { class: "wu-calendar__weeks_box" }, [
+                    (openBlock(true), createElementBlock(
+                      Fragment,
+                      null,
+                      renderList($data.preWeeks, (item, weekIndex) => {
+                        return openBlock(), createElementBlock("view", {
+                          class: "wu-calendar__weeks",
+                          key: weekIndex
+                        }, [
+                          (openBlock(true), createElementBlock(
+                            Fragment,
+                            null,
+                            renderList(item, (weeks, weeksIndex) => {
+                              return openBlock(), createElementBlock("view", {
+                                class: "wu-calendar__weeks-item",
+                                key: weeksIndex
+                              }, [
+                                createVNode(_component_wu_calendar_item, {
+                                  class: "wu-calendar-item--hook",
+                                  weeks,
+                                  calendar: $data.calendar,
+                                  selected: _ctx.selected,
+                                  lunar: _ctx.lunar,
+                                  onChange: $options.choiceDate,
+                                  color: _ctx.color,
+                                  startText: _ctx.startText,
+                                  endText: _ctx.endText
+                                }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
+                              ]);
+                            }),
+                            128
+                            /* KEYED_FRAGMENT */
+                          ))
+                        ]);
+                      }),
+                      128
+                      /* KEYED_FRAGMENT */
+                    ))
+                  ])
                 ]),
                 _: 1
                 /* STABLE */
               }),
               createVNode(_component_swiper_item, null, {
                 default: withCtx(() => [
-                  (openBlock(true), createElementBlock(
-                    Fragment,
-                    null,
-                    renderList($data.weeks, (item, weekIndex) => {
-                      return openBlock(), createElementBlock("view", {
-                        class: "wu-calendar__weeks",
-                        key: weekIndex
-                      }, [
-                        (openBlock(true), createElementBlock(
-                          Fragment,
-                          null,
-                          renderList(item, (weeks, weeksIndex) => {
-                            return openBlock(), createElementBlock("view", {
-                              class: "wu-calendar__weeks-item",
-                              key: weeksIndex
-                            }, [
-                              createVNode(_component_wu_calendar_item, {
-                                class: "wu-calendar-item--hook",
-                                weeks,
-                                calendar: $data.calendar,
-                                selected: _ctx.selected,
-                                lunar: _ctx.lunar,
-                                onChange: $options.choiceDate,
-                                color: _ctx.color,
-                                startText: _ctx.startText,
-                                endText: _ctx.endText
-                              }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
-                            ]);
-                          }),
-                          128
-                          /* KEYED_FRAGMENT */
-                        ))
-                      ]);
-                    }),
-                    128
-                    /* KEYED_FRAGMENT */
-                  ))
+                  createElementVNode("view", { class: "wu-calendar__weeks_box" }, [
+                    (openBlock(true), createElementBlock(
+                      Fragment,
+                      null,
+                      renderList($data.weeks, (item, weekIndex) => {
+                        return openBlock(), createElementBlock("view", {
+                          class: "wu-calendar__weeks",
+                          key: weekIndex
+                        }, [
+                          (openBlock(true), createElementBlock(
+                            Fragment,
+                            null,
+                            renderList(item, (weeks, weeksIndex) => {
+                              return openBlock(), createElementBlock("view", {
+                                class: "wu-calendar__weeks-item",
+                                key: weeksIndex
+                              }, [
+                                createVNode(_component_wu_calendar_item, {
+                                  class: "wu-calendar-item--hook",
+                                  weeks,
+                                  calendar: $data.calendar,
+                                  selected: _ctx.selected,
+                                  lunar: _ctx.lunar,
+                                  onChange: $options.choiceDate,
+                                  color: _ctx.color,
+                                  startText: _ctx.startText,
+                                  endText: _ctx.endText
+                                }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
+                              ]);
+                            }),
+                            128
+                            /* KEYED_FRAGMENT */
+                          ))
+                        ]);
+                      }),
+                      128
+                      /* KEYED_FRAGMENT */
+                    ))
+                  ])
                 ]),
                 _: 1
                 /* STABLE */
               }),
               createVNode(_component_swiper_item, null, {
                 default: withCtx(() => [
-                  (openBlock(true), createElementBlock(
-                    Fragment,
-                    null,
-                    renderList($data.nextWeeks, (item, weekIndex) => {
-                      return openBlock(), createElementBlock("view", {
-                        class: "wu-calendar__weeks",
-                        key: weekIndex
-                      }, [
-                        (openBlock(true), createElementBlock(
-                          Fragment,
-                          null,
-                          renderList(item, (weeks, weeksIndex) => {
-                            return openBlock(), createElementBlock("view", {
-                              class: "wu-calendar__weeks-item",
-                              key: weeksIndex
-                            }, [
-                              createVNode(_component_wu_calendar_item, {
-                                class: "wu-calendar-item--hook",
-                                weeks,
-                                calendar: $data.calendar,
-                                selected: _ctx.selected,
-                                lunar: _ctx.lunar,
-                                onChange: $options.choiceDate,
-                                color: _ctx.color,
-                                startText: _ctx.startText,
-                                endText: _ctx.endText
-                              }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
-                            ]);
-                          }),
-                          128
-                          /* KEYED_FRAGMENT */
-                        ))
-                      ]);
-                    }),
-                    128
-                    /* KEYED_FRAGMENT */
-                  ))
+                  createElementVNode("view", { class: "wu-calendar__weeks_box" }, [
+                    (openBlock(true), createElementBlock(
+                      Fragment,
+                      null,
+                      renderList($data.nextWeeks, (item, weekIndex) => {
+                        return openBlock(), createElementBlock("view", {
+                          class: "wu-calendar__weeks",
+                          key: weekIndex
+                        }, [
+                          (openBlock(true), createElementBlock(
+                            Fragment,
+                            null,
+                            renderList(item, (weeks, weeksIndex) => {
+                              return openBlock(), createElementBlock("view", {
+                                class: "wu-calendar__weeks-item",
+                                key: weeksIndex
+                              }, [
+                                createVNode(_component_wu_calendar_item, {
+                                  class: "wu-calendar-item--hook",
+                                  weeks,
+                                  calendar: $data.calendar,
+                                  selected: _ctx.selected,
+                                  lunar: _ctx.lunar,
+                                  onChange: $options.choiceDate,
+                                  color: _ctx.color,
+                                  startText: _ctx.startText,
+                                  endText: _ctx.endText
+                                }, null, 8, ["weeks", "calendar", "selected", "lunar", "onChange", "color", "startText", "endText"])
+                              ]);
+                            }),
+                            128
+                            /* KEYED_FRAGMENT */
+                          ))
+                        ]);
+                      }),
+                      128
+                      /* KEYED_FRAGMENT */
+                    ))
+                  ])
                 ]),
                 _: 1
                 /* STABLE */
@@ -2557,7 +2610,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             ]),
             _: 1
             /* STABLE */
-          }, 8, ["vertical", "current", "onChange"])) : (openBlock(), createElementBlock(
+          }, 8, ["style", "vertical", "current", "onChange"])) : (openBlock(), createElementBlock(
             Fragment,
             { key: 2 },
             [
@@ -2666,6 +2719,10 @@ const _sfc_main = {
         {
           title: "显示农历",
           iconUrl: "https://cdn.uviewui.com/uview/demo/calendar/5.png"
+        },
+        {
+          title: "每月仅显示当月的数据",
+          iconUrl: "https://cdn.uviewui.com/uview/demo/calendar/5.png"
         }
       ]
     };
@@ -2680,7 +2737,7 @@ const _sfc_main = {
     },
     confirm(e) {
       this[`show${this.index}`] = false;
-      formatAppLog("log", "at pages/componentsC/calendar/calendar.nvue:153", e);
+      formatAppLog("log", "at pages/componentsC/calendar/calendar.nvue:163", e);
       switch (this.index - 1) {
         case 0:
           this.values[this.index - 1] = e[0];
@@ -2887,6 +2944,14 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         "end-text": "返程",
         color: "#6ac695"
       }, null, 8, ["selected", "startDate"]),
+      createCommentVNode(" 日期最大范围 "),
+      createVNode(_component_wu_calendar, {
+        ref: "wuCalendar7",
+        insert: false,
+        startDate: $options.wuCalendar7StartDate,
+        endDate: $options.wuCalendar7EndDate,
+        range: ""
+      }, null, 8, ["startDate", "endDate"]),
       createCommentVNode(" 显示农历 "),
       createVNode(
         _component_wu_calendar,
@@ -2900,14 +2965,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         512
         /* NEED_PATCH */
       ),
-      createCommentVNode(" 日期最大范围 "),
-      createVNode(_component_wu_calendar, {
-        ref: "wuCalendar7",
-        insert: false,
-        startDate: $options.wuCalendar7StartDate,
-        endDate: $options.wuCalendar7EndDate,
-        range: ""
-      }, null, 8, ["startDate", "endDate"])
+      createCommentVNode(" 每月仅显示当月的数据 "),
+      createVNode(
+        _component_wu_calendar,
+        {
+          ref: "wuCalendar9",
+          monthShowCurrentMonth: "",
+          insert: false,
+          range: ""
+        },
+        null,
+        512
+        /* NEED_PATCH */
+      )
     ])
   ]);
 }

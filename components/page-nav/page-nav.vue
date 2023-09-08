@@ -1,10 +1,10 @@
 <template>
 	<view class="nav-wrap">
 		<view class="nav-title">
-			<wu-image :showLoading="true" src="https://wu.geeks.ink/logo.png" width="73px" height="84px"/>
+			<wu-image src="https://wu.geeks.ink/logo.png" width="130rpx" height="145rpx"/>
 			<view class="nav-info">
 				<view class="nav-info__title" @tap="jumpToWx">
-					<text class="nav-info__title__text">WU-UI 1.0.0</text>
+					<text class="nav-info__title__text">WU-UI {{version}}</text>
 				</view>
 				<text class="nav-slogan">多平台快速开发的UI框架</text>
 			</view>
@@ -70,13 +70,16 @@
 			&__text {
 				/* #ifndef APP-NVUE */
 				display: flex;
+				background: linear-gradient(to right, #5fffec 0%, #6696ff 70%);
+				background-clip: text;
+				color: transparent !important;
 				/* #endif */
-				font-size: 25px;
-				font-weight: bold;
+				/* #ifdef APP-NVUE */
+				color: #6696ff;
+				/* #endif */
+				font-size: 20px;
+				font-weight: 900;
 				text-align: left;
-                background: linear-gradient(to right, #5fffec 0%, #6696ff 70%);
-                background-clip: text;
-                color: transparent !important;
             }
 		}
 	}
@@ -90,11 +93,18 @@
 	}
 
 	.nav-slogan {
+		/* #ifndef APP-NVUE */
+		display: flex;
 		background: linear-gradient(to right, #5fffec 0%, #6696ff 70%);
-        background-clip: text;
-        color: transparent !important;
+		background-clip: text;
+		color: transparent !important;
+		/* #endif */
+		/* #ifdef APP-NVUE */
+		color: #6696ff;
+		/* #endif */
         font-weight: 800;
 		font-size: 14px;
+		margin-top: 3px;
 	}
 
 	.nav-desc {

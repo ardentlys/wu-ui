@@ -11,7 +11,7 @@
 				</wu-cell>
 			</wu-cell-group>
 		</view>
-		<!-- <u-gap height="30" bgColor="#fff"></u-gap> -->
+		<wu-gap height="30" bgColor="#fff"></wu-gap>
 	</view>
 </template>
 

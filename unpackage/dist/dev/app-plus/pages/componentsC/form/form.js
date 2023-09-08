@@ -3022,6 +3022,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       bgColor: {
         type: String,
         default: "transparent"
+      },
+      customStyle: {
+        type: [Object, String],
+        default: () => {
+          return "";
+        }
       }
     }, (_b2 = (_a2 = uni.$w) == null ? void 0 : _a2.props) == null ? void 0 : _b2.statusBar)
   };
@@ -3036,7 +3042,7 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       style() {
         const style = {};
         style.height = this.$w.addUnit(this.$w.sys().statusBarHeight, "px");
-        style.backgroundColor = this.bgColor;
+        style.background = this.bgColor;
         return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
       }
     }
@@ -3079,6 +3085,11 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: Boolean,
         default: false
       },
+      // 是否显示左边
+      showLeft: {
+        type: Boolean,
+        default: true
+      },
       // 左边的图标
       leftIcon: {
         type: String,
@@ -3089,7 +3100,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
         type: String,
         default: ""
       },
-      // 左右的提示文字
+      // 小程序端导航栏右侧是否预留胶囊位置
+      mpRightReserveCapsule: {
+        type: Boolean,
+        default: true
+      },
+      // 左边的提示文字
       rightText: {
         type: String,
         default: ""
@@ -3160,6 +3176,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
       rightClick() {
         this.$emit("rightClick");
       }
+    },
+    computed: {
+      // 小程序胶囊右侧所在位置 仅在小程序端且 mpRightReserveCapsule 为 true 是预留胶囊位置
+      mpCapsuleRightPosition() {
+        return 0;
+      }
     }
   };
   function _sfc_render2(_ctx, _cache, $props, $setup, $data, $options) {
@@ -3195,14 +3217,15 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
           (0, import_vue3.createElementVNode)(
             "view",
             {
-              class: (0, import_vue3.normalizeClass)(["wu-navbar__content", [_ctx.border && "u-border-bottom"]]),
+              class: (0, import_vue3.normalizeClass)(["wu-navbar__content", [_ctx.border && "wu-border-bottom"]]),
               style: (0, import_vue3.normalizeStyle)({
                 height: _ctx.$w.addUnit(_ctx.height),
-                backgroundColor: _ctx.bgColor
+                background: _ctx.bgColor
               })
             },
             [
-              (0, import_vue3.createElementVNode)("view", {
+              _ctx.showLeft ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
+                key: 0,
                 class: "wu-navbar__content__left",
                 hoverClass: "wu-navbar__content__left--hover",
                 hoverStartTime: "150",
@@ -3229,12 +3252,12 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                     /* TEXT, STYLE */
                   )) : (0, import_vue3.createCommentVNode)("v-if", true)
                 ])
-              ]),
+              ])) : (0, import_vue3.createCommentVNode)("v-if", true),
               (0, import_vue3.renderSlot)(_ctx.$slots, "center", {}, () => [
                 (0, import_vue3.createElementVNode)(
                   "u-text",
                   {
-                    class: "u-line-1 wu-navbar__content__title",
+                    class: "wu-line-1 wu-navbar__content__title",
                     style: (0, import_vue3.normalizeStyle)([{
                       width: _ctx.$w.addUnit(_ctx.titleWidth)
                     }, _ctx.$w.addStyle(_ctx.titleStyle)])
@@ -3244,29 +3267,35 @@ if (typeof uni !== 'undefined' && uni && uni.requireGlobal) {
                   /* TEXT, STYLE */
                 )
               ]),
-              _ctx.$slots.right || _ctx.rightIcon || _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)("view", {
-                key: 0,
-                class: "wu-navbar__content__right",
-                onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
-              }, [
-                (0, import_vue3.renderSlot)(_ctx.$slots, "right", {}, () => [
-                  _ctx.rightIcon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
-                    key: 0,
-                    name: _ctx.rightIcon,
-                    size: "20"
-                  }, null, 8, ["name"])) : (0, import_vue3.createCommentVNode)("v-if", true),
-                  _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
-                    "u-text",
-                    {
-                      key: 1,
-                      class: "wu-navbar__content__right__text"
-                    },
-                    (0, import_vue3.toDisplayString)(_ctx.rightText),
-                    1
-                    /* TEXT */
-                  )) : (0, import_vue3.createCommentVNode)("v-if", true)
-                ])
-              ])) : (0, import_vue3.createCommentVNode)("v-if", true)
+              (0, import_vue3.createElementVNode)(
+                "view",
+                {
+                  class: "wu-navbar__content__right",
+                  style: (0, import_vue3.normalizeStyle)({ right: $options.mpCapsuleRightPosition }),
+                  onClick: _cache[1] || (_cache[1] = (...args) => $options.rightClick && $options.rightClick(...args))
+                },
+                [
+                  (0, import_vue3.renderSlot)(_ctx.$slots, "right", {}, () => [
+                    _ctx.rightIcon ? ((0, import_vue3.openBlock)(), (0, import_vue3.createBlock)(_component_wu_icon, {
+                      key: 0,
+                      name: _ctx.rightIcon,
+                      size: "20"
+                    }, null, 8, ["name"])) : (0, import_vue3.createCommentVNode)("v-if", true),
+                    _ctx.rightText ? ((0, import_vue3.openBlock)(), (0, import_vue3.createElementBlock)(
+                      "u-text",
+                      {
+                        key: 1,
+                        class: "wu-navbar__content__right__text"
+                      },
+                      (0, import_vue3.toDisplayString)(_ctx.rightText),
+                      1
+                      /* TEXT */
+                    )) : (0, import_vue3.createCommentVNode)("v-if", true)
+                  ])
+                ],
+                4
+                /* STYLE */
+              )
             ],
             6
             /* CLASS, STYLE */

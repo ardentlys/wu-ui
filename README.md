@@ -1,18 +1,17 @@
+<p></p>
 <p align="center">
-    <img alt="logo" src="https://wu.geeks.ink/logo.png?v2" width="150">
+    <img alt="logo" src="https://wu.geeks.ink/logo.png?v2" width="120">
 </p>
-<strong>
-    <h3 align="center" size="40px" style="
-        margin: 0 0 30px;
-        line-height: 40px !important;
-        font-size: 40px !important;
-        font-weight: bold;
-        background: linear-gradient(to right, #94fcf0 0%, #6696ff 60%);
-        -webkit-background-clip: text;
-        color: transparent;">
-        WU-UI
-    </h3>
-</strong>
+<h3 align="center" size="40px" style="
+	margin: 0 0 30px;
+	line-height: 40px !important;
+	font-size: 40px !important;
+	font-weight: bold;
+	background: linear-gradient(to right, #94fcf0 0%, #6696ff 60%);
+	-webkit-background-clip: text;
+	color: transparent;">
+	WU-UI
+</h3>
 <h3 align="center" size="20px" style="
     font-size: 20px;
     font-weight: bold; 
@@ -59,7 +58,7 @@ wu-ui(如虎添翼) 是 全面兼容多端的uniapp生态框架，基于vue2、v
 ## wu-ui产品特点
 1. **`wu-ui` 是基于 `uview2.x` 改造而来，增加了对vue3的兼容、新的组件(未来这些组件甚至可能包含原生组件与业务中常用的组件)，无论平台，一致体验。感谢 `uview-ui` 作者的开源奉献，在这里再次感谢作者和所有开源的开发者，因为有了你们，社区才变得更加美好。**
 2. **全端兼容: `wu-ui` 支持 vue2、vue3、app-vue、app-nvue、h5、小程序等。**
-3. **扩展配置: 由于`wu-ui`特殊的组件单独导入的方式，内置的方法默认不再挂载到uni对象之上，也就意味着默认情况下不能在项目中直接使用uni.$w.xxx使用内置方法。但是可以通过扩展配置进行使用，使用方式请参考[扩展配置](https://wu.geeks.ink/zh-CN/components/extendedConfiguration.html)。**
+3. **扩展配置: 由于`wu-ui`特殊的组件单独导入的方式，内置的方法默认不再挂载到uni对象之上，也就意味着默认情况下不能在项目中直接使用uni.$w.xxx使用内置方法。但是可以通过扩展配置进行使用，使用方式请参考[扩展配置](https://wu.geeks.ink/zh-CN/components/extendedConfiguration.html)。其中包括 [JS工具库](https://wu.geeks.ink/zh-CN/components/extendedConfiguration.html#扩展配置-js-工具库)、 [自定义主题](https://wu.geeks.ink/zh-CN/components/extendedConfiguration.html#扩展配置-自定义主题)、 [基础样式](https://wu.geeks.ink/zh-CN/components/extendedConfiguration.html#扩展配置-基础样式)、 [内置配置](https://wu.geeks.ink/zh-CN/components/extendedConfiguration.html#扩展配置-内置配置)等。**
 
 ## 快速开始
 `wu-ui` 强烈建议通过 `下载插件并导入HbuilderX` 导入组件。或者下载完整 [wu-ui](https://ext.dcloud.net.cn/plugin?id=13992) 项目 将 `uni_modules` 复制到自己的项目。
@@ -106,6 +105,7 @@ wu-ui(如虎添翼) 是 全面兼容多端的uniapp生态框架，基于vue2、v
 | wu-textarea | [文本域](https://wu.geeks.ink/zh-CN/components/textarea.html) |
 | wu-gap | [间隔槽](https://wu.geeks.ink/zh-CN/components/gap.html) |
 | wu-cell | [单元格](https://wu.geeks.ink/zh-CN/components/cell.html) |
+| wu-app-update | [app更新](https://wu.geeks.ink/zh-CN/components/appUpdate.html) |
 
 ## 版权信息
 wu-ui遵循[MIT](https://en.wikipedia.org/wiki/MIT_License)开源协议，意味着您无需支付任何费用，也无需授权，即可将wu-ui应用到您的产品中。

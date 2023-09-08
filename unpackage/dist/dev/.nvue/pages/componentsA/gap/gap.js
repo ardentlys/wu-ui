@@ -1,8 +1,11 @@
-import { resolveComponent, openBlock, createElementBlock, createElementVNode, createVNode } from "vue";
+import { _ as __easycom_4 } from "../../../wu-gap.js";
+import { resolveDynamicComponent, openBlock, createElementBlock, createElementVNode, createVNode } from "vue";
+import { r as resolveEasycom } from "../../../uni-app.es.js";
 import { _ as _export_sfc } from "../../../_plugin-vue_export-helper.js";
+import "../../../mixin.js";
 const _sfc_main = {};
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_u_gap = resolveComponent("u-gap");
+  const _component_wu_gap = resolveEasycom(resolveDynamicComponent("wu-gap"), __easycom_4);
   return openBlock(), createElementBlock("scroll-view", {
     scrollY: true,
     showScrollbar: true,
@@ -14,19 +17,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       createElementVNode("view", { class: "wu-demo-block" }, [
         createElementVNode("u-text", { class: "wu-demo-block__title" }, "基本案列"),
         createElementVNode("view", { class: "wu-page__gap-item" }, [
-          createVNode(_component_u_gap, { bgColor: "#f3f4f6" })
+          createVNode(_component_wu_gap, { bgColor: "#f3f4f6" })
         ])
       ]),
       createElementVNode("view", { class: "wu-demo-block" }, [
         createElementVNode("u-text", { class: "wu-demo-block__title" }, "自定义颜色"),
         createElementVNode("view", { class: "wu-page__gap-item" }, [
-          createVNode(_component_u_gap, { bgColor: "#2979ff" })
+          createVNode(_component_wu_gap, { bgColor: "#2979ff" })
         ])
       ]),
       createElementVNode("view", { class: "wu-demo-block" }, [
         createElementVNode("u-text", { class: "wu-demo-block__title" }, "自定义高度"),
         createElementVNode("view", { class: "wu-page__gap-item" }, [
-          createVNode(_component_u_gap, {
+          createVNode(_component_wu_gap, {
             bgColor: "#f3f4f6",
             height: "40"
           })
@@ -35,7 +38,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       createElementVNode("view", { class: "wu-demo-block" }, [
         createElementVNode("u-text", { class: "wu-demo-block__title" }, "自定义上下边距"),
         createElementVNode("view", { class: "wu-page__gap-item" }, [
-          createVNode(_component_u_gap, {
+          createVNode(_component_wu_gap, {
             bgColor: "#f3f4f6",
             marginTop: "20",
             marginBottom: "20"

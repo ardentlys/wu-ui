@@ -1,11 +1,13 @@
 import { _ as __easycom_0$1 } from "../../wu-image.js";
-import { resolveDynamicComponent, openBlock, createElementBlock, createElementVNode, createVNode, toDisplayString, Fragment, renderList, createBlock, withCtx, createCommentVNode } from "vue";
+import { resolveDynamicComponent, openBlock, createElementBlock, createElementVNode, createVNode, toDisplayString, Fragment, renderList, createBlock, withCtx } from "vue";
 import { r as resolveEasycom } from "../../uni-app.es.js";
 import { _ as _export_sfc } from "../../_plugin-vue_export-helper.js";
 import { _ as __easycom_1, a as __easycom_2 } from "../../wu-cell-group.js";
+import { _ as __easycom_4 } from "../../wu-gap.js";
 import "../../wu-icon.js";
 import "../../mixin.js";
-const _style_0$1 = { "nav-wrap": { "": { "paddingTop": 15, "paddingRight": 15, "paddingBottom": 15, "paddingLeft": 15, "position": "relative" } }, "lang": { "": { "position": "absolute", "top": 15, "right": 15 } }, "nav-title": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "flex-start" } }, "nav-info": { "": { "marginLeft": 15 } }, "nav-info__title": { "": { "flexDirection": "row", "alignItems": "center" } }, "nav-info__title__text": { "": { "color": "#303133", "fontSize": 25, "fontWeight": "bold", "textAlign": "left" } }, "nav-info__title__jump": { "": { "fontSize": 12, "color": "#3c9cff", "fontWeight": "normal", "marginLeft": 20 } }, "logo": { "": { "width": 70, "height": 70 } }, "nav-slogan": { "": { "color": "#909193", "fontSize": 14 } }, "nav-desc": { "": { "marginTop": 10, "fontSize": 14, "color": "#606266", "lineHeight": 20 } } };
+import "../../wu-line.js";
+const _style_0$1 = { "nav-wrap": { "": { "paddingTop": 15, "paddingRight": 15, "paddingBottom": 15, "paddingLeft": 15, "position": "relative" } }, "lang": { "": { "position": "absolute", "top": 15, "right": 15 } }, "nav-title": { "": { "flexDirection": "row", "alignItems": "center", "justifyContent": "flex-start" } }, "nav-info": { "": { "marginLeft": 15 } }, "nav-info__title": { "": { "flexDirection": "row", "alignItems": "center" } }, "nav-info__title__text": { "": { "color": "#6696ff", "fontSize": 25, "fontWeight": "bold", "textAlign": "left" } }, "logo": { "": { "width": 70, "height": 70 } }, "nav-slogan": { "": { "color": "#6696ff", "fontWeight": "800", "fontSize": 14, "marginTop": 5 } }, "nav-desc": { "": { "marginTop": 10, "fontSize": 14, "color": "#606266", "lineHeight": 20 } } };
 const _sfc_main$1 = {
   props: {
     desc: String,
@@ -29,17 +31,22 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   }, [
     createElementVNode("view", { class: "nav-title" }, [
       createVNode(_component_wu_image, {
-        showLoading: true,
-        src: "/static/logo.png",
-        width: "70px",
-        height: "70px"
+        src: "https://wu.geeks.ink/logo.png",
+        width: "73px",
+        height: "84px"
       }),
       createElementVNode("view", { class: "nav-info" }, [
         createElementVNode("view", {
           class: "nav-info__title",
           onClick: _cache[0] || (_cache[0] = (...args) => $options.jumpToWx && $options.jumpToWx(...args))
         }, [
-          createElementVNode("u-text", { class: "nav-info__title__text" }, "wu 1.0.0")
+          createElementVNode(
+            "u-text",
+            { class: "nav-info__title__text" },
+            "WU-UI " + toDisplayString($data.version),
+            1
+            /* TEXT */
+          )
         ]),
         createElementVNode("u-text", { class: "nav-slogan" }, "多平台快速开发的UI框架")
       ])
@@ -118,13 +125,14 @@ const list = [
         icon: "layout",
         title: "Layout 布局",
         title_en: "Layout"
+      },
+      {
+        path: "/pages/componentsA/cell/cell",
+        icon: "cell",
+        title: "Cell 单元格",
+        title_en: "Cell"
       }
       // {
-      // 	path: '/pages/componentsA/cell/cell',
-      // 	icon: 'cell',
-      // 	title: 'Cell 单元格',
-      // 	title_en: 'Cell'
-      // }, {
       // 	path: '/pages/componentsB/badge/badge',
       // 	icon: 'badge',
       // 	title: 'Badge 徽标数',
@@ -212,23 +220,26 @@ const list = [
         icon: "field",
         title: "Input 输入框",
         title_en: "Input"
+      },
+      {
+        path: "/pages/componentsC/textarea/textarea",
+        icon: "textarea",
+        title: "Textarea 文本域",
+        title_en: "Textarea"
+      },
+      {
+        path: "/pages/componentsA/checkbox/checkbox",
+        icon: "checkbox",
+        title: "Checkbox 复选框",
+        title_en: "Checkbox"
+      },
+      {
+        path: "/pages/componentsA/radio/radio",
+        icon: "radio",
+        title: "Radio 单选框",
+        title_en: "Radio"
       }
       // {
-      // 	path: '/pages/componentsC/textarea/textarea',
-      // 	icon: 'textarea',
-      // 	title: 'Textarea 文本域',
-      // 	title_en: 'Textarea'
-      // }, {
-      // 	path: '/pages/componentsA/checkbox/checkbox',
-      // 	icon: 'checkbox',
-      // 	title: 'Checkbox 复选框',
-      // 	title_en: 'Checkbox'
-      // }, {
-      // 	path: '/pages/componentsA/radio/radio',
-      // 	icon: 'radio',
-      // 	title: 'Radio 单选框',
-      // 	title_en: 'Radio'
-      // }, {
       // 	path: '/pages/componentsB/switch/switch',
       // 	icon: 'switch',
       // 	title: 'Switch 开关选择器',
@@ -398,127 +409,132 @@ const list = [
   // 		}
   // 	]
   // },
-  // {
-  // 	groupName: '导航组件',
-  // 	groupName_en: 'Navigation components',
-  // 	list: [
-  // 		// {
-  // 		// 	path: '/pages/componentsB/dropdown/dropdown',
-  // 		// 	icon: 'dropdown',
-  // 		// 	title: 'Dropdown 下拉菜单',
-  // 		// 	title_en: 'Dropdown',
-  // 		// },
-  // 		{
-  // 			path: '/pages/componentsB/tabbar/tabbar',
-  // 			icon: 'tabbar',
-  // 			title: 'Tabbar 底部导航栏',
-  // 			title_en: 'Tabbar'
-  // 		}, {
-  // 			path: '/pages/componentsA/backtop/backtop',
-  // 			icon: 'backTop',
-  // 			title: 'BackTop 返回顶部',
-  // 			title_en: 'BackTop'
-  // 		}, {
-  // 			path: '/pages/componentsC/navbar/navbar',
-  // 			icon: 'navbar',
-  // 			title: 'Navbar 导航栏',
-  // 			title_en: 'Navbar'
-  // 		}, {
-  // 			path: '/pages/componentsC/tabs/tabs',
-  // 			icon: 'tabs',
-  // 			title: 'Tabs 标签',
-  // 			title_en: 'Tabs'
-  // 		},
-  // 		//
-  // 		// {
-  // 		// 	path: '/pages/template/order/order',
-  // 		// 	icon: 'tabsSwiper',
-  // 		// 	title: 'TabsSwiper 全屏选项卡（暂无）',
-  // 		// 	title_en: 'TabsSwiper',
-  // 		// },
-  // 		//
-  // 		{
-  // 			path: '/pages/componentsC/subsection/subsection',
-  // 			icon: 'subsection',
-  // 			title: 'Subsection 分段器',
-  // 			title_en: 'Subsection'
-  // 		}, {
-  // 			path: '/pages/componentsC/indexList/indexList',
-  // 			icon: 'indexList',
-  // 			title: 'IndexList 索引列表',
-  // 			title_en: 'IndexList'
-  // 		}, {
-  // 			path: '/pages/componentsC/steps/steps',
-  // 			icon: 'steps',
-  // 			title: 'Steps 步骤条',
-  // 			title_en: 'Steps'
-  // 		}, {
-  // 			path: '/pages/componentsA/empty/empty',
-  // 			icon: 'empty',
-  // 			title: 'Empty 内容为空',
-  // 			title_en: 'Empty'
-  // 		}
-  // 	]
-  // }, {
-  // 	groupName: '其他组件',
-  // 	groupName_en: 'Other components',
-  // 	list: [{
-  // 			path: '/pages/componentsB/parse/parse',
-  // 			icon: 'parse',
-  // 			title: 'Parse 富文本解析器',
-  // 			title_en: 'Parse'
-  // 		}, {
-  // 			path: '/pages/componentsC/codeInput/codeInput',
-  // 			icon: 'messageInput',
-  // 			title: 'CodeInput 验证码输入',
-  // 			title_en: 'CodeInput'
-  // 		},
-  // 		// {
-  // 		// 	path: '/pages/componentsC/avatarCropper/avatarCropper',
-  // 		// 	icon: 'avatarCropper',
-  // 		// 	title: 'AvatarCropper 头像裁剪（暂无）',
-  // 		// 	title_en: 'AvatarCropper',
-  // 		// },
-  // 		{
-  // 			path: '/pages/componentsC/loadmore/loadmore',
-  // 			icon: 'loadmore',
-  // 			title: 'Loadmore 加载更多',
-  // 			title_en: 'Loadmore'
-  // 		}, {
-  // 			path: '/pages/componentsC/readMore/readMore',
-  // 			icon: 'readMore',
-  // 			title: 'ReadMore 展开阅读更多',
-  // 			title_en: 'ReadMore'
-  // 		},
-  // 		// {
-  // 		// 	path: '/pages/componentsA/lazyLoad/lazyLoad',
-  // 		// 	icon: 'lazyLoad',
-  // 		// 	title: 'LazyLoad 懒加载（暂无）',
-  // 		// 	title_en: 'LazyLoad',
-  // 		// },
-  // 		{
-  // 			path: '/pages/componentsA/gap/gap',
-  // 			icon: 'gap',
-  // 			title: 'Gap 间隔槽',
-  // 			title_en: 'Gap'
-  // 		}, {
-  // 			path: '/pages/componentsC/avatar/avatar',
-  // 			icon: 'avatar',
-  // 			title: 'Avatar 头像',
-  // 			title_en: 'Avatar'
-  // 		}, {
-  // 			path: '/pages/componentsA/link/link',
-  // 			icon: 'link',
-  // 			title: 'Link 超链接',
-  // 			title_en: 'Link'
-  // 		}, {
-  // 			path: '/pages/componentsA/transition/transition',
-  // 			icon: 'transition',
-  // 			title: 'transition 动画',
-  // 			title_en: '动画'
-  // 		}
-  // 	]
-  // },
+  {
+    groupName: "导航组件",
+    groupName_en: "Navigation components",
+    list: [
+      // 		// {
+      // 		// 	path: '/pages/componentsB/dropdown/dropdown',
+      // 		// 	icon: 'dropdown',
+      // 		// 	title: 'Dropdown 下拉菜单',
+      // 		// 	title_en: 'Dropdown',
+      // 		// },
+      // 		{
+      // 			path: '/pages/componentsB/tabbar/tabbar',
+      // 			icon: 'tabbar',
+      // 			title: 'Tabbar 底部导航栏',
+      // 			title_en: 'Tabbar'
+      // 		}, {
+      // 			path: '/pages/componentsA/backtop/backtop',
+      // 			icon: 'backTop',
+      // 			title: 'BackTop 返回顶部',
+      // 			title_en: 'BackTop'
+      // 		},
+      {
+        path: "/pages/componentsC/navbar/navbar",
+        icon: "navbar",
+        title: "Navbar 导航栏",
+        title_en: "Navbar"
+      }
+      // {
+      // 			path: '/pages/componentsC/tabs/tabs',
+      // 			icon: 'tabs',
+      // 			title: 'Tabs 标签',
+      // 			title_en: 'Tabs'
+      // 		},
+      // 		//
+      // 		// {
+      // 		// 	path: '/pages/template/order/order',
+      // 		// 	icon: 'tabsSwiper',
+      // 		// 	title: 'TabsSwiper 全屏选项卡（暂无）',
+      // 		// 	title_en: 'TabsSwiper',
+      // 		// },
+      // 		//
+      // 		{
+      // 			path: '/pages/componentsC/subsection/subsection',
+      // 			icon: 'subsection',
+      // 			title: 'Subsection 分段器',
+      // 			title_en: 'Subsection'
+      // 		}, {
+      // 			path: '/pages/componentsC/indexList/indexList',
+      // 			icon: 'indexList',
+      // 			title: 'IndexList 索引列表',
+      // 			title_en: 'IndexList'
+      // 		}, {
+      // 			path: '/pages/componentsC/steps/steps',
+      // 			icon: 'steps',
+      // 			title: 'Steps 步骤条',
+      // 			title_en: 'Steps'
+      // 		}, {
+      // 			path: '/pages/componentsA/empty/empty',
+      // 			icon: 'empty',
+      // 			title: 'Empty 内容为空',
+      // 			title_en: 'Empty'
+      // 		}
+    ]
+  },
+  {
+    groupName: "其他组件",
+    groupName_en: "Other components",
+    list: [
+      //  {
+      // 			path: '/pages/componentsB/parse/parse',
+      // 			icon: 'parse',
+      // 			title: 'Parse 富文本解析器',
+      // 			title_en: 'Parse'
+      // 		}, {
+      // 			path: '/pages/componentsC/codeInput/codeInput',
+      // 			icon: 'messageInput',
+      // 			title: 'CodeInput 验证码输入',
+      // 			title_en: 'CodeInput'
+      // 		},
+      // 		// {
+      // 		// 	path: '/pages/componentsC/avatarCropper/avatarCropper',
+      // 		// 	icon: 'avatarCropper',
+      // 		// 	title: 'AvatarCropper 头像裁剪（暂无）',
+      // 		// 	title_en: 'AvatarCropper',
+      // 		// },
+      // 		{
+      // 			path: '/pages/componentsC/loadmore/loadmore',
+      // 			icon: 'loadmore',
+      // 			title: 'Loadmore 加载更多',
+      // 			title_en: 'Loadmore'
+      // 		}, {
+      // 			path: '/pages/componentsC/readMore/readMore',
+      // 			icon: 'readMore',
+      // 			title: 'ReadMore 展开阅读更多',
+      // 			title_en: 'ReadMore'
+      // 		},
+      // 		// {
+      // 		// 	path: '/pages/componentsA/lazyLoad/lazyLoad',
+      // 		// 	icon: 'lazyLoad',
+      // 		// 	title: 'LazyLoad 懒加载（暂无）',
+      // 		// 	title_en: 'LazyLoad',
+      // 		// },
+      {
+        path: "/pages/componentsA/gap/gap",
+        icon: "gap",
+        title: "Gap 间隔槽",
+        title_en: "Gap"
+      }
+      // {
+      // 			path: '/pages/componentsC/avatar/avatar',
+      // 			icon: 'avatar',
+      // 			title: 'Avatar 头像',
+      // 			title_en: 'Avatar'
+      // 		}, {
+      // 			path: '/pages/componentsA/link/link',
+      // 			icon: 'link',
+      // 			title: 'Link 超链接',
+      // 			title_en: 'Link'
+      // 		}, {
+      // 			path: '/pages/componentsA/transition/transition',
+      // 			icon: 'transition',
+      // 			title: 'transition 动画',
+      // 			title_en: '动画'
+      // 		}
+    ]
+  },
   {
     groupName: "业务组件",
     groupName_en: "business component",
@@ -1080,6 +1096,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_page_nav = resolveEasycom(resolveDynamicComponent("page-nav"), __easycom_0);
   const _component_wu_cell = resolveEasycom(resolveDynamicComponent("wu-cell"), __easycom_1);
   const _component_wu_cell_group = resolveEasycom(resolveDynamicComponent("wu-cell-group"), __easycom_2);
+  const _component_wu_gap = resolveEasycom(resolveDynamicComponent("wu-gap"), __easycom_4);
   return openBlock(), createElementBlock("scroll-view", {
     scrollY: true,
     showScrollbar: true,
@@ -1135,7 +1152,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           /* KEYED_FRAGMENT */
         ))
       ]),
-      createCommentVNode(' <u-gap height="30" bgColor="#fff"></u-gap> ')
+      createVNode(_component_wu_gap, {
+        height: "30",
+        bgColor: "#fff"
+      })
     ])
   ]);
 }
