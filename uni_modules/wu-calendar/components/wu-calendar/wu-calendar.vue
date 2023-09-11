@@ -1,8 +1,8 @@
 <template>
 	<view class="wu-calendar">
-		<view v-if="!insert&&show" class="wu-calendar__mask" :class="{'wu-calendar--mask-show':aniMaskShow}"
+		<view v-show="!insert && show" class="wu-calendar__mask" :class="{'wu-calendar--mask-show': aniMaskShow}"
 			@click="clean"></view>
-		<view v-if="insert || show" class="wu-calendar__content"
+		<view v-show="insert || show" class="wu-calendar__content"
 			:class="{'wu-calendar--fixed':!insert,'wu-calendar--ani-show':aniMaskShow}">
 			<view v-if="!insert" class="wu-calendar__header wu-calendar--fixed-top">
 				<view class="wu-calendar__header-btn-box" @click="close">
@@ -68,7 +68,7 @@
 					</view>
 				</view>
 				<!-- 滑动切换 -->
-				<swiper v-if="slideSwitchMode !== 'none'" :style="{height: monthShowCurrentMonth ? '640rpx' : '765rpx'}" :duration="500"
+				<swiper v-if="slideSwitchMode !== 'none'" style="height: 765rpx" :duration="500"
 					:vertical="slideSwitchMode == 'vertical'" circular :current="swiperCurrent" @change="swiperChange">
 					<swiper-item>
 						<view class="wu-calendar__weeks_box">
@@ -145,6 +145,7 @@
 	 * @property {String} startDate 日期选择范围-开始日期
 	 * @property {String} endDate 日期选择范围-结束日期
 	 * @property {Boolean} range 范围选择
+	 * @property {Boolean} rangeEndRepick 允许范围内重选结束日期
 	 * @property {Boolean} monthShowCurrentMonth 当月是否仅展示当月数据
 	 * @property {Boolean} insert = [true|false] 插入模式,默认为false
 	 * 	@value true 弹窗模式
@@ -175,7 +176,6 @@
 				aniMaskShow: false,
 				swiperCurrent: 1,
 				swiperChangeDirection: ''
-
 			}
 		},
 		computed: {
@@ -239,10 +239,13 @@
 				this.cale.resetMonthShowCurrentMonth(val)
 				this.setDate(this.nowDate.fullDate)
 			},
+			rangeEndRepick(val) {
+				this.cale.resetRangeEndRepick(val)
+			},
 			selected(newVal) {
 				this.cale.setSelectInfo(this.nowDate.fullDate, newVal)
 				this.assignmentWeeks();
-			}
+			},
 		},
 		created() {
 			this.cale = new Calendar({
@@ -250,7 +253,8 @@
 				startDate: this.startDate,
 				endDate: this.endDate,
 				range: this.range,
-				monthShowCurrentMonth: this.monthShowCurrentMonth
+				monthShowCurrentMonth: this.monthShowCurrentMonth,
+				rangeEndRepick: this.rangeEndRepick
 			})
 			this.init(this.date)
 		},
@@ -293,10 +297,12 @@
 				// 弹窗模式并且清理数据
 				if (this.clearDate && !this.insert) {
 					this.cale.cleanMultipleStatus()
-					// this.cale.setDate(this.date)
 					this.init(this.date)
 				}
 				this.show = true
+				// #ifdef H5
+				if(!this.insert) document.body.style = 'overflow: hidden'
+				// #endif
 				this.$nextTick(() => {
 					setTimeout(() => {
 						this.aniMaskShow = true
@@ -312,6 +318,9 @@
 					setTimeout(() => {
 						this.show = false
 						this.$emit('close')
+						// #ifdef H5
+						if(!this.insert) document.body.style = 'overflow: visible'
+						// #endif
 					}, 300)
 				})
 			},
@@ -494,8 +503,7 @@
 			 * weeks改变
 			 */
 			weeksChange() {
-				this.setDate(this.cale.getDate(this.nowDate.fullDate, this.swiperChangeDirection == 'next' ? +1 : -1,
-					'month').fullDate)
+				this.setDate(this.cale.getDate(this.nowDate.fullDate, this.swiperChangeDirection == 'next' ? +1 : -1, 'month').fullDate)
 				this.swiperCurrentChangeWeeks();
 				this.monthSwitch();
 			},
@@ -504,21 +512,28 @@
 			 */
 			swiperCurrentChangeWeeks() {
 				if (this.slideSwitchMode !== 'none') {
-					if (this.swiperCurrent == 0) {
-						this.weeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
-							false)
-						this.nextWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate,
-							false)
-					} else if (this.swiperCurrent == 1) {
-						this.preWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate,
-							false)
-						this.nextWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
-							false)
+					if(this.swiperChangeDirection == 'next') {
+						if (this.swiperCurrent == 0) {
+							this.weeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
+								false)
+						} else if (this.swiperCurrent == 1) {
+							this.nextWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
+								false)
+						} else {
+							this.preWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
+								false)
+						}
 					} else {
-						this.weeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate,
-							false)
-						this.preWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
-							false)
+						if (this.swiperCurrent == 0) {
+							this.nextWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate,
+								false)
+						} else if (this.swiperCurrent == 1) {
+							this.preWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
+								false)
+						} else {
+							this.weeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
+								false)
+						}
 					}
 				}
 			},
@@ -571,7 +586,7 @@
 		right: 0;
 		transition-property: transform;
 		transition-duration: 0.3s;
-		transform: translateY(920rpx);
+		transform: translateY(1080rpx);
 		/* #ifndef APP-NVUE */
 		bottom: calc(var(--window-bottom));
 		z-index: 99;
@@ -688,10 +703,6 @@
 
 	.wu-calendar--bottom {
 		transform: rotate(225deg);
-	}
-	
-	.wu-calendar__weeks_box {
-		height: 765rpx;
 	}
 	
 	.wu-calendar__weeks {

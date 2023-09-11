@@ -1,7 +1,7 @@
 {
   "id": "wu-cell",
   "displayName": "wu-cell 单元格，全端兼容，无论平台，一致体验。",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "wu-cell 单元格一般用于一组列表的情况，比如个人中心页，设置页等。",
   "keywords": [
     "wu-ui",

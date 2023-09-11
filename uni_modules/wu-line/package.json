@@ -1,7 +1,7 @@
 {
   "id": "wu-line",
   "displayName": "wu-line 线条，全端兼容，无论平台，一致体验",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "wu-line 用于显示一根线条，用于分隔内容块，有横向和竖向两种模式，且能设置0.5px线条。",
   "keywords": [
     "wu-line",

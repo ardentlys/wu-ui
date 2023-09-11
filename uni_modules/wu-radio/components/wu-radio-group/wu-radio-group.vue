@@ -41,6 +41,7 @@
 	 */
 	export default {
 		name: 'wu-radio-group',
+		emits: ['input', 'update:modelValue', 'change'],
 		mixins: [mpMixin, mixin, props],
 		computed: {
 			// 这里computed的变量，都是子组件wu-radio需要用到的，由于头条小程序的兼容性差异，子组件无法实时监听父组件参数的变化

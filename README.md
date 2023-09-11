@@ -106,6 +106,9 @@ wu-ui(如虎添翼) 是 全面兼容多端的uniapp生态框架，基于vue2、v
 | wu-gap | [间隔槽](https://wu.geeks.ink/zh-CN/components/gap.html) |
 | wu-cell | [单元格](https://wu.geeks.ink/zh-CN/components/cell.html) |
 | wu-app-update | [app更新](https://wu.geeks.ink/zh-CN/components/appUpdate.html) |
+| wu-popup | [弹出层](https://wu.geeks.ink/zh-CN/components/popup.html) |
+| wu-overlay | [遮罩层](https://wu.geeks.ink/zh-CN/components/overlay.html) |
+| wu-action-sheet | [操作菜单](https://wu.geeks.ink/zh-CN/components/actionSheet.html) |
 
 ## 版权信息
 wu-ui遵循[MIT](https://en.wikipedia.org/wiki/MIT_License)开源协议，意味着您无需支付任何费用，也无需授权，即可将wu-ui应用到您的产品中。
@@ -114,5 +117,3 @@ wu-ui遵循[MIT](https://en.wikipedia.org/wiki/MIT_License)开源协议，意味
 `wu-ui` 目前仍处于开发阶段，并且由于目前仅有作者一人，开发速度有限，难免会产生bug，如果您遇见组件无法使用的情况，请您先不要生气，添加[官网q群](https://wu.geeks.ink/zh-CN/components/qqFeedBack.html)反馈即可，会在核实后，在官网产生bug的组件中会有专属的地方来展示您对组件的贡献(好的建议或好的组件提议(不需要您写，只需要您提出规划即可)也会享有同样的待遇)。
 
 ### **在此郑重谢过各位大佬，作者不图大家的钱财，只希望您体验感不错的情况下可以作者一个五星好评，您的好评亦是我们开源的动力。**
-
-

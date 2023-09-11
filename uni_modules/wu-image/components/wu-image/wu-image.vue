@@ -1,31 +1,33 @@
 <template>
-	<view class="wu-image" @tap="onClick" :style="[wrapStyle, backgroundStyle]">
-		<image v-if="!isError && loadingImage" :src="src" :mode="mode" @error="onErrorHandler" @load="onLoadHandler"
-			:show-menu-by-longpress="showMenuByLongpress" class="wu-image__image" :style="{
-				borderRadius: shape == 'circle' ? '10000px' : $w.addUnit(radius),
-				width: $w.addUnit(width),
-				height: $w.addUnit(height)
-			}"></image>
-		<view v-if="showLoading && loading" class="wu-image__loading" :style="{
-				borderRadius: shape == 'circle' ? '50%' : $w.addUnit(radius),
-				backgroundColor: this.bgColor,
-				width: $w.addUnit(width),
-				height: $w.addUnit(height)
-			}">
-			<slot name="loading">
-				<wu-icon :name="loadingIcon" :width="width" :height="height"></wu-icon>
-			</slot>
+	<wu-transition mode="fade" :show="show" :duration="fade ? 1000 : 0">
+		<view class="wu-image" @tap="onClick" :style="[wrapStyle, backgroundStyle]">
+			<image v-if="!isError && loadingImage" :src="src" :mode="mode" @error="onErrorHandler" @load="onLoadHandler"
+				:show-menu-by-longpress="showMenuByLongpress" class="wu-image__image" :style="{
+					borderRadius: shape == 'circle' ? '10000px' : $w.addUnit(radius),
+					width: $w.addUnit(width),
+					height: $w.addUnit(height)
+				}"></image>
+			<view v-if="showLoading && loading" class="wu-image__loading" :style="{
+					borderRadius: shape == 'circle' ? '50%' : $w.addUnit(radius),
+					backgroundColor: this.bgColor,
+					width: $w.addUnit(width),
+					height: $w.addUnit(height)
+				}">
+				<slot name="loading">
+					<wu-icon :name="loadingIcon" :width="width" :height="height"></wu-icon>
+				</slot>
+			</view>
+			<view v-if="showError && isError && !loading" class="wu-image__error" :style="{
+					borderRadius: shape == 'circle' ? '50%' : $w.addUnit(radius),
+					width: $w.addUnit(width),
+					height: $w.addUnit(height)
+				}">
+				<slot name="error">
+					<wu-icon :name="errorIcon" :width="width" :height="height"></wu-icon>
+				</slot>
+			</view>
 		</view>
-		<view v-if="showError && isError && !loading" class="wu-image__error" :style="{
-				borderRadius: shape == 'circle' ? '50%' : $w.addUnit(radius),
-				width: $w.addUnit(width),
-				height: $w.addUnit(height)
-			}">
-			<slot name="error">
-				<wu-icon :name="errorIcon" :width="width" :height="height"></wu-icon>
-			</slot>
-		</view>
-	</view>
+	</wu-transition>
 </template>
 
 <script>
@@ -62,6 +64,7 @@
 	 */
 	export default {
 		name: 'wu-image',
+		emits: ['click', 'error', 'load'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

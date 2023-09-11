@@ -25,7 +25,7 @@ import config from './libs/config/config.js'
 // 平台
 import platform from './libs/function/platform'
 
-import Color from './libs/function/color.js'
+import Color from './libs/function/color/index.js'
 
 const $w = {
 	...index,

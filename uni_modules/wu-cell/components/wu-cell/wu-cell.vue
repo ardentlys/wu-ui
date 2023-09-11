@@ -72,6 +72,7 @@
 	 */
 	export default {
 		name: 'wu-cell',
+		emits: ['click'],
 		data() {
 			return {
 

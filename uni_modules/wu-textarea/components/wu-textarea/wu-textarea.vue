@@ -63,6 +63,7 @@
 	 */
 	export default {
 		name: "wu-textarea",
+		emits: ['input', 'update:modelValue', 'focus', 'blur', 'linechange', 'confirm', 'keyboardheightchange'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {
@@ -179,7 +180,12 @@
 			valueChange() {
 				const value = this.innerValue;
 				this.$nextTick(() => {
+					// #ifdef VUE2
 					this.$emit("input", value);
+					// #endif
+					// #ifdef VUE3
+					this.$emit("update:modelValue", value);
+					// #endif
 					// 标识value值的变化是由内部引起的
 					this.changeFromInner = true;
 					this.$emit("change", value);

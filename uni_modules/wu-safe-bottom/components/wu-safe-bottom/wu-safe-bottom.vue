@@ -2,7 +2,6 @@
 	<view
 		class="wu-safe-bottom"
 		:style="[style]"
-		:class="[!isNvue && 'wu-safe-area-inset-bottom']"
 	>
 	</view>
 </template>
@@ -32,19 +31,23 @@
 		},
 		computed: {
 			style() {
+				const {
+					windowWidth,
+					windowHeight,
+					windowTop,
+					safeArea,
+					screenHeight,
+					safeAreaInsets
+				} = this.$w.sys();
 				const style = {};
-				// #ifdef APP-NVUE
-				// nvue下，高度使用js计算填充
-				style.height = this.$w.addUnit(this.$w.sys().safeAreaInsets.bottom, 'px');
+				// #ifdef MP-WEIXIN
+				style.height = this.$w.addUnit(screenHeight - safeArea.bottom, 'px');
+				// #endif
+				// #ifndef MP-WEIXIN
+				style.height = this.$w.addUnit(safeAreaInsets.bottom, 'px');
 				// #endif
 				return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle));
 			},
-		},
-		mounted() {
-			// #ifdef APP-NVUE
-			// 标识为是否nvue
-			this.isNvue = true;
-			// #endif
 		},
 	};
 </script>

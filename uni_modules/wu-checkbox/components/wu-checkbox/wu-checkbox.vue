@@ -43,6 +43,7 @@
 	 */
 	export default {
 		name: "wu-checkbox",
+		emits: ['change'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

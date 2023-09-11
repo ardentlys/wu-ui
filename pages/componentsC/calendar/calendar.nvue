@@ -90,6 +90,13 @@
 			:insert="false"
 			range
 		></wu-calendar>
+		<!-- 选择范围内重选结束日期 -->
+		<wu-calendar
+			ref="wuCalendar10"
+			:insert="false"
+			range
+			rangeEndRepick
+		></wu-calendar>
 	</view>
 </template>
 <script>
@@ -146,6 +153,9 @@
 					},{
 						title: '每月仅显示当月的数据',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
+					},{
+						title: '选择范围内重选结束日期',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
 					}
 				]
 			}

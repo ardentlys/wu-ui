@@ -1,7 +1,7 @@
 {
   "id": "wu-transition",
   "displayName": "wu-transition 用于组件的动画过渡效果 全端兼容，无论平台，一致体验",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "wu-transition 用于组件的动画过渡效果",
   "keywords": [
     "wu-ui",
@@ -12,7 +12,7 @@
 ],
   "repository": "",
   "engines": {
-    "HBuilderX": "^3.1.0"
+    "HBuilderX": "^3.4.15"
   },
   "dcloudext": {
     "type": "component-vue",

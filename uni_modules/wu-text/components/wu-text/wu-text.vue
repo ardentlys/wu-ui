@@ -86,6 +86,7 @@
 	 */
 	export default {
 		name: 'wu-text',
+		emits: ['click'],
 		// #ifdef MP
 		mixins: [mpMixin, mixin, value, button, openType, props],
 		// #endif

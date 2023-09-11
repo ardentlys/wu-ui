@@ -14,63 +14,65 @@
 			@chooseaddress="onChooseaddress" @subscribe="onSubscribe" @login="onLogin" @im="onIm"
 			hover-class="wu-button--active" class="wu-button wu-reset-button"
 			:style="[baseColor, $w.addStyle(customStyle)]" @tap="clickHandler" :class="bemClass">
-			<!-- #endif -->
-			<!-- #ifndef MP -->
-			<button :hover-start-time="Number(hoverStartTime)" :hover-stay-time="Number(hoverStayTime)"
-				:form-type="formType" :open-type="openType" :app-parameter="appParameter"
-				:hover-stop-propagation="hoverStopPropagation" :send-message-title="sendMessageTitle"
-				:send-message-path="sendMessagePath" :lang="lang" :data-name="dataName" :session-from="sessionFrom"
-				:send-message-img="sendMessageImg" :show-message-card="showMessageCard"
-				:hover-class="!disabled && !loading ? 'wu-button--active' : ''" class="wu-button wu-reset-button"
-				:style="[baseColor, $w.addStyle(customStyle)]" @tap="clickHandler" :class="bemClass">
-				<!-- #endif -->
-				<template v-if="loading">
-					<wu-loading-icon :mode="loadingMode" :size="loadingSize * 1.15"
-						:color="loadingColor"></wu-loading-icon>
-					<text class="wu-button__loading-text" :style="[
-							{ fontSize: textSize + 'px' },
-							$w.addStyle(customTextStyle)
-						]">{{ loadingText || text }}</text>
-				</template>
-				<template v-else>
-					<wu-icon v-if="icon" :name="icon" :color="iconColorCom" :size="textSize * 1.35"
-						:customStyle="{ marginRight: '2px' }"></wu-icon>
-					<slot>
-						<text class="wu-button__text" :style="[
-							{ fontSize: textSize + 'px' },
-							$w.addStyle(customTextStyle)
-						]">{{ text }}</text>
-					</slot>
-				</template>
-			</button>
-			<!-- #endif -->
-			<!-- #ifdef APP-NVUE -->
-			<view :hover-start-time="Number(hoverStartTime)" :hover-stay-time="Number(hoverStayTime)" class="wu-button"
-				:hover-class="
-        !disabled && !loading && !color && (plain || type === 'info')
-          ? 'wu-button--active--plain'
-          : !disabled && !loading && !plain
-          ? 'wu-button--active'
-          : ''
-      " @tap="clickHandler" :class="bemClass" :style="[baseColor, $w.addStyle(customStyle)]">
-				<template v-if="loading">
-					<wu-loading-icon :mode="loadingMode" :size="loadingSize * 1.15"
-						:color="loadingColor"></wu-loading-icon>
-					<text class="wu-button__loading-text" :style="[nvueTextStyle,$w.addStyle(customTextStyle)]"
-						:class="[plain && `wu-button__text--plain--${type}`]">{{ loadingText || text }}</text>
-				</template>
-				<template v-else>
-					<wu-icon v-if="icon" :name="icon" :color="iconColorCom" :size="textSize * 1.35"></wu-icon>
-					<text class="wu-button__text" :style="[
-            {
-              marginLeft: icon ? '2px' : 0,
-            },
-            nvueTextStyle,
+		<!-- #endif -->
+		<!-- #ifndef MP -->
+		<button :hover-start-time="Number(hoverStartTime)" :hover-stay-time="Number(hoverStayTime)"
+			:form-type="formType" :open-type="openType" :app-parameter="appParameter"
+			:hover-stop-propagation="hoverStopPropagation" :send-message-title="sendMessageTitle"
+			:send-message-path="sendMessagePath" :lang="lang" :data-name="dataName" :session-from="sessionFrom"
+			:send-message-img="sendMessageImg" :show-message-card="showMessageCard"
+			:hover-class="!disabled && !loading ? 'wu-button--active' : ''" class="wu-button wu-reset-button"
+			:style="[baseColor, $w.addStyle(customStyle)]" @tap="clickHandler" :class="bemClass">
+		<!-- #endif -->
+			<template v-if="loading">
+				<wu-loading-icon :mode="loadingMode" :size="loadingSize * 1.15"
+					:color="loadingColor"></wu-loading-icon>
+				<text class="wu-button__loading-text" :style="[
+						{ fontSize: textSize + 'px' },
 						$w.addStyle(customTextStyle)
-          ]" :class="[plain && `wu-button__text--plain--${type}`]">{{ text }}</text>
-				</template>
-			</view>
-			<!-- #endif -->
+					]">{{ loadingText || text }}</text>
+			</template>
+			<template v-else>
+				<wu-icon v-if="icon" :name="icon" :color="iconColorCom" :size="textSize * 1.35"
+					:customStyle="{ marginRight: '2px' }"></wu-icon>
+				<slot>
+					<text class="wu-button__text" :style="[
+						{ fontSize: textSize + 'px' },
+						$w.addStyle(customTextStyle)
+					]">{{ text }}</text>
+				</slot>
+			</template>
+		</button>
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<view :hover-start-time="Number(hoverStartTime)" :hover-stay-time="Number(hoverStayTime)" class="wu-button"
+			:hover-class="
+			!disabled && !loading && !color && (plain || type === 'info')
+			? 'wu-button--active--plain'
+			: !disabled && !loading && !plain
+			? 'wu-button--active'
+			: ''" 
+			@tap="clickHandler" :class="bemClass" :style="[baseColor, $w.addStyle(customStyle)]">
+			<template v-if="loading">
+				<wu-loading-icon :mode="loadingMode" :size="loadingSize * 1.15"
+					:color="loadingColor"></wu-loading-icon>
+				<text class="wu-button__loading-text" :style="[nvueTextStyle,$w.addStyle(customTextStyle)]"
+					:class="[plain && `wu-button__text--plain--${type}`]">{{ loadingText || text }}</text>
+			</template>
+			<template v-else>
+				<wu-icon v-if="icon" :name="icon" :color="iconColorCom" :size="textSize * 1.35"></wu-icon>
+				<text class="wu-button__text" 
+				:style="[
+					{
+					  marginLeft: icon ? '2px' : 0,
+					},
+					nvueTextStyle,
+					$w.addStyle(customTextStyle)
+				]" 
+				:class="[plain && `wu-button__text--plain--${type}`]">{{ text }}</text>
+			</template>
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -84,10 +86,18 @@
 	/**
 	 * button 按钮
 	 * @description Button 按钮
-	 * @tutorial https://wuui.geeks.ink/components/button
+	 * @tutorial https://wu.geeks.ink/zh-CN/components/button.html
 	 * @property {Boolean}			hairline				是否显示按钮的细边框 (默认 true )
 	 * @property {String}			type					按钮的预置样式，info，primary，error，warning，success (默认 'info' )
+	 *  @value info 默认按钮
+	 *  @value primary 主题按钮
+	 *  @value error 危险按钮
+	 *  @value warning  警告按钮
+	 *  @value success 成功按钮
 	 * @property {String}			size					按钮尺寸，large，normal，mini （默认 normal）
+	 *  @value large 超大尺寸
+	 *  @value normal 普通尺寸
+	 *  @value mini 迷你尺寸
 	 * @property {String}			shape					按钮形状，circle（两边为半圆），square（带有一定的圆角） （默认 'square' ）
 	 * @value circle 两边为半圆
 	 * @value square 带有一定的圆角
@@ -323,6 +333,8 @@
 		box-sizing: border-box;
 		/* #endif */
 		flex-direction: row;
+		margin-left: auto;
+		margin-right: auto;
 
 		&__text {
 			font-size: $wu-button-text-font-size;

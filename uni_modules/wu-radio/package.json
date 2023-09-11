@@ -1,7 +1,7 @@
 {
   "id": "wu-radio",
   "displayName": "wu-radio 单选框，全端兼容，无论平台，一致体验。",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "wu-radio 单选框，用于有一个选择，用户只能选择其中一个的场景。",
   "keywords": [
     "wu-ui",

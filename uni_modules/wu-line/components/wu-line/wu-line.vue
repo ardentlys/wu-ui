@@ -36,16 +36,16 @@
 					style.borderBottomWidth = '2rpx'
 					style.borderBottomStyle = this.dashed ? 'dashed' : 'solid'
 					style.width = this.$w.addUnit(this.length);
-					if (this.hairline) style.transform = 'scaleY(0.5)';
+					if (this.hairline) style.borderBottomWidth = '1px';
 				} else {
 					// 如果是竖向线条，边框宽度为2rpx，再通过transform缩小一半，就是1rpx了
 					style.borderLeftWidth = '2rpx'
 					style.borderLeftStyle = this.dashed ? 'dashed' : 'solid'
 					style.height = this.$w.addUnit(this.length)
-					if (this.hairline) style.transform = 'scaleX(0.5)'
+					if (this.hairline) style.borderLeftWidth = '1px';
 				}
 
-				style.borderColor = this.color
+				style.borderColor = this.color;
 				return this.$w.deepMerge(style, this.$w.addStyle(this.customStyle))
 			}
 		}

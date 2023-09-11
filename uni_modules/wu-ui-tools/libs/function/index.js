@@ -1,7 +1,7 @@
 import { number, empty } from './test.js'
 import { round } from './digit.js'
 // 颜色操作方法
-import Color from './color.js'
+import Color from './color'
 
 /**
  * @description 如果value小于min，取min；如果value大于max，取max

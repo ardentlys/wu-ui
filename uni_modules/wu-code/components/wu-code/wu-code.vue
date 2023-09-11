@@ -26,6 +26,7 @@
 	 */
 	export default {
 		name: "wu-code",
+		emits: ['change', 'start', 'end'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

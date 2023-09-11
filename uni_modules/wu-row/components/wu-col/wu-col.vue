@@ -25,6 +25,7 @@
 	 */
 	export default {
 		name: 'wu-col',
+		emits: ['click'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

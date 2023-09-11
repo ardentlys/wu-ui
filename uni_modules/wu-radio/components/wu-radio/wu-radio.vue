@@ -46,6 +46,7 @@
 	 */
 	export default {
 		name: "wu-radio",
+		emits: ['change'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

@@ -18,6 +18,7 @@ $wu-button-plain-wu-button-warning-color:$wu-error;
 .wu-button-wrapper {
 	position: relative;
 	width: 100%;
+	
 	&--dis {
 		position: absolute;
 		left: 0;
@@ -30,7 +31,6 @@ $wu-button-plain-wu-button-warning-color:$wu-error;
 
 .wu-button {
 	width: 100%;
-	
 	&__text {
 		white-space: nowrap;
 		line-height: 1;
@@ -66,27 +66,15 @@ $wu-button-plain-wu-button-warning-color:$wu-error;
 		&.wu-button--primary {
 			color: $wu-primary;
 		}
-	}
-	
-	&--plain {
 		&.wu-button--info {
 			color:$wu-button-plain-wu-button-info-color;
 		}
-	}
-	
-	&--plain {
 		&.wu-button--success {
 			color:$wu-button-plain-wu-button-success-color;
 		}
-	}
-	
-	&--plain {
 		&.wu-button--error {
 			color:$wu-button-plain-wu-button-error-color;
 		}
-	}
-	
-	&--plain {
 		&.wu-button--warning {
 			color:$wu-button-plain-wu-button-warning-color;
 		}

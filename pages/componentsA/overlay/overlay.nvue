@@ -7,11 +7,11 @@
 			fixed
 			placeholder
 		></wu-navbar>
-		<u-cell
+		<wu-cell
 			:titleStyle="{fontWeight: 500}"
-			@click="openMask(index)"
 			:title="item.title"
 			v-for="(item, index) in list"
+			@click="openMask(index)"
 			:key="index"
 			isLink
 		>
@@ -22,26 +22,25 @@
 					mode="widthFix"
 				></image>
 			</template>
-		</u-cell>
-		<u-overlay
+		</wu-cell>
+		<wu-overlay
 			:show="show"
-			@click="show = !show"
-		></u-overlay>
-
-		<u-overlay
+			@click="show = false"
+		></wu-overlay>
+		<wu-overlay
 			:show="showSlot"
 			@click="showSlot = !showSlot"
 		>
 			<view class="overlay-wrap">
 				<view class="overlay-wrap__box"></view>
 			</view>
-		</u-overlay>
-		<u-overlay
+		</wu-overlay>
+		<wu-overlay
 			opacity=".85"
 			:show="showOpcatiy"
 			@click="showOpcatiy = !showOpcatiy"
 		>
-		</u-overlay>
+		</wu-overlay>
 	</view>
 </template>
 

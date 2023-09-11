@@ -220,20 +220,23 @@ export default [{
 	// 		}
 	// 	]
 	// }, 
-	// {
-	// 	groupName: '反馈组件',
-	// 	groupName_en: 'Feedback components',
-	// 	list: [{
+	{
+		groupName: '反馈组件',
+		groupName_en: 'Feedback components',
+		list: [
+	//		{
 	// 			path: '/pages/componentsC/tooltip/tooltip',
 	// 			icon: 'tooltip',
 	// 			title: 'Tooltip 长按提示',
 	// 			title_en: 'ActionSheet'
-	// 		}, {
-	// 			path: '/pages/componentsB/actionSheet/actionSheet',
-	// 			icon: 'actionSheet',
-	// 			title: 'ActionSheet 上拉菜单',
-	// 			title_en: 'ActionSheet'
-	// 		}, {
+	// 		}, 
+			{
+				path: '/pages/componentsB/actionSheet/actionSheet',
+				icon: 'actionSheet',
+				title: 'ActionSheet 操作菜单',
+				title_en: 'ActionSheet'
+			}, 
+	//		{
 	// 			path: '/pages/componentsB/alert/alert',
 	// 			icon: 'alert',
 	// 			title: 'Alert 警告提示',
@@ -263,12 +266,14 @@ export default [{
 	// 			icon: 'collapse',
 	// 			title: 'Collapse 折叠面板',
 	// 			title_en: 'Collapse'
-	// 		}, {
-	// 			path: '/pages/componentsA/popup/popup',
-	// 			icon: 'popup',
-	// 			title: 'Popup 弹出层',
-	// 			title_en: 'Popup'
-	// 		}, {
+	//		}, 
+			{
+				path: '/pages/componentsA/popup/popup',
+				icon: 'popup',
+				title: 'Popup 弹出层',
+				title_en: 'Popup'
+			},
+	//		{
 	// 			path: '/pages/componentsC/modal/modal',
 	// 			icon: 'modal',
 	// 			title: 'Modal 模态框',
@@ -280,12 +285,13 @@ export default [{
 	// 		// 	title: 'fullScreen 压窗屏（暂无）',
 	// 		// 	title_en: 'fullScreen',
 	// 		// },
-	// 	]
-	// }, 
-	// {
-	// 	groupName: '布局组件',
-	// 	groupName_en: 'Layout components',
-	// 	list: [{
+		]
+	}, 
+	{
+		groupName: '布局组件',
+		groupName_en: 'Layout components',
+		list: [
+			// {
 	// 			path: '/pages/componentsC/scrollList/scrollList',
 	// 			icon: 'scrollList',
 	// 			title: 'ScrollList 横向滚动列表',
@@ -295,12 +301,13 @@ export default [{
 	// 			icon: 'line',
 	// 			title: 'Line 线条',
 	// 			title_en: 'Line'
-	// 		}, {
-	// 			path: '/pages/componentsA/overlay/overlay',
-	// 			icon: 'mask',
-	// 			title: 'Overlay 遮罩层',
-	// 			title_en: 'Overlay'
-	// 		},
+	// 		}, 
+			{
+				path: '/pages/componentsA/overlay/overlay',
+				icon: 'mask',
+				title: 'Overlay 遮罩层',
+				title_en: 'Overlay'
+			},
 	// 		// #ifndef MP-TOUTIAO
 	// 		{
 	// 			path: '/pages/componentsC/noNetwork/noNetwork',
@@ -336,8 +343,8 @@ export default [{
 	// 			title: 'Divider 分割线',
 	// 			title_en: 'Divider'
 	// 		}
-	// 	]
-	// },
+		]
+	},
 	{
 		groupName: '导航组件',
 		groupName_en: 'Navigation components',

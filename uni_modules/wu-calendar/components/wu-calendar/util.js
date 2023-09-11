@@ -8,7 +8,8 @@ class Calendar {
 		startDate,
 		endDate,
 		range,
-		monthShowCurrentMonth
+		monthShowCurrentMonth,
+		rangeEndRepick
 	} = {}) {
 		// 当前日期
 		this.date = this.getDate(new Date()) // 当前初入日期
@@ -20,6 +21,8 @@ class Calendar {
 		this.endDate = endDate
 		// 是否范围选择
 		this.range = range
+		// 允许范围内重选结束日期
+		this.rangeEndRepick = rangeEndRepick
 		// 每月是否仅显示当月的数据
 		this.monthShowCurrentMonth = monthShowCurrentMonth
 		// 多选状态
@@ -69,8 +72,12 @@ class Calendar {
 	 * @param {Boolean} show 是否仅显示当月数据 
 	 */
 	resetMonthShowCurrentMonth(show) {
-		// 
 		this.monthShowCurrentMonth = show
+	}
+	
+	// 重置允许范围内重选结束日期
+	resetRangeEndRepick(val) {
+		this.rangeEndRepick = val
 	}
 
 	/**
@@ -280,9 +287,9 @@ class Calendar {
 		db.setFullYear(ab[0], ab[1] - 1, ab[2])
 		var de = new Date()
 		de.setFullYear(ae[0], ae[1] - 1, ae[2])
-		var unixDb = db.getTime() - 24 * 60 * 60 * 1000
-		var unixDe = de.getTime() - 24 * 60 * 60 * 1000
-		for (var k = unixDb; k <= unixDe;) {
+		var wuxDb = db.getTime() - 24 * 60 * 60 * 1000
+		var wuxDe = de.getTime() - 24 * 60 * 60 * 1000
+		for (var k = wuxDb; k <= wuxDe;) {
 			k = k + 24 * 60 * 60 * 1000
 			let fullDate = this.getDate(new Date(parseInt(k))).fullDate
 			// 如果不在打点禁止列表中
@@ -315,7 +322,7 @@ class Calendar {
 
 		if (!this.range) return
 		let reset = before > fullDate;
-		if (before && after || reset) {
+		if ((before && after || reset) && (!this.rangeEndRepick || (this.rangeEndRepick && this.multipleStatus.data.indexOf(fullDate) == -1))) {
 			this.multipleStatus.before = fullDate;
 			this.multipleStatus.after = ''
 			this.multipleStatus.data = []
@@ -344,27 +351,35 @@ class Calendar {
 			month
 		} = this.getDate(dateData)
 		
+		let firstDay = new Date(year, month - 1, 1).getDay()
 		let currentDay = new Date(year, month, 0).getDate()
 		// 日期数据
 		let dates = {
+			lastMonthDays: this._getLastMonthDays(firstDay, this.getDate(dateData)), // 上个月末尾几天
 			currentMonthDys: this._currentMonthDys(currentDay, this.getDate(dateData)), // 本月天数
 			weeks: []
 		}
+		// 下月开始几天
+		const surplus = 42 - (dates.lastMonthDays.length + dates.currentMonthDys.length)
+		dates.nextMonthDays = this._getNextMonthDays(surplus, this.getDate(dateData)) 
 		
 		// 日历数据
 		let canlender = [];
 		// 如果仅显示当月
 		if(this.monthShowCurrentMonth) {
 			// 日历数据
-			canlender = dates.currentMonthDys
+			canlender = canlender.concat(
+				dates.lastMonthDays.map(item=> item = {
+					empty: true,
+					lunar: {},
+				}), 
+				dates.currentMonthDys,
+				dates.nextMonthDays.map(item=> item = {
+					empty: true,
+					lunar: {},
+				}), 
+			);
 		} else {
-			let firstDay = new Date(year, month - 1, 1).getDay()
-			// 上个月末尾几天
-			dates.lastMonthDays = this._getLastMonthDays(firstDay, this.getDate(dateData))
-			const surplus = 42 - (dates.lastMonthDays.length + dates.currentMonthDys.length)
-			// 下月开始几天
-			dates.nextMonthDays = this._getNextMonthDays(surplus, this.getDate(dateData))
-			// 日历数据
 			// 拼接数组  上个月开始几天 + 本月天数+ 下个月开始几天
 			canlender = canlender.concat(dates.lastMonthDays, dates.currentMonthDys, dates.nextMonthDays)
 		}
@@ -379,21 +394,6 @@ class Calendar {
 		if (useWeeks) {
 			this.canlender = canlender
 			this.weeks = weeks
-		}
-		console.log(weeks)
-		// 如果每月仅展示当月数据则删除多余的空数组
-		if(this.monthShowCurrentMonth) {
-			// 结尾index
-			let endIndex = Math.ceil(canlender.length / 7) - 1;
-			// 填充禁用空数据
-			for(let i = 0; i < weeks[endIndex].length; i++) {
-				if(!weeks[endIndex][i]) {
-					weeks[endIndex][i] = {
-						empty: true,
-						lunar: {},
-					};
-				}
-			}
 		}
 		
 		return weeks

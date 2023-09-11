@@ -1,3 +1,11 @@
+// 下次更新的内容
+
+
+// 本次更新的内容
+1. 新增wu-popup弹出层组件
+2. 新增wu-overlay遮罩层组件
+3. 新增wu-action-sheet操作菜单组件
+
 // 已发布
 | wu-gap | [间隔槽](https://wu.geeks.ink/zh-CN/components/gap.html) |
 | wu-status-bar | [顶部安全区域](https://ext.dcloud.net.cn/plugin?name=wu-status-bar) |
@@ -11,13 +19,21 @@
 | wu-navbar | [自定义导航栏](https://wu.geeks.ink/zh-CN/components/navbar.html) |
 
 // 待发布
+| wu-popup | [弹出层](https://wu.geeks.ink/zh-CN/components/popup.html) |
+| wu-overlay | [遮罩层](https://wu.geeks.ink/zh-CN/components/overlay.html) |
+| wu-actionSheet | [操作菜单](https://wu.geeks.ink/zh-CN/components/actionSheet.html) |
 
 // 待写文档与示例
 
 // 正在开发
-| wu-overlay | [遮罩层](https://wu.geeks.ink/zh-CN/components/overlay.html) |
-| wu-popup | [弹出层](https://wu.geeks.ink/zh-CN/components/popup.html) |
-| wu-actionSheet | [操作菜单](https://wu.geeks.ink/zh-CN/components/actionSheet.html) |
+
+// 待开发
+| wu-qrcode | [二维码](https://wu.geeks.ink/zh-CN/components/qrcode.html) |
+
+// 待优化部分
+| wu-icon | [图标](https://wu.geeks.ink/zh-CN/components/icon.html) |
+| wu-transition | [动画](https://wu.geeks.ink/zh-CN/components/transition.html) |
+
 
 // 自定义样式
 customStyle: {

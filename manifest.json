@@ -68,10 +68,11 @@
     "uniStatistics" : {
         "enable" : false
     },
-	"h5" : {
-	    "devServer" : {
-	        "port" : 7777
-	    }
-	},
+    "h5" : {
+        "devServer" : {
+            "port" : 7777
+        },
+        "template" : "index.html"
+    },
     "vueVersion" : "3"
 }

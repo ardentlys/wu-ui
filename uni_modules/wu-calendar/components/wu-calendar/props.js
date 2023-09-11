@@ -57,6 +57,11 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		// 允许范围内重选结束日期
+		rangeEndRepick: {
+			type: Boolean,
+			default: false
+		},
 		// 每月是否仅显示当月数据
 		monthShowCurrentMonth: {
 			type: Boolean,

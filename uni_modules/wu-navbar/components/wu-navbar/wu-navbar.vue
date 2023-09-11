@@ -66,6 +66,7 @@
 	 */
 	export default {
 		name: 'wu-navbar',
+		emits: ['leftClick', 'rightClick'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

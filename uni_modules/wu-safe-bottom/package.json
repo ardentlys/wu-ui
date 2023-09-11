@@ -1,7 +1,7 @@
 {
   "id": "wu-safe-bottom",
   "displayName": "wu-safe-bottom底部安全区 全端兼容 无论平台 一致体验",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "针对一些底部带指示条的机型，操作区域与页面底部重合，容易误操作，因此本插件对这些机型进行底部安全区适配",
   "keywords": [
     "wu-ui",

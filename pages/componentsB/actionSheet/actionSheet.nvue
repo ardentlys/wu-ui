@@ -1,83 +1,32 @@
 <template>
 	<view class="wu-page">
-		<wu-navbar
-			title="上拉菜单"
-			@leftClick="navigateBack"
-			safeAreaInsetTop
-			fixed
-			placeholder
-		></wu-navbar>
+		<wu-navbar title="操作菜单" @leftClick="navigateBack" safeAreaInsetTop fixed placeholder></wu-navbar>
 		<wu-cell-group>
-			<wu-cell
-				@click="openSheet(index)"
-				:title="item.title"
-				v-for="(item, index) in list"
-				:key="index"
-				isLink
-			>
-				<image
-					slot="icon"
-					class="wu-cell-icon"
-					:src="item.iconUrl"
-					mode="widthFix"
-				></image>
+			<wu-cell @click="openSheet(index)" :title="item.title" v-for="(item, index) in list" :key="index" isLink>
+				<template #icon>
+					<image class="wu-cell-icon" :src="item.iconUrl" mode="widthFix"></image>
+				</template>
 			</wu-cell>
 		</wu-cell-group>
-		<u-action-sheet
-			:show="show0"
-			@close="close"
-			@select="select"
-			:actions="actions0"
-			:closeOnClickOverlay="false"
-		>
-		</u-action-sheet>
-		<u-action-sheet
-			:show="show1"
-			@close="show1 = false"
-			:actions="actions1"
-		>
-		</u-action-sheet>
-		<u-action-sheet
-			:show="show2"
-			@close="show2 = false"
-			:actions="actions2"
-			cancelText="取消"
-		>
-		</u-action-sheet>
-		<u-action-sheet
-			:show="show3"
-			@close="show3 = false"
-			:actions="actions3"
-			description="这是一段描述文本,字号偏小,颜色偏淡"
-		>
-		</u-action-sheet>
-		<u-action-sheet
-			:show="show4"
-			@close="show4 = false"
-			title="标题位置"
-			:round="10"
-		>
-			<text style="margin: 10px 20px 30px 20px; color: #303133; font-size: 15px;">这是一段通过slot传入的内容,您可以在此自定义操作面板</text>
-		</u-action-sheet>
-		<u-action-sheet
-			:show="show5"
-			@close="show5 = false"
-			title="微信开放能力"
-			:actions="actions5"
-			@getuserinfo="getuserinfo"
-		></u-action-sheet>
+		<wu-action-sheet ref="show0" @select="select" :actions="actions0" :closeOnClickOverlay="false">
+		</wu-action-sheet>
+		<wu-action-sheet ref="show1" :actions="actions1">
+		</wu-action-sheet>
+		<wu-action-sheet ref="show2" @close="close" :actions="actions2" cancelText="取消">
+		</wu-action-sheet>
+		<wu-action-sheet ref="show3" :actions="actions3" description="这是一段描述文本,字号偏小,颜色偏淡">
+		</wu-action-sheet>
+		<wu-action-sheet ref="show4" title="标题位置" :round="10">
+			<text
+				style="margin: 10px 20px 30px 20px; color: #303133; font-size: 15px;">这是一段通过slot传入的内容,您可以在此自定义操作面板</text>
+		</wu-action-sheet>
+		<wu-action-sheet ref="show5" title="微信开放能力" :actions="actions5" @getuserinfo="getuserinfo"></wu-action-sheet>
 	</view>
 </template>
 <script>
 	export default {
 		data() {
 			return {
-				show0: false,
-				show1: false,
-				show2: false,
-				show3: false,
-				show4: false,
-				show5: false,
 				actions0: [{
 						name: '选项1',
 					},
@@ -123,7 +72,7 @@
 				actions5: [{
 					name: '获取用户信息',
 					openType: 'getUserInfo',
-					color: uni.$u.color['success']
+					color: uni.$w.Color['success']
 				}],
 				list: [{
 						title: '普通使用',
@@ -160,19 +109,18 @@
 			// 点击cell，判断显示哪个功能
 			openSheet(index) {
 				// #ifndef MP
-				if (index === 5) return uni.$u.toast('请在微信内预览')
+				if (index === 5) return uni.$w.toast('请在微信内预览')
 				// #endif
-				this[`show${index}`] = true
+				this.$refs[`show${index}`].open();
 			},
 			getuserinfo(res) {
-				uni.$u.toast(`用户名：${res.userInfo.nickName}`)
+				uni.$w.toast(`用户名：${res.userInfo.nickName}`)
 			},
 			navigateBack() {
 				uni.navigateBack()
 			},
-			close() {
-				console.log('close');
-				this['show0'] = false
+			close(e) {
+				console.log('close')
 			},
 			select(e) {
 				console.log('select', e);
@@ -184,5 +132,9 @@
 <style lang="scss">
 	.wu-page {
 		padding: 0;
+	}
+	.wu-cell-icon {
+		width: 40rpx;
+		height: 40rpx;
 	}
 </style>

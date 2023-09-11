@@ -1,0 +1,84 @@
+{
+  "id": "wu-app-update",
+  "displayName": "app更新【支持热更新】【强制更新】【ios跳转更新】【间隔式提醒用户更新】【vue3+2】",
+  "version": "1.0.5",
+  "description": "app升级、整包更新、热更新、强制更新、ios跳转更新、android跳转应用市场，间隔提醒更新，所有细节都可在config.js种修改。",
+  "keywords": [
+    "app更新",
+    "热更新",
+    "强制更新",
+    "间隔式提醒用户更新",
+    "ios&android跳转更新"
+],
+  "repository": "",
+  "engines": {
+    "HBuilderX": "^3.4.15"
+  },
+  "dcloudext": {
+    "type": "component-vue",
+    "sale": {
+      "regular": {
+        "price": "0.00"
+      },
+      "sourcecode": {
+        "price": "0.00"
+      }
+    },
+    "contact": {
+      "qq": "1317948850"
+    },
+    "declaration": {
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
+    },
+    "npmurl": ""
+  },
+  "uni_modules": {
+    "dependencies": [],
+    "platforms": {
+      "cloud": {
+        "tcb": "y",
+        "aliyun": "y"
+      },
+      "client": {
+        "Vue": {
+          "vue2": "y",
+          "vue3": "y"
+        },
+        "App": {
+          "app-vue": "y",
+          "app-nvue": "n"
+        },
+        "H5-mobile": {
+          "Safari": "n",
+          "Android Browser": "n",
+          "微信浏览器(Android)": "n",
+          "QQ浏览器(Android)": "n"
+        },
+        "H5-pc": {
+          "Chrome": "n",
+          "IE": "n",
+          "Edge": "n",
+          "Firefox": "n",
+          "Safari": "n"
+        },
+        "小程序": {
+          "微信": "n",
+          "阿里": "n",
+          "百度": "n",
+          "字节跳动": "n",
+          "QQ": "n",
+          "钉钉": "n",
+          "快手": "n",
+          "飞书": "n",
+          "京东": "n"
+        },
+        "快应用": {
+          "华为": "n",
+          "联盟": "n"
+        }
+      }
+    }
+  }
+}

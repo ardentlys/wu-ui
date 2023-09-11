@@ -72,6 +72,7 @@
 	 */
 	export default {
 		name: 'wu-number-box',
+		emits: ['onFocus', 'onBlur', 'onInput', 'onChange'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

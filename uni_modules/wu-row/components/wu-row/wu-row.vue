@@ -30,6 +30,7 @@
 	 */
 	export default {
 		name: "wu-row",
+		emits: ['click'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

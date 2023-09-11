@@ -1,5 +1,6 @@
 <template>
-	<view>
+	<page-meta :page-style="'overflow:'+(show?'hidden':'visible') + ''"></page-meta>
+	<view class="index">
 		<wu-navbar
 			title="弹窗"
 			@leftClick="navigateBack"
@@ -7,10 +8,10 @@
 			fixed
 			placeholder
 		></wu-navbar>
-		<u-gap
+		<wu-gap
 			height="20"
 			bgColor="#fff"
-		></u-gap>
+		></wu-gap>
 		<wu-cell-group>
 			<wu-cell
 				:titleStyle="{fontWeight: 500}"
@@ -20,42 +21,43 @@
 				:key="index"
 				isLink
 			>
-				<image
-					slot="icon"
-					class="wu-cell-icon"
-					:src="item.iconUrl"
-					mode="widthFix"
-				></image>
+				<template #icon>
+					<image
+						style="width: 30rpx"
+						class="wu-cell-icon"
+						:src="item.iconUrl"
+						mode="widthFix"
+					></image>
+				</template>
 			</wu-cell>
 		</wu-cell-group>
-		<u-popup
+		
+		<wu-popup
+			ref="wuPopup"
 			:safeAreaInsetBottom="true"
-			:safeAreaInsetTop="true"
 			:mode="popupData.mode"
-			:show="show"
 			:round="popupData.round"
 			:overlay="popupData.overlay"
 			:borderRadius="popupData.borderRadius"
 			:closeable="popupData.closeable"
 			:closeOnClickOverlay="popupData.closeOnClickOverlay"
-			@close="close"
-			@open="open"
+			@change="popupChange"
 		>
 			<view
-				class="u-popup-slot"
+				class="wu-popup-slot"
 				:style="{
 					width: ['bottom', 'top'].includes(popupData.mode) ? '750rpx' : '200px',
 					marginTop: ['left', 'right'].includes(popupData.mode) ? '480rpx' : '0',
 				}"
 			>
-				<u-button
+				<wu-button
 					type="success"
 					text="点我关闭"
-					customStyle="width: 200rpx"
-					@click="show = !show"
-				></u-button>
+					customStyle="width: 200rpx;"
+					@click="$refs.wuPopup.close()"
+				></wu-button>
 			</view>
-		</u-popup>
+		</wu-popup>
 	</view>
 </template>
 
@@ -151,32 +153,32 @@
 			}
 		},
 		methods: {
+			popupChange(e) {
+				console.log(e)
+			},
 			openPopup(popupData) {
 				this.popupData = popupData
-				uni.$u.sleep().then(() => {
-					this.show = !this.show
-				})
+				setTimeout(()=>{
+					this.$refs.wuPopup.open();
+				}, 30)
 			},
 			navigateBack() {
 				uni.navigateBack()
 			},
-			open() {
-				// console.log('open');
-			},
-			close() {
-				this.show = false
-				// console.log('close');
-			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.u-popup-slot {
+	@import "@/uni_modules/wu-ui-tools/libs/css/components.scss";
+	.wu-popup-slot {
 		width: 200px;
 		height: 150px;
-		@include flex;
+		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+	.index {
+		height: 3000rpx;
 	}
 </style>
