@@ -1,102 +1,40 @@
 <template>
 	<view class="wu-page">
-		<wu-navbar
-			title="日历"
-			@leftClick="navigateBack"
-			safeAreaInsetTop
-			fixed
-			placeholder
-		></wu-navbar>
+		<wu-navbar title="日历" @leftClick="navigateBack" safeAreaInsetTop fixed placeholder></wu-navbar>
 		<wu-cell-group>
-			<wu-cell
-				@click="showCalendar(index)"
-				:title="item.title"
-				v-for="(item, index) in list"
-				:key="index"
-				:label="values[index]"
-				isLink
-			>
+			<wu-cell @click="showCalendar(index)" :title="item.title" v-for="(item, index) in list" :key="index"
+				:label="values[index]" isLink>
 				<template #icon>
-					<image
-						class="wu-cell-icon"
-						:src="item.iconUrl"
-						mode="widthFix"
-					></image>
+					<image class="wu-cell-icon" :src="item.iconUrl" mode="widthFix"></image>
 				</template>
 			</wu-cell>
 		</wu-cell-group>
 		<!-- 横向滑动 -->
-		<wu-calendar
-			ref="wuCalendar1"
-			:insert="false"
-			range
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar1" :insert="false" mode="range"></wu-calendar>
 		<!-- 纵向滑动 -->
-		<wu-calendar
-			ref="wuCalendar2"
-			slideSwitchMode="vertical"
-			:insert="false"
-			range
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar2" slideSwitchMode="vertical" :insert="false" mode="range"></wu-calendar>
 		<!-- 无滑动切换 -->
-		<wu-calendar
-			ref="wuCalendar3"
-			slideSwitchMode="none"
-			:insert="false"
-			range
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar3" slideSwitchMode="none" :insert="false" mode="range"></wu-calendar>
 		<!-- 单个日期 -->
-		<wu-calendar
-			ref="wuCalendar4"
-			:insert="false"
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar4" :insert="false"></wu-calendar>
+		<!-- 多个日期 -->
+		<wu-calendar ref="wuCalendar5" :insert="false" mode="multiple" :date="wuCalendar5Date"></wu-calendar>
+		<!-- 不适用默认日期 -->
+		<wu-calendar ref="wuCalendar6" :insert="false" :useToday="false"></wu-calendar>
 		<!-- 自定义主题颜色 -->
-		<wu-calendar
-			ref="wuCalendar5"
-			:insert="false"
-			range
-			color="#6ac695"
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar7" :insert="false" mode="range" color="#6ac695"></wu-calendar>
 		<!-- 自定义打点 -->
-		<wu-calendar
-			ref="wuCalendar6"
-			:insert="false"
-			range
-			:selected="wuCalendar6Selected()"
-			:startDate="wuCalendar6StartDate"
-			start-text="去程"
-			end-text="返程"
-			color="#6ac695"
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar8" :insert="false" mode="range" :selected="wuCalendar8Selected()"
+			:startDate="wuCalendar8StartDate" start-text="去程" end-text="返程" color="#6ac695"></wu-calendar>
 		<!-- 日期最大范围 -->
-		<wu-calendar
-			ref="wuCalendar7"
-			:insert="false"
-			:startDate="wuCalendar7StartDate"
-			:endDate="wuCalendar7EndDate"
-			range
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar9" :insert="false" :startDate="wuCalendar9StartDate" :endDate="wuCalendar9EndDate"
+			mode="range"></wu-calendar>
 		<!-- 显示农历 -->
-		<wu-calendar
-			ref="wuCalendar8"
-			:insert="false"
-			range
-			lunar
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar10" :insert="false" mode="range" lunar></wu-calendar>
 		<!-- 每月仅显示当月的数据 -->
-		<wu-calendar
-			ref="wuCalendar9"
-			monthShowCurrentMonth
-			:insert="false"
-			range
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar11" monthShowCurrentMonth :insert="false" mode="range"></wu-calendar>
 		<!-- 选择范围内重选结束日期 -->
-		<wu-calendar
-			ref="wuCalendar10"
-			:insert="false"
-			range
-			rangeEndRepick
-		></wu-calendar>
+		<wu-calendar ref="wuCalendar12" :insert="false" mode="range" rangeEndRepick></wu-calendar>
 	</view>
 </template>
 <script>
@@ -109,19 +47,13 @@
 			const date = d.getDate()
 			return {
 				index: 0,
-				show1: false,
-				show2: false,
-				show3: false,
-				show4: false,
-				show5: false,
-				show6: false,
-				show7: false,
-				show8: false,
-				values: ['','','','','','','',''],
-				customThemeDefaultDate: [`${year}-${month}-${date}`, `${year}-${month}-${date + 5}`], 
+				values: ['', '', '', '', '', '', '', ''],
+				customThemeDefaultDate: [`${year}-${month}-${date}`, `${year}-${month}-${date + 5}`],
 				customTextDefaultDate: [`${year}-${month}-${date}`],
 				maxDate: `${year}-${month}-${date + 10}`,
-				defaultDateMultiple: [`${year}-${month}-${date}`, `${year}-${month}-${date + 1}`, `${year}-${month}-${date + 2}`],
+				defaultDateMultiple: [`${year}-${month}-${date}`, `${year}-${month}-${date + 1}`,
+					`${year}-${month}-${date + 2}`
+				],
 				list: [{
 						title: '横向滑动切换(日期范围选择)',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
@@ -139,24 +71,33 @@
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/7.png'
 					},
 					{
+						title: '多个日期',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/13.png'
+					},
+
+					{
+						title: '不使用默认日期',
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
+					},
+					{
 						title: '自定义主题颜色',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/15.png'
-					},{
+					}, {
 						title: '自定义文案',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/14.png'
-					},{
+					}, {
 						title: '日期最大范围',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/13.png'
-					},{
+					}, {
 						title: '显示农历',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
-					},{
+					}, {
 						title: '每月仅显示当月的数据',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
-					},{
+					}, {
 						title: '选择范围内重选结束日期',
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
-					}
+					},
 				]
 			}
 		},
@@ -168,54 +109,8 @@
 			navigateBack() {
 				uni.navigateBack();
 			},
-			confirm(e) {
-				this[`show${this.index}`] = false
-				console.log(e);
-				switch(this.index - 1) {
-					case 0:
-						this.values[this.index - 1] = e[0];
-						break;
-					case 1:
-						e.forEach((value, index) => {
-							index === 0 ? this.values[this.index - 1] = value : this.values[this.index - 1] += ';' + value
-						})
-						break;
-					case 2:
-						this.values[this.index - 1] = e[0] + '~' + e[e.length - 1];
-						break;
-					case 3:
-						this.values[this.index - 1] = e[0] + '~' + e[e.length - 1];
-						break;
-					case 4:
-						this.values[this.index - 1] = e[0] + '~' + e[e.length - 1];
-						break;
-					case 5:
-						this.values[this.index - 1] = e[0];
-						break;
-					case 6:
-						this.values[this.index - 1] = e[0];
-						break;
-					case 7:
-						e.forEach((value, index) => {
-							index === 0 ? this.values[this.index - 1] = value : this.values[this.index - 1] += ';' + value
-						})
-						break;
-				}
-			},
-			close() {
-				this[`show${this.index}`] = false
-			},
-			formatter(day) {
-				const d = new Date()
-				let month = d.getMonth() + 1
-				const date = d.getDate()
-				if(day.month == month && day.day == date + 3) {
-					day.bottomInfo = '有优惠'
-					day.dot = true
-				}
-				return day
-			},
-			wuCalendar6Selected() {
+			// 打点
+			wuCalendar8Selected() {
 				let lastDate = new Date();
 				let firstDate = new Date();
 				lastDate.setDate(lastDate.getDate() + 2)
@@ -238,15 +133,37 @@
 			},
 		},
 		computed: {
-			wuCalendar6StartDate() {
+			// 多个日期
+			wuCalendar5Date() {
+				// 获取四个日期
+				let selectedFirstDate = new Date();
+				let selectedLastDate = new Date();
+				let selectedThree = new Date();
+				let nowDate = new Date();
+				// 将连个日期分别设置为 两天后 和 前两天
+				selectedFirstDate.setDate(selectedFirstDate.getDate() + 2);
+				selectedLastDate.setDate(selectedLastDate.getDate() + 5);
+				selectedThree.setDate(selectedThree.getDate() - 2);
+				// 拼接日期
+				let selectedFirstDateStr =
+					`${selectedFirstDate.getFullYear()}-${(selectedFirstDate.getMonth() + 1 + '').padStart(2, '0')}-${(selectedFirstDate.getDate() + '').padStart(2, '0')}`;
+				let selectedLastDateStr =
+					`${selectedLastDate.getFullYear()}-${(selectedLastDate.getMonth() + 1 + '').padStart(2, '0')}-${(selectedLastDate.getDate() + '').padStart(2, '0')}`;
+				let selectedThreeDateStr =
+					`${selectedThree.getFullYear()}-${(selectedThree.getMonth() + 1 + '').padStart(2, '0')}-${(selectedThree.getDate() + '').padStart(2, '0')}`;
+				let nowDateStr =
+					`${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
+				return [selectedFirstDateStr, selectedLastDateStr, selectedThreeDateStr, nowDateStr]
+			},
+			wuCalendar8StartDate() {
 				let nowDate = new Date();
 				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
 			},
-			wuCalendar7StartDate() {
+			wuCalendar9StartDate() {
 				let nowDate = new Date();
 				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
 			},
-			wuCalendar7EndDate() {
+			wuCalendar9EndDate() {
 				let nowDate = new Date();
 				nowDate.setDate(nowDate.getDate() + 30)
 				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
@@ -259,6 +176,7 @@
 	.wu-page {
 		padding: 0;
 	}
+
 	.wu-cell-icon {
 		width: 36rpx;
 		height: 36rpx;

@@ -52,9 +52,9 @@ export default function checkVersion() {
 	return new Promise((resolve, reject) => {
 		// #ifdef APP-PLUS
 		uni.getSystemInfo({
-			success: (res) => {
+			success: (info) => {
 				// app系统环境
-				let appPlatform = res.platform;
+				let appPlatform = info.platform;
 				// 获取本机版本号
 				plus.runtime.getProperty(plus.runtime.appid, (wgtinfo) => {
 					// 请补充这个请求即可正常使用

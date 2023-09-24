@@ -1,9 +1,9 @@
 <template>
 	<view class="wu-calendar-item__weeks-box" :style="[calendarItemStyle, {
-			borderTopLeftRadius: weeks.beforeMultiple ? '12rpx' : '',
-			borderBottomLeftRadius: weeks.beforeMultiple ? '12rpx' : '',
-			borderTopRightRadius: weeks.afterMultiple ? '12rpx' : '',
-			borderBottomRightRadius: weeks.afterMultiple ? '12rpx' : '',
+			borderTopLeftRadius: weeks.beforeRange ? '12rpx' : '',
+			borderBottomLeftRadius: weeks.beforeRange ? '12rpx' : '',
+			borderTopRightRadius: weeks.afterRange ? '12rpx' : '',
+			borderBottomRightRadius: weeks.afterRange ? '12rpx' : '',
 		}]" @click="choiceDate(weeks)">
 		<view class="wu-calendar-item__weeks-box-item" :style="[actMultipleStyle]">
 			<!-- 自定义打点上方信息 -->
@@ -13,11 +13,11 @@
 			<!-- 日期文字 -->
 			<text class="wu-calendar-item__weeks-box-text" :style="[calendarItemStyle, actMultipleStyle]">{{weeks.date}}</text>
 			<!-- 今日的文字 -->
-			<text v-if="!lunar && !weeks.extraInfo && weeks.isDay && !weeks.beforeMultiple && !weeks.afterMultiple" class="wu-calendar-item__weeks-lunar-text"></text>
+			<text v-if="!lunar && !weeks.extraInfo && weeks.isDay && !weeks.beforeRange && !weeks.afterRange" class="wu-calendar-item__weeks-lunar-text" :style="[calendarItemStyle, actMultipleStyle]">{{todayText}}</text>
 			<!-- 农历文字 -->
-			<text v-if="lunar && !weeks.extraInfo && !weeks.beforeMultiple && !weeks.afterMultiple" class="wu-calendar-item__weeks-lunar-text" :style="[calendarItemStyle, actMultipleStyle]">{{dayText}}</text>
+			<text v-if="lunar && !weeks.extraInfo && !weeks.beforeRange && !weeks.afterRange" class="wu-calendar-item__weeks-lunar-text" :style="[calendarItemStyle, actMultipleStyle]">{{dayText}}</text>
 			<!-- 选中的文字展示 -->
-			<text v-if="!weeks.extraInfo && (weeks.beforeMultiple || weeks.afterMultiple)" class="wu-calendar-item__weeks-lunar-text" :style="[calendarItemStyle, actMultipleStyle]">{{multipleText}}</text>
+			<text v-if="!weeks.extraInfo && (weeks.beforeRange || weeks.afterRange)" class="wu-calendar-item__weeks-lunar-text" :style="[calendarItemStyle, actMultipleStyle]">{{multipleText}}</text>
 			<!-- 自定义打点下方信息 -->
 			<text v-if="weeks.extraInfo && weeks.extraInfo.info" class="wu-calendar-item__weeks-lunar-text" :style="[{color: weeks.extraInfo.infoColor || '#e43d33'}, calendarItemStyle, actMultipleStyle]">{{weeks.extraInfo.info}}</text>
 		</view>
@@ -50,7 +50,7 @@
 				let color = this.$w.Color.gradient(this.color, this.$w.Color.isLight(this.color) ? '#000' : '#fff', 100)[6]
 				// 有顺序别乱动
 				// 选中的日期范围内的样式
-				if (this.weeks.multiple) {
+				if (this.weeks.rangeMultiple) {
 					style = {
 						backgroundColor: this.$w.Color.gradient(this.color, '#fff', 100)[80],
 						color
@@ -71,9 +71,8 @@
 			},
 			// 选中的日期样式
 			actMultipleStyle() {
-				if (this.weeks.beforeMultiple || this.weeks.afterMultiple || (this.calendar.fullDate === this.weeks
-						.fullDate && !this.weeks.isDay) || (this.calendar.fullDate === this.weeks.fullDate && this.weeks
-						.isDay)) {
+				if (this.weeks.beforeRange || this.weeks.afterRange || this.weeks.multiples || (this.calendar.fullDate === this.weeks
+						.fullDate && this.weeks.mode === 'single')) {
 					return {
 						backgroundColor: this.color,
 						color: '#fff',
@@ -128,11 +127,11 @@
 			// 选中的文字
 			multipleText() {
 				let text = '';
-				if (this.weeks.beforeMultiple) {
-					text = this.startText
-				} else if (this.weeks.afterMultiple) {
+				if (this.weeks.afterRange) {
 					text = this.endText
-				}
+				} else if (this.weeks.beforeRange) {
+					text = this.startText
+				} 
 				return text;
 			}
 		},

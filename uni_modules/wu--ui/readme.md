@@ -108,7 +108,7 @@ wu-ui(如虎添翼) 是 全面兼容多端的uniapp生态框架，基于vue2、v
 | wu-app-update | [app更新](https://wu.geeks.ink/zh-CN/components/appUpdate.html) |
 | wu-popup | [弹出层](https://wu.geeks.ink/zh-CN/components/popup.html) |
 | wu-overlay | [遮罩层](https://wu.geeks.ink/zh-CN/components/overlay.html) |
-| wu-actionSheet | [操作菜单](https://wu.geeks.ink/zh-CN/components/actionSheet.html) |
+| wu-action-sheet | [操作菜单](https://wu.geeks.ink/zh-CN/components/actionSheet.html) |
 
 ## 版权信息
 wu-ui遵循[MIT](https://en.wikipedia.org/wiki/MIT_License)开源协议，意味着您无需支付任何费用，也无需授权，即可将wu-ui应用到您的产品中。

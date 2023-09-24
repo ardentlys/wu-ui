@@ -10,17 +10,25 @@ export default function silentlyAppUpdate() {
 					plus.runtime.install(download.filename, {
 						force: false
 					}, res => {
-						// 静默更新后会自动重启
-						uni.showLoading({
-							icon: 'none',
-							title: '更新完成，正在重启……',
-							mask: true
-						})
-
-						setTimeout(() => {
-							uni.hideLoading();
-							plus.runtime.restart();
-						}, 1000)
+						uni.showModal({
+							title: '更新提示',
+							content: '新版本已就绪，请重启应用查看',
+							showCancel: false,
+							success: function (res) {
+								if (res.confirm) {
+									// 由于h5+的热更新重启存在样式错误的问题
+									// 因此只能用原生的方法退出app并杀死后台
+									if (res.appPlatform == 'android') {
+										let main = plus.android.runtimeMainActivity();
+										//  热更新之后需要杀死进程重新打开,需要引入安卓system的类来实现
+										let system = plus.android.importClass('java.lang.System')
+										system.exit(0);
+									}else{
+										plus.ios.import('UIApplication').sharedApplication().performSelector('exit');
+									}
+								}
+							}
+						});
 					},  err => {
 						console.log(err);
 					})

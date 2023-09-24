@@ -1,9 +1,19 @@
 export default {
 	props: {
-		// 自定义当前时间，默认为今天
+		// 自定义当前时间
 		date: {
-			type: String,
+			type: [String, Array],
 			default: ''
+		},
+		// 是否使用默认日期(今天，默认为true)
+		useToday: {
+			type: Boolean,
+			default: true
+		},
+		// 日期选择模式
+		mode: {
+			type: String,
+			default: 'single'
 		},
 		// 主题色
 		color: {
@@ -62,12 +72,17 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		// 允许日期选择范围起始日期为同一天
+		rangeSameDay: {
+			type: Boolean,
+			default: false
+		},
 		// 每月是否仅显示当月数据
 		monthShowCurrentMonth: {
 			type: Boolean,
 			default: false
 		},
-		// 插入模式,可选值，ture：插入模式；false：弹窗模式；默认为插入模式
+		// 插入模式,可选值，ture：插入模式；false：弹窗模式； 默认为插入模式
 		insert: {
 			type: Boolean,
 			default: true

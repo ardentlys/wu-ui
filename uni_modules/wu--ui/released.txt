@@ -1,10 +1,14 @@
 // 下次更新的内容
-
+1. 统一尺寸
+2. 统一主题
+3. 暗黑主题
+4. 国际化
 
 // 本次更新的内容
-1. 新增wu-popup弹出层组件
-2. 新增wu-overlay遮罩层组件
-3. 新增wu-action-sheet操作菜单组件
+1.修复wu-calendar回到今日错误
+2.优化wu-calendar picker日期与当前日历日期同步
+3.wu-calendar新增mode属性，用来控制单日期、多日期、日期选择范围模式
+4.优化wu-calendar date属性来更好的指定多日期、范围日期的默认值
 
 // 已发布
 | wu-gap | [间隔槽](https://wu.geeks.ink/zh-CN/components/gap.html) |
@@ -17,28 +21,22 @@
 | wu-input | [输入框](https://wu.geeks.ink/zh-CN/components/input.html) |
 | wu-radio | [单选框](https://wu.geeks.ink/zh-CN/components/radio.html) |
 | wu-navbar | [自定义导航栏](https://wu.geeks.ink/zh-CN/components/navbar.html) |
-
-// 待发布
 | wu-popup | [弹出层](https://wu.geeks.ink/zh-CN/components/popup.html) |
 | wu-overlay | [遮罩层](https://wu.geeks.ink/zh-CN/components/overlay.html) |
 | wu-actionSheet | [操作菜单](https://wu.geeks.ink/zh-CN/components/actionSheet.html) |
+
+// 待发布
+
 
 // 待写文档与示例
 
 // 正在开发
 
 // 待开发
+| wu-form | [表单](https://wu.geeks.ink/zh-CN/components/form.html) |
 | wu-qrcode | [二维码](https://wu.geeks.ink/zh-CN/components/qrcode.html) |
+| wu-action | [滑动菜单](https://wu.geeks.ink/zh-CN/components/action.html) |
+| wu-refresh | [下拉刷新](https://wu.geeks.ink/zh-CN/components/pullRefresh.html) |
 
 // 待优化部分
 | wu-icon | [图标](https://wu.geeks.ink/zh-CN/components/icon.html) |
-| wu-transition | [动画](https://wu.geeks.ink/zh-CN/components/transition.html) |
-
-
-// 自定义样式
-customStyle: {
-	type: [Object, String],
-	default: () => {
-		return ''
-	}
-},

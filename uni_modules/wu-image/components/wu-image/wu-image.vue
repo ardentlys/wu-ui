@@ -156,7 +156,7 @@
 				}, this.minLoadginShowTime)
 				this.isError = false;
 				this.$emit('load', event)
-				this.removeBgColor()
+				// this.removeBgColor()
 				// 如果不需要动画效果，就不执行下方代码，同时移除加载时的背景颜色
 				// 否则无需fade效果时，png图片依然能看到下方的背景色
 				// if (!this.fade) return this.removeBgColor();
@@ -178,7 +178,7 @@
 			removeBgColor() {
 				// 淡入动画过渡完成后，将背景设置为透明色，否则png图片会看到灰色的背景
 				this.backgroundStyle = {
-					backgroundColor: 'transparent'
+					background: 'transparent'
 				};
 			}
 		}
@@ -186,7 +186,7 @@
 </script>
 
 <style lang="scss" scoped>
-	@import "@/uni_modules/wu-ui-tools/libs/css/color.scss";
+	@import "@/uni_modules/wu-ui-tools/theme.scss";
 	@import "@/uni_modules/wu-ui-tools/libs/css/components.scss";
 
 	$wu-image-error-top: 0px !default;

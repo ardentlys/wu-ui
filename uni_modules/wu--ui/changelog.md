@@ -1,3 +1,8 @@
+## 1.1.2（2023-09-18）
+1.修复wu-calendar回到今日错误
+2.优化wu-calendar picker日期与当前日历日期同步
+3.wu-calendar新增mode属性，用来控制单日期、多日期、日期选择范围模式
+4.优化wu-calendar date属性来更好的指定多日期、范围日期的默认值
 ## 1.1.1（2023-09-12）
 1. 新增wu-popup弹出层组件
 2. 新增wu-overlay遮罩层组件
