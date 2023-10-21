@@ -285,6 +285,12 @@ export default [{
 	// 		// 	title: 'fullScreen 压窗屏（暂无）',
 	// 		// 	title_en: 'fullScreen',
 	// 		// },
+			{
+				path: '/pages/componentsD/dragSort/dragSort',
+				icon: 'dragSort',
+				title: 'DragSort 拖拽排序',
+				title_en: 'DragSort'
+			}
 		]
 	}, 
 	{

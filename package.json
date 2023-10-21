@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ardentlys/wuui/issues"
   },
-  "homepage": "https://github.com/ardentlys/wuui#readme"
+  "homepage": "https://github.com/ardentlys/wuui#readme",
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  }
 }

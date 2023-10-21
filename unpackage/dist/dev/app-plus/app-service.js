@@ -39,8 +39,8 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
-  const _sfc_main$8 = {};
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  const _sfc_main$9 = {};
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_u_image = vue.resolveComponent("u-image");
     const _component_u_list_item = vue.resolveComponent("u-list-item");
     const _component_u_list = vue.resolveComponent("u-list");
@@ -102,13 +102,13 @@ if (uni.restoreGlobal) {
       })
     ]);
   }
-  const PagesComponentsATestTest = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsA/test/test.vue"]]);
-  const _sfc_main$7 = {};
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  const PagesComponentsATestTest = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__file", "C:/Users/Administrator/Desktop/wu-ui/pages/componentsA/test/test.vue"]]);
+  const _sfc_main$8 = {};
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", null, " 跳转测试页面 ");
   }
-  const PagesComponentsBParseJump = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsB/parse/jump.vue"]]);
-  const _sfc_main$6 = {
+  const PagesComponentsBParseJump = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__file", "C:/Users/Administrator/Desktop/wu-ui/pages/componentsB/parse/jump.vue"]]);
+  const _sfc_main$7 = {
     data() {
       return {
         current1: 1
@@ -117,7 +117,7 @@ if (uni.restoreGlobal) {
     onLoad() {
     }
   };
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_u_steps_item = vue.resolveComponent("u-steps-item");
     const _component_u_steps = vue.resolveComponent("u-steps");
     return vue.openBlock(), vue.createElementBlock("view", { class: "wu-page" }, [
@@ -329,7 +329,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesComponentsCStepsSteps = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/steps/steps.vue"]]);
+  const PagesComponentsCStepsSteps = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__file", "C:/Users/Administrator/Desktop/wu-ui/pages/componentsC/steps/steps.vue"]]);
   function requireNativePlugin(name2) {
     return weex.requireModule(name2);
   }
@@ -343,7 +343,7 @@ if (uni.restoreGlobal) {
   function resolveEasycom(component, easycom) {
     return shared.isString(component) ? easycom : component;
   }
-  const _sfc_main$5 = {
+  const _sfc_main$6 = {
     data() {
       return {
         text1: "长按文本，上方提示",
@@ -364,7 +364,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_u_tooltip = vue.resolveComponent("u-tooltip");
     return vue.openBlock(), vue.createElementBlock("view", { class: "wu-page" }, [
       vue.createElementVNode("view", { class: "wu-demo-block" }, [
@@ -419,7 +419,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesComponentsCTooltipTooltip = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsC/tooltip/tooltip.vue"]]);
+  const PagesComponentsCTooltipTooltip = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "C:/Users/Administrator/Desktop/wu-ui/pages/componentsC/tooltip/tooltip.vue"]]);
   const mpMixin = {};
   function email(value) {
     return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value);
@@ -654,46 +654,7 @@ if (uni.restoreGlobal) {
     }
     return result;
   }
-  var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
-  function getAugmentedNamespace(n) {
-    if (n.__esModule)
-      return n;
-    var f = n.default;
-    if (typeof f == "function") {
-      var a = function a2() {
-        if (this instanceof a2) {
-          var args = [null];
-          args.push.apply(args, arguments);
-          var Ctor = Function.bind.apply(f, args);
-          return new Ctor();
-        }
-        return f.apply(this, arguments);
-      };
-      a.prototype = f.prototype;
-    } else
-      a = {};
-    Object.defineProperty(a, "__esModule", { value: true });
-    Object.keys(n).forEach(function(k) {
-      var d = Object.getOwnPropertyDescriptor(n, k);
-      Object.defineProperty(a, k, d.get ? d : {
-        enumerable: true,
-        get: function() {
-          return n[k];
-        }
-      });
-    });
-    return a;
-  }
-  var colorStringExports = {};
-  var colorString$1 = {
-    get exports() {
-      return colorStringExports;
-    },
-    set exports(v) {
-      colorStringExports = v;
-    }
-  };
-  var colorName = {
+  const cssKeywords = {
     "aliceblue": [240, 248, 255],
     "antiquewhite": [250, 235, 215],
     "aqua": [0, 255, 255],
@@ -843,25 +804,15 @@ if (uni.restoreGlobal) {
     "yellow": [255, 255, 0],
     "yellowgreen": [154, 205, 50]
   };
-  var simpleSwizzleExports = {};
-  var simpleSwizzle = {
-    get exports() {
-      return simpleSwizzleExports;
-    },
-    set exports(v) {
-      simpleSwizzleExports = v;
-    }
-  };
-  var isArrayish$1 = function isArrayish2(obj) {
+  function isArrayish(obj) {
     if (!obj || typeof obj === "string") {
       return false;
     }
     return obj instanceof Array || Array.isArray(obj) || obj.length >= 0 && (obj.splice instanceof Function || Object.getOwnPropertyDescriptor(obj, obj.length - 1) && obj.constructor.name !== "String");
-  };
-  var isArrayish = isArrayish$1;
+  }
   var concat = Array.prototype.concat;
   var slice = Array.prototype.slice;
-  var swizzle$1 = simpleSwizzle.exports = function swizzle2(args) {
+  function swizzle(args) {
     var results = [];
     for (var i = 0, len = args.length; i < len; i++) {
       var arg = args[i];
@@ -872,22 +823,20 @@ if (uni.restoreGlobal) {
       }
     }
     return results;
-  };
-  swizzle$1.wrap = function(fn) {
+  }
+  swizzle.wrap = function(fn) {
     return function() {
-      return fn(swizzle$1(arguments));
+      return fn(swizzle(arguments));
     };
   };
-  var colorNames = colorName;
-  var swizzle = simpleSwizzleExports;
   var hasOwnProperty = Object.hasOwnProperty;
   var reverseNames = /* @__PURE__ */ Object.create(null);
-  for (var name in colorNames) {
-    if (hasOwnProperty.call(colorNames, name)) {
-      reverseNames[colorNames[name]] = name;
+  for (var name in cssKeywords) {
+    if (hasOwnProperty.call(cssKeywords, name)) {
+      reverseNames[cssKeywords[name]] = name;
     }
   }
-  var cs = colorString$1.exports = {
+  var cs = {
     to: {},
     get: {}
   };
@@ -972,10 +921,10 @@ if (uni.restoreGlobal) {
       if (match[1] === "transparent") {
         return [0, 0, 0, 0];
       }
-      if (!hasOwnProperty.call(colorNames, match[1])) {
+      if (!hasOwnProperty.call(cssKeywords, match[1])) {
         return null;
       }
-      rgb = colorNames[match[1]];
+      rgb = cssKeywords[match[1]];
       rgb[3] = 1;
       return rgb;
     } else {
@@ -1056,12 +1005,11 @@ if (uni.restoreGlobal) {
     var str = Math.round(num).toString(16).toUpperCase();
     return str.length < 2 ? "0" + str : str;
   }
-  const cssKeywords = colorName;
   const reverseKeywords = {};
   for (const key of Object.keys(cssKeywords)) {
     reverseKeywords[cssKeywords[key]] = key;
   }
-  const convert$2 = {
+  const convert$1 = {
     rgb: { channels: 3, labels: "rgb" },
     hsl: { channels: 3, labels: "hsl" },
     hsv: { channels: 3, labels: "hsv" },
@@ -1078,24 +1026,23 @@ if (uni.restoreGlobal) {
     apple: { channels: 3, labels: ["r16", "g16", "b16"] },
     gray: { channels: 1, labels: ["gray"] }
   };
-  var conversions$2 = convert$2;
-  for (const model of Object.keys(convert$2)) {
-    if (!("channels" in convert$2[model])) {
+  for (const model of Object.keys(convert$1)) {
+    if (!("channels" in convert$1[model])) {
       throw new Error("missing channels property: " + model);
     }
-    if (!("labels" in convert$2[model])) {
+    if (!("labels" in convert$1[model])) {
       throw new Error("missing channel labels property: " + model);
     }
-    if (convert$2[model].labels.length !== convert$2[model].channels) {
+    if (convert$1[model].labels.length !== convert$1[model].channels) {
       throw new Error("channel and label counts mismatch: " + model);
     }
-    const { channels, labels } = convert$2[model];
-    delete convert$2[model].channels;
-    delete convert$2[model].labels;
-    Object.defineProperty(convert$2[model], "channels", { value: channels });
-    Object.defineProperty(convert$2[model], "labels", { value: labels });
+    const { channels, labels } = convert$1[model];
+    delete convert$1[model].channels;
+    delete convert$1[model].labels;
+    Object.defineProperty(convert$1[model], "channels", { value: channels });
+    Object.defineProperty(convert$1[model], "labels", { value: labels });
   }
-  convert$2.rgb.hsl = function(rgb) {
+  convert$1.rgb.hsl = function(rgb) {
     const r = rgb[0] / 255;
     const g = rgb[1] / 255;
     const b = rgb[2] / 255;
@@ -1127,7 +1074,7 @@ if (uni.restoreGlobal) {
     }
     return [h, s * 100, l * 100];
   };
-  convert$2.rgb.hsv = function(rgb) {
+  convert$1.rgb.hsv = function(rgb) {
     let rdif;
     let gdif;
     let bdif;
@@ -1168,16 +1115,16 @@ if (uni.restoreGlobal) {
       v * 100
     ];
   };
-  convert$2.rgb.hwb = function(rgb) {
+  convert$1.rgb.hwb = function(rgb) {
     const r = rgb[0];
     const g = rgb[1];
     let b = rgb[2];
-    const h = convert$2.rgb.hsl(rgb)[0];
+    const h = convert$1.rgb.hsl(rgb)[0];
     const w = 1 / 255 * Math.min(r, Math.min(g, b));
     b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
     return [h, w * 100, b * 100];
   };
-  convert$2.rgb.cmyk = function(rgb) {
+  convert$1.rgb.cmyk = function(rgb) {
     const r = rgb[0] / 255;
     const g = rgb[1] / 255;
     const b = rgb[2] / 255;
@@ -1190,7 +1137,7 @@ if (uni.restoreGlobal) {
   function comparativeDistance(x, y) {
     return (x[0] - y[0]) ** 2 + (x[1] - y[1]) ** 2 + (x[2] - y[2]) ** 2;
   }
-  convert$2.rgb.keyword = function(rgb) {
+  convert$1.rgb.keyword = function(rgb) {
     const reversed = reverseKeywords[rgb];
     if (reversed) {
       return reversed;
@@ -1207,10 +1154,10 @@ if (uni.restoreGlobal) {
     }
     return currentClosestKeyword;
   };
-  convert$2.keyword.rgb = function(keyword) {
+  convert$1.keyword.rgb = function(keyword) {
     return cssKeywords[keyword];
   };
-  convert$2.rgb.xyz = function(rgb) {
+  convert$1.rgb.xyz = function(rgb) {
     let r = rgb[0] / 255;
     let g = rgb[1] / 255;
     let b = rgb[2] / 255;
@@ -1222,8 +1169,8 @@ if (uni.restoreGlobal) {
     const z = r * 0.0193 + g * 0.1192 + b * 0.9505;
     return [x * 100, y * 100, z * 100];
   };
-  convert$2.rgb.lab = function(rgb) {
-    const xyz = convert$2.rgb.xyz(rgb);
+  convert$1.rgb.lab = function(rgb) {
+    const xyz = convert$1.rgb.xyz(rgb);
     let x = xyz[0];
     let y = xyz[1];
     let z = xyz[2];
@@ -1238,7 +1185,7 @@ if (uni.restoreGlobal) {
     const b = 200 * (y - z);
     return [l, a, b];
   };
-  convert$2.hsl.rgb = function(hsl) {
+  convert$1.hsl.rgb = function(hsl) {
     const h = hsl[0] / 360;
     const s = hsl[1] / 100;
     const l = hsl[2] / 100;
@@ -1277,7 +1224,7 @@ if (uni.restoreGlobal) {
     }
     return rgb;
   };
-  convert$2.hsl.hsv = function(hsl) {
+  convert$1.hsl.hsv = function(hsl) {
     const h = hsl[0];
     let s = hsl[1] / 100;
     let l = hsl[2] / 100;
@@ -1290,7 +1237,7 @@ if (uni.restoreGlobal) {
     const sv = l === 0 ? 2 * smin / (lmin + smin) : 2 * s / (l + s);
     return [h, sv * 100, v * 100];
   };
-  convert$2.hsv.rgb = function(hsv) {
+  convert$1.hsv.rgb = function(hsv) {
     const h = hsv[0] / 60;
     const s = hsv[1] / 100;
     let v = hsv[2] / 100;
@@ -1315,7 +1262,7 @@ if (uni.restoreGlobal) {
         return [v, p, q];
     }
   };
-  convert$2.hsv.hsl = function(hsv) {
+  convert$1.hsv.hsl = function(hsv) {
     const h = hsv[0];
     const s = hsv[1] / 100;
     const v = hsv[2] / 100;
@@ -1330,7 +1277,7 @@ if (uni.restoreGlobal) {
     l /= 2;
     return [h, sl * 100, l * 100];
   };
-  convert$2.hwb.rgb = function(hwb) {
+  convert$1.hwb.rgb = function(hwb) {
     const h = hwb[0] / 360;
     let wh = hwb[1] / 100;
     let bl = hwb[2] / 100;
@@ -1386,7 +1333,7 @@ if (uni.restoreGlobal) {
     }
     return [r * 255, g * 255, b * 255];
   };
-  convert$2.cmyk.rgb = function(cmyk) {
+  convert$1.cmyk.rgb = function(cmyk) {
     const c = cmyk[0] / 100;
     const m = cmyk[1] / 100;
     const y = cmyk[2] / 100;
@@ -1396,7 +1343,7 @@ if (uni.restoreGlobal) {
     const b = 1 - Math.min(1, y * (1 - k) + k);
     return [r * 255, g * 255, b * 255];
   };
-  convert$2.xyz.rgb = function(xyz) {
+  convert$1.xyz.rgb = function(xyz) {
     const x = xyz[0] / 100;
     const y = xyz[1] / 100;
     const z = xyz[2] / 100;
@@ -1414,7 +1361,7 @@ if (uni.restoreGlobal) {
     b = Math.min(Math.max(0, b), 1);
     return [r * 255, g * 255, b * 255];
   };
-  convert$2.xyz.lab = function(xyz) {
+  convert$1.xyz.lab = function(xyz) {
     let x = xyz[0];
     let y = xyz[1];
     let z = xyz[2];
@@ -1429,7 +1376,7 @@ if (uni.restoreGlobal) {
     const b = 200 * (y - z);
     return [l, a, b];
   };
-  convert$2.lab.xyz = function(lab) {
+  convert$1.lab.xyz = function(lab) {
     const l = lab[0];
     const a = lab[1];
     const b = lab[2];
@@ -1450,7 +1397,7 @@ if (uni.restoreGlobal) {
     z *= 108.883;
     return [x, y, z];
   };
-  convert$2.lab.lch = function(lab) {
+  convert$1.lab.lch = function(lab) {
     const l = lab[0];
     const a = lab[1];
     const b = lab[2];
@@ -1463,7 +1410,7 @@ if (uni.restoreGlobal) {
     const c = Math.sqrt(a * a + b * b);
     return [l, c, h];
   };
-  convert$2.lch.lab = function(lch) {
+  convert$1.lch.lab = function(lch) {
     const l = lch[0];
     const c = lch[1];
     const h = lch[2];
@@ -1472,9 +1419,9 @@ if (uni.restoreGlobal) {
     const b = c * Math.sin(hr);
     return [l, a, b];
   };
-  convert$2.rgb.ansi16 = function(args, saturation = null) {
+  convert$1.rgb.ansi16 = function(args, saturation = null) {
     const [r, g, b] = args;
-    let value = saturation === null ? convert$2.rgb.hsv(args)[2] : saturation;
+    let value = saturation === null ? convert$1.rgb.hsv(args)[2] : saturation;
     value = Math.round(value / 50);
     if (value === 0) {
       return 30;
@@ -1485,10 +1432,10 @@ if (uni.restoreGlobal) {
     }
     return ansi;
   };
-  convert$2.hsv.ansi16 = function(args) {
-    return convert$2.rgb.ansi16(convert$2.hsv.rgb(args), args[2]);
+  convert$1.hsv.ansi16 = function(args) {
+    return convert$1.rgb.ansi16(convert$1.hsv.rgb(args), args[2]);
   };
-  convert$2.rgb.ansi256 = function(args) {
+  convert$1.rgb.ansi256 = function(args) {
     const r = args[0];
     const g = args[1];
     const b = args[2];
@@ -1504,22 +1451,22 @@ if (uni.restoreGlobal) {
     const ansi = 16 + 36 * Math.round(r / 255 * 5) + 6 * Math.round(g / 255 * 5) + Math.round(b / 255 * 5);
     return ansi;
   };
-  convert$2.ansi16.rgb = function(args) {
-    let color2 = args % 10;
-    if (color2 === 0 || color2 === 7) {
+  convert$1.ansi16.rgb = function(args) {
+    let color = args % 10;
+    if (color === 0 || color === 7) {
       if (args > 50) {
-        color2 += 3.5;
+        color += 3.5;
       }
-      color2 = color2 / 10.5 * 255;
-      return [color2, color2, color2];
+      color = color / 10.5 * 255;
+      return [color, color, color];
     }
     const mult = (~~(args > 50) + 1) * 0.5;
-    const r = (color2 & 1) * mult * 255;
-    const g = (color2 >> 1 & 1) * mult * 255;
-    const b = (color2 >> 2 & 1) * mult * 255;
+    const r = (color & 1) * mult * 255;
+    const g = (color >> 1 & 1) * mult * 255;
+    const b = (color >> 2 & 1) * mult * 255;
     return [r, g, b];
   };
-  convert$2.ansi256.rgb = function(args) {
+  convert$1.ansi256.rgb = function(args) {
     if (args >= 232) {
       const c = (args - 232) * 10 + 8;
       return [c, c, c];
@@ -1531,29 +1478,29 @@ if (uni.restoreGlobal) {
     const b = rem % 6 / 5 * 255;
     return [r, g, b];
   };
-  convert$2.rgb.hex = function(args) {
+  convert$1.rgb.hex = function(args) {
     const integer = ((Math.round(args[0]) & 255) << 16) + ((Math.round(args[1]) & 255) << 8) + (Math.round(args[2]) & 255);
     const string2 = integer.toString(16).toUpperCase();
     return "000000".substring(string2.length) + string2;
   };
-  convert$2.hex.rgb = function(args) {
+  convert$1.hex.rgb = function(args) {
     const match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
     if (!match) {
       return [0, 0, 0];
     }
-    let colorString2 = match[0];
+    let colorString = match[0];
     if (match[0].length === 3) {
-      colorString2 = colorString2.split("").map((char) => {
+      colorString = colorString.split("").map((char) => {
         return char + char;
       }).join("");
     }
-    const integer = parseInt(colorString2, 16);
+    const integer = parseInt(colorString, 16);
     const r = integer >> 16 & 255;
     const g = integer >> 8 & 255;
     const b = integer & 255;
     return [r, g, b];
   };
-  convert$2.rgb.hcg = function(rgb) {
+  convert$1.rgb.hcg = function(rgb) {
     const r = rgb[0] / 255;
     const g = rgb[1] / 255;
     const b = rgb[2] / 255;
@@ -1580,7 +1527,7 @@ if (uni.restoreGlobal) {
     hue %= 1;
     return [hue * 360, chroma * 100, grayscale * 100];
   };
-  convert$2.hsl.hcg = function(hsl) {
+  convert$1.hsl.hcg = function(hsl) {
     const s = hsl[1] / 100;
     const l = hsl[2] / 100;
     const c = l < 0.5 ? 2 * s * l : 2 * s * (1 - l);
@@ -1590,7 +1537,7 @@ if (uni.restoreGlobal) {
     }
     return [hsl[0], c * 100, f * 100];
   };
-  convert$2.hsv.hcg = function(hsv) {
+  convert$1.hsv.hcg = function(hsv) {
     const s = hsv[1] / 100;
     const v = hsv[2] / 100;
     const c = s * v;
@@ -1600,7 +1547,7 @@ if (uni.restoreGlobal) {
     }
     return [hsv[0], c * 100, f * 100];
   };
-  convert$2.hcg.rgb = function(hcg) {
+  convert$1.hcg.rgb = function(hcg) {
     const h = hcg[0] / 360;
     const c = hcg[1] / 100;
     const g = hcg[2] / 100;
@@ -1650,7 +1597,7 @@ if (uni.restoreGlobal) {
       (c * pure[2] + mg) * 255
     ];
   };
-  convert$2.hcg.hsv = function(hcg) {
+  convert$1.hcg.hsv = function(hcg) {
     const c = hcg[1] / 100;
     const g = hcg[2] / 100;
     const v = c + g * (1 - c);
@@ -1660,7 +1607,7 @@ if (uni.restoreGlobal) {
     }
     return [hcg[0], f * 100, v * 100];
   };
-  convert$2.hcg.hsl = function(hcg) {
+  convert$1.hcg.hsl = function(hcg) {
     const c = hcg[1] / 100;
     const g = hcg[2] / 100;
     const l = g * (1 - c) + 0.5 * c;
@@ -1672,13 +1619,13 @@ if (uni.restoreGlobal) {
     }
     return [hcg[0], s * 100, l * 100];
   };
-  convert$2.hcg.hwb = function(hcg) {
+  convert$1.hcg.hwb = function(hcg) {
     const c = hcg[1] / 100;
     const g = hcg[2] / 100;
     const v = c + g * (1 - c);
     return [hcg[0], (v - c) * 100, (1 - v) * 100];
   };
-  convert$2.hwb.hcg = function(hwb) {
+  convert$1.hwb.hcg = function(hwb) {
     const w = hwb[1] / 100;
     const b = hwb[2] / 100;
     const v = 1 - b;
@@ -1689,42 +1636,41 @@ if (uni.restoreGlobal) {
     }
     return [hwb[0], c * 100, g * 100];
   };
-  convert$2.apple.rgb = function(apple) {
+  convert$1.apple.rgb = function(apple) {
     return [apple[0] / 65535 * 255, apple[1] / 65535 * 255, apple[2] / 65535 * 255];
   };
-  convert$2.rgb.apple = function(rgb) {
+  convert$1.rgb.apple = function(rgb) {
     return [rgb[0] / 255 * 65535, rgb[1] / 255 * 65535, rgb[2] / 255 * 65535];
   };
-  convert$2.gray.rgb = function(args) {
+  convert$1.gray.rgb = function(args) {
     return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
   };
-  convert$2.gray.hsl = function(args) {
+  convert$1.gray.hsl = function(args) {
     return [0, 0, args[0]];
   };
-  convert$2.gray.hsv = convert$2.gray.hsl;
-  convert$2.gray.hwb = function(gray) {
+  convert$1.gray.hsv = convert$1.gray.hsl;
+  convert$1.gray.hwb = function(gray) {
     return [0, 100, gray[0]];
   };
-  convert$2.gray.cmyk = function(gray) {
+  convert$1.gray.cmyk = function(gray) {
     return [0, 0, 0, gray[0]];
   };
-  convert$2.gray.lab = function(gray) {
+  convert$1.gray.lab = function(gray) {
     return [gray[0], 0, 0];
   };
-  convert$2.gray.hex = function(gray) {
+  convert$1.gray.hex = function(gray) {
     const val = Math.round(gray[0] / 100 * 255) & 255;
     const integer = (val << 16) + (val << 8) + val;
     const string2 = integer.toString(16).toUpperCase();
     return "000000".substring(string2.length) + string2;
   };
-  convert$2.rgb.gray = function(rgb) {
+  convert$1.rgb.gray = function(rgb) {
     const val = (rgb[0] + rgb[1] + rgb[2]) / 3;
     return [val / 255 * 100];
   };
-  const conversions$1 = conversions$2;
   function buildGraph() {
     const graph = {};
-    const models2 = Object.keys(conversions$1);
+    const models2 = Object.keys(convert$1);
     for (let len = models2.length, i = 0; i < len; i++) {
       graph[models2[i]] = {
         // http://jsperf.com/1-vs-infinity
@@ -1741,7 +1687,7 @@ if (uni.restoreGlobal) {
     graph[fromModel].distance = 0;
     while (queue.length) {
       const current = queue.pop();
-      const adjacents = Object.keys(conversions$1[current]);
+      const adjacents = Object.keys(convert$1[current]);
       for (let len = adjacents.length, i = 0; i < len; i++) {
         const adjacent = adjacents[i];
         const node = graph[adjacent];
@@ -1761,17 +1707,17 @@ if (uni.restoreGlobal) {
   }
   function wrapConversion(toModel, graph) {
     const path = [graph[toModel].parent, toModel];
-    let fn = conversions$1[graph[toModel].parent][toModel];
+    let fn = convert$1[graph[toModel].parent][toModel];
     let cur = graph[toModel].parent;
     while (graph[cur].parent) {
       path.unshift(graph[cur].parent);
-      fn = link(conversions$1[graph[cur].parent][cur], fn);
+      fn = link(convert$1[graph[cur].parent][cur], fn);
       cur = graph[cur].parent;
     }
     fn.conversion = path;
     return fn;
   }
-  var route$2 = function(fromModel) {
+  function route$1(fromModel) {
     const graph = deriveBFS(fromModel);
     const conversion = {};
     const models2 = Object.keys(graph);
@@ -1784,11 +1730,9 @@ if (uni.restoreGlobal) {
       conversion[toModel] = wrapConversion(toModel, graph);
     }
     return conversion;
-  };
-  const conversions = conversions$2;
-  const route$1 = route$2;
-  const convert$1 = {};
-  const models = Object.keys(conversions);
+  }
+  const convert = {};
+  const models = Object.keys(convert$1);
   function wrapRaw(fn) {
     const wrappedFn = function(...args) {
       const arg0 = args[0];
@@ -1828,20 +1772,17 @@ if (uni.restoreGlobal) {
     return wrappedFn;
   }
   models.forEach((fromModel) => {
-    convert$1[fromModel] = {};
-    Object.defineProperty(convert$1[fromModel], "channels", { value: conversions[fromModel].channels });
-    Object.defineProperty(convert$1[fromModel], "labels", { value: conversions[fromModel].labels });
+    convert[fromModel] = {};
+    Object.defineProperty(convert[fromModel], "channels", { value: convert$1[fromModel].channels });
+    Object.defineProperty(convert[fromModel], "labels", { value: convert$1[fromModel].labels });
     const routes = route$1(fromModel);
     const routeModels = Object.keys(routes);
     routeModels.forEach((toModel) => {
       const fn = routes[toModel];
-      convert$1[fromModel][toModel] = wrapRounded(fn);
-      convert$1[fromModel][toModel].raw = wrapRaw(fn);
+      convert[fromModel][toModel] = wrapRounded(fn);
+      convert[fromModel][toModel].raw = wrapRaw(fn);
     });
   });
-  var colorConvert = convert$1;
-  const colorString = colorStringExports;
-  const convert = colorConvert;
   const skippedModels = [
     // To be honest, I don't really feel like keyword belongs in color convert, but eh.
     "keyword",
@@ -1876,7 +1817,7 @@ if (uni.restoreGlobal) {
       this.color = [...object2.color];
       this.valpha = object2.valpha;
     } else if (typeof object2 === "string") {
-      const result = colorString.get(object2);
+      const result = cs.get(object2);
       if (result === null) {
         throw new Error("Unable to parse color from string: " + object2);
       }
@@ -1911,11 +1852,11 @@ if (uni.restoreGlobal) {
       }
       this.model = hashedModelKeys[hashedKeys];
       const { labels } = convert[this.model];
-      const color2 = [];
+      const color = [];
       for (i = 0; i < labels.length; i++) {
-        color2.push(object2[labels[i]]);
+        color.push(object2[labels[i]]);
       }
-      this.color = zeroArray(color2);
+      this.color = zeroArray(color);
     }
     if (limiters[this.model]) {
       channels = convert[this.model].channels;
@@ -1939,15 +1880,15 @@ if (uni.restoreGlobal) {
       return this[this.model]();
     },
     string(places) {
-      let self2 = this.model in colorString.to ? this : this.rgb();
+      let self2 = this.model in cs.to ? this : this.rgb();
       self2 = self2.round(typeof places === "number" ? places : 1);
       const args = self2.valpha === 1 ? self2.color : [...self2.color, this.valpha];
-      return colorString.to[self2.model](args);
+      return cs.to[self2.model](args);
     },
     percentString(places) {
       const self2 = this.rgb().round(typeof places === "number" ? places : 1);
       const args = self2.valpha === 1 ? self2.color : [...self2.color, this.valpha];
-      return colorString.to.rgb.percent(args);
+      return cs.to.rgb.percent(args);
     },
     array() {
       return this.valpha === 1 ? [...this.color] : [...this.color, this.valpha];
@@ -2027,7 +1968,7 @@ if (uni.restoreGlobal) {
       if (value !== void 0) {
         return new Color$1(value);
       }
-      return colorString.to.hex(this.rgb().round().color);
+      return cs.to.hex(this.rgb().round().color);
     },
     hexa(value) {
       if (value !== void 0) {
@@ -2038,7 +1979,7 @@ if (uni.restoreGlobal) {
       if (alphaHex.length === 1) {
         alphaHex = "0" + alphaHex;
       }
-      return colorString.to.hex(rgbArray) + alphaHex;
+      return cs.to.hex(rgbArray) + alphaHex;
     },
     rgbNumber() {
       const rgb = this.rgb().color;
@@ -2166,11 +2107,11 @@ if (uni.restoreGlobal) {
       return new Color$1([...assertArray(convert[this.model][model].raw(this.color)), this.valpha], model);
     };
     Color$1[model] = function(...args) {
-      let color2 = args[0];
-      if (typeof color2 === "number") {
-        color2 = zeroArray(args, channels);
+      let color = args[0];
+      if (typeof color === "number") {
+        color = zeroArray(args, channels);
       }
-      return new Color$1(color2, model);
+      return new Color$1(color, model);
     };
   }
   function roundTo(number2, places) {
@@ -2220,10 +2161,8 @@ if (uni.restoreGlobal) {
     }
     return array2;
   }
-  var color = Color$1;
-  const Color$2 = color;
-  function convertFormat(color2 = "#fff", format = "rgb", type = "string") {
-    let colorObj = Color$2(color2);
+  function convertFormat(color = "#fff", format = "rgb", type = "string") {
+    let colorObj = Color$1(color);
     if (colorObj[format]) {
       if (format == "hex" && type != "string")
         format = "rgb";
@@ -2287,60 +2226,60 @@ if (uni.restoreGlobal) {
      * @param {number} value - 增加的亮度值（0-1）。
      * @returns {string} 调整后的颜色。
      */
-    lighten: (color2, value, format = "rgb", type = "string") => convertFormat(Color$2(color2).lighten(value), format, type),
+    lighten: (color, value, format = "rgb", type = "string") => convertFormat(Color$1(color).lighten(value), format, type),
     /**
      * 减少颜色的亮度。
      * @param {string} color - 输入的颜色。
      * @param {number} value - 减少的亮度值（0-1）。
      * @returns {string} 调整后的颜色。
      */
-    darken: (color2, value, format = "rgb", type = "string") => convertFormat(Color$2(color2).darken(value), format, type),
+    darken: (color, value, format = "rgb", type = "string") => convertFormat(Color$1(color).darken(value), format, type),
     /**
      * 增加颜色的饱和度。
      * @param {string} color - 输入的颜色。
      * @param {number} value - 增加的饱和度值（0-1）。
      * @returns {string} 调整后的颜色。
      */
-    saturate: (color2, value, format = "rgb", type = "string") => convertFormat(Color$2(color2).saturate(value), format, type),
+    saturate: (color, value, format = "rgb", type = "string") => convertFormat(Color$1(color).saturate(value), format, type),
     /**
      * 减少颜色的饱和度。
      * @param {string} color - 输入的颜色。
      * @param {number} value - 减少的饱和度值（0-1）。
      * @returns {string} 调整后的颜色。
      */
-    desaturate: (color2, value, format = "rgb", type = "string") => convertFormat(Color$2(color2).desaturate(value), format, type),
+    desaturate: (color, value, format = "rgb", type = "string") => convertFormat(Color$1(color).desaturate(value), format, type),
     /**
      * 旋转颜色的色相。
      * @param {string} color - 输入的颜色。
      * @param {number} degrees - 旋转的度数。
      * @returns {string} 调整后的颜色。
      */
-    rotate: (color2, degrees, format = "rgb", type = "string") => convertFormat(Color$2(color2).rotate(degrees), format, type),
+    rotate: (color, degrees, format = "rgb", type = "string") => convertFormat(Color$1(color).rotate(degrees), format, type),
     /**
      * 调整颜色的透明度。
      * @param {string} color - 输入的颜色。
      * @param {number} value - 透明度值（0-1，其中 1 是不透明）。
      * @returns {string} 调整后的颜色。
      */
-    adjustAlpha: (color2, value, format = "rgb", type = "string") => convertFormat(Color$2(color2).alpha(value), format, type),
+    adjustAlpha: (color, value, format = "rgb", type = "string") => convertFormat(Color$1(color).alpha(value), format, type),
     /**
      * 获取颜色的亮度。
      * @param {string} color - 输入的颜色。
      * @returns {number} 颜色的亮度值（0-1）。
      */
-    luminosity: (color2, format) => Color$2(color2).luminosity(),
+    luminosity: (color, format) => Color$1(color).luminosity(),
     /**
      * 判断颜色是否为暗色。
      * @param {string} color - 输入的颜色。
      * @returns {boolean} 如果是暗色则返回 true，否则返回 false。
      */
-    isDark: (color2, format) => Color$2(color2).isDark(),
+    isDark: (color, format) => Color$1(color).isDark(),
     /**
      * 判断颜色是否为亮色。
      * @param {string} color - 输入的颜色。
      * @returns {boolean} 如果是亮色则返回 true，否则返回 false。
      */
-    isLight: (color2, format) => Color$2(color2).isLight()
+    isLight: (color, format) => Color$1(color).isLight()
   };
   function range(min = 0, max = 0, value = 0) {
     return Math.max(min, Math.min(max, Number(value)));
@@ -2792,7 +2731,7 @@ if (uni.restoreGlobal) {
   function setConfig({
     props: props2 = {},
     config: config2 = {},
-    color: color2 = {},
+    color = {},
     zIndex = {}
   }) {
     const {
@@ -2800,7 +2739,7 @@ if (uni.restoreGlobal) {
     } = uni.$w;
     uni.$w.config = deepMerge2(uni.$w.config, config2);
     uni.$w.props = deepMerge2(uni.$w.props, props2);
-    uni.$w.color = deepMerge2(uni.$w.color, color2);
+    uni.$w.color = deepMerge2(uni.$w.color, color);
     uni.$w.zIndex = deepMerge2(uni.$w.zIndex, zIndex);
   }
   const index = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
@@ -3220,7 +3159,7 @@ if (uni.restoreGlobal) {
       ...(_f = (_e = uni.$w) == null ? void 0 : _e.props) == null ? void 0 : _f.icon
     }
   };
-  const _sfc_main$4 = {
+  const _sfc_main$5 = {
     name: "wu-icon",
     emits: ["click"],
     mixins: [mpMixin, mixin, props$2],
@@ -3297,7 +3236,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -3346,7 +3285,7 @@ if (uni.restoreGlobal) {
       /* CLASS */
     );
   }
-  const __easycom_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__scopeId", "data-v-c6cfe730"], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-icon/components/wu-icon/wu-icon.vue"]]);
+  const __easycom_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__scopeId", "data-v-c6cfe730"], ["__file", "C:/Users/Administrator/Desktop/wu-ui/uni_modules/wu-icon/components/wu-icon/wu-icon.vue"]]);
   const props$1 = {
     props: {
       // 步进器标识符，在change回调返回
@@ -3457,8 +3396,9 @@ if (uni.restoreGlobal) {
       ...(_h = (_g = uni.$w) == null ? void 0 : _g.props) == null ? void 0 : _h.numberBox
     }
   };
-  const _sfc_main$3 = {
+  const _sfc_main$4 = {
     name: "wu-number-box",
+    emits: ["onFocus", "onBlur", "onInput", "onChange"],
     mixins: [mpMixin, mixin, props$1],
     data() {
       return {
@@ -3475,7 +3415,7 @@ if (uni.restoreGlobal) {
       },
       // 监听v-mode的变化，重新初始化内部的值
       modelValue(n) {
-        formatAppLog("log", "at uni_modules/wu-number-box/components/wu-number-box/wu-number-box.vue:99", n);
+        formatAppLog("log", "at uni_modules/wu-number-box/components/wu-number-box/wu-number-box.vue:100", n);
         if (n !== this.currentValue) {
           this.currentValue = this.format(this.modelValue);
         }
@@ -3670,7 +3610,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_wu_icon = resolveEasycom(vue.resolveDynamicComponent("wu-icon"), __easycom_0$2);
     return vue.openBlock(), vue.createElementBlock("view", { class: "wu-number-box" }, [
       _ctx.showMinus ? (vue.openBlock(), vue.createElementBlock(
@@ -3762,7 +3702,37 @@ if (uni.restoreGlobal) {
       )) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-d93fb608"], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-number-box/components/wu-number-box/wu-number-box.vue"]]);
+  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__scopeId", "data-v-d93fb608"], ["__file", "C:/Users/Administrator/Desktop/wu-ui/uni_modules/wu-number-box/components/wu-number-box/wu-number-box.vue"]]);
+  var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
+  function getAugmentedNamespace(n) {
+    if (n.__esModule)
+      return n;
+    var f = n.default;
+    if (typeof f == "function") {
+      var a = function a2() {
+        if (this instanceof a2) {
+          var args = [null];
+          args.push.apply(args, arguments);
+          var Ctor = Function.bind.apply(f, args);
+          return new Ctor();
+        }
+        return f.apply(this, arguments);
+      };
+      a.prototype = f.prototype;
+    } else
+      a = {};
+    Object.defineProperty(a, "__esModule", { value: true });
+    Object.keys(n).forEach(function(k) {
+      var d = Object.getOwnPropertyDescriptor(n, k);
+      Object.defineProperty(a, k, d.get ? d : {
+        enumerable: true,
+        get: function() {
+          return n[k];
+        }
+      });
+    });
+    return a;
+  }
   var cryptoJsExports = {};
   var cryptoJs = {
     get exports() {
@@ -9658,7 +9628,7 @@ if (uni.restoreGlobal) {
       ...(_j = (_i = uni.$w) == null ? void 0 : _i.props) == null ? void 0 : _j.sku
     }
   };
-  const _sfc_main$2 = {
+  const _sfc_main$3 = {
     name: "wu-sku",
     mixins: [mpMixin, mixin, props],
     // data() 返回的属性将会成为响应式的状态
@@ -10189,7 +10159,7 @@ if (uni.restoreGlobal) {
       this.init(this.data);
     }
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_wu_number_box = resolveEasycom(vue.resolveDynamicComponent("wu-number-box"), __easycom_0$1);
     return $data.showSkuPopup ? (vue.openBlock(), vue.createElementBlock(
       "view",
@@ -10427,8 +10397,8 @@ if (uni.restoreGlobal) {
       /* CLASS */
     )) : vue.createCommentVNode("v-if", true);
   }
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-4f2705aa"], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/uni_modules/wu-sku/components/wu-sku/wu-sku.vue"]]);
-  const _sfc_main$1 = {
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-4f2705aa"], ["__file", "C:/Users/Administrator/Desktop/wu-ui/uni_modules/wu-sku/components/wu-sku/wu-sku.vue"]]);
+  const _sfc_main$2 = {
     data() {
       return {
         modeSelectList: [
@@ -10685,7 +10655,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_wu_sku = resolveEasycom(vue.resolveDynamicComponent("wu-sku"), __easycom_0);
     return vue.openBlock(), vue.createElementBlock("view", { class: "sku" }, [
       vue.createVNode(_component_wu_sku, {
@@ -10888,12 +10858,23 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesComponentsDSkuSku = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-0e810746"], ["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/pages/componentsD/sku/sku.vue"]]);
+  const PagesComponentsDSkuSku = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-0e810746"], ["__file", "C:/Users/Administrator/Desktop/wu-ui/pages/componentsD/sku/sku.vue"]]);
+  const _sfc_main$1 = {
+    data() {
+      return {};
+    },
+    methods: {}
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view");
+  }
+  const PagesComponentsDDragSortDragSort = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "C:/Users/Administrator/Desktop/wu-ui/pages/componentsD/dragSort/dragSort.vue"]]);
   __definePage("pages/componentsA/test/test", PagesComponentsATestTest);
   __definePage("pages/componentsB/parse/jump", PagesComponentsBParseJump);
   __definePage("pages/componentsC/steps/steps", PagesComponentsCStepsSteps);
   __definePage("pages/componentsC/tooltip/tooltip", PagesComponentsCTooltipTooltip);
   __definePage("pages/componentsD/sku/sku", PagesComponentsDSkuSku);
+  __definePage("pages/componentsD/dragSort/dragSort", PagesComponentsDDragSortDragSort);
   const _sfc_main = {
     onLaunch: function() {
       formatAppLog("log", "at App.vue:4", "App Launch");
@@ -10905,7 +10886,7 @@ if (uni.restoreGlobal) {
       formatAppLog("log", "at App.vue:10", "App Hide");
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "C:/Users/13179/Documents/HBuilderProjects/wu-ui/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "C:/Users/Administrator/Desktop/wu-ui/App.vue"]]);
   const { toString } = Object.prototype;
   function isArray(val) {
     return toString.call(val) === "[object Array]";
@@ -11618,7 +11599,7 @@ if (uni.restoreGlobal) {
       }, wait);
     }
   }
-  const version = "1.0.6";
+  const version = "1.0.9";
   {
     formatAppLog("log", "at uni_modules/wu-ui-tools/libs/config/config.js:6", `
  %c wuui V${version} https://wuui.geeks.ink/ 

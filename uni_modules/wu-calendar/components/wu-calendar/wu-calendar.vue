@@ -165,7 +165,9 @@
 	 *  @value none 不使用滑动切换
 	 * @property {Boolean} clearDate = [true|false] 弹窗模式是否清空上次选择内容
 	 * @property {Array} selected 打点，期待格式[{date: '2019-06-27', info: '签到', data: { custom: '自定义信息', name: '自定义消息头',xxx:xxx... }}]
-	 * @property {Boolean} showMonth 是否选择月份为背景
+	 * @property {Boolean} showMonth 是否选择月份为背景(默认true)
+	 * @property {Boolean} maskClick 是否点击遮罩层关闭(默认false)
+	 * @property {Boolean} disabledChoice 是否禁止点击日历(默认false)
 	 * @event {Function} change 日期改变，`insert :ture` 时生效
 	 * @event {Function} confirm 确认选择`insert :false` 时生效
 	 * @event {Function} monthSwitch 切换月份时触发
@@ -279,7 +281,9 @@
 		},
 		methods: {
 			// 取消穿透
-			clean() {},
+			clean() {
+				if(this.maskClick) this.close();
+			},
 			bindDateChange(e) {
 				const value = e.detail.value + '-1'
 				this.setDate(value)
@@ -437,8 +441,8 @@
 			 * @param {Object} weeks
 			 */
 			choiceDate(weeks) {
-				// 如果为禁用 或者 空数据
-				if (weeks.disable || weeks.empty) return;
+				// 如果为禁用 或者 空数据 或者 禁止点击日期
+				if (weeks.disable || weeks.empty || this.disabledChoice) return;
 				this.calendar = weeks;
 				// 设置选择范围
 				this.cale.setRange(this.calendar.fullDate);

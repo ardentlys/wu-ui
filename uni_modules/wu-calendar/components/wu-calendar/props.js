@@ -102,6 +102,16 @@ export default {
 			type: Boolean,
 			default: true
 		},
+		// 是否点击遮罩层关闭
+		maskClick: {
+			type: Boolean,
+			default: false
+		},
+		// 是否禁止点击日历
+		disabledChoice: {
+			type: Boolean,
+			default: false
+		},
 		...uni.$w?.props?.calendar
 	}
 }

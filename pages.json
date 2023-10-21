@@ -14,7 +14,7 @@
 				"navigationBarTitleText": "wu-ui"
 			}
 		}
-	],
+    ],
 	"subPackages": [{
 		"root": "pages/componentsA",
 		"pages": [
@@ -423,7 +423,12 @@
 				"style": {
 					"navigationBarTitleText": "商品多规格选择器"
 				}
-			}
+			},{
+                    "path" : "dragSort/dragSort",
+                    "style" : {
+                    "navigationBarTitleText": "拖拽排序"
+                }                                                                                 
+            }
 		]
 	}],
 	"preloadRule": {
