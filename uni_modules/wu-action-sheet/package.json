@@ -36,7 +36,6 @@
   },
   "uni_modules": {
     "dependencies": [
-		"wu-ui",
 		"wu-popup",
 		"wu-icon",
 		"wu-line",
