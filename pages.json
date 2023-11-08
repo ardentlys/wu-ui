@@ -13,6 +13,14 @@
 			"style": {
 				"navigationBarTitleText": "wu-ui"
 			}
+		},
+		{
+			"path" : "pages/test/test",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
     ],
 	"subPackages": [{

@@ -111,11 +111,20 @@
 			},
 			// 打点
 			wuCalendar8Selected() {
+				let yesterdayDate = new Date();
 				let lastDate = new Date();
 				let firstDate = new Date();
+				yesterdayDate.setDate(yesterdayDate.getDate() - 1)
 				lastDate.setDate(lastDate.getDate() + 2)
 				firstDate.setDate(firstDate.getDate() + 5)
 				return [{
+                        date: `${yesterdayDate.getFullYear()}-${yesterdayDate.getMonth() + 1}-${yesterdayDate.getDate()}`,
+                        info: '￥850',
+                        infoColor: '#6ac695',
+                        topInfo: '打折',
+                        topInfoColor: '#6ac695',
+                        disable: true // 禁用
+                    },{
 					date: `${lastDate.getFullYear()}-${lastDate.getMonth() + 1}-${lastDate.getDate()}`,
 					info: '￥950',
 					infoColor: '#6ac695',

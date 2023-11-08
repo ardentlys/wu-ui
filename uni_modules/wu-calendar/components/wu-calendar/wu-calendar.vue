@@ -1,5 +1,5 @@
 <template>
-	<view class="wu-calendar">
+	<view class="wu-calendar" @click.stop>
 		<view v-show="!insert && show" class="wu-calendar__mask" :class="{'wu-calendar--mask-show': aniMaskShow}"
 			@click="clean"></view>
 		<view v-show="insert || show" class="wu-calendar__content"
@@ -41,9 +41,6 @@
 				</template>
 			</view>
 			<view class="wu-calendar__box">
-				<view v-if="showMonth" class="wu-calendar__box-bg">
-					<text class="wu-calendar__box-bg-text">{{nowDate.month}}</text>
-				</view>
 				<view class="wu-calendar__weeks">
 					<view class="wu-calendar__weeks-day">
 						<text class="wu-calendar__weeks-day-text">{{SUNText}}</text>
@@ -68,10 +65,20 @@
 					</view>
 				</view>
 				<!-- 滑动切换 -->
-				<swiper v-if="slideSwitchMode !== 'none'" style="height: 765rpx" :duration="500"
-					:vertical="slideSwitchMode == 'vertical'" circular :current="swiperCurrent"
-					:disable-programmatic-animation="true" @change="swiperChange">
+				<swiper v-if="slideSwitchMode !== 'none'" 
+					style="height: 765rpx" 
+					:duration="500"
+					:vertical="slideSwitchMode == 'vertical'" 
+					circular 
+					:current="swiperCurrent"
+					:disable-programmatic-animation="true" 
+					@change="swiperChange"
+					skip-hidden-item-layout
+				>
 					<swiper-item>
+						<view v-if="showMonth" class="wu-calendar__box-bg">
+							<text class="wu-calendar__box-bg-text">{{preWeeksMonth}}</text>
+						</view>
 						<view class="wu-calendar__weeks_box">
 							<view class="wu-calendar__weeks" v-for="(item,weekIndex) in preWeeks" :key="weekIndex">
 								<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item"
@@ -84,6 +91,9 @@
 						</view>
 					</swiper-item>
 					<swiper-item>
+						<view v-if="showMonth" class="wu-calendar__box-bg">
+							<text class="wu-calendar__box-bg-text">{{weeksMonth}}</text>
+						</view>
 						<view class="wu-calendar__weeks_box">
 							<view class="wu-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
 								<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item"
@@ -96,6 +106,9 @@
 						</view>
 					</swiper-item>
 					<swiper-item>
+						<view v-if="showMonth" class="wu-calendar__box-bg">
+							<text class="wu-calendar__box-bg-text">{{nextWeeksMonth}}</text>
+						</view>
 						<view class="wu-calendar__weeks_box">
 							<view class="wu-calendar__weeks" v-for="(item,weekIndex) in nextWeeks" :key="weekIndex">
 								<view class="wu-calendar__weeks-item" v-for="(weeks,weeksIndex) in item"
@@ -182,6 +195,9 @@
 				weeks: [],
 				preWeeks: [],
 				nextWeeks: [],
+				weeksMonth: null,
+				preWeeksMonth: null,
+				nextWeeksMonth: null,
 				calendar: {},
 				nowDate: '',
 				aniMaskShow: false,
@@ -233,15 +249,12 @@
 		},
 		watch: {
 			date(newVal) {
-				// 重置
-				this.cale.rangeStatus.before = ''
-				this.cale.rangeStatus.after = ''
-				this.cale.rangeStatus.data = []
-
+				this.cale.cleanRange();
 				this.init(newVal)
 				this.pickerDate = newVal
 			},
 			mode(newVal) {
+				this.cale.cleanRange();
 				this.cale.resetMode(newVal)
 				this.init(this.date)
 			},
@@ -336,6 +349,8 @@
 				this.weeks = this.cale.weeks;
 				// 现在的日期
 				this.nowDate = this.cale.getInfo(firstDate);
+				// 设置当前月份
+				this.weeksMonth = this.nowDate.month;
 				// 如果不填写默认值 且 使用今日作为默认值
 				if ((this.useToday && !this.date) || this.date) {
 					this.calendar = this.nowDate;
@@ -344,8 +359,10 @@
 				if (this.slideSwitchMode !== 'none') {
 					this.preWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate,
 						false)
+					this.preWeeksMonth = this.cale.getDate(this.nowDate.fullDate, -1, 'month').month;
 					this.nextWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
 						false)
+					this.nextWeeksMonth = this.cale.getDate(this.nowDate.fullDate, +1, 'month').month;
 				}
 			},
 			/**
@@ -591,30 +608,34 @@
 			swiperCurrentChangeWeeks() {
 				if (this.slideSwitchMode !== 'none') {
 					if (this.swiperChangeDirection == 'next') {
+						let newDate = this.cale.getDate(this.nowDate.fullDate, +1, 'month');
+						let newWeeks = this.cale._getWeek(newDate.fullDate, false)
+						let newWeeksMonth = newDate.month
+						
 						if (this.swiperCurrent == 0) {
-							this.weeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate,
-								false)
+							this.weeks = newWeeks;
+							this.weeksMonth = newWeeksMonth;
 						} else if (this.swiperCurrent == 1) {
-							this.nextWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month')
-								.fullDate,
-								false)
+							this.nextWeeks = newWeeks;
+							this.nextWeeksMonth = newWeeksMonth;
 						} else {
-							this.preWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, +1, 'month')
-								.fullDate,
-								false)
+							this.preWeeks = newWeeks;
+							this.preWeeksMonth = newWeeksMonth;
 						}
 					} else {
+						let newDate = this.cale.getDate(this.nowDate.fullDate, -1, 'month');
+						let newWeeks = this.cale._getWeek(newDate.fullDate, false)
+						let newWeeksMonth = newDate.month
+						
 						if (this.swiperCurrent == 0) {
-							this.nextWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, -1, 'month')
-								.fullDate,
-								false)
+							this.nextWeeks = newWeeks;
+							this.nextWeeksMonth = newWeeksMonth;
 						} else if (this.swiperCurrent == 1) {
-							this.preWeeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, -1, 'month')
-								.fullDate,
-								false)
+							this.preWeeks = newWeeks;
+							this.preWeeksMonth = newWeeksMonth;
 						} else {
-							this.weeks = this.cale._getWeek(this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate,
-								false)
+							this.weeks = newWeeks;
+							this.weeksMonth = newWeeksMonth;
 						}
 					}
 				}
