@@ -1,5 +1,5 @@
 <template>
-	<view class="wu-calendar-item__weeks-box" :style="[calendarItemStyle, {
+	<view class="wu-calendar-item__weeks-box" ref="$weeksbox" :style="[calendarItemStyle, {
 			borderTopLeftRadius: weeks.beforeRange ? '12rpx' : '',
 			borderBottomLeftRadius: weeks.beforeRange ? '12rpx' : '',
 			borderTopRightRadius: weeks.afterRange ? '12rpx' : '',
@@ -83,11 +83,17 @@
 			// 徽标样式
 			badgeStyle() {
 				let style = {
-					backgroundColor: this.weeks.disable ? '#c0c0c0' : '#e43d33'
+					backgroundColor: this.weeks.disable ? '#c0c0c0' : '#e43d33',
+					width: '16rpx',
+					height: '16rpx'
 				};
 				if(this.weeks.extraInfo) {
 					if(this.weeks.extraInfo.infoColor) {
 						style.backgroundColor = this.weeks.extraInfo.infoColor
+					}
+					if(this.weeks.extraInfo.badgeSize) {
+						style.width = this.weeks.extraInfo.badgeSize
+						style.height = this.weeks.extraInfo.badgeSize
 					}
 					
 					if(!this.weeks.extraInfo.badgePosition) {
@@ -96,17 +102,22 @@
 					} else if(this.weeks.extraInfo.badgePosition == 'top-left'){
 						style.top = '10rpx';
 						style.left = '10rpx';
+					} else if(this.weeks.extraInfo.badgePosition == 'top-center'){
+						style.top = '10rpx';
+						style.left = 'center';
 					} else if(this.weeks.extraInfo.badgePosition == 'top-right'){
 						style.top = '10rpx';
 						style.right = '10rpx';
 					} else if(this.weeks.extraInfo.badgePosition == 'bottom-left'){
 						style.bottom = '10rpx';
 						style.left = '10rpx';
+					} else if(this.weeks.extraInfo.badgePosition == 'bottom-center'){
+						style.bottom = '10rpx';
+						style.left = 'center';
 					} else if(this.weeks.extraInfo.badgePosition == 'bottom-right'){
 						style.bottom = '10rpx';
 						style.right = '10rpx';
 					}
-					
 				}
 				
 				return style
@@ -186,8 +197,6 @@
 
 	.wu-calendar-item__weeks-box-circle {
 		position: absolute;
-		width: 16rpx;
-		height: 15rpx;
 		border-radius: 16rpx;
 		background-color: $wu-color-error;
 	}

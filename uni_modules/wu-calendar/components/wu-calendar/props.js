@@ -5,15 +5,28 @@ export default {
 			type: [String, Array],
 			default: ''
 		},
-		// 是否使用默认日期(今天，默认为true)
-		useToday: {
-			type: Boolean,
-			default: true
+		// 日历类型(默认为month)
+		type: {
+			type: String,
+			default: 'month',
+			validator(value) {
+				return ['month', 'week'].includes(value)
+			}
 		},
 		// 日期选择模式
 		mode: {
 			type: String,
 			default: 'single'
+		},
+		// 是否使用默认日期(今天，默认为true)
+		useToday: {
+			type: Boolean,
+			default: true
+		},
+		// 是否使用折叠功能
+		fold: {
+			type: Boolean,
+			default: null
 		},
 		// 主题色
 		color: {
@@ -40,6 +53,14 @@ export default {
 			type: String,
 			default: '结束'
 		},
+		// 日历以周几开始
+		startWeek: {
+			type: String,
+			default: 'sun',
+			validator(value) {
+				return ['sun', 'mon'].includes(value)
+			}
+		},
 		// 打点，期待格式[{date: '2019-06-27', info: '签到', data: { custom: '自定义信息', name: '自定义消息头',xxx:xxx... }}]
 		selected: {
 			type: Array,
@@ -62,11 +83,6 @@ export default {
 			type: String,
 			default: ''
 		},
-		// 范围选择
-		range: {
-			type: Boolean,
-			default: false
-		},
 		// 允许范围内重选结束日期
 		rangeEndRepick: {
 			type: Boolean,
@@ -77,7 +93,7 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		// 每月是否仅显示当月数据
+		// 每月仅显示当月日期
 		monthShowCurrentMonth: {
 			type: Boolean,
 			default: false

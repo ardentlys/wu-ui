@@ -1,181 +1,479 @@
 <template>
 	<view class="wu-page">
-		<wu-navbar title="日历" @leftClick="navigateBack" safeAreaInsetTop fixed placeholder></wu-navbar>
-		<wu-cell-group>
-			<wu-cell @click="showCalendar(index)" :title="item.title" v-for="(item, index) in list" :key="index"
-				:label="values[index]" isLink>
-				<template #icon>
-					<image class="wu-cell-icon" :src="item.iconUrl" mode="widthFix"></image>
-				</template>
-			</wu-cell>
-		</wu-cell-group>
-		<!-- 横向滑动 -->
-		<wu-calendar ref="wuCalendar1" :insert="false" mode="range"></wu-calendar>
-		<!-- 纵向滑动 -->
-		<wu-calendar ref="wuCalendar2" slideSwitchMode="vertical" :insert="false" mode="range"></wu-calendar>
-		<!-- 无滑动切换 -->
-		<wu-calendar ref="wuCalendar3" slideSwitchMode="none" :insert="false" mode="range"></wu-calendar>
-		<!-- 单个日期 -->
-		<wu-calendar ref="wuCalendar4" :insert="false"></wu-calendar>
-		<!-- 多个日期 -->
-		<wu-calendar ref="wuCalendar5" :insert="false" mode="multiple" :date="wuCalendar5Date"></wu-calendar>
-		<!-- 不适用默认日期 -->
-		<wu-calendar ref="wuCalendar6" :insert="false" :useToday="false"></wu-calendar>
-		<!-- 自定义主题颜色 -->
-		<wu-calendar ref="wuCalendar7" :insert="false" mode="range" color="#6ac695"></wu-calendar>
-		<!-- 自定义打点 -->
-		<wu-calendar ref="wuCalendar8" :insert="false" mode="range" :selected="wuCalendar8Selected()"
-			:startDate="wuCalendar8StartDate" start-text="去程" end-text="返程" color="#6ac695"></wu-calendar>
-		<!-- 日期最大范围 -->
-		<wu-calendar ref="wuCalendar9" :insert="false" :startDate="wuCalendar9StartDate" :endDate="wuCalendar9EndDate"
-			mode="range"></wu-calendar>
-		<!-- 显示农历 -->
-		<wu-calendar ref="wuCalendar10" :insert="false" mode="range" lunar></wu-calendar>
-		<!-- 每月仅显示当月的数据 -->
-		<wu-calendar ref="wuCalendar11" monthShowCurrentMonth :insert="false" mode="range"></wu-calendar>
-		<!-- 选择范围内重选结束日期 -->
-		<wu-calendar ref="wuCalendar12" :insert="false" mode="range" rangeEndRepick></wu-calendar>
+		<wu-navbar title="点击复制动态日历代码" @click="copyNowCalendarCode" @leftClick="navigateBack" safeAreaInsetTop fixed placeholder></wu-navbar>
+		<wu-calendar ref="wuCalendar" v-bind="calendarProp"></wu-calendar>
+		<wu-button style="width: 95%; margin: 0 auto;" @click="open" v-if="!calendarProp.insert" :color="calendarProp.color">打开日历</wu-button>
+		<view class="calendar_config">
+			<!-- <view class="title">
+				<text class="text">日历配置</text>
+			</view> -->
+			<view class="wu-demo-block" style="">
+				<text class="wu-block__title">日历主题色</text>
+				<view class="inputColor" :style="`backgroundColor: ${calendarProp.color}`">
+					<input type="color" v-model="calendarProp.color" name="" id="" />
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">日历插入模式</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item">
+						<wu-radio-group v-model="calendarProp.insert" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in insertRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">日历类型</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item">
+						<wu-radio-group v-model="calendarProp.type" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in typeRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">日历选择模式</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item">
+						<wu-radio-group v-model="calendarProp.mode" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in modeRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block" v-if="calendarProp.mode === 'range'">
+				<text class="wu-block__title">允许日期选择范围内重选结束日期</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item" style="display: flex;">
+						<wu-radio-group v-model="calendarProp.rangeEndRepick" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block" v-if="calendarProp.mode === 'range'">
+				<text class="wu-block__title">允许日期选择范围起始日期为同一天</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item" style="display: flex;">
+						<wu-radio-group v-model="calendarProp.rangeSameDay" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">日历折叠</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item">
+						<wu-radio-group v-model="calendarProp.fold" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in foldRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">日历以周几开始</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item">
+						<wu-radio-group v-model="calendarProp.startWeek" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in startWeekRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">日历滑动模式</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item">
+						<wu-radio-group v-model="calendarProp.slideSwitchMode" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in slideSwitchModeRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">日历可选择范围(开始日期&结束日期)</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item" style="display: flex;">
+						<picker mode="date" :value="calendarProp.startDate"  @change="e=>calendarProp.startDate = e.detail.value">
+							<view>{{calendarProp.startDate}}</view>
+						</picker>
+						<text style="margin: 0 10rpx;">~</text>
+						<picker mode="date" :value="calendarProp.endDate"  @change="e=>calendarProp.endDate = e.detail.value">
+							<view>{{calendarProp.endDate}}</view>
+						</picker>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">是否显示农历</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item" style="display: flex;">
+						<wu-radio-group v-model="calendarProp.lunar" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in lunarRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">每月仅显示当月日期</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item" style="display: flex;">
+						<wu-radio-group v-model="calendarProp.monthShowCurrentMonth" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block">
+				<text class="wu-block__title">是否显示月份为背景</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item" style="display: flex;">
+						<wu-radio-group v-model="calendarProp.showMonth" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
+
 <script>
 	export default {
 		data() {
-			const d = new Date()
-			const year = d.getFullYear()
-			let month = d.getMonth() + 1
-			month = month < 10 ? `0${month}` : month
-			const date = d.getDate()
 			return {
-				index: 0,
-				values: ['', '', '', '', '', '', '', ''],
-				customThemeDefaultDate: [`${year}-${month}-${date}`, `${year}-${month}-${date + 5}`],
-				customTextDefaultDate: [`${year}-${month}-${date}`],
-				maxDate: `${year}-${month}-${date + 10}`,
-				defaultDateMultiple: [`${year}-${month}-${date}`, `${year}-${month}-${date + 1}`,
-					`${year}-${month}-${date + 2}`
+				// 日历Prop
+				calendarProp: {
+					date: '',
+					type: 'month',
+					mode: 'single',
+					color: '#3c9cff',
+					insert: true,
+					fold: false,
+					startWeek: 'sun',
+					slideSwitchMode: 'horizontal',
+					startDate: '2023-01-01',
+					endDate: '2025-01-01',
+					monthShowCurrentMonth: false,
+					lunar: false,
+					rangeEndRepick: false,
+					rangeSameDay: false,
+					showMonth: true,
+				},
+				// 日历插入模式
+				insertRadiolist: [
+					{
+						label: '插入模式',
+						value: true
+					},
+					{
+						label: '弹窗模式',
+						value: false
+					}
 				],
-				list: [{
-						title: '横向滑动切换(日期范围选择)',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
+				// 日历类型单选列表
+				typeRadiolist: [
+					{
+						label: '月日历',
+						value: 'month'
 					},
 					{
-						title: '纵向切换滑动(日期范围选择)',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
+						label: '周日历',
+						value: 'week'
+					}
+				],
+				// 日期选择模式
+				modeRadiolist: [
+					{
+						label: '日期单选',
+						value: 'single'
 					},
 					{
-						title: '无滑动切换(日期范围选择)',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
+						label: '日期多选',
+						value: 'multiple'
 					},
 					{
-						title: '单个日期',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/7.png'
+						label: '日期范围选择',
+						value: 'range'
+					}
+				],
+				// 日历折叠
+				foldRadiolist: [
+					{
+						label: '不使用折叠',
+						value: false
 					},
 					{
-						title: '多个日期',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/13.png'
+						label: '使用折叠',
+						value: true
 					},
-
+				],
+				// 日历周几开始
+				startWeekRadiolist: [
 					{
-						title: '不使用默认日期',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
+						label: '周日',
+						value: 'sun'
 					},
 					{
-						title: '自定义主题颜色',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/15.png'
-					}, {
-						title: '自定义文案',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/14.png'
-					}, {
-						title: '日期最大范围',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/13.png'
-					}, {
-						title: '显示农历',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
-					}, {
-						title: '每月仅显示当月的数据',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/5.png'
-					}, {
-						title: '选择范围内重选结束日期',
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/calendar/9.png'
+						label: '周一',
+						value: 'mon'
 					},
+				],
+				// 滑动模式
+				slideSwitchModeRadiolist: [
+					{
+						label: '横向滑动',
+						value: 'horizontal'
+					},
+					{
+						label: '纵向滑动',
+						value: 'vertical'
+					},
+					{
+						label: '不滑动',
+						value: 'none'
+					},
+				],
+				// 每月仅显示当月日期
+				monthShowCurrentMonthRadiolist: [
+					{
+						label: '是',
+						value: true
+					},
+					{
+						label: '否',
+						value: false
+					}
+				],
+				// 是否显示农历
+				lunarRadiolist: [
+					{
+						label: '显示',
+						value: true
+					},
+					{
+						label: '不显示',
+						value: false
+					}
 				]
 			}
 		},
+		watch: {
+			'calendarProp.mode'(newV) {
+				const d = new Date()
+				const year = d.getFullYear()
+				let month = d.getMonth() + 1
+				month = month < 10 ? `0${month}` : month
+				const date = d.getDate();
+				const nowDateStr =  `${year}-${month}-${date}`;
+				switch(newV) {
+					case 'single':
+						this.calendarProp.date = nowDateStr
+						break;
+					case 'multiple':
+						let twoDate = new Date(nowDateStr);
+						twoDate.setDate(twoDate.getDate() - 3);
+						
+						let threeDate = new Date(nowDateStr);
+						threeDate.setDate(threeDate.getDate() + 3);
+						
+						this.calendarProp.date = [
+							nowDateStr, 
+							`${twoDate.getFullYear()}-${twoDate.getMonth() + 1}-${twoDate.getDate()}`,
+							`${threeDate.getFullYear()}-${threeDate.getMonth() + 1}-${threeDate.getDate()}`,
+						]
+						break;
+					case 'range':
+						let endDate = new Date(nowDateStr);
+						endDate.setDate(endDate.getDate() + 6);
+						this.calendarProp.date = [
+							nowDateStr,
+							`${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`,
+						]
+						
+						let selectedDate1 = new Date(nowDateStr);
+						selectedDate1.setDate(selectedDate1.getDate() - 2);
+						let selectedDate2 = new Date(nowDateStr);
+						selectedDate2.setDate(selectedDate1.getDate() + 3);
+						
+						this.calendarProp.selected = [
+							{
+								date: `${selectedDate1.getFullYear()}-${selectedDate1.getMonth() + 1}-${selectedDate1.getDate()}`,
+								info: '￥850',
+								infoColor: this.calendarProp.color,
+								topInfo: '打折',
+								topInfoColor: this.calendarProp.color,
+								disable: true // 禁用
+							},
+							{
+								date: `${selectedDate2.getFullYear()}-${selectedDate2.getMonth() + 1}-${selectedDate2.getDate()}`,
+								info: '￥950',
+								infoColor: this.calendarProp.color,
+								topInfo: '打折',
+								topInfoColor: this.calendarProp.color,
+							}
+						]
+						break;
+				}
+			},
+			'calendarProp.type'(newV) {
+				this.createWeekSelectInfo()
+			},
+			'calendarProp.startWeek'(newV) {
+				this.createWeekSelectInfo()
+			}
+		},
+		onLoad() {
+			
+		},
 		methods: {
-			showCalendar(index) {
-				this.index = index + 1;
-				this.$refs[`wuCalendar${index + 1}`].open()
+			bindDateChange(e) {
+				console.log(e)
+			},
+			// 打开日历
+			open() {
+				this.$refs.wuCalendar.open();
+			},
+			calendarConfirm(e) {
+				console.log(e);
+			},
+			foldSwitch(e) {
+				console.log(e);
 			},
 			navigateBack() {
 				uni.navigateBack();
 			},
-			// 打点
-			wuCalendar8Selected() {
-				let yesterdayDate = new Date();
-				let lastDate = new Date();
-				let firstDate = new Date();
-				yesterdayDate.setDate(yesterdayDate.getDate() - 1)
-				lastDate.setDate(lastDate.getDate() + 2)
-				firstDate.setDate(firstDate.getDate() + 5)
-				return [{
-                        date: `${yesterdayDate.getFullYear()}-${yesterdayDate.getMonth() + 1}-${yesterdayDate.getDate()}`,
-                        info: '￥850',
-                        infoColor: '#6ac695',
-                        topInfo: '打折',
-                        topInfoColor: '#6ac695',
-                        disable: true // 禁用
-                    },{
-					date: `${lastDate.getFullYear()}-${lastDate.getMonth() + 1}-${lastDate.getDate()}`,
-					info: '￥950',
-					infoColor: '#6ac695',
-					topInfo: '打折',
-					topInfoColor: '#6ac695',
-					badge: true,
-					badgePosition: 'top-left'
-				}, {
-					date: `${firstDate.getFullYear()}-${firstDate.getMonth() + 1}-${firstDate.getDate()}`,
-					info: '￥900',
-					infoColor: '#6ac695',
-					topInfo: '打折',
-					topInfoColor: '#6ac695',
-				}]
-			},
+			// 复制目前日历代码
+			copyNowCalendarCode() {
+				let scriptFragmentData = ``;
+				let calendarFragment = `	<wu-calendar\n`
+				// 便利添加props
+				for(var key in this.calendarProp) {
+					let propsType = typeof this.calendarProp[key];
+					let propsItem = this.calendarProp[key];
+					calendarFragment += `			:${key}="${key}"\n`
+					
+					if(key === 'date') {
+						let value = '';
+						switch(this.calendarProp.mode) {
+							case 'single':
+								value = this.$refs.wuCalendar.calendar.fullDate
+								break;
+							case 'multiple':
+								value = this.$refs.wuCalendar.cale.multiple
+								break;
+							case 'range':
+								value = [this.$refs.wuCalendar.cale.rangeStatus.before, this.$refs.wuCalendar.cale.rangeStatus.after]
+								break;
+						}
+						scriptFragmentData += `\n				${key}: ${JSON.stringify(value)},`
+					} else if(key !== 'selected') {
+						scriptFragmentData += `\n				${key}: ${JSON.stringify(this.calendarProp[key])},`
+					} else {
+						scriptFragmentData += `\n				selected:[`
+						propsItem.forEach((item, index)=>{
+							scriptFragmentData += `${index !== 0 ? '\n				' : ''}{`
+							for(var itemKey in item) {
+								let attribute = item[itemKey];
+								scriptFragmentData += `\n					${itemKey}: ${JSON.stringify(attribute)},`
+							}
+							scriptFragmentData += `\n				}${index !== propsItem.length - 1 ? ',' : ''}`
+						})
+						scriptFragmentData += `],`
+					}
+				}
+				if(this.calendarProp.insert) {
+					calendarFragment += `			@change="calendarChange"\n`
+				} else {
+					calendarFragment += `			@confirm="calendarConfirm"\n`
+				}
+				calendarFragment += `		></wu-calendar>`
+				if(!this.calendarProp.insert) {
+					calendarFragment += `\n		<button @click="open">打开日历</button>`
+				}
+				let scriptFragment = `<script>
+	export default {
+		data() {
+			return {${scriptFragmentData}
+			}
 		},
-		computed: {
-			// 多个日期
-			wuCalendar5Date() {
-				// 获取四个日期
-				let selectedFirstDate = new Date();
-				let selectedLastDate = new Date();
-				let selectedThree = new Date();
-				let nowDate = new Date();
-				// 将连个日期分别设置为 两天后 和 前两天
-				selectedFirstDate.setDate(selectedFirstDate.getDate() + 2);
-				selectedLastDate.setDate(selectedLastDate.getDate() + 5);
-				selectedThree.setDate(selectedThree.getDate() - 2);
-				// 拼接日期
-				let selectedFirstDateStr =
-					`${selectedFirstDate.getFullYear()}-${(selectedFirstDate.getMonth() + 1 + '').padStart(2, '0')}-${(selectedFirstDate.getDate() + '').padStart(2, '0')}`;
-				let selectedLastDateStr =
-					`${selectedLastDate.getFullYear()}-${(selectedLastDate.getMonth() + 1 + '').padStart(2, '0')}-${(selectedLastDate.getDate() + '').padStart(2, '0')}`;
-				let selectedThreeDateStr =
-					`${selectedThree.getFullYear()}-${(selectedThree.getMonth() + 1 + '').padStart(2, '0')}-${(selectedThree.getDate() + '').padStart(2, '0')}`;
-				let nowDateStr =
-					`${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
-				return [selectedFirstDateStr, selectedLastDateStr, selectedThreeDateStr, nowDateStr]
+		methods: {
+			calendar${this.calendarProp.insert ? 'Change' : 'Confirm'}(e) {
+				console.log(e);
+			}${this.calendarProp.insert === false ? `\n			// 打开日历
+			open() {
+				this.$refs.calendar.open();
+			}` : ''
+			}
+		}
+	}
+<\/script>`
+				let code = `<template>\n	<view class="index">\n	${calendarFragment}	 \n	</view> \n</template> \n${scriptFragment}`
+				uni.setClipboardData({
+					data: code
+				});
 			},
-			wuCalendar8StartDate() {
-				let nowDate = new Date();
-				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
-			},
-			wuCalendar9StartDate() {
-				let nowDate = new Date();
-				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
-			},
-			wuCalendar9EndDate() {
-				let nowDate = new Date();
-				nowDate.setDate(nowDate.getDate() + 30)
-				return `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`;
+			// 周打点信息
+			createWeekSelectInfo() {
+				delete this.calendarProp.selected
+				if(this.calendarProp.type === 'week') {
+					let dateArr = [];
+					let oneDayTime = 1000 * 60 * 60 * 24
+					let today = new Date();
+					// 获取这个日期是星期几
+					let todayDay;
+					let startDate;
+					// 如果日历以周一开始
+					if(this.calendarProp.startWeek == 'mon') {
+						todayDay = today.getDay() || 7;
+						startDate = new Date(today.getTime() - oneDayTime * (todayDay - 1));
+					} else {
+						todayDay = today.getDay();
+						startDate = new Date(today.getTime() - oneDayTime * todayDay);
+					}
+					
+					for (let i = 0; i < 7; i++) {
+						let temp = new Date(startDate.getTime() + i * oneDayTime)
+						let newDate = `${temp.getFullYear()}-${temp.getMonth() + 1}-${temp.getDate()}`
+						let isDK = Math.round(Math.random()*1);
+						dateArr.push({
+							date: newDate,
+							badge: true,
+							badgeSize: '12rpx',
+							badgePosition: 'bottom-center',
+							infoColor: isDK ? '#00d000' : '#df3a32',
+							topInfo: isDK ? '已打卡' : '未打卡',
+							topInfoColor: isDK ? '#000' :'#b9b9b9'
+						})
+					}
+					this.calendarProp.selected = dateArr
+					this.calendarProp.useToday = false
+				}
 			}
 		}
 	}
@@ -184,11 +482,28 @@
 <style lang="scss">
 	.wu-page {
 		padding: 0;
-	}
-
-	.wu-cell-icon {
-		width: 36rpx;
-		height: 36rpx;
-		margin-right: 8rpx;
+		padding-bottom: 30rpx;
+		.calendar_config {
+			margin-top: 10rpx;
+			// border-top: 1rpx solid #d5d5d5;
+			padding: 20rpx 20rpx 0;
+			.wu-demo-block__content {
+				margin-top: 15rpx;
+			}
+			.inputColor {
+				width: 46rpx;
+				height: 46rpx;
+				border-radius: 8rpx;
+				margin-top: 10rpx;
+				input {
+					width: 100%;
+					height: 100%;
+					opacity: 0;
+				}
+			}
+		}
+		.wu-demo-block {
+			margin-bottom: 25rpx;
+		}
 	}
 </style>

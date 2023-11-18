@@ -1,10 +1,12 @@
 <template>
 	<view class="wrap">
+		<!-- <text @click="toTest">测试</text> -->
 		<page-nav :desc="desc"></page-nav>
 		<view class="list-wrap">
-			<wu-cell-group title-bg-color="rgb(243, 244, 246)" :title="item.groupName" v-for="(item, index) in list" :key="index">
-				<wu-cell :titleStyle="{fontWeight: 500}" :title="item1.title"
-				 v-for="(item1, index1) in item.list" :key="index1" isLink @click="openPage" :name="item1.path">
+			<wu-cell-group title-bg-color="rgb(243, 244, 246)" :title="item.groupName" v-for="(item, index) in list"
+				:key="index">
+				<wu-cell :titleStyle="{fontWeight: 500}" :title="item1.title" v-for="(item1, index1) in item.list"
+					:key="index1" isLink @click="openPage" :name="item1.path">
 					<template #icon>
 						<image class="wu-cell-icon1" :src="getIcon(item1.icon)" mode="widthFix"></image>
 					</template>
@@ -30,18 +32,18 @@
 				return path => {
 					return '/static/icon/' + path + '.png';
 				}
-			},
+			}
 		},
 		onLoad(opt) {
 			let findComponentPath = false;
-			for(let i = 0; i < pages.subPackages.length; i++) {
+			for (let i = 0; i < pages.subPackages.length; i++) {
 				let item = pages.subPackages[i];
-				if(findComponentPath) {
+				if (findComponentPath) {
 					break;
 				}
-				for(let p = 0; p < item.pages.length; p++) {
+				for (let p = 0; p < item.pages.length; p++) {
 					let page = item.pages[p];
-					if(page.path.includes(opt.componentName + '/' + opt.componentName)) {
+					if (page.path.includes(opt.componentName + '/' + opt.componentName)) {
 						uni.navigateTo({
 							url: '/' + item.root + '/' + page.path
 						})
@@ -56,10 +58,10 @@
 				const path = detail.name
 				// #ifdef APP-NVUE
 				// 目前安卓nvue下，由于overflow只能为hidden，所以布局上的原因，暂不支持steps和tooltip等组件
-				if(uni.$w.os() === 'android') {
+				if (uni.$w.os() === 'android') {
 					const noSupportForAndroid = ['steps']
-					for(let i = 0; i < noSupportForAndroid.length; i ++) {
-						if(path.indexOf(noSupportForAndroid[i]) > -1) {
+					for (let i = 0; i < noSupportForAndroid.length; i++) {
+						if (path.indexOf(noSupportForAndroid[i]) > -1) {
 							return uni.$w.toast('安卓nvue下暂不支持此组件')
 						}
 					}
@@ -69,6 +71,11 @@
 					url: path
 				})
 			},
+			toTest() {
+				uni.navigateTo({
+					url: '/pages/test/test'
+				})
+			}
 		}
 	}
 </script>
@@ -79,14 +86,13 @@
 	} */
 </style>
 
-<style lang="scss" >
-	
+<style lang="scss">
 	.wu-cell-icon1 {
 		width: 36rpx;
 		height: 36rpx;
 		margin-right: 8rpx;
 	}
-	
+
 	.wu-cell-group__title__text {
 		font-weight: bold;
 	}

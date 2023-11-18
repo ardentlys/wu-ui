@@ -264,7 +264,7 @@
 	/* #endif */
 
 	/* #ifdef APP-NVUE */
-	@import "./nvue.scss";
+	// @import "./nvue.scss";
 	/* #endif */
 
 	$wu-button-wu-button-height: 40px !default;
