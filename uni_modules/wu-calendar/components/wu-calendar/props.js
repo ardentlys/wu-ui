@@ -83,13 +83,18 @@ export default {
 			type: String,
 			default: ''
 		},
-		// 允许范围内重选结束日期
+		// 允许日期选择范围内重选结束日期
 		rangeEndRepick: {
 			type: Boolean,
 			default: false
 		},
 		// 允许日期选择范围起始日期为同一天
 		rangeSameDay: {
+			type: Boolean,
+			default: false
+		},
+		// 允许日期选择范围内遇到打点禁用日期进行截断
+		rangeHaveDisableTruncation: {
 			type: Boolean,
 			default: false
 		},

@@ -71,8 +71,8 @@
 			},
 			// 选中的日期样式
 			actMultipleStyle() {
-				if (this.weeks.beforeRange || this.weeks.afterRange || this.weeks.multiples || (this.calendar.fullDate === this.weeks
-						.fullDate && this.weeks.mode === 'single')) {
+				if ((this.weeks.beforeRange || this.weeks.afterRange || this.weeks.multiples || (this.calendar.fullDate === this.weeks
+						.fullDate && this.weeks.mode === 'single')) && !this.weeks.disable) {
 					return {
 						backgroundColor: this.color,
 						color: '#fff',

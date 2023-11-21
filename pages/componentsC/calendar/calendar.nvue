@@ -73,6 +73,18 @@
 					</view>
 				</view>
 			</view>
+			<view class="wu-demo-block" v-if="calendarProp.mode === 'range'">
+				<text class="wu-block__title">允许日期选择范围内遇到打点禁用日期进行截断</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item" style="display: flex;">
+						<wu-radio-group v-model="calendarProp.rangeHaveDisableTruncation" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
 			<view class="wu-demo-block">
 				<text class="wu-block__title">日历折叠</text>
 				<view class="wu-demo-block__content">
@@ -183,6 +195,7 @@
 					lunar: false,
 					rangeEndRepick: false,
 					rangeSameDay: false,
+					rangeHaveDisableTruncation: false,
 					showMonth: true,
 				},
 				// 日历插入模式

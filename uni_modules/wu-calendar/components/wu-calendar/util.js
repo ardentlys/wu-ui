@@ -11,6 +11,7 @@ class Calendar {
 		monthShowCurrentMonth,
 		rangeEndRepick,
 		rangeSameDay,
+		rangeHaveDisableTruncation,
 		type,
 		foldStatus,
 		startWeek
@@ -35,6 +36,8 @@ class Calendar {
 		this.rangeEndRepick = rangeEndRepick
 		// 允许日期选择范围起始日期为同一天
 		this.rangeSameDay = rangeSameDay
+		// 日期选择范围内遇到打点禁用日期是否截断
+		this.rangeHaveDisableTruncation = rangeHaveDisableTruncation
 		// 每月是否仅显示当月的数据
 		this.monthShowCurrentMonth = monthShowCurrentMonth
 		// 清理多选状态
@@ -99,7 +102,17 @@ class Calendar {
 	resetRangeEndRepick(val) {
 		this.rangeEndRepick = val
 	}
-
+	
+	// 重置允许日期范围选择起始日期为同一天
+	resetRangeSameDay(val) {
+		this.rangeSameDay = val
+	}
+	
+	// 重置范围内遇到打点禁用日期是否截断
+	resetRangeHaveDisableTruncation(val) {
+		this.rangeHaveDisableTruncation = val
+	}
+	
 	// 重置日期选择模式
 	resetMode(val) {
 		this.mode = val
@@ -352,7 +365,7 @@ class Calendar {
 	 * @param {Object} begin
 	 * @param {Object} end
 	 */
-	geDateAll(begin, end) {
+	getDateAll(begin, end) {
 		// 找出所有打点中已禁用的部分 不让其被添加在日期选择范围内
 		let disableList = this.selected.filter(item => item.date && item.disable).map(item => item.date)
 
@@ -368,8 +381,14 @@ class Calendar {
 		for (var k = wuxDb; k <= wuxDe;) {
 			k = k + 24 * 60 * 60 * 1000
 			let fullDate = this.getDate(new Date(parseInt(k))).fullDate
-			// 如果不在打点禁止列表中
-			if (!disableList.includes(fullDate)) arr.push(fullDate);
+			// 如果要在选择范围内截断日期
+			if(this.rangeHaveDisableTruncation) {
+				// 如果不在打点禁止列表中
+				if (disableList.includes(fullDate)) return arr;
+				arr.push(fullDate)
+			} else {
+				if (!disableList.includes(fullDate)) arr.push(fullDate);
+			}
 		}
 		return arr
 	}
@@ -416,12 +435,12 @@ class Calendar {
 			if (!before) {
 				this.rangeStatus.before = fullDate
 			} else {
-				this.rangeStatus.after = fullDate
-				if (this.dateCompare(this.rangeStatus.before, this.rangeStatus.after)) {
-					this.rangeStatus.data = this.geDateAll(this.rangeStatus.before, this.rangeStatus.after);
+				if (this.dateCompare(this.rangeStatus.before, fullDate)) {
+					this.rangeStatus.data = this.getDateAll(this.rangeStatus.before, fullDate);
 				} else {
-					this.rangeStatus.data = this.geDateAll(this.rangeStatus.after, this.rangeStatus.before);
+					this.rangeStatus.data = this.getDateAll(fullDate, this.rangeStatus.before);
 				}
+				this.rangeStatus.after = this.rangeStatus.data[this.rangeStatus.data.length - 1]
 			}
 		}
 		this._getWeek(fullDate)

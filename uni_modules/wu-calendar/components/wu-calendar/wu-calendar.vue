@@ -149,6 +149,7 @@
 	 * @property {String} endDate 日期选择范围-结束日期
 	 * @property {Boolean} rangeEndRepick 允许范围内重选结束日期(默认false)
 	 * @property {Boolean} rangeSameDay 允许日期选择范围起始日期为同一天(默认false)
+	 * @property {Boolean} rangeHaveDisableTruncation 允许日期选择范围内遇到打点禁用日期进行截断
 	 * @property {Boolean} monthShowCurrentMonth 当月是否仅展示当月数据
 	 * @property {Boolean} insert = [true|false] 插入模式,默认为true
 	 * 	@value true 插入模式
@@ -277,6 +278,12 @@
 			rangeEndRepick(val) {
 				this.cale.resetRangeEndRepick(val)
 			},
+			rangeSameDay(val) {
+				this.cale.resetRangeSameDay(val)
+			},
+			rangeHaveDisableTruncation(val) {
+				this.cale.resetRangeHaveDisableTruncation(val)
+			},
 			selected(newVal) {
 				this.cale.setSelectInfo(this.nowDate.fullDate, newVal)
 				this.assignmentWeeks();
@@ -308,6 +315,7 @@
 				monthShowCurrentMonth: this.monthShowCurrentMonth,
 				rangeEndRepick: this.rangeEndRepick,
 				rangeSameDay: this.rangeSameDay,
+				rangeHaveDisableTruncation: this.rangeHaveDisableTruncation
 			})
 			this.init(this.date)
 		},
