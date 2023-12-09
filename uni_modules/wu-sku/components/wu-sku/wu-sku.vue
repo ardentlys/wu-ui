@@ -13,11 +13,11 @@
 						<view class="price">
 							<text class="uity" :style="{color: themeRGB}">￥</text>
 							<text class="value" :style="{color: themeRGB}">
-								{{selectSku.id ? selectSku.price : `${showAreaPrice[0]}-${showAreaPrice[1]}`}}
+								{{selectSku.id !== undefined ? selectSku.price : `${showAreaPrice[0]}-${showAreaPrice[1]}`}}
 							</text>
 						</view>
 						<text class="stock" v-if="showStockNum">
-							库存: {{selectSku.id ? selectSku.stock : `${showAreaStock[0]}-${showAreaStock[1]}`}}
+							库存: {{selectSku.id !== undefined ? selectSku.stock : `${showAreaStock[0]}-${showAreaStock[1]}`}}
 						</text>
 						<text class="actSkuStr">
 							{{getSelectedSkuAttrStr}}

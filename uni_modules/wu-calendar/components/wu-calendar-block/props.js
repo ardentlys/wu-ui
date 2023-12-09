@@ -26,9 +26,9 @@ export default {
 			default: '结束'
 		},
 		weeks: {
-			type: Object,
-			default () {
-				return {}
+			type: [Object, Array],
+			default: ()=> {
+				return []
 			}
 		},
 		calendar: {

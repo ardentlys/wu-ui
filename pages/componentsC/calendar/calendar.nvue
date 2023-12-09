@@ -2,7 +2,7 @@
 	<view class="wu-page">
 		<wu-navbar title="点击复制动态日历代码" @click="copyNowCalendarCode" @leftClick="navigateBack" safeAreaInsetTop fixed placeholder></wu-navbar>
 		<wu-calendar ref="wuCalendar" v-bind="calendarProp"></wu-calendar>
-		<wu-button style="width: 95%; margin: 0 auto;" @click="open" v-if="!calendarProp.insert" :color="calendarProp.color">打开日历</wu-button>
+		<wu-button style="width: 95%; margin: 0 auto;" @click="open" v-if="!calendarProp.insert" :color="calendarProp.color" text="打开日历"></wu-button>
 		<view class="calendar_config">
 			<!-- <view class="title">
 				<text class="text">日历配置</text>
@@ -19,6 +19,18 @@
 					<view class="wu-page__radio-item">
 						<wu-radio-group v-model="calendarProp.insert" placement="row">
 							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in insertRadiolist" :key="index"
+								:label="item.label" :name="item.value">
+							</wu-radio>
+						</wu-radio-group>
+					</view>
+				</view>
+			</view>
+			<view class="wu-demo-block" v-if="!calendarProp.insert">
+				<text class="wu-block__title">日历弹窗关闭时是否清除数据</text>
+				<view class="wu-demo-block__content">
+					<view class="wu-page__radio-item">
+						<wu-radio-group v-model="calendarProp.clearDate" placement="row">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
 								:label="item.label" :name="item.value">
 							</wu-radio>
 						</wu-radio-group>
@@ -197,6 +209,7 @@
 					rangeSameDay: false,
 					rangeHaveDisableTruncation: false,
 					showMonth: true,
+					clearDate: true
 				},
 				// 日历插入模式
 				insertRadiolist: [
@@ -385,6 +398,11 @@
 			copyNowCalendarCode() {
 				let scriptFragmentData = ``;
 				let calendarFragment = `	<wu-calendar\n`
+				
+				if(this.calendarProp.insert === false) {
+					calendarFragment += `			ref="calendar"\n`
+				}
+				
 				// 便利添加props
 				for(var key in this.calendarProp) {
 					let propsType = typeof this.calendarProp[key];
@@ -438,7 +456,7 @@
 		methods: {
 			calendar${this.calendarProp.insert ? 'Change' : 'Confirm'}(e) {
 				console.log(e);
-			}${this.calendarProp.insert === false ? `\n			// 打开日历
+			}${this.calendarProp.insert === false ? `,\n			// 打开日历
 			open() {
 				this.$refs.calendar.open();
 			}` : ''

@@ -1,45 +1,43 @@
 <template>
-	<view class="index">
-		<wu-calendar :date="date" :type="type" :mode="mode" :color="color" :insert="insert" :fold="fold"
-			:startWeek="startWeek" :slideSwitchMode="slideSwitchMode" :startDate="startDate" :endDate="endDate"
-			:monthShowCurrentMonth="monthShowCurrentMonth" :lunar="lunar" :rangeEndRepick="rangeEndRepick"
-			:rangeSameDay="rangeSameDay" :showMonth="showMonth" :selected="selected"
-			@change="calendarChange"></wu-calendar>
+	<view>
+		<wu-action-sheet 
+		ref="actionSheet"
+		:actions="list" 
+		title="标题"
+		closeOnClickAction
+		@select="select"
+		@close="close">
+		</wu-action-sheet>
+		<button @click="open">打开ActionSheet</button>
 	</view>
 </template>
 <script>
 	export default {
 		data() {
 			return {
-				date: ['2023-11-21'],
-				type: "month",
-				mode: "range",
-				color: "#3c9cff",
-				insert: true,
-				fold: false,
-				startWeek: "sun",
-				slideSwitchMode: "horizontal",
-				startDate: "2023-01-01",
-				endDate: "2025-01-01",
-				monthShowCurrentMonth: false,
-				lunar: false,
-				rangeEndRepick: false,
-				rangeSameDay: true,
-				showMonth: true,
-				selected: [{
-					date: '2023-11-22',
-					// badge: true,
-					disable: true,
-					info: '￥850',
-					infoColor: '#6ac695',
-					topInfo: '打折',
-					topInfoColor: '#6ac695',
+				list: [{
+					name: '选项一',
+					subname: "选项一描述",
+					color: '#ffaa7f',
+					fontSize: '20'
+				}, {
+					name: '选项二禁用',
+					disabled: true
+				}, {
+					name: '开启load加载', //开启后文字不显示
+					loading: true
 				}]
 			}
 		},
 		methods: {
-			calendarChange(e) {
-				// console.log(e);
+			open() {
+				this.$refs.actionSheet.open();
+			},
+			select(e){
+				console.log('选中该项：',e);
+			},
+			close(){
+				console.log('关闭');
 			}
 		}
 	}

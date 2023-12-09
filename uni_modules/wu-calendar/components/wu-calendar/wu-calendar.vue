@@ -3,7 +3,7 @@
 		<view v-if="!insert && show" class="wu-calendar__mask" :class="{'wu-calendar--mask-show': aniMaskShow}"
 			@click="clean"></view>
 		<view v-if="insert || show" class="wu-calendar__content"
-			:class="{'wu-calendar--fixed':!insert,'wu-calendar--ani-show':aniMaskShow}">
+			:class="{'wu-calendar--fixed':!insert, 'wu-calendar--ani-show':aniMaskShow}">
 			<view v-if="!insert" class="wu-calendar__header wu-calendar--fixed-top">
 				<view class="wu-calendar__header-btn-box" @click="close">
 					<text class="wu-calendar__header-text wu-calendar--fixed-width">{{cancelText}}</text>
@@ -191,7 +191,7 @@
 				Fold: null,
 				FoldStatus: null,
 				weekContentStyle: {},
-				preWeekDate: null
+				preWeekDate: null,
 			}
 		},
 		computed: {
@@ -283,10 +283,15 @@
 			},
 			rangeHaveDisableTruncation(val) {
 				this.cale.resetRangeHaveDisableTruncation(val)
+				this.cale.cleanRange()
+				this.init(this.date)
 			},
-			selected(newVal) {
-				this.cale.setSelectInfo(this.nowDate.fullDate, newVal)
-				this.assignmentWeeks();
+			selected: {
+				handler(newVal) {
+					this.cale.setSelectInfo(this.nowDate.fullDate, newVal)
+					this.assignmentWeeks();
+				},
+				deep: true
 			},
 			fold(newVal) {
 				this.Fold = newVal;
@@ -354,7 +359,7 @@
 						return console.error(`类型错误，mode=${this.mode}时，date=Array`)
 					}
 					// 根据类型默认选中不同的值
-					if(this.mode === 'single') {
+					if (this.mode === 'single') {
 						// 记录上一次使用的周日期
 						this.preWeekDate = date;
 					} else if (this.mode == 'multiple') {
@@ -368,7 +373,10 @@
 						// 记录上一次使用的周日期
 						this.preWeekDate = date[0];
 					}
-				} else if (this.useToday) { // 如果不填写默认值 且 使用今日作为默认值
+				}
+				// 如果不填写默认值 且 使用今日作为默认值 并且 还没有在打点中禁用今天的日期
+				else if (this.useToday && !this.selected.filter(item => item.disable && this.cale.dateEqual(item.date, this
+						.cale.date.fullDate)).length) {
 					if (this.mode == 'multiple') {
 						this.cale.multiple = [this.cale.date.fullDate];
 						this.cale._getWeek(this.cale.multiple[this.cale.multiple.length - 1]);
@@ -411,13 +419,6 @@
 			 * 打开日历弹窗
 			 */
 			open() {
-				// 为弹窗模式且需要清理数据
-				if (this.clearDate && !this.insert) {
-					this.cale.cleanRange()
-					this.cale.cleanMultiple()
-					this.swiperCurrent = 1;
-					this.init(this.date);
-				}
 				this.show = true
 				// #ifdef H5
 				if (!this.insert) document.body.style = 'overflow: hidden'
@@ -440,6 +441,13 @@
 						// #ifdef H5
 						if (!this.insert) document.body.style = 'overflow: visible'
 						// #endif
+						// 为弹窗模式且需要清理数据
+						if (this.clearDate && !this.insert) {
+							this.cale.cleanRange()
+							this.cale.cleanMultiple()
+							this.swiperCurrent = 1;
+							this.init(this.date);
+						}
 					}, 300)
 				})
 			},
@@ -485,24 +493,24 @@
 					type,
 					mode
 				} = this.calendar;
-				
+
 				let params = {
 					range: this.cale.rangeStatus,
 					multiple: this.cale.multiple,
 					mode,
 					type,
 					year,
-					month,
+					month: Number(month),
 					date,
 					fulldate: fullDate,
 					lunar,
 					extraInfo: extraInfo || {}
 				}
-				
-				if(this.type === 'month' || this.type === 'week') {
+
+				if (this.type === 'month' || this.type === 'week') {
 					params.foldStatus = this.FoldStatus
 				}
-				
+
 				this.$emit(name, params)
 			},
 			/**
@@ -635,49 +643,51 @@
 				}
 				this[weekName] = this.cale.weeks;
 				this[weekMonthName] = this.cale.selectDate.month;
-				
-				if(recordPreWeeksDate) {
+
+				if (recordPreWeeksDate) {
 					/** 记录preWeeksDate的优先级，只要满足一项则不在往下走，不满足则继续走
 						. 判断本月有没有当前mode中选中的值
 						. 判断本月有没有打点的日期默认是最后一个
 						. 找出本月第一个带有fulllDate的日期
 					**/
-					if(this.mode === 'single') {
-						let newPreWeekDate = this.cale.canlender.filter(item=>item.fullDate === this.calendar.fullDate)
-						if(newPreWeekDate.length) return this.preWeekDate = newPreWeekDate[0].fullDate;
-					} else if(this.mode === 'range') {
-						let afterDate = this.cale.canlender.filter(item=>item.fullDate === this.cale.rangeStatus.after)
-						if(afterDate.length) return this.preWeekDate = afterDate[0].fullDate;
-						
-						let beforeDate = this.cale.canlender.filter(item=>item.fullDate === this.cale.rangeStatus.before)
-						if(beforeDate.length) return this.preWeekDate = beforeDate[0].fullDate;
-					} else if(this.mode === 'multiple' || this.selected.length) {
+					if (this.mode === 'single') {
+						let newPreWeekDate = this.cale.canlender.filter(item => item.fullDate === this.calendar.fullDate)
+						if (newPreWeekDate.length) return this.preWeekDate = newPreWeekDate[0].fullDate;
+					} else if (this.mode === 'range') {
+						let afterDate = this.cale.canlender.filter(item => item.fullDate === this.cale.rangeStatus.after)
+						if (afterDate.length) return this.preWeekDate = afterDate[0].fullDate;
+
+						let beforeDate = this.cale.canlender.filter(item => item.fullDate === this.cale.rangeStatus.before)
+						if (beforeDate.length) return this.preWeekDate = beforeDate[0].fullDate;
+					} else if (this.mode === 'multiple' || this.selected.length) {
 						// multiple中找出本月的数据
-						let newMultiple = this.cale.multiple.filter(item=>Number(item.split('-')[1]) === Number(this[weekMonthName]))
+						let newMultiple = this.cale.multiple.filter(item => Number(item.split('-')[1]) === Number(this[
+							weekMonthName]))
 						// 从最后一个往前找
-						for(var i = newMultiple.length - 1; i >= 0; i--) {
+						for (var i = newMultiple.length - 1; i >= 0; i--) {
 							let multiple = newMultiple[i];
 							console.log(multiple)
-							let newPreWeekDate = this.cale.canlender.filter(item=>item.fullDate === multiple)
-							if(newPreWeekDate.length) return this.preWeekDate = newPreWeekDate[0].fullDate;
+							let newPreWeekDate = this.cale.canlender.filter(item => item.fullDate === multiple)
+							if (newPreWeekDate.length) return this.preWeekDate = newPreWeekDate[0].fullDate;
 						}
 					}
-					
-					if(this.selected.length) {
+
+					if (this.selected.length) {
 						// selected中找出本月的数据
-						let newSelected = this.selected.filter(item=>Number(item.date.split('-')[1]) === Number(this[weekMonthName]));
+						let newSelected = this.selected.filter(item => Number(item.date.split('-')[1]) === Number(this[
+							weekMonthName]));
 						// 从最后一个往前找
-						for(var i = newSelected.length - 1; i >= 0; i--) {
+						for (var i = newSelected.length - 1; i >= 0; i--) {
 							let selected = newSelected[i];
-							let newPreWeekDate = this.cale.canlender.filter(item=>item.fullDate === selected.date)
-							if(newPreWeekDate.length) return this.preWeekDate = newPreWeekDate[0].fullDate;
+							let newPreWeekDate = this.cale.canlender.filter(item => item.fullDate === selected.date)
+							if (newPreWeekDate.length) return this.preWeekDate = newPreWeekDate[0].fullDate;
 						}
 					}
-					
-					
-					for(var i = 0; i < this.cale.canlender.length; i++) {
+
+
+					for (var i = 0; i < this.cale.canlender.length; i++) {
 						let dateDate = this.cale.canlender[i];
-						if(dateDate.fullDate) {							
+						if (dateDate.fullDate) {
 							return this.preWeekDate = dateDate.fullDate;
 						}
 					}

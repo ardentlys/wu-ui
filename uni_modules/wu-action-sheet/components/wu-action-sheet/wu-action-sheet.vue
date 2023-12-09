@@ -123,6 +123,7 @@
 				if (item && !item.disabled && !item.loading) {
 					this.$emit('select', item)
 					if (this.closeOnClickAction) {
+						this.close();
 						this.$emit('close')
 					}
 				}

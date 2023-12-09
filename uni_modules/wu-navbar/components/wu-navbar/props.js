@@ -90,6 +90,11 @@ export default {
 			type: [String, Object],
 			default: ''
 		},
+		// 键盘高度
+		keyboardHeight: {
+			type: String,
+			default: '0rpx'
+		},
 		...uni.$w?.props?.navbar
 	}
 }

@@ -3,7 +3,7 @@
 		<view class="wu-navbar__placeholder" v-if="fixed && placeholder" :style="{
 				height: $w.addUnit($w.getPx(height) + $w.sys().statusBarHeight,'px'),
 			}"></view>
-		<view :class="[fixed && 'wu-navbar--fixed']">
+		<view :class="[fixed && 'wu-navbar--fixed']" :style="fixed && `top: ${keyboardHeight || '0rpx'}`">
 			<wu-status-bar v-if="safeAreaInsetTop" :bgColor="bgColor"></wu-status-bar>
 			<view class="wu-navbar__content" :class="[border && 'wu-border-bottom']" :style="{
 					height: $w.addUnit(height),
@@ -60,6 +60,7 @@
 	 * @property {String | Number}	leftIconColor		左侧返回图标的颜色（默认 #303133 ）
 	 * @property {Boolean}	        autoBack			点击左侧区域(返回图标)，是否自动返回上一页（默认 false ）
 	 * @property {Object | String}	titleStyle			标题的样式，对象或字符串
+	 * @property {Boolean}	keyboardHeight 键盘高度，请在input、textarea等输入框定期页面时通过聚焦、失焦事件的e.detail.height并传给keyboardHeight即可，避免因页面顶起导致的导航栏消失
 	 * @event {Function} leftClick		点击左侧区域
 	 * @event {Function} rightClick		点击右侧区域
 	 * @example <wu-navbar title="酒尚余温，入口不识乾坤" left-text="返回" right-text="帮助" @click-left="onClickBack" @click-right="onClickRight"></wu-navbar>
@@ -70,7 +71,8 @@
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {
-
+				// 固定时的Top
+				fixedTop: '0px',
 			}
 		},
 		methods: {
@@ -115,7 +117,6 @@
 			position: fixed;
 			left: 0;
 			right: 0;
-			top: 0;
 			z-index: 11;
 		}
 
