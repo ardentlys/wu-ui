@@ -1,6 +1,6 @@
 <template>
 	<view class="wrap">
-		<text @click="toTest">测试</text>
+		<!-- <text @click="toTest">测试</text> -->
 		<page-nav :desc="desc"></page-nav>
 		<view class="list-wrap">
 			<wu-cell-group title-bg-color="rgb(243, 244, 246)" :title="item.groupName" v-for="(item, index) in list"

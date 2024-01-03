@@ -343,7 +343,6 @@
 					this.wgtInstalling = false;
 					this.wgtInstalled = true;
 				}, async err => {
-					console.log(err)
 					this.downloadSuccess = false;
 					// 如果是安装之前的包，安装失败后删除之前的包
 					if (this.installForBeforeFilePath) {

@@ -4,12 +4,11 @@
 			<text class="wu-calendar__box-bg-text">{{month}}</text>
 		</view>
 		<!-- 月或周日历 -->
-		<view class="wu-calendar__weeks"
-			v-for="(item,weekIndex) in weeks" :key="weekIndex">
-			<view class="wu-calendar__weeks-item" v-for="(weeks, weeksIndex) in item" :key="weeksIndex">
+		<view class="wu-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
+			<view class="wu-calendar__weeks-item" v-for="(weeks, weeksIndex) in item" :key="weeksIndex" :style="[weekItemStyle]">
 				<wu-calendar-item class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
 					:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
-					:startText="startText" :endText="endText"></wu-calendar-item>
+					:startText="startText" :endText="endText" :itemHeight="itemHeight - defaultMargin"></wu-calendar-item>
 			</view>
 		</view>
 	</view>
@@ -33,11 +32,24 @@
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {
-				FoldShowMonth: false
+				FoldShowMonth: false,
+				// 默认边距
+				defaultMargin: 8
 			}
 		},
 		mounted() {
 			this.FoldShowMonth = this.FoldStatus == 'open';
+		},
+		computed: {
+			weekItemStyle() {
+				let weeksLength = Object.keys(this.weeks).length;
+				let calendarHeight = this.FoldStatus === 'open' ? this.itemHeight * 6 : this.itemHeight;
+				let margin = this.weeks[weeksLength - 1][0].empty ? this.itemHeight / (weeksLength - 1) + this.defaultMargin  : this.defaultMargin
+				return {
+					marginTop: margin / 2 + 'px',
+					marginBottom: margin / 2 + 'px',
+				}
+			}
 		},
 		watch: {
 			FoldStatus(newVal) {
@@ -69,7 +81,6 @@
 		
 		.wu-calendar__weeks-item {
 			flex: 1;
-			margin-bottom: 8rpx;
 		}
 		
 		.wu-calendar__box-bg {

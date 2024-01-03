@@ -33,6 +33,10 @@ export default {
 		lunar: {
 			type: Boolean,
 			default: false
+		},
+		itemHeight: {
+			type: Number,
+			default: 64
 		}
 	}
 }

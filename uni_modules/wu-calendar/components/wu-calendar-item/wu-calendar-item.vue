@@ -5,7 +5,7 @@
 			borderTopRightRadius: weeks.afterRange ? '12rpx' : '',
 			borderBottomRightRadius: weeks.afterRange ? '12rpx' : '',
 		}]" @click="choiceDate(weeks)">
-		<view class="wu-calendar-item__weeks-box-item" :style="[actMultipleStyle]">
+		<view class="wu-calendar-item__weeks-box-item" :style="[actMultipleStyle, {height: itemHeight + 'px'}]">
 			<!-- 自定义打点上方信息 -->
 			<text v-if="weeks.extraInfo && weeks.extraInfo.topInfo" class="wu-calendar-item__weeks-lunar-text" :style="[{color: weeks.extraInfo.topInfoColor || '#e43d33'}, calendarItemStyle, actMultipleStyle]">{{weeks.extraInfo.topInfo}}</text>
 			<!-- 徽标 -->
@@ -127,6 +127,10 @@
 				let text = '';
 				if (this.weeks.isDay) {
 					text = this.todayText
+				} else if(this.weeks.lunar.festival) {
+					text = this.weeks.lunar.festival
+				} else if(this.weeks.lunar.isTerm) {
+					text = this.weeks.lunar.Term
 				} else if (this.weeks.lunar.IDayCn === '初一') {
 					text = this.weeks.lunar.IMonthCn
 				} else {
@@ -192,7 +196,6 @@
 		justify-content: center;
 		align-items: center;
 		width: 100rpx;
-		height: 120rpx;
 	}
 
 	.wu-calendar-item__weeks-box-circle {

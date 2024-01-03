@@ -33,6 +33,11 @@ export default {
 			type: String,
 			default: '#3c9cff'
 		},
+		// 日历中每一项日期的高度(默认64),单位px
+		itemHeight: {
+			type: Number,
+			default: 64
+		},
 		// 取消文字的颜色
 		cancelColor: {
 			type: String,

@@ -191,8 +191,7 @@
 
 <style lang="scss">
 	.wu-page {
-		padding: 14rpx;
-
+		padding: 0 14rpx;
 		&__grid {
 			@include flex(row);
 			flex-wrap: wrap;
@@ -202,8 +201,8 @@
 				align-items: center;
 				justify-content: center;
 				height: 240rpx;
-				width: 240rpx;
-				padding: 0 5px;
+				width: 239rpx;
+				padding: 0 10rpx;
 
 				&__icon {
 					height: 130rpx;

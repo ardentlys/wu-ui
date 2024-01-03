@@ -125,6 +125,7 @@
 					return unescape(`%u${this.name}`)
 					// #endif
 				}
+				uni.createAnimation()
 			},
 			// label样式
 			labelStyle() {
