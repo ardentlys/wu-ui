@@ -1,7 +1,7 @@
 {
   "id": "wu-image",
   "displayName": "wu-image 预加载和高性能懒加载(支持app、weixin、h5)图片，支持超大图片",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "支持图片懒加载，预加载，加载后的过渡效果，加载中与加载失败的占位符等",
   "keywords": [
     "wu-image",

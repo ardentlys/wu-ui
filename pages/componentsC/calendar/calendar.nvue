@@ -1,8 +1,10 @@
 <template>
 	<view class="wu-page">
-		<wu-navbar title="点击复制动态日历代码" @click="copyNowCalendarCode" @leftClick="navigateBack" safeAreaInsetTop fixed placeholder></wu-navbar>
+		<wu-navbar title="点击复制动态日历代码" @click="copyNowCalendarCode" @leftClick="navigateBack" safeAreaInsetTop fixed
+			placeholder></wu-navbar>
 		<wu-calendar ref="wuCalendar" v-bind="calendarProp"></wu-calendar>
-		<wu-button style="width: 95%; margin: 0 auto;" @click="open" v-if="!calendarProp.insert" :color="calendarProp.color" text="打开日历"></wu-button>
+		<wu-button style="width: 95%; margin: 0 auto;" @click="open" v-if="!calendarProp.insert"
+			:color="calendarProp.color" text="打开日历"></wu-button>
 		<view class="calendar_config">
 			<!-- <view class="title">
 				<text class="text">日历配置</text>
@@ -18,8 +20,8 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item">
 						<wu-radio-group v-model="calendarProp.insert" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in insertRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in insertRadiolist"
+								:key="index" :label="item.label" :name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -30,8 +32,9 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item">
 						<wu-radio-group v-model="calendarProp.clearDate" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}"
+								v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index" :label="item.label"
+								:name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -42,8 +45,8 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item">
 						<wu-radio-group v-model="calendarProp.type" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in typeRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in typeRadiolist"
+								:key="index" :label="item.label" :name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -54,8 +57,8 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item">
 						<wu-radio-group v-model="calendarProp.mode" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in modeRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in modeRadiolist"
+								:key="index" :label="item.label" :name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -66,8 +69,9 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item" style="display: flex;">
 						<wu-radio-group v-model="calendarProp.rangeEndRepick" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}"
+								v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index" :label="item.label"
+								:name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -78,8 +82,9 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item" style="display: flex;">
 						<wu-radio-group v-model="calendarProp.rangeSameDay" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}"
+								v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index" :label="item.label"
+								:name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -90,8 +95,9 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item" style="display: flex;">
 						<wu-radio-group v-model="calendarProp.rangeHaveDisableTruncation" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}"
+								v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index" :label="item.label"
+								:name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -102,8 +108,8 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item">
 						<wu-radio-group v-model="calendarProp.fold" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in foldRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in foldRadiolist"
+								:key="index" :label="item.label" :name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -114,8 +120,8 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item">
 						<wu-radio-group v-model="calendarProp.startWeek" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in startWeekRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in startWeekRadiolist"
+								:key="index" :label="item.label" :name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -126,8 +132,9 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item">
 						<wu-radio-group v-model="calendarProp.slideSwitchMode" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in slideSwitchModeRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}"
+								v-for="(item, index) in slideSwitchModeRadiolist" :key="index" :label="item.label"
+								:name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -137,11 +144,13 @@
 				<text class="wu-block__title">日历可选择范围(开始日期&结束日期)</text>
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item" style="display: flex;">
-						<picker mode="date" :value="calendarProp.startDate"  @change="e=>calendarProp.startDate = e.detail.value">
+						<picker mode="date" :value="calendarProp.startDate"
+							@change="e=>calendarProp.startDate = e.detail.value">
 							<view>{{calendarProp.startDate}}</view>
 						</picker>
 						<text style="margin: 0 10rpx;">~</text>
-						<picker mode="date" :value="calendarProp.endDate"  @change="e=>calendarProp.endDate = e.detail.value">
+						<picker mode="date" :value="calendarProp.endDate"
+							@change="e=>calendarProp.endDate = e.detail.value">
 							<view>{{calendarProp.endDate}}</view>
 						</picker>
 					</view>
@@ -152,8 +161,8 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item" style="display: flex;">
 						<wu-radio-group v-model="calendarProp.lunar" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in lunarRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in lunarRadiolist"
+								:key="index" :label="item.label" :name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -164,8 +173,9 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item" style="display: flex;">
 						<wu-radio-group v-model="calendarProp.monthShowCurrentMonth" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}"
+								v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index" :label="item.label"
+								:name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -176,8 +186,9 @@
 				<view class="wu-demo-block__content">
 					<view class="wu-page__radio-item" style="display: flex;">
 						<wu-radio-group v-model="calendarProp.showMonth" placement="row">
-							<wu-radio :customStyle="{marginRight: '16px'}" v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index"
-								:label="item.label" :name="item.value">
+							<wu-radio :customStyle="{marginRight: '16px'}"
+								v-for="(item, index) in monthShowCurrentMonthRadiolist" :key="index" :label="item.label"
+								:name="item.value">
 							</wu-radio>
 						</wu-radio-group>
 					</view>
@@ -212,8 +223,7 @@
 					clearDate: true
 				},
 				// 日历插入模式
-				insertRadiolist: [
-					{
+				insertRadiolist: [{
 						label: '插入模式',
 						value: true
 					},
@@ -223,8 +233,7 @@
 					}
 				],
 				// 日历类型单选列表
-				typeRadiolist: [
-					{
+				typeRadiolist: [{
 						label: '月日历',
 						value: 'month'
 					},
@@ -234,8 +243,7 @@
 					}
 				],
 				// 日期选择模式
-				modeRadiolist: [
-					{
+				modeRadiolist: [{
 						label: '日期单选',
 						value: 'single'
 					},
@@ -249,8 +257,7 @@
 					}
 				],
 				// 日历折叠
-				foldRadiolist: [
-					{
+				foldRadiolist: [{
 						label: '不使用折叠',
 						value: false
 					},
@@ -260,8 +267,7 @@
 					},
 				],
 				// 日历周几开始
-				startWeekRadiolist: [
-					{
+				startWeekRadiolist: [{
 						label: '周日',
 						value: 'sun'
 					},
@@ -271,8 +277,7 @@
 					},
 				],
 				// 滑动模式
-				slideSwitchModeRadiolist: [
-					{
+				slideSwitchModeRadiolist: [{
 						label: '横向滑动',
 						value: 'horizontal'
 					},
@@ -286,8 +291,7 @@
 					},
 				],
 				// 每月仅显示当月日期
-				monthShowCurrentMonthRadiolist: [
-					{
+				monthShowCurrentMonthRadiolist: [{
 						label: '是',
 						value: true
 					},
@@ -297,8 +301,7 @@
 					}
 				],
 				// 是否显示农历
-				lunarRadiolist: [
-					{
+				lunarRadiolist: [{
 						label: '显示',
 						value: true
 					},
@@ -316,20 +319,20 @@
 				let month = d.getMonth() + 1
 				month = month < 10 ? `0${month}` : month
 				const date = d.getDate();
-				const nowDateStr =  `${year}-${month}-${date}`;
-				switch(newV) {
+				const nowDateStr = `${year}-${month}-${date}`;
+				switch (newV) {
 					case 'single':
 						this.calendarProp.date = nowDateStr
 						break;
 					case 'multiple':
 						let twoDate = new Date(nowDateStr);
 						twoDate.setDate(twoDate.getDate() - 3);
-						
+
 						let threeDate = new Date(nowDateStr);
 						threeDate.setDate(threeDate.getDate() + 3);
-						
+
 						this.calendarProp.date = [
-							nowDateStr, 
+							nowDateStr,
 							`${twoDate.getFullYear()}-${twoDate.getMonth() + 1}-${twoDate.getDate()}`,
 							`${threeDate.getFullYear()}-${threeDate.getMonth() + 1}-${threeDate.getDate()}`,
 						]
@@ -341,14 +344,13 @@
 							nowDateStr,
 							`${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`,
 						]
-						
+
 						let selectedDate1 = new Date(nowDateStr);
 						selectedDate1.setDate(selectedDate1.getDate() - 2);
 						let selectedDate2 = new Date(nowDateStr);
 						selectedDate2.setDate(selectedDate1.getDate() + 3);
-						
-						this.calendarProp.selected = [
-							{
+
+						this.calendarProp.selected = [{
 								date: `${selectedDate1.getFullYear()}-${selectedDate1.getMonth() + 1}-${selectedDate1.getDate()}`,
 								info: '￥850',
 								infoColor: this.calendarProp.color,
@@ -375,7 +377,7 @@
 			}
 		},
 		onLoad() {
-			
+
 		},
 		methods: {
 			bindDateChange(e) {
@@ -398,20 +400,20 @@
 			copyNowCalendarCode() {
 				let scriptFragmentData = ``;
 				let calendarFragment = `	<wu-calendar\n`
-				
-				if(this.calendarProp.insert === false) {
+
+				if (this.calendarProp.insert === false) {
 					calendarFragment += `			ref="calendar"\n`
 				}
-				
+
 				// 便利添加props
-				for(var key in this.calendarProp) {
+				for (var key in this.calendarProp) {
 					let propsType = typeof this.calendarProp[key];
 					let propsItem = this.calendarProp[key];
 					calendarFragment += `			:${key}="${key}"\n`
-					
-					if(key === 'date') {
+
+					if (key === 'date') {
 						let value = '';
-						switch(this.calendarProp.mode) {
+						switch (this.calendarProp.mode) {
 							case 'single':
 								value = this.$refs.wuCalendar.calendar.fullDate
 								break;
@@ -419,17 +421,19 @@
 								value = this.$refs.wuCalendar.cale.multiple
 								break;
 							case 'range':
-								value = [this.$refs.wuCalendar.cale.rangeStatus.before, this.$refs.wuCalendar.cale.rangeStatus.after]
+								value = [this.$refs.wuCalendar.cale.rangeStatus.before, this.$refs.wuCalendar.cale
+									.rangeStatus.after
+								]
 								break;
 						}
 						scriptFragmentData += `\n				${key}: ${JSON.stringify(value)},`
-					} else if(key !== 'selected') {
+					} else if (key !== 'selected') {
 						scriptFragmentData += `\n				${key}: ${JSON.stringify(this.calendarProp[key])},`
 					} else {
 						scriptFragmentData += `\n				selected:[`
-						propsItem.forEach((item, index)=>{
+						propsItem.forEach((item, index) => {
 							scriptFragmentData += `${index !== 0 ? '\n				' : ''}{`
-							for(var itemKey in item) {
+							for (var itemKey in item) {
 								let attribute = item[itemKey];
 								scriptFragmentData += `\n					${itemKey}: ${JSON.stringify(attribute)},`
 							}
@@ -438,13 +442,13 @@
 						scriptFragmentData += `],`
 					}
 				}
-				if(this.calendarProp.insert) {
+				if (this.calendarProp.insert) {
 					calendarFragment += `			@change="calendarChange"\n`
 				} else {
 					calendarFragment += `			@confirm="calendarConfirm"\n`
 				}
 				calendarFragment += `		></wu-calendar>`
-				if(!this.calendarProp.insert) {
+				if (!this.calendarProp.insert) {
 					calendarFragment += `\n		<button @click="open">打开日历</button>`
 				}
 				let scriptFragment = `<script>
@@ -464,7 +468,8 @@
 		}
 	}
 <\/script>`
-				let code = `<template>\n	<view class="index">\n	${calendarFragment}	 \n	</view> \n</template> \n${scriptFragment}`
+				let code =
+					`<template>\n	<view class="index">\n	${calendarFragment}	 \n	</view> \n</template> \n${scriptFragment}`
 				uni.setClipboardData({
 					data: code
 				});
@@ -472,7 +477,7 @@
 			// 周打点信息
 			createWeekSelectInfo() {
 				delete this.calendarProp.selected
-				if(this.calendarProp.type === 'week') {
+				if (this.calendarProp.type === 'week') {
 					let dateArr = [];
 					let oneDayTime = 1000 * 60 * 60 * 24
 					let today = new Date();
@@ -480,18 +485,18 @@
 					let todayDay;
 					let startDate;
 					// 如果日历以周一开始
-					if(this.calendarProp.startWeek == 'mon') {
+					if (this.calendarProp.startWeek == 'mon') {
 						todayDay = today.getDay() || 7;
 						startDate = new Date(today.getTime() - oneDayTime * (todayDay - 1));
 					} else {
 						todayDay = today.getDay();
 						startDate = new Date(today.getTime() - oneDayTime * todayDay);
 					}
-					
+
 					for (let i = 0; i < 7; i++) {
 						let temp = new Date(startDate.getTime() + i * oneDayTime)
 						let newDate = `${temp.getFullYear()}-${temp.getMonth() + 1}-${temp.getDate()}`
-						let isDK = Math.round(Math.random()*1);
+						let isDK = Math.round(Math.random() * 1);
 						dateArr.push({
 							date: newDate,
 							badge: true,
@@ -499,7 +504,7 @@
 							badgePosition: 'bottom-center',
 							infoColor: isDK ? '#00d000' : '#df3a32',
 							topInfo: isDK ? '已打卡' : '未打卡',
-							topInfoColor: isDK ? '#000' :'#b9b9b9'
+							topInfoColor: isDK ? '#000' : '#b9b9b9'
 						})
 					}
 					this.calendarProp.selected = dateArr
@@ -514,18 +519,22 @@
 	.wu-page {
 		padding: 0;
 		padding-bottom: 30rpx;
+
 		.calendar_config {
 			margin-top: 10rpx;
 			// border-top: 1rpx solid #d5d5d5;
 			padding: 20rpx 20rpx 0;
+
 			.wu-demo-block__content {
 				margin-top: 15rpx;
 			}
+
 			.inputColor {
 				width: 46rpx;
 				height: 46rpx;
 				border-radius: 8rpx;
 				margin-top: 10rpx;
+
 				input {
 					width: 100%;
 					height: 100%;
@@ -533,6 +542,7 @@
 				}
 			}
 		}
+
 		.wu-demo-block {
 			margin-bottom: 25rpx;
 		}

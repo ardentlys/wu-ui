@@ -1,5 +1,5 @@
 <template>
-	<wu-transition mode="fade" :show="show" :duration="fade ? 1000 : 0">
+	<wu-transition mode="fade" :custom-style="wrapStyle" :show="show" :duration="fade ? 1000 : 0">
 		<view class="wu-image" @tap="onClick" :style="[wrapStyle, backgroundStyle]">
 			<image v-if="!isError && loadingImage" :src="src" :mode="mode" @error="onErrorHandler" @load="onLoadHandler"
 				:show-menu-by-longpress="showMenuByLongpress" class="wu-image__image" :style="{
@@ -91,7 +91,6 @@
 					if (!n) {
 						// 如果传入null或者''，或者false，或者undefined，标记为错误状态
 						this.isError = true
-
 					} else {
 						this.isError = false;
 						this.loading = true;

@@ -175,6 +175,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		padding: 0 0.5px;
 	}
 
 	.wu-calendar-item__weeks-box-text {
@@ -195,7 +196,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		width: 100rpx;
+		width: 100%;
 	}
 
 	.wu-calendar-item__weeks-box-circle {
