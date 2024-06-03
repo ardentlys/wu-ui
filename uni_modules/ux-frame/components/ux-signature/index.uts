@@ -1,0 +1,165 @@
+import { $ux } from '../../index.uts'
+import { UXSignature } from '../../libs/types/types.uts'
+import { Signature } from '../../libs/fun/signature.uts'
+
+export const UxSignatureMixin = defineMixin({
+	emits: ['change'],
+	data() {
+		return {
+			myId: `ux-signature_${$ux.Random.uuid()}`,
+			width: 0,
+			height: 0,
+			signature: null as Signature | null,
+		}
+	},
+	props: {
+		text: {
+			type: String,
+			default: '签字区'
+		},
+		size: {
+			type: Number,
+			default: 2
+		},
+		color: {
+			type: String,
+			default: $ux.theme.main
+		},
+		background: {
+			type: String,
+			default: $ux.theme.background
+		},
+		confirm: {
+			type: String,
+			default: '确定'
+		},
+		confirmColor: {
+			type: String,
+			default: $ux.theme.primary
+		},
+		minWidth: {
+			type: Number,
+			default: 2
+		},
+		maxWidth: {
+			type: Number,
+			default: 6
+		},
+		minSpeed: {
+			type: Number,
+			default: 1.5
+		},
+		maxHistory: {
+			type: Number,
+			default: 20
+		},
+		disableScroll: {
+			type: Boolean,
+			default: true
+		},
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+		landscape: {
+			type: Boolean,
+			default: true
+		},
+		format: {
+			type: String,
+			default: 'png'
+		}
+	},
+	computed: {
+		style() : any | null {
+			let css = new Map<string, any | null>()
+
+			if (this.landscape) {
+				css.set('width', `${this.height}px`)
+				css.set('height', `${this.width}px`)
+				css.set('transform-origin', 'left top')
+				css.set('transform', `rotate(90deg) translate(${this.width}px, 0)`)
+			}
+	
+			return css
+		},
+		areaStyle() : any | null {
+			let css = new Map<string, any | null>()
+	
+			if (this.background != '') {
+				css.set('background-color', this.background)
+			}
+	
+			if (this.landscape) {
+				css.set('width', `100%`)
+				css.set('height', `${this.width - 50}px`)
+				css.set('transform', `translateY(${0}px)`)
+			}
+	
+			return css
+		},
+		options() : UXSignature {
+			return {
+				size: this.size,
+				color: this.color,
+				minWidth: this.minWidth,
+				maxWidth: this.maxWidth,
+				minSpeed: this.minSpeed,
+				maxHistory: this.maxHistory,
+				disableScroll: this.disableScroll,
+				disabled: this.disabled,
+			} as UXSignature
+		}
+	},
+	watch: {
+		landscape() {
+			if (!this.landscape) {
+				let el = (this.$refs['transform'] as Element)
+	
+				el.style.setProperty('width', `${this.width}px`)
+				el.style.setProperty('height', `${this.height}px`)
+			}
+		}
+	},
+	mounted() {
+		uni.createSelectorQuery().in(this).select(`#${this.myId}`).boundingClientRect().exec((rect: any[]) => {
+			if(rect.length > 0) {
+				const { width, height } = rect[0] as NodeInfo
+				this.width = width as number
+				this.height = height as number
+					
+				this.signature = new Signature(this.$refs['ux-signature'] as Element)
+				this.$watch('options', (e : UXSignature) => {
+					this.signature?.setOptions(e)
+				}, { immediate: true })
+			}
+		})
+	},
+	destroyed() {
+		this.signature?.destroyed()
+	},
+	methods: {
+		clear() {
+			this.signature?.clear()
+		},
+		redo() {
+			this.signature?.redo()
+		},
+		undo() {
+			this.signature?.undo()
+		},
+		make() {
+			let el = this.$refs['ux-signature'] as Element
+	
+			el.takeSnapshot({
+				format: this.format,
+				success: (res) => {
+					this.$emit('change', res.tempFilePath)
+				},
+				fail: (_) => {
+					this.$emit('change', '')
+				}
+			} as TakeSnapshotOptions)
+		}
+	}
+})

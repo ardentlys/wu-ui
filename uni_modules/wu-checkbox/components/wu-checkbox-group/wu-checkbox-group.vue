@@ -14,7 +14,7 @@
 	/**
 	 * checkboxGroup 复选框组
 	 * @description 复选框组件一般用于需要多个选择的场景，该组件功能完整，使用方便
-	 * @tutorial https://wu.geeks.ink/components/checkbox.html
+	 * @tutorial https://wuui.cn/components/checkbox.html
 	 * @property {String}			name			标识符 
 	 * @property {Array}			value			绑定的值
 	 * @property {Array} 	        modelValue		绑定的值

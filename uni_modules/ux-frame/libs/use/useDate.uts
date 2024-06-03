@@ -1,0 +1,468 @@
+/**
+   @Name    :	日期
+   @Author  :   UxFrame
+   @Date    :   2023-11-20 12:44:22
+*/
+
+import { Core } from "../core/core.uts"
+
+export default class useDate {
+	
+	core: Core
+	
+	constructor(core: Core) {
+		this.core = core
+	}
+	
+	/**
+	 * 转日期对象
+	 * @param date 时间
+	 */
+	toDate = (date : string) : Date => {
+		date = date.split('周')[0].trim().split('星期')[0].trim().split('礼拜')[0].trim()
+	
+		if (date == '') {
+			return new Date()
+		}
+	
+		if (date.length >= 10 && /^\d+$/.test(date)) {
+			// 时间戳
+			let timestamp = parseInt(date)
+	
+			// 若为unix秒时间戳，则转为毫秒时间戳
+			if (/^\d{10}$/.test(timestamp.toString())) {
+				return new Date(timestamp * 1000)
+			} else {
+				return new Date(timestamp)
+			}
+		} else {
+			if (!date.includes('T')) {
+				// 容错
+				date = date.replace(/\//g, '-').
+					replace(/年/g, '-').
+					replace(/月/g, '-').
+					replace(/日/g, '').
+					replace(/时/g, ':').
+					replace(/分/g, ':').
+					replace(/秒/g, '').
+					replace(/^-+|-+$/g, '').
+					trim()
+				
+				// 补全
+				if (date.length == 4) {
+					date += '-01-01 00:00:00'
+				} else if (date.length == 7) {
+					date += '-01 00:00:00'
+				} else if (date.length == 8) {
+					date = `${this.today()} ${date}`
+				} else if (date.length == 10) {
+					date += ' 00:00:00'
+				} else if (date.length == 13) {
+					date += ':00:00'
+				} else if (date.length == 16) {
+					date += ':00'
+				}
+	
+				let d = date.split(/[^0-9]/)
+				
+				try{
+					return new Date(parseInt(d[0]), parseInt(d[1]) - 1, parseInt(d[2]), parseInt(d[3]), parseInt(d[4]), parseInt(d[5]))
+				}catch(e){
+					console.error(`[ux-date]解析失败：${date}`)
+					return new Date()
+				}
+				
+			} else {
+				return new Date(date)
+			}
+		}
+	}
+	
+	/**
+	 * 现在 yyyy-MM-dd HH:mm:ss
+	 */
+	now = () : string => {
+		let date = new Date()
+	
+		let year = date.getFullYear()
+		let month = `${date.getMonth() + 1}`.padStart(2, '0')
+		let day = `${date.getDate()}`.padStart(2, '0')
+		let hour = `${date.getHours()}`.padStart(2, '0')
+		let minute = `${date.getMinutes()}`.padStart(2, '0')
+		let second = `${date.getSeconds()}`.padStart(2, '0')
+	
+		return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+	}
+	
+	/**
+	 * 当前时间戳
+	 */
+	timestamp = () : number => {
+		return new Date().getTime()
+	}
+	
+	/**
+	 * 今年
+	 */
+	nowYear = () : number => {
+		return new Date().getFullYear()
+	}
+	
+	/**
+	 * 去年
+	 */
+	lastYear = () : number => {
+		return this.nowYear() - 1
+	}
+	
+	/**
+	 * 明年
+	 */
+	nextYear = () : number => {
+		return this.nowYear() + 1
+	}
+	
+	/**
+	 * 年月日数据 数据太大 不建议使用
+	 * @param min 最小年份偏移
+	 * @param max 最大年份偏移
+	 */
+	years = (min:number, max:number) : UTSJSONObject[] => {
+		
+		let years: UTSJSONObject[] = []
+		
+		// 日
+		let d31: UTSJSONObject[] = []
+		for (let i = 1; i <= 31; i++) {
+			d31.push({
+				value: i,
+				label: i.toString().padStart(2, '0')
+			} as UTSJSONObject)
+		}
+		
+		let d30: UTSJSONObject[] = []
+		for (let i = 1; i <= 30; i++) {
+			d30.push({
+				value: i,
+				label: i.toString().padStart(2, '0')
+			} as UTSJSONObject)
+		}
+		
+		let d28: UTSJSONObject[] = []
+		for (let i = 1; i <= 28; i++) {
+			d28.push({
+				value: i,
+				label: i.toString().padStart(2, '0')
+			} as UTSJSONObject)
+		}
+		
+		let d29: UTSJSONObject[] = []
+		for (let i = 1; i <= 29; i++) {
+			d29.push({
+				value: i,
+				label: i.toString().padStart(2, '0')
+			} as UTSJSONObject)
+		}
+		
+		// 月
+		let months: UTSJSONObject[] = []
+		for (var i = 1; i <= 12; i++) {
+			let children: UTSJSONObject[]
+			if(i == 4 || i == 6 || i == 9 || i == 11) {
+				children = d30
+			} else if(i == 2) {
+				children = d28
+			} else {
+				children = d31
+			}
+			
+			months.push({
+				value: i,
+				label: i.toString().padStart(2, '0'),
+				children: children
+			} as UTSJSONObject)
+		}
+		
+		// 年
+		let start = new Date().getFullYear() + max
+		let end = start - max - min
+		
+		for (let i = start, length = end; i >= length; i--) {
+			let children = [...months]
+			if( i % 4 == 0) {
+				children[1]['children'] = d29
+			}
+			
+			years.push({
+				value: i,
+				label: i,
+				children: children
+			} as UTSJSONObject);
+		}
+		
+		return years;
+	}
+	
+	/**
+	 * 本月
+	 * @param n n为负则代表取前n月，为正则代表取后n月，0则为本月
+	 */
+	month(n : number = 0) : string {
+		let date = new Date()
+		date.setMonth(date.getMonth() + n)
+	
+		let year = date.getFullYear()
+		let month = `${date.getMonth() + 1}`.padStart(2, '0')
+	
+		return `${year}-${month}`
+	}
+	
+	/**
+	 * 上个月
+	 */
+	lastMonth = () : string => {
+		return this.month(-1)
+	}
+	
+	/**
+	 * 下个月
+	 */
+	nextMonth = () : string => {
+		return this.month(1)
+	}
+	
+	/**
+	 * 月份天数
+	 */
+	monthDays = (year: number, month: number):number => {
+		let days = 31
+		if (year % 4 == 0 && month == 2) {
+			days = 29
+		} else {
+			if (month == 4 || month == 6 || month == 9 || month == 11) {
+				days = 30
+			} else if (month == 2) {
+				days = 28
+			}
+		}
+		
+		return days
+	}
+	
+	/**
+	 * 指定日期当月的所有日期
+	 * @param date 时间
+	 */
+	monthDates(date : string) : string[] {
+		const d = this.toDate(date)
+		
+		let year = d.getFullYear()
+		let month = d.getMonth() + 1
+		
+		const days = new Date(year, month, 0).getDate();
+	
+		const result : string[] = []
+		for (let day = 1; day <= days; day++) {
+			result.push(`${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`);
+		}
+	
+		return result;
+	}
+	
+	/**
+	 * 2个月份之间所有月份
+	 * @param smonth 开始月份
+	 * @param emonth 结束月份
+	 */
+	months(smonth : string, emonth : string) : string[] {
+		const fDate = this.toDate(smonth)
+		const eDate = this.toDate(emonth)
+		fDate.setDate(fDate.getDate() - fDate.getDay())
+		eDate.setDate(eDate.getDate() - eDate.getDay() + 6)
+	
+		const result : string[] = []
+	
+		for (let d = fDate; d.getTime() <= eDate.getTime(); d.setDate(d.getDate() + 1)) {
+			let month = d.toISOString().slice(0, 7)
+	
+			if (result.indexOf(month) == -1) {
+				result.push(month)
+			}
+		}
+	
+		return result
+	}
+	
+	/**
+	 * 本周几
+	 */
+	week = () : string => {
+		return this.weekName(new Date().getDay(), '周')
+	}
+	
+	/**
+	 * 周几
+	 */
+	weekName = (day: number, format: string) : string => {
+		if(format.indexOf('星期') != -1) {
+			return ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][day]
+		} else if(format.indexOf('礼拜') != -1 ) {
+			return ['礼拜天', '礼拜一', '礼拜二', '礼拜三', '礼拜四', '礼拜五', '礼拜六'][day]
+		} else {
+			return ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][day]
+		}
+	}
+	
+	/**
+	 * 本周所有日期
+	 */
+	weeks = () : string[] => {
+		// 获取本周的第一天和最后一天
+		const fDate = new Date()
+		const eDate = new Date()
+		fDate.setDate(fDate.getDate() - fDate.getDay() + 1)
+		eDate.setDate(eDate.getDate() - eDate.getDay() + 7)
+	
+		const result : string[] = []
+	
+		for (let d = fDate; d.getTime() <= eDate.getTime(); d.setDate(d.getDate() + 1)) {
+			result.push(d.toISOString().slice(0, 10))
+		}
+	
+		return result;
+	}
+	
+	/**
+	 * 今天
+	 * @param n n为负则代表取前n天，为正则代表取后n天，0则为今天
+	 */
+	today(n : number = 0) : string {
+		let date = new Date()
+		date.setDate(date.getDate() + n)
+	
+		let year = date.getFullYear()
+		let month = `${date.getMonth() + 1}`.padStart(2, '0')
+		let day = `${date.getDate()}`.padStart(2, '0')
+	
+		return `${year}-${month}-${day}`
+	}
+	
+	/**
+	 * 昨天
+	 */
+	yesterday = () : string => {
+		return this.today(-1)
+	}
+	
+	/**
+	 * 明天
+	 */
+	tomorrow = () : string => {
+		return this.today(1)
+	}
+	
+	/**
+	 * 2个日期之间所有日期
+	 * @param sdate 开始日期
+	 * @param edate 结束日期
+	 */
+	dates(sdate : string, edate : string) : string[] {
+		const startDate = this.toDate(sdate)
+		const endDate = this.toDate(edate)
+	
+		const result : string[] = []
+	
+		while (startDate.getTime() <= endDate.getTime()) {
+			result.push(startDate.toISOString().slice(0, 10))
+			startDate.setDate(startDate.getDate() + 1)
+		}
+	
+		return result
+	}
+	
+	/**
+	 * 当前时间
+	 */
+	time = () : string => {
+		let date = new Date()
+	
+		let hour = `${date.getHours()}`.padStart(2, '0')
+		let minute = `${date.getMinutes()}`.padStart(2, '0')
+		let second = `${date.getSeconds()}`.padStart(2, '0')
+	
+		return `${hour}:${minute}:${second}`
+	}
+	
+	/**
+	 * 比较
+	 * @param sdate 开始日期
+	 * @param edate 结束日期
+	 * @param equal 是否等于
+	 * @returns 如果 sdate 小于 edate（或等于），则返回 true，否则返回 false
+	 */
+	compare(sdate : string, edate : string, equal : boolean = false) : boolean {
+		const startDate = this.toDate(sdate).getTime()
+		const endDate = this.toDate(edate).getTime()
+	
+		if (equal) {
+			return startDate <= endDate
+		} else {
+			return startDate < endDate
+		}
+	}
+	
+	/**
+	 * 转时间戳
+	 * @param date 时间
+	 */
+	toTimestamp = (date : string) : number => {
+		return this.toDate(date).getTime()
+	}
+	
+	/**
+	 * 转毫秒
+	 * @param time 时间
+	 */
+	toMillisecond = (time : string) : number => {
+		const [hours, minutes, seconds] = time.split(':').map((e: string) : number => parseInt(e))
+		return (hours * 60 * 60 * 1000) + (minutes * 60 * 1000) + (seconds * 1000)
+	}
+	
+	/**
+	 * 格式化日期
+	 * @param date 时间
+	 * @param format 格式化规则 支持yyyy-MM-dd|yyyy-MM-dd HH:mm:ss|yyyy/MM/dd|yyyy/MM/dd HH:mm:ss|yyyy年MM月dd日等组合 默认yyyy-mm-dd
+	 */
+	fmtDate(date : string, format : string) : string {
+		if(format == '') {
+			format = 'yyyy-MM-dd'
+		}
+		
+		date = date.split('周')[0].trim().split('星期')[0].trim().split('礼拜')[0].trim()
+		
+		let d = this.toDate(date)
+	
+		let timeSource = new Map<string, string>()
+		timeSource.set('y', d.getFullYear().toString())
+		timeSource.set('M', (d.getMonth() + 1).toString().padStart(2, '0'))
+		timeSource.set('d', d.getDate().toString().padStart(2, '0'))
+		timeSource.set('H', d.getHours().toString().padStart(2, '0'))
+		timeSource.set('m', d.getMinutes().toString().padStart(2, '0'))
+		timeSource.set('s', d.getSeconds().toString().padStart(2, '0'))
+	
+		let result = format.split('周')[0].trim().split('星期')[0].trim().split('礼拜')[0].trim()
+		timeSource.forEach((v : string, key : string) => {
+			const rets = new RegExp(`${key}+`).exec(result) ?? [] as RegExp[]
+			if (rets.length > 0) {
+				result = result.replace(rets[0].toString(), v)
+			}
+		})
+	
+		let fmtWeek = format.indexOf('周') != -1 || format.indexOf('星期') != -1 || format.indexOf('礼拜') != -1 
+		if(fmtWeek) {
+			result += ` ${this.weekName(this.toDate(result).getDay(), format)}`
+		}
+	
+		return result
+	}
+}

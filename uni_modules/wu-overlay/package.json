@@ -1,7 +1,7 @@
 {
   "id": "wu-overlay",
   "displayName": "wu-overlay 遮罩层 全端兼容，无论平台，一致体验",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "wu-overlay 创建一个遮罩层，用于强调特定的页面元素，并阻止用户对遮罩下层的内容进行操作，一般用于弹窗场景，wu-ui 所有相关弹窗组件都是使用的该组件",
   "keywords": [
     "wu-ui",
@@ -43,7 +43,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

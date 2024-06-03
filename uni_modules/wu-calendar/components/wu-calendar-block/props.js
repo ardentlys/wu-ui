@@ -50,6 +50,14 @@ export default {
 		itemHeight: {
 			type: Number,
 			default: 64
-		}
+		},
+		monthShowCurrentMonth: {
+			type: Boolean,
+			default: false
+		},
+		actBadgeColor: {
+			type: String,
+			default: '#fff'
+		},
 	}
 }

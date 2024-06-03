@@ -1,0 +1,768 @@
+import { $ux } from '../../index.uts'
+import { UXPickerData, UXDatePickerEvent, UXCalendarEvent, UXCalendarDate } from '../../libs/types/types.uts'
+
+export const UxDatePickerMixin = defineMixin({
+	emits: ['change'],
+	data() {
+		return {
+			values: [] as number[],
+			calendarValues: [] as UXCalendarDate[],
+			datas: [] as UXPickerData[][],
+			data: [] as UXPickerData[]
+		}
+	},
+	props: {
+		// 模式
+		mode: {
+			type: String,
+			default: 'date'
+		},
+		// 格式化规则
+		format: {
+			type: String,
+			default: 'yyyy年MM月dd日'
+		},
+		// 值
+		value: {
+			type: Array,
+			default: () : string[] => {
+				return [] as string[]
+			}
+		},
+		// 范围
+		range: {
+			type: Array,
+			default: () : string[] => {
+				return [] as string[]
+			}
+		},
+		// 默认年份最大值
+		max: {
+			type: Number,
+			default: 1
+		},
+		// 默认年份最小值
+		min: {
+			type: Number,
+			default: 10
+		},
+		// 日历选择模式
+		selectMode: {
+			type: String,
+			default: 'single'
+		},
+		// 显示农历
+		lunar: {
+			type: Boolean,
+			default: true
+		},
+		// 滑动翻页
+		touch: {
+			type: Boolean,
+			default: true
+		},
+		// 主题颜色
+		theme: {
+			type: String,
+			default: $ux.theme.primary
+		},
+		// 标题
+		title: {
+			type: String,
+			default: ''
+		},
+		// 标题颜色
+		titleColor: {
+			type: String,
+			default: $ux.theme.main
+		},
+		// 内容大小
+		size: {
+			type: Number,
+			default: 15
+		},
+		// 内容颜色
+		color: {
+			type: String,
+			default: $ux.theme.main
+		},
+		// 内容选中颜色
+		selectColor: {
+			type: String,
+			default: $ux.theme.main
+		},
+		// 按钮大小
+		btnSize: {
+			type: Number,
+			default: 14
+		},
+		// 按钮类型
+		btnType: {
+			type: String,
+			default: 'normal'
+		},
+		// 确定文字
+		confirm: {
+			type: String,
+			default: '确定'
+		},
+		// 圆角
+		radius: {
+			type: Number,
+			default: 15
+		},
+		// 背景色透明度
+		opacity: {
+			type: Number,
+			default: 0.6
+		},
+		// 允许滑动关闭
+		touchClose: {
+			type: Boolean,
+			default: false
+		},
+		// 遮罩层关闭
+		maskClose: {
+			type: Boolean,
+			default: true
+		},
+		// 是否禁用
+		disabled: {
+			type: Boolean,
+			default: false
+		}
+	},
+	computed: {
+		height() : string {
+			return `${this.mode == 'calendar' ? 400 : 220}px`
+		},
+		style() : any | null {
+			let css = new Map<string, any | null>()
+	
+			css.set('border-top-left-radius', $ux.Util.addUnit(this.radius))
+			css.set('border-top-right-radius', $ux.Util.addUnit(this.radius))
+			css.set('height', this.height)
+			
+			return css
+		},
+		titleStyle() : string {
+			return `color: ${this.titleColor}`
+		},
+		titleBorder() : string {
+			return this.btnType == 'normal' || this.title != '' ? '' : `border-bottom: 1rpx solid ${$ux.theme.border}`
+		},
+		cancelStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('font-size', $ux.Util.addUnit(this.btnSize))
+			css.set('color', $ux.theme.summary)
+			
+			return css
+		},
+		confirmStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('font-size', $ux.Util.addUnit(this.btnSize))
+			css.set('color', this.theme)
+			
+			return css
+		},
+		confirmBorder() : string {
+			return this.btnType == 'normal' || this.title != '' ? '' : `border-left: 1rpx solid ${$ux.theme.border}`
+		},
+		indicatorStyle() : string {
+			return `height: 35px;border-top: 1rpx solid ${$ux.theme.border};border-bottom: 1rpx solid ${$ux.theme.border};`
+		},
+	},
+	mounted() {
+	
+	},
+	methods: {
+		textStyle(i : number, index : number) : string {
+			return `color: ${this.values[i] == index ? this.selectColor : this.color};font-size: ${$ux.Util.addUnit(this.size)}`
+		},
+		click() {
+			if (this.disabled) {
+				return
+			}
+	
+			// 初始数据
+			if (this.datas.length == 0) {
+				this.setData()
+			}
+	
+			// 默认值
+			this.setDefault()
+	
+			setTimeout(() => {
+				(this.$refs['uxDrawer'] as UxDrawerComponentPublicInstance).open()
+			}, 50);
+		},
+		change(ev : PickerViewChangeEvent) {
+			this.values = ev.detail.value
+	
+			this.setData()
+		},
+		setData() {
+			let range = this.getDateRange()
+	
+			let min = range[0]
+			let max = range[1]
+	
+			if (this.mode == 'date') {
+				if (this.values.length < 3) {
+					this.values = [0, 0, 0]
+				}
+	
+				this.setYear(min, max)
+				this.setMonth(min, max)
+				this.setDay(min, max)
+	
+			} else if (this.mode == 'datetime') {
+				if (this.values.length < 6) {
+					this.values = [0, 0, 0, 0, 0, 0]
+				}
+	
+				this.setYear(min, max)
+				this.setMonth(min, max)
+				this.setDay(min, max)
+				this.setHour(min, max)
+				this.setMinute(min, max)
+				this.setSecond(min, max)
+	
+			} else if (this.mode == 'dateminute') {
+				if (this.values.length < 5) {
+					this.values = [0, 0, 0, 0, 0]
+				}
+	
+				this.setYear(min, max)
+				this.setMonth(min, max)
+				this.setDay(min, max)
+				this.setHour(min, max)
+				this.setMinute(min, max)
+	
+			} else if (this.mode == 'time') {
+				if (this.values.length < 3) {
+					this.values = [0, 0, 0]
+				}
+	
+				this.setHour(min, max)
+				this.setMinute(min, max)
+				this.setSecond(min, max)
+	
+			} else if (this.mode == 'month') {
+				if (this.values.length < 2) {
+					this.values = [0, 0]
+				}
+	
+				this.setYear(min, max)
+				this.setMonth(min, max)
+	
+			} else if (this.mode == 'year') {
+				if (this.values.length < 1) {
+					this.values = [0]
+				}
+	
+				this.setYear(min, max)
+	
+			} else if (this.mode == 'week') {
+				if (this.values.length < 1) {
+					this.values = [0]
+				}
+	
+				this.setWeek(min, max)
+			}
+		},
+		setYear(min : Date, max : Date) {
+			// 过滤日期范围
+			let _min = min.getFullYear()
+			let _max = max.getFullYear()
+	
+			let years = [] as UXPickerData[]
+			for (let i = _max, len = _min; i >= len; i--) {
+				years.push({
+					name: `${i}年`,
+					value: i,
+				} as UXPickerData);
+			}
+	
+			if (this.datas.length == 0) {
+				this.datas.push(years)
+			} else {
+				this.datas.splice(0, 1, years)
+			}
+		},
+		setMonth(min : Date, max : Date) {
+			if (this.datas[0].length < this.values[0]) {
+				return
+			}
+			let year = this.datas[0][this.values[0]].value as number
+	
+			let months = [] as UXPickerData[]
+	
+			let _min = new Date(min.getFullYear(), min.getMonth(), 0, 0, 0, 0).getTime()
+			let _max = new Date(max.getFullYear(), max.getMonth() + 1, 0, 0, 0, 0).getTime()
+	
+			for (var i = 1; i <= 12; i++) {
+				// 过滤日期范围
+				let date = $ux.Date.toDate(`${year}-${i.toString().padStart(2, '0')}`)
+				if (date.getTime() < _min || date.getTime() > _max) {
+					continue
+				}
+	
+				months.push({
+					name: `${i.toString().padStart(2, '0')}月`,
+					value: i,
+				} as UXPickerData)
+			}
+	
+			if (this.datas.length == 1) {
+				this.datas.push(months)
+			} else {
+				this.datas.splice(1, 1, months)
+			}
+		},
+		setDay(min : Date, max : Date) {
+			if (this.datas[0].length < this.values[0]) {
+				return
+			}
+			let year = this.datas[0][this.values[0]].value as number
+	
+			if (this.datas[1].length < this.values[1]) {
+				return
+			}
+			let month = this.datas[1][this.values[1]].value as number
+	
+			let days = $ux.Date.monthDays(year, month)
+	
+			let dates = [] as UXPickerData[]
+	
+			let _min = new Date(min.getFullYear(), min.getMonth(), min.getDate(), 0, 0, 0).getTime()
+			let _max = new Date(max.getFullYear(), max.getMonth(), max.getDate(), 0, 0, 0).getTime()
+	
+			for (var i = 1; i <= days; i++) {
+				// 过滤日期范围
+				let date = $ux.Date.toDate(`${year}-${month.toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`)
+				if (date.getTime() < _min || date.getTime() > _max) {
+					continue
+				}
+	
+				dates.push({
+					name: `${i.toString().padStart(2, '0')}日`,
+					value: i,
+				} as UXPickerData)
+			}
+	
+			if (this.datas.length == 2) {
+				this.datas.push(dates)
+			} else {
+				this.datas.splice(2, 1, dates)
+			}
+		},
+		setWeek(min : Date, max : Date) {
+			let _weeks = $ux.Date.weeks()
+	
+			let dates = [] as UXPickerData[]
+	
+			let _min = new Date(min.getFullYear(), min.getMonth(), min.getDate(), 0, 0, 0).getTime()
+			let _max = new Date(max.getFullYear(), max.getMonth(), max.getDate(), 0, 0, 0).getTime()
+	
+			for (var i = 0; i < _weeks.length; i++) {
+				// 过滤日期范围
+				let date = $ux.Date.toDate(_weeks[i])
+				if (date.getTime() < _min || date.getTime() > _max) {
+					continue
+				}
+	
+				dates.push({
+					name: `${_weeks[i]} ${$ux.Date.weekName(date.getDay(), this.dateFormat())}`,
+					value: `${_weeks[i]} ${$ux.Date.weekName(date.getDay(), this.dateFormat())}`,
+				} as UXPickerData)
+			}
+	
+			if (this.datas.length == 0) {
+				this.datas.push(dates)
+			} else {
+				this.datas.splice(0, 1, dates)
+			}
+		},
+		setHour(min : Date, max : Date) {
+			if (this.mode == 'time') {
+				let hours = [] as UXPickerData[]
+	
+				for (var i = 0; i <= 23; i++) {
+					// 过滤日期范围
+					if (i < min.getHours() || i > max.getHours()) {
+						continue
+					}
+	
+					hours.push({
+						name: `${i.toString().padStart(2, '0')}时`,
+						value: i,
+					} as UXPickerData)
+				}
+	
+				if (this.datas.length == 0) {
+					this.datas.push(hours)
+				} else {
+					this.datas.splice(0, 1, hours)
+				}
+			} else {
+				// 日期
+	
+				if (this.datas[0].length < this.values[0]) {
+					return
+				}
+				let year = this.datas[0][this.values[0]].value as number
+	
+				if (this.datas[1].length < this.values[1]) {
+					return
+				}
+				let month = this.datas[1][this.values[1]].value as number
+	
+				if (this.datas[2].length < this.values[2]) {
+					return
+				}
+				let day = this.datas[2][this.values[2]].value as number
+	
+				let _date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+	
+				let hours = [] as UXPickerData[]
+	
+				let _min = new Date(min.getFullYear(), min.getMonth(), min.getDate(), min.getHours(), 0, 0).getTime()
+				let _max = new Date(max.getFullYear(), max.getMonth(), max.getDate(), max.getHours(), 0, 0).getTime()
+	
+				for (var i = 0; i <= 23; i++) {
+					// 过滤日期范围
+					let date = $ux.Date.toDate(`${_date} ${i.toString().padStart(2, '0')}:00:00`)
+					if (date.getTime() < _min || date.getTime() > _max) {
+						continue
+					}
+	
+					hours.push({
+						name: `${i.toString().padStart(2, '0')}时`,
+						value: i,
+					} as UXPickerData)
+				}
+	
+				if (this.datas.length == 3) {
+					this.datas.push(hours)
+				} else {
+					this.datas.splice(3, 1, hours)
+				}
+			}
+		},
+		setMinute(min : Date, max : Date) {
+			if (this.mode == 'time') {
+				// 时
+				if (this.datas[0].length < this.values[0]) {
+					return
+				}
+				let hour = this.datas[0][this.values[0]].value as number
+	
+				let minutes = [] as UXPickerData[]
+	
+				let now = new Date()
+				let _min = new Date(now.getFullYear(), now.getMonth(), now.getDate(), min.getHours(), min.getMinutes(), 0).getTime()
+				let _max = new Date(now.getFullYear(), now.getMonth(), now.getDate(), max.getHours(), max.getMinutes(), 0).getTime()
+	
+				for (var i = 0; i <= 59; i++) {
+					// 过滤日期范围
+					let date = $ux.Date.toDate(`${hour.toString().padStart(2, '0')}:${i.toString().padStart(2, '0')}:00`)
+					if (date.getTime() < _min || date.getTime() > _max) {
+						continue
+					}
+	
+					minutes.push({
+						name: `${i.toString().padStart(2, '0')}分`,
+						value: i,
+					} as UXPickerData)
+				}
+	
+				if (this.datas.length == 1) {
+					this.datas.push(minutes)
+				} else {
+					this.datas.splice(1, 1, minutes)
+				}
+			} else {
+				// 日期
+				if (this.datas[0].length < this.values[0]) {
+					return
+				}
+				let year = this.datas[0][this.values[0]].value as number
+	
+				if (this.datas[1].length < this.values[1]) {
+					return
+				}
+				let month = this.datas[1][this.values[1]].value as number
+	
+				if (this.datas[2].length < this.values[2]) {
+					return
+				}
+				let day = this.datas[2][this.values[2]].value as number
+	
+				let _date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+	
+				// 时
+				if (this.datas[3].length < this.values[3]) {
+					return
+				}
+				let hour = this.datas[3][this.values[3]].value as number
+	
+				let minutes = [] as UXPickerData[]
+	
+				let _min = new Date(min.getFullYear(), min.getMonth(), min.getDate(), min.getHours(), min.getMinutes(), 0).getTime()
+				let _max = new Date(max.getFullYear(), max.getMonth(), max.getDate(), max.getHours(), max.getMinutes(), 0).getTime()
+	
+				for (var i = 0; i <= 59; i++) {
+					// 过滤日期范围
+					let date = $ux.Date.toDate(`${_date} ${hour.toString().padStart(2, '0')}:${i.toString().padStart(2, '0')}:00`)
+					if (date.getTime() < _min || date.getTime() > _max) {
+						continue
+					}
+	
+					minutes.push({
+						name: `${i.toString().padStart(2, '0')}分`,
+						value: i,
+					} as UXPickerData)
+				}
+	
+				if (this.datas.length == 4) {
+					this.datas.push(minutes)
+				} else {
+					this.datas.splice(4, 1, minutes)
+				}
+			}
+		},
+		setSecond(min : Date, max : Date) {
+			if (this.mode == 'time') {
+				// 时
+				if (this.datas[0].length < this.values[0]) {
+					return
+				}
+				let hour = this.datas[0][this.values[0]].value as number
+	
+				// 分
+				if (this.datas[1].length < this.values[1]) {
+					return
+				}
+				let minute = this.datas[1][this.values[1]].value as number
+	
+				let seconds = [] as UXPickerData[]
+	
+				let now = new Date()
+				let _min = new Date(now.getFullYear(), now.getMonth(), now.getDate(), min.getHours(), min.getMinutes(), min.getSeconds()).getTime()
+				let _max = new Date(now.getFullYear(), now.getMonth(), now.getDate(), max.getHours(), max.getMinutes(), max.getSeconds()).getTime()
+	
+				for (var i = 0; i <= 59; i++) {
+					// 过滤日期范围
+					let date = $ux.Date.toDate(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${i.toString().padStart(2, '0')}`)
+					if (date.getTime() < _min || date.getTime() > _max) {
+						continue
+					}
+	
+					seconds.push({
+						name: `${i.toString().padStart(2, '0')}秒`,
+						value: i,
+					} as UXPickerData)
+				}
+	
+				if (this.datas.length == 2) {
+					this.datas.push(seconds)
+				} else {
+					this.datas.splice(2, 1, seconds)
+				}
+			} else {
+				// 日期
+	
+				if (this.datas[0].length < this.values[0]) {
+					return
+				}
+				let year = this.datas[0][this.values[0]].value as number
+	
+				if (this.datas[1].length < this.values[1]) {
+					return
+				}
+				let month = this.datas[1][this.values[1]].value as number
+	
+				if (this.datas[2].length < this.values[2]) {
+					return
+				}
+				let day = this.datas[2][this.values[2]].value as number
+	
+				let _date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+	
+				// 时
+				if (this.datas[3].length < this.values[3]) {
+					return
+				}
+				let hour = this.datas[3][this.values[3]].value as number
+	
+				// 分
+				if (this.datas[4].length < this.values[4]) {
+					return
+				}
+				let minute = this.datas[4][this.values[4]].value as number
+	
+				let seconds = [] as UXPickerData[]
+	
+				let _min = min.getTime()
+				let _max = max.getTime()
+	
+				for (var i = 0; i <= 59; i++) {
+					// 过滤日期范围
+					let date = $ux.Date.toDate(`${_date} ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${i.toString().padStart(2, '0')}`)
+					if (date.getTime() < _min || date.getTime() > _max) {
+						continue
+					}
+	
+					seconds.push({
+						name: `${i.toString().padStart(2, '0')}秒`,
+						value: i,
+					} as UXPickerData)
+				}
+	
+				if (this.datas.length == 5) {
+					this.datas.push(seconds)
+				} else {
+					this.datas.splice(5, 1, seconds)
+				}
+			}
+		},
+		setDefault() {
+			let defaults = [] as number[]
+	
+			let now = new Date()
+	
+			if (this.value.length > 0) {
+				now = $ux.Date.toDate(this.value[0] as string)
+			}
+	
+			if (this.mode == 'date') {
+				defaults = [now.getFullYear(), now.getMonth() + 1, now.getDate()]
+			} else if (this.mode == 'datetime') {
+				defaults = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()]
+			} else if (this.mode == 'dateminute') {
+				defaults = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes()]
+			} else if (this.mode == 'time') {
+				defaults = [now.getHours(), now.getMinutes(), now.getSeconds()]
+			} else if (this.mode == 'month') {
+				defaults = [now.getFullYear(), now.getMonth() + 1]
+			} else if (this.mode == 'year') {
+				defaults = [now.getFullYear()]
+			} else if (this.mode == 'week') {
+				defaults = [now.getFullYear(), now.getMonth() + 1, now.getDate()]
+			}
+	
+			for (let i = 0; i < this.values.length; i++) {
+				let index = this.datas[i].findIndex((e : UXPickerData) : boolean => e.value.toString() == defaults[i].toString()) as number
+				this.values[i] = index == -1 ? 0 : index
+			}
+		},
+		dateValue(value : string[]) : string {
+			if (this.mode == 'date') {
+				return value.join('-')
+			} else if (this.mode == 'datetime') {
+				let date = value.slice(0, 3)
+				let time = value.splice(3, 6)
+				return `${date.join('-')} ${time.join(':')}`
+			} else if (this.mode == 'dateminute') {
+				let date = value.slice(0, 3)
+				let time = value.splice(3, 5)
+				return `${date.join('-')} ${time.join(':')}`
+			} else if (this.mode == 'time') {
+				return `${value.join(':')}`
+			} else if (this.mode == 'month') {
+				return value.join('-')
+			} else if (this.mode == 'year') {
+				return value.join('-')
+			} else if (this.mode == 'week') {
+				return value.join('-')
+			}
+	
+			return ''
+		},
+		dateFormat() : string {
+			if (this.mode == 'date') {
+				return this.format == '' ? 'yyyy-MM-dd' : this.format
+			} else if (this.mode == 'datetime') {
+				return this.format == '' ? 'yyyy-MM-dd HH:mm:ss' : this.format
+			} else if (this.mode == 'dateminute') {
+				return this.format == '' ? 'yyyy-MM-dd HH:mm' : this.format
+			} else if (this.mode == 'time') {
+				return this.format == '' ? 'HH:mm:ss' : this.format
+			} else if (this.mode == 'month') {
+				return this.format == '' ? 'yyyy-MM' : this.format
+			} else if (this.mode == 'year') {
+				return this.format == '' ? 'yyyy' : this.format
+			} else if (this.mode == 'week') {
+				return this.format == '' ? 'yyyy-MM-dd 周' : this.format
+			}
+	
+			return 'yyyy-MM-dd'
+		},
+		getDateRange() : Date[] {
+			let min = ''
+			let max = ''
+	
+			if (this.mode == 'date') {
+				min = `${$ux.Date.nowYear() as number - this.min}-01-01`
+				max = `${$ux.Date.nowYear() as number + this.max}-12-31`
+			} else if (this.mode == 'datetime') {
+				min = `${$ux.Date.nowYear() as number - this.min}-01-01 00:00:00`
+				max = `${$ux.Date.nowYear() as number + this.max}-12-31 23:59:59`
+			} else if (this.mode == 'dateminute') {
+				min = `${$ux.Date.nowYear() as number - this.min}-01-01 00:00`
+				max = `${$ux.Date.nowYear() as number + this.max}-12-31 23:59`
+			} else if (this.mode == 'time') {
+				min = `00:00:00`
+				max = `23:59:59`
+			} else if (this.mode == 'month') {
+				min = `${$ux.Date.nowYear() as number - this.min}-01`
+				max = `${$ux.Date.nowYear() as number + this.max}-12`
+			} else if (this.mode == 'year') {
+				min = `${$ux.Date.nowYear() as number - this.min}`
+				max = `${$ux.Date.nowYear() as number + this.max}`
+			} else if (this.mode == 'week') {
+				min = `${$ux.Date.nowYear() as number - this.min}-01-01`
+				max = `${$ux.Date.nowYear() as number + this.max}-12-31`
+			}
+	
+			if (this.range.length >= 2) {
+				min = this.range[0] as string
+				max = this.range[this.range.length - 1] as string
+			}
+	
+			return [$ux.Date.toDate(min), $ux.Date.toDate(max)]
+		},
+		calendarChange(e : UXCalendarEvent) {
+			this.calendarValues = e.value
+		},
+		onConfirm() {
+			if (this.mode == 'calendar') {
+				this.$emit('change', {
+					index: [],
+					value: this.calendarValues.map((e : UXCalendarDate) : string => e.fullDate),
+					date: '',
+				} as UXDatePickerEvent)
+			} else {
+				let indexs = this.values
+	
+				let value = indexs.map((i : number, index : number) : string => {
+					return this.datas[index].length == 0 ? '' : this.datas[index][i].value.toString().padStart(2, '0')
+				}).filter((val : string) : boolean => val != '')
+	
+				this.$emit('change', {
+					index: indexs,
+					value: value,
+					date: $ux.Date.fmtDate(this.dateValue(value), this.dateFormat()),
+				} as UXDatePickerEvent)
+			}
+	
+			this.close()
+		},
+		close() {
+			(this.$refs['uxDrawer'] as UxDrawerComponentPublicInstance).close()
+		},
+	}
+})

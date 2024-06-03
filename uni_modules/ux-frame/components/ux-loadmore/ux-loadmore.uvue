@@ -1,0 +1,44 @@
+<template>
+	<view class="ux-loadmore" @click="click">
+		<ux-loading v-if="state == 1"></ux-loading>
+		<text class="ux-loadmore__text">{{ texts[state] }}</text>
+	</view>
+</template>
+
+<script>
+	import { UxLoadMoreMixin } from './index.uts'
+	
+	/**
+	 * 上拉加载
+	 * @description 上拉加载
+	 * @tutorial https://www.uxframe.cn/component/func/loadmore.html
+	 * @property {Number}		state  				Number | 状态下标 (默认 [0)
+	 * @property {Array} 		texts 				string[] | 状态文案 (默认 ['已加载', '加载中...', '-- 我也是有底线的 --'])
+	 * @event {Function}		click				Function | 点击时触发
+	 * @author UxFrame
+	 * @date 2023-11-03 14:28:11
+	 */
+	export default {
+		name: 'ux-loadmore',
+		mixins: [UxLoadMoreMixin]
+	}
+</script>
+
+<style lang="scss">
+
+	.ux-loadmore {
+		width: 100%;
+		height: 50px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		
+		&__text {
+			color: gray;
+			font-size: 13px;
+			margin-left: 5px;
+		}
+	}
+
+</style>

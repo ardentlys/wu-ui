@@ -1,0 +1,59 @@
+type Page = {
+	index : number,
+	init : boolean
+}
+
+export const UxPagesMixin = defineMixin({
+	data() {
+		return {
+			pageList: [{
+				index: 0,
+				init: true
+			},{
+				index: 1,
+				init: false
+			},{
+				index: 2,
+				init: false
+			},{
+				index: 3,
+				init: false
+			},{
+				index: 4,
+				init: false
+			}] as Page[]
+		}
+	},
+	props: {
+		// 当前页面下标
+		index: {
+			type: Number,
+			default: 0
+		},
+		// 页面数量
+		pages: {
+			type: Number,
+			default: 0
+		},
+	},
+	watch: {
+		index() {
+			if (this.index <= this.pageList.length - 1) {
+				this.pageList[this.index].init = true
+			}
+		},
+		pages() {
+			this.init()
+		}
+	},
+	mounted() {
+		this.init()
+	},
+	methods: {
+		init() {
+			if (this.pages > 5) {
+				console.warn('[ux-pages]配置警告: 页面最大支持5页');
+			}
+		}
+	}
+})

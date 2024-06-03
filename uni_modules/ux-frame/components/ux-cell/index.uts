@@ -1,0 +1,348 @@
+import { $ux } from '../../index.uts'
+
+export const UxCellMixin = defineMixin({
+	emits: ['click'],
+	data() {
+		return {
+			sw: uni.getSystemInfoSync().screenWidth as number
+		}
+	},
+	props: {
+		// 标题
+		title: {
+			type: String,
+			default: ''
+		},
+		// 标题大小
+		size: {
+			type: Number,
+			default: 14
+		},
+		// 标题颜色
+		color: {
+			type: String,
+			default: $ux.theme.main
+		},
+		// 标题加粗
+		bold: {
+			type: Boolean,
+			default: false
+		},
+		// 标题样式
+		titleStyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		},
+		// 描述信息
+		summary: {
+			type: String,
+			default: ''
+		},
+		// 描述文本颜色
+		summaryColor: {
+			type: String,
+			default: $ux.theme.summary
+		},
+		// 描述文本大小
+		summarySize: {
+			type: Number,
+			default: 10
+		},
+		// 描述文本样式
+		summaryStyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		},
+		// 右侧内容
+		label: {
+			type: String,
+			default: ''
+		},
+		// 内容大小
+		labelSize: {
+			type: Number,
+			default: 14
+		},
+		// 内容颜色
+		labelColor: {
+			type: String,
+			default: $ux.theme.main
+		},
+		// 内容加粗
+		labelBold: {
+			type: Boolean,
+			default: false
+		},
+		// 内容样式
+		labelStyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		},
+		// 右侧占位内容
+		placeholder: {
+			type: String,
+			default: ''
+		},
+		// 右侧占位内容大小
+		placeholderSize: {
+			type: Number,
+			default: 13
+		},
+		// 右侧占位内容颜色
+		placeholderColor: {
+			type: String,
+			default: $ux.theme.summary
+		},
+		// 右侧占位内容样式
+		placeholderStyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		},
+		// 标题图标
+		icon: {
+			type: String,
+			default: ''
+		},
+		// 标题图标颜色
+		iconColor: {
+			type: String,
+			default: $ux.theme.main
+		},
+		// 标题图标大小
+		iconSize: {
+			type: Number,
+			default: 15
+		},
+		// 标题图标样式
+		iconStyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		},
+		// 右侧图标
+		rightIcon: {
+			type: String,
+			default: ''
+		},
+		// 右侧箭头图标
+		rightArrow: {
+			type: Boolean,
+			default: true
+		},
+		// 右侧图标样式
+		rightIconStyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		},
+		// 自定义字体路径
+		customFont: {
+			type: String,
+			default: ''
+		},
+		// 自定义字体family
+		customFamily: {
+			type: String,
+			default: ''
+		},
+		// 背景色
+		background: {
+			type: String,
+			default: ''
+		},
+		// 显示下边框
+		border: {
+			type: Boolean,
+			default: true
+		},
+		// 下边框颜色
+		borderColor: {
+			type: String,
+			default: $ux.theme.border
+		},
+		// 最小高度
+		minHeight: {
+			type: Number,
+			default: 38
+		},
+		// 固定高度
+		height: {
+			type: Number,
+			default: 0
+		},
+		// 内部水平边距
+		padding: {
+			type: Number,
+			default: 15
+		},
+		// 内容是否垂直居中
+		center: {
+			type: Boolean,
+			default: false
+		},
+		// 显示必填星号
+		required: {
+			type: Boolean,
+			default: false
+		},
+		// 页面跳转路径
+		path: {
+			type: String,
+			default: ''
+		},
+		// 显示点击态
+		hover: {
+			type: Boolean,
+			default: true
+		},
+		// 是否禁用cell
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+		// 是否显示cell
+		show: {
+			type: Boolean,
+			default: true
+		},
+		// 边距 [上 右 下 左] [上下 左右] [上下左右]
+		margin: {
+			type: Array,
+			default: (): any[] => {
+				return []
+			}
+		},
+		mt: {
+			type: Number,
+			default: 0
+		},
+		mr: {
+			type: Number,
+			default: 0
+		},
+		mb: {
+			type: Number,
+			default: 0
+		},
+		ml: {
+			type: Number,
+			default: 0
+		},
+		// 自定义样式
+		xstyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		},
+	},
+	computed: {
+		style(): any | null {
+			let css = new Map<string, any | null>()
+			
+			if(this.margin.length > 0) {
+				css.set('margin', this.margin.join(' '))
+			} else {
+				if(this.mt != 0) {
+					css.set('margin-top', $ux.Util.addUnit(this.mt))
+				}
+				if(this.mr != 0) {
+					css.set('margin-right', $ux.Util.addUnit(this.mr))
+				}
+				if(this.mb != 0) {
+					css.set('margin-bottom', $ux.Util.addUnit(this.mb))
+				}
+				if(this.ml != 0) {
+					css.set('margin-left', $ux.Util.addUnit(this.ml))
+				}
+			}
+			
+			css.set('background-color', this.background == '' ? 'transparent' : this.background)
+			
+			return css
+		},
+		bodyStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('min-height', $ux.Util.addUnit(this.minHeight))
+			
+			if(this.height > 0) {
+				css.set('height', $ux.Util.addUnit(this.height))
+			}
+			
+			if(this.border) {
+				css.set('border-bottom', `1rpx solid ${this.borderColor}`)
+			}
+			
+			css.set('margin', `0 ${$ux.Util.addUnit(this.padding)}`)
+			
+			if(this.center) {
+				css.set('justify-content', 'center')
+			}
+			
+			return css
+		},
+		_titleStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('font-size', $ux.Util.addUnit(this.size))
+			css.set('color', this.disabled? $ux.theme.disabled : this.color)
+			css.set('font-weight', this.bold?'bold':'normal')
+			
+			return css
+		},
+		_summaryStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('font-size', $ux.Util.addUnit(this.summarySize))
+			css.set('color', this.summaryColor)
+			
+			return css
+		},
+		_labelStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('max-width', `${this.sw * 0.6}px`)
+			
+			if(this.label == '') {
+				css.set('font-size', $ux.Util.addUnit(this.placeholderSize))
+				css.set('color', this.placeholderColor)
+				css.set('font-weight', 'normal')
+			} else {
+				css.set('font-size', $ux.Util.addUnit(this.labelSize))
+				css.set('color', this.labelColor)
+				css.set('font-weight', this.labelBold?'bold':'normal')
+			}
+			
+			return css
+		},
+		_xlabelStyle(): any | null {
+			return this.label == '' ? this.placeholderStyle : this.labelStyle
+		},
+		_rightIcon(): string {
+			if(this.rightIcon != '') {
+				return this.rightIcon
+			}
+			
+			if(this.rightArrow) {
+				return 'arrowright'
+			}
+			
+			return ''
+		},
+		hoverClass() : string {
+			return this.hover && !this.disabled ? 'ux-cell__hover' : 'none'
+		}
+	},
+	methods: {
+		click(e: MouseEvent) {
+			if(this.disabled) {
+				return
+			}
+			
+			if(this.path != '') {
+				uni.navigateTo({
+					url: this.path
+				})
+			}
+			
+			this.$emit('click', e)
+		},
+	}
+})

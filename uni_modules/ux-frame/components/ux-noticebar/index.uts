@@ -1,0 +1,150 @@
+import { $ux } from '../../index.uts'
+
+export const UxNoticeBarMixin = defineMixin({
+	emits: ['click', 'handle'],
+	data() {
+		return {
+			myId: `ux-noticebar-${$ux.Random.uuid()}`,
+			width: 0,
+			textWidth: 0,
+			index: 1,
+			duration: 3,
+			timer: 0,
+		}
+	},
+	props: {
+		text: {
+			type: Array,
+			default: () : string[] => {
+				return [] as string[]
+			}
+		},
+		color: {
+			type: String,
+			default: '#fff'
+		},
+		icon: {
+			type: String,
+			default: 'megaphone'
+		},
+		rightIcon: {
+			type: String,
+			default: ''
+		},
+		iconSize: {
+			type: Number,
+			default: 15
+		},
+		iconColor: {
+			type: String,
+			default: '#fff'
+		},
+		background: {
+			type: String,
+			default: $ux.theme.primary
+		},
+		radius: {
+			type: Number,
+			default: 5
+		},
+		scrollable: {
+			type: Boolean,
+			default: true
+		},
+		direction: {
+			type: String,
+			default: 'row'
+		},
+		speed: {
+			type: Number,
+			default: 60
+		},
+		interval: {
+			type: Number,
+			default: 3000
+		},
+		mutiline: {
+			type: Boolean,
+			default: false
+		},
+	},
+	computed: {
+		_text():string {
+			if(this.text.length == 0) {
+				return ''
+			} else {
+				return this.text[0] as string
+			}
+		},
+		style() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('background-color', this.background)
+			css.set('border-radius', $ux.Util.addUnit(this.radius))
+			
+			return css
+		},
+		textStyle() : string {
+			return `color: ${this.color}`
+		},
+		iconStyle() : string {
+			return `background-color: ${this.background}`
+		},
+	},
+	watch: {
+		text() {
+			this.init()
+		}
+	},
+	mounted() {
+		this.init()
+	},
+	destroyed() {
+		clearTimeout(this.timer)
+	},
+	methods: {
+		init() {
+			uni.createSelectorQuery().in(this).select(`#${this.myId}`).boundingClientRect((rect) => {
+				this.textWidth = (rect as NodeInfo).width as number
+				this.duration = this.textWidth / this.speed
+				
+				this.width = (this.$refs['uxNoticebar'] as Element).getBoundingClientRect().width
+				
+				if (this.scrollable) {
+					setTimeout(() => {
+						this.startScroll()
+					}, 20);
+				}
+			}).exec()
+		},
+		startScroll() {
+			let el = uni.getElementById(this.myId as string)
+			
+			if (this.index % 2 == 0) {
+				el?.style?.setProperty('opacity', 0)
+				el?.style?.setProperty('transition-duration', '0ms')
+				el?.style?.setProperty('left', `${this.width}px`)
+	
+				setTimeout(() => {
+					el?.style?.setProperty('opacity', 1)
+					el?.style?.setProperty('transition-duration', `${this.duration}s`)
+					el?.style?.setProperty('left', `${0}px`)
+				}, 30);
+			} else {
+				el?.style?.setProperty('opacity', 1)
+				el?.style?.setProperty('transition-duration', `${this.duration}s`)
+				el?.style?.setProperty('left', `${-this.textWidth}px`)
+			}
+	
+			this.index++
+		},
+		onClick(e : MouseEvent) {
+			this.$emit('click', e)
+		},
+		onHandle(e : MouseEvent) {
+			this.$emit('handle', e)
+	
+			e.stopPropagation()
+		},
+	}
+})

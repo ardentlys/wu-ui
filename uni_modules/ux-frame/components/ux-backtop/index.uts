@@ -1,0 +1,152 @@
+import { $ux } from '../../index.uts'
+
+export const UxBacktopMixin = defineMixin({
+	data() {
+		return {
+			width: 40,
+			show: false
+		}
+	},
+	props: {
+		// 父级[scroll-view list-view] Id
+		parent: {
+			type: String,
+			default: ''
+		},
+		// 形状
+		shape: {
+			type: String,
+			default: 'circle'
+		},
+		// 图标
+		icon: {
+			type: String,
+			default: 'arrowup',
+		},
+		// 文字
+		text: {
+			type: String,
+			default: 'TOP',
+		},
+		// 距右距离
+		right: {
+			type: Number,
+			default: 30
+		},
+		// 距底距离
+		bottom: {
+			type: Number,
+			default: 100
+		},
+		// 图标大小
+		iconSize: {
+			type: Number,
+			default: 18
+		},
+		// 字体大小
+		fontSize: {
+			type: Number,
+			default: 12
+		},
+		// 字体加粗
+		fontBold: {
+			type: Boolean,
+			default: true
+		},
+		// 自定义字体路径
+		customFont: {
+			type: String,
+			default: ''
+		},
+		// 自定义字体family
+		customFamily: {
+			type: String,
+			default: ''
+		},
+		// 字体颜色
+		color: {
+			type: String,
+			default: '#000000'
+		},
+		// 背景色
+		background: {
+			type: String,
+			default: 'rgba(196, 196, 196, 0.7)'
+		},
+		// 层级z-index
+		zIndex: {
+			type: Number,
+			default: 100
+		},
+		// 固定位置
+		fixed: {
+			type: Boolean,
+			default: true
+		},
+	},
+	computed: {
+		transitionStyle(): any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('right', $ux.Util.addUnit(this.right))
+			css.set('bottom', $ux.Util.addUnit(this.bottom))
+			css.set('width', $ux.Util.addUnit(this.width))
+			css.set('height', $ux.Util.addUnit(this.width))
+			css.set('position', this.fixed?'fixed':'absolute')
+			css.set('z-index', this.zIndex)
+			
+			return css
+		},
+		style(): any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('background-color', this.background)
+			css.set('border-radius', this.shape == 'square' ? $ux.Util.addUnit(6) : $ux.Util.addUnit(25))
+			
+			return css
+		},
+		textStyle(): any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('color', this.color)
+			css.set('font-size', $ux.Util.addUnit(this.fontSize))
+			css.set('font-weight', this.fontBold?'bold':'normal')
+			
+			return css
+		}
+	},
+	mounted() {
+		if(this.getEl() == null) {
+			console.error('[ux-backtop]配置错误：需配置父级[scroll-view list-view]Id');
+		}
+	},
+	methods: {
+		click(e: MouseEvent) {
+			let el = this.getEl()
+			
+			if(el == null) {
+				return
+			}
+			
+			el?.setAttribute('scroll-top', `${0}`)
+			
+			this.$emit('click')
+			
+			e.stopPropagation()
+		},
+		getEl(): Element | null {
+			let el = uni.getElementById(this.parent)
+			
+			if(el == null) {
+				// TODO 查找父级或平级
+				el = $ux.Util.$findEl(this, ['ux-list', 'ux-scroll'])
+			}
+			
+			if(el == null) {
+				console.error('[ux-backtop]配置错误：需配置父级[scroll-view list-view]Id');
+			}
+			
+			return el
+		}
+	}
+})

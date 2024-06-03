@@ -1,0 +1,65 @@
+<template>
+	<view class="ux-divider" :style="style">
+		<view class="ux-divider__line" :class="[$slots['default'] != null? `ux-divider__${direction}--left` : '']" :style="[lineStyle]"></view>
+		<slot></slot>
+		<view class="ux-divider__line" :class="[$slots['default'] != null? `ux-divider__${direction}--right` : '']" :style="[lineStyle]"></view>
+	</view>
+</template>
+
+<script>
+	import { UxDividerMixin } from './index.uts'
+	
+	/**
+	 * Divider 分割线
+	 * @description 分割线 支持多种样式
+	 * @tutorial https://www.uxframe.cn/component/layout/divider.html
+	 * @property {String}			color						String | 颜色 ( 默认 #d6d7d9 )
+	 * @property {String}			direction=[row|col]			String | 方向 (默认 row )
+	 * @value row 横向
+	 * @value col 竖向
+	 * @property {Boolean}			hairline = [true|false]		Boolean | 细线条 (默认 true )
+	 * @property {Boolean}			dashed = [true|false]		Boolean | 虚线 (默认 false )
+	 * @property {Array}			margin						Array | 边距 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}			mt							Number | 距上 单位px
+	 * @property {Number}			mr							Number | 距右 单位px
+	 * @property {Number}			mb							Number | 距下 单位px
+	 * @property {Number}			ml							Number | 距左 单位px
+	 * @property {Array}			xstyle						Array<any> | 自定义样式
+	 * @author UxFrame
+	 * @date 2023-12-07 00:34:28
+	 */
+	export default {
+		name: 'ux-divider',
+		mixins: [UxDividerMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-divider {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		
+		&__line {
+			flex: 1;
+		}
+		
+		&__row--left{
+			margin-right: 8px;
+		}
+		
+		&__row--right{
+			margin-left: 8px;
+		}
+		
+		&__col--left{
+			margin-bottom: 8px;
+		}
+		
+		&__col--right{
+			margin-top: 8px;
+		}
+	}
+	
+	
+</style>

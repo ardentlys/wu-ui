@@ -1,0 +1,950 @@
+import { $ux } from '../../index.uts'
+import { UxTab } from '../../libs/types/types.uts'
+	
+export const UxTabBarMixin = defineMixin({
+	emits: ['click', 'center', 'change'],
+	data() {
+		return {
+			// tab列表
+			tabs: [] as UxTab[],
+			// 当前选择下标
+			tabIndex: 0,
+			// 按压效果
+			isPress: false,
+			timer: 0,
+			// 渲染
+			render: true,
+			// 中间圆半径
+			radius: 30,
+			// 绘制节点
+			drawer: null as DrawableContext | null,
+			// 高度
+			height: uni.getSystemInfoSync().safeAreaInsets.bottom + 54,
+		}
+	},
+	props: {
+		// 类型
+		type: {
+			type: String,
+			default: 'default'
+		},
+		// 动画类型
+		anim: {
+			type: String,
+			default: 'none'
+		},
+		// 默认选择下标
+		index: {
+			type: Number,
+			default: 0
+		},
+		// 数据
+		data: {
+			type: Array,
+			default: () : any[] => {
+				return [] as any[]
+			}
+		},
+		// 选中颜色
+		selectedColor: {
+			type: String,
+			default: $ux.theme.primary
+		},
+		// 未选中颜色
+		unselectedColor: {
+			type: String,
+			default: $ux.theme.main
+		},
+		// 图标大小
+		iconSize: {
+			type: Number,
+			default: 18
+		},
+		// 字体大小
+		fontSize: {
+			type: Number,
+			default: 12
+		},
+		// 字体加粗
+		fontBold: {
+			type: Boolean,
+			default: false
+		},
+		// 自定义字体路径
+		customFont: {
+			type: String,
+			default: ''
+		},
+		// 自定义字体family
+		customFamily: {
+			type: String,
+			default: ''
+		},
+		// 显示上边框
+		border: {
+			type: Boolean,
+			default: false
+		},
+		// 上边框颜色
+		borderColor: {
+			type: String,
+			default: $ux.theme.border
+		},
+		// 圆角
+		corner: {
+			type: Number,
+			default: 0
+		},
+		// 背景色
+		background: {
+			type: String,
+			default: '#FFFFFF'
+		},
+		// 中间按钮背景色
+		centerColor: {
+			type: String,
+			default: '#FFFFFF'
+		},
+		// 层级z-index
+		zIndex: {
+			type: Number,
+			default: 10000
+		},
+		// 固定位置
+		fixed: {
+			type: Boolean,
+			default: true
+		},
+		// 显示点击态
+		hover: {
+			type: Boolean,
+			default: true
+		},
+	},
+	computed: {
+		myId() : string {
+			return `ux-tabbar_${this.type}_${$ux.Random.uuid()}`
+		},
+		tabbarStyle() : any | null {
+			let css = new Map<string, any | null>()
+	
+			if (this.fixed) {
+				css.set('position', 'fixed')
+				css.set('bottom', 0)
+			}
+			
+			css.set('height', `${(this.height as number) + (this.type == 'special' ? this.radius : 0)}px`)
+			
+			if(this.border && this.type == 'default') {
+				css.set('border-top', `1rpx solid ${this.borderColor}`)
+			}
+			
+			css.set('background-color', `${this.type == 'default' ? this.background : 'transparent'}`)
+			css.set('z-index', this.zIndex)
+			
+			if (this.corner > 0 && this.type == 'default') {
+				css.set('border-top-left-radius', `${this.corner}px`)
+				css.set('border-top-right-radius', `${this.corner}px`)
+			}
+	
+			return css
+		},
+		contentStyle() : string {
+			return this.type == 'special' ? `margin-top: ${this.radius}px` : ''
+		},
+		centerStyle() : any | null {
+			let css = new Map<string, any | null>()
+	
+			css.set('width', `${this.radius * 2}px`)
+			css.set('height', `${this.radius * 2}px`)
+			css.set('bottom', `${54 - this.radius - 5}px`)
+			css.set('background-color', this.centerColor)
+			
+			return css
+		},
+		centerHoverStyle() : string {
+			return 'background-color: #999999'
+		},
+	},
+	watch: {
+		data() {
+			this.initTabs()
+		},
+		type() {
+			this.initTabs()
+			this.reRender()
+		},
+		anim() {
+			if (this.type == 'special') {
+				if (this.anim != 'none' && this.anim != 'scroll') {
+					this.anim = 'none'
+					console.warn('[ux-tabbar]配置警告: 类型[special]仅支持动效[none/scroll]')
+				}
+			}
+	
+			this.reRender()
+		}
+	},
+	mounted() {
+		// 初始下标
+		this.tabIndex = this.index
+	
+		// 绘制节点
+		this.drawer = (this.$refs['ux-tabbar'] as Element).getDrawableContext()
+	
+		// 绘制
+		this.draw()
+		this.initTabs()
+	},
+	methods: {
+		/**
+		 * 样式
+		 */
+		textStyle(i : number) : any | null {
+			let css = new Map<string, any | null>()
+	
+			css.set('color', `${this.tabIndex == i ? this.tabs[i].selectedColor : this.tabs[i].unselectedColor}`)
+			css.set('font-size', `${this.fontSize}px`)
+			css.set('font-weight', `${this.fontBold ? 'bold' : 'normal'}`)
+	
+			return css
+		},
+		pointStyle(i : number) : string {
+			return `background-color: ${this.tabIndex == i ? this.tabs[i].selectedColor : this.tabs[i].unselectedColor}`
+		},
+		hoverStyle(i : number) : string {
+			return `background-color: ${this.tabs[i].selectedColor}`
+		},
+		/**
+		 * 重新渲染
+		 */
+		reRender() {
+			// 清除绘制
+			this.resetDraw()
+	
+			this.render = false
+			this.$nextTick(() => {
+				this.render = true
+	
+				setTimeout(() => {
+					this.draw()
+					this.animTo(this.tabIndex)
+				}, 20)
+			})
+		},
+		/**
+		 * 初始tabs
+		 */
+		initTabs() {
+			let list = [] as UxTab[]
+	
+			this.data.forEach((e : any | null, i : number) => {
+				let data = e! as UxTab
+	
+				let item = {
+					id: data.id ?? `ux-tabbar-${this.type}-${this.anim}-${i}`,
+					name: data.name,
+					selectedIcon: data.selectedIcon ?? '',
+					unselectedIcon: data.unselectedIcon ?? data.selectedIcon,
+					selectedColor: data.selectedColor ?? this.selectedColor,
+					unselectedColor: data.unselectedColor ?? this.unselectedColor,
+					badge: data.badge ?? 0,
+					reddot: data.reddot ?? false,
+					btn: data.btn ?? false,
+					index: i,
+				} as UxTab
+	
+				list.push(item)
+			})
+	
+			this.tabs = list as UxTab[]
+	
+			if (this.anim == 'scroll') {
+				let index = this.tabs.findIndex((e : UxTab) : boolean => e.selectedIcon == '')
+	
+				if (index != -1) {
+					console.error('[ux-tabbar]配置错误: 动效[scroll]需配置selectedIcon')
+					this.anim = 'none'
+				}
+			} else {
+				let a = this.tabs.findIndex((e : UxTab) : boolean => e.selectedIcon != '' && e.unselectedIcon == '')
+				let b = this.tabs.findIndex((e : UxTab) : boolean => e.selectedIcon == '' && e.unselectedIcon != '')
+	
+				if (a != -1 || b != -1) {
+					console.error(`[ux-tabbar]配置错误: 动效[${this.anim}]需同时配置selectedIcon & unselectedIcon`)
+				}
+			}
+	
+			// 中间凹陷按钮
+			if (this.type == 'special') {
+				if (this.anim != 'none' && this.anim != 'scroll') {
+					this.anim = 'none'
+					console.warn('[ux-tabbar]配置警告: 类型[special]仅支持动效[none/scroll]')
+				}
+	
+				if (this.tabs.length % 2 != 0) {
+					console.error('[ux-tabbar]配置错误: 类型[special]tabs数量必须为偶数')
+					this.type = 'default'
+				}
+	
+				// 插入占位按钮到中间
+				this.tabs.splice(this.tabs.length / 2, 0, {
+					id: 'center',
+					name: '',
+					selectedIcon: '',
+					unselectedIcon: '',
+					selectedColor: '',
+					unselectedColor: '',
+					badge: 0,
+					reddot: false,
+					btn: false,
+					index: -1
+				} as UxTab)
+			}
+	
+			// 初始化位置
+			setTimeout(() => {
+				this.animTo(this.tabIndex)
+			}, 100);
+		},
+		// 清除绘制
+		resetDraw() {
+			this.drawer!.reset()
+			this.drawer!.update()
+		},
+		/**
+		 * 绘制背景
+		 */
+		draw() {
+			// 清除绘制
+			this.resetDraw()
+	
+			if (this.type == 'default') {
+				this.draw0()
+			} else if (this.type == 'special') {
+				this.draw1()
+			}
+		},
+		/**
+		 * 正常
+		 */
+		draw0() {
+	
+		},
+		/**
+		 * 凹陷
+		 */
+		draw1() {
+			let sw = uni.getSystemInfoSync().screenWidth
+			let width = this.radius + 10
+			let height = this.radius + 10
+			let startX = sw / 2 - width
+			let offset = 20
+			
+			// 开始绘制
+			this.drawer!.beginPath()
+			
+			if (this.corner > 0) {
+				// 圆角
+			
+				// 起点
+				let lc_s1 = 0
+				let lc_s2 = this.corner * 2
+			
+				// 控制点1
+				let lc_c1_1 = 0
+				let lc_c1_2 = 0
+			
+				// 控制点2
+				let lc_c2_1 = 0
+				let lc_c2_2 = 0
+			
+				// 终点
+				let lc_e1 = this.corner * 2
+				let lc_e2 = 0
+			
+				this.drawer!.moveTo(lc_s1, lc_s2)
+				this.drawer!.bezierCurveTo(lc_c1_1, lc_c1_2, lc_c2_1, lc_c2_2, lc_e1, lc_e2)
+			} else {
+				// 原点开始
+				this.drawer!.moveTo(0, 0)
+			}
+			
+			// 左边弧
+			// 起点
+			let l_s1 = startX - offset
+			let l_s2 = 0
+			
+			// 控制点1
+			let l_c1_1 = startX
+			let l_c1_2 = l_s2
+			
+			// 控制点2
+			let l_c2_x = width * (1 / 5)
+			let l_c2_y = height
+			let l_c2_1 = startX + l_c2_x
+			let l_c2_2 = l_s2 + l_c2_y
+			
+			// 终点
+			let l_e1 = startX + width
+			let l_e2 = height
+			
+			this.drawer!.lineTo(l_s1, l_s2)
+			this.drawer!.bezierCurveTo(l_c1_1, l_c1_2, l_c2_1, l_c2_2, l_e1, l_e2)
+			
+			// 右边弧
+			// 起点是上一个终点
+			
+			// 控制点1
+			let r_c1_1 = startX + width * 2 - l_c2_x
+			let r_c1_2 = l_c2_2
+			
+			// 控制点2
+			let r_c2_1 = startX + width * 2
+			let r_c2_2 = l_c1_2
+			
+			// 终点
+			let r_e1 = startX + width * 2 + offset
+			let r_e2 = 0
+			
+			this.drawer!.bezierCurveTo(r_c1_1, r_c1_2, r_c2_1, r_c2_2, r_e1, r_e2)
+			
+			// 向右画线
+			if (this.corner > 0) {
+				// 圆角
+				// 起点
+				let lc_s1 = sw - this.corner
+				let lc_s2 = 0
+			
+				// 控制点1
+				let lc_c1_1 = sw
+				let lc_c1_2 = 0
+			
+				// 控制点2
+				let lc_c2_1 = sw
+				let lc_c2_2 = 0
+			
+				// 终点
+				let lc_e1 = sw
+				let lc_e2 = this.corner
+			
+				this.drawer!.bezierCurveTo(lc_c1_1, lc_c1_2, lc_c2_1, lc_c2_2, lc_e1, lc_e2)
+			} else {
+				this.drawer!.lineTo(sw, 0)
+			}
+			
+			// 向下画线
+			this.drawer!.lineTo(sw, 54)
+			
+			// 向左画线
+			this.drawer!.lineTo(0, 54)
+			
+			// 回到原点
+			if (this.corner > 0) {
+				// 圆角
+				this.drawer!.lineTo(0, this.corner * 2)
+			} else {
+				this.drawer!.lineTo(0, 0)
+			}
+			
+			this.drawer!.closePath()
+			
+			this.drawer!.fillStyle = this.background
+			this.drawer!.fill()
+			
+			// 上边框
+			if (this.border) {
+				// 开始绘制
+				this.drawer!.beginPath()
+			
+				if (this.corner > 0) {
+					// 圆角
+			
+					// 起点
+					let lc_s1 = 0
+					let lc_s2 = this.corner * 2
+			
+					// 控制点1
+					let lc_c1_1 = 0
+					let lc_c1_2 = 0
+			
+					// 控制点2
+					let lc_c2_1 = 0
+					let lc_c2_2 = 0
+			
+					// 终点
+					let lc_e1 = this.corner * 2
+					let lc_e2 = 0
+			
+					this.drawer!.moveTo(lc_s1, lc_s2)
+					this.drawer!.bezierCurveTo(lc_c1_1, lc_c1_2, lc_c2_1, lc_c2_2, lc_e1, lc_e2)
+				} else {
+					// 原点开始
+					this.drawer!.moveTo(0, 0)
+				}
+			
+				// 左边弧
+				// 起点
+				let l_s1 = startX - offset
+				let l_s2 = 0
+			
+				// 控制点1
+				let l_c1_1 = startX
+				let l_c1_2 = l_s2
+			
+				// 控制点2
+				let l_c2_x = width * (1 / 5)
+				let l_c2_y = height
+				let l_c2_1 = startX + l_c2_x
+				let l_c2_2 = l_s2 + l_c2_y
+			
+				// 终点
+				let l_e1 = startX + width
+				let l_e2 = height
+			
+				this.drawer!.lineTo(l_s1, l_s2)
+				this.drawer!.bezierCurveTo(l_c1_1, l_c1_2, l_c2_1, l_c2_2, l_e1, l_e2)
+			
+				// 右边弧
+				// 起点是上一个终点
+			
+				// 控制点1
+				let r_c1_1 = startX + width * 2 - l_c2_x
+				let r_c1_2 = l_c2_2
+			
+				// 控制点2
+				let r_c2_1 = startX + width * 2
+				let r_c2_2 = l_c1_2
+			
+				// 终点
+				let r_e1 = startX + width * 2 + offset
+				let r_e2 = 0
+			
+				this.drawer!.bezierCurveTo(r_c1_1, r_c1_2, r_c2_1, r_c2_2, r_e1, r_e2)
+			
+				// 向右画线
+				if (this.corner > 0) {
+					// 圆角
+					// 起点
+					let lc_s1 = sw - this.corner
+					let lc_s2 = 0
+			
+					// 控制点1
+					let lc_c1_1 = sw
+					let lc_c1_2 = 0
+			
+					// 控制点2
+					let lc_c2_1 = sw
+					let lc_c2_2 = 0
+			
+					// 终点
+					let lc_e1 = sw
+					let lc_e2 = this.corner
+			
+					this.drawer!.bezierCurveTo(lc_c1_1, lc_c1_2, lc_c2_1, lc_c2_2, lc_e1, lc_e2)
+				} else {
+					this.drawer!.lineTo(sw, 0)
+				}
+			
+				this.drawer!.strokeStyle = this.borderColor
+				this.drawer!.stroke()
+			}
+			
+			this.drawer!.update()
+		},
+		/**
+		 * 中间tab
+		 */
+		centerTab() {
+			this.$emit('center')
+		},
+		/**
+		 * 点击tab
+		 */
+		onTab(i : number) {
+			if (this.tabs[i].btn!) {
+				// 独立按钮
+				this.$emit('click', this.tabs[i].index!)
+				return
+			}
+	
+			// 动效
+			this.animTo(i)
+	
+			// 选择tab
+			this.tabIndex = i
+			this.$emit('change', this.tabs[i].index!)
+		},
+		/**
+		 * 动效
+		 */
+		animTo(index : number) {
+			if (this.anim == 'none') {
+				// 无动效
+				this.noneAnim(this.tabIndex, index)
+			} else if (this.anim == 'scroll') {
+				// 上下滚动动效
+				this.scrollAnim(this.tabIndex, index)
+			} else if (this.anim == 'push') {
+				// 左右推压动效
+				this.pushAnim(this.tabIndex, index)
+			} else if (this.anim == 'water') {
+				// 水滴动效
+				this.waterAnim(this.tabIndex, index)
+			}
+		},
+		/**
+		 * 无动效
+		 */
+		noneAnim(_old : number, _new : number) {
+	
+		},
+		/**
+		 * 上下滚动动效
+		 */
+		scrollAnim(_old : number, _new : number) {
+			let anim = (i : number, show : boolean) : void => {
+				if (this.tabs[i].btn!) {
+					// 独立按钮不设置
+					return
+				}
+	
+				if (show) {
+					// 上推
+					uni.getElementById(`${this.myId}-icon-${i}`)?.style?.setProperty('transform', 'translate(0, -50%)')
+					uni.getElementById(`${this.myId}-name-${i}`)?.style?.setProperty('transform', 'translate(0, -230%)')
+	
+					// 透明度
+					uni.getElementById(`${this.myId}-icon-${i}`)?.style?.setProperty('opacity', 0)
+					uni.getElementById(`${this.myId}-name-${i}`)?.style?.setProperty('opacity', 1)
+	
+					// 点
+					uni.getElementById(`${this.myId}-point-${i}`)?.style?.setProperty('opacity', 1)
+					uni.getElementById(`${this.myId}-point-${i}`)?.style?.setProperty('transform', 'scale(1)')
+				} else {
+					// 下压
+					uni.getElementById(`${this.myId}-icon-${i}`)?.style?.setProperty('transform', 'translate(0, 0%)')
+					uni.getElementById(`${this.myId}-name-${i}`)?.style?.setProperty('transform', 'translate(0, 100%)')
+	
+					// 透明度
+					uni.getElementById(`${this.myId}-icon-${i}`)?.style?.setProperty('opacity', 1)
+					uni.getElementById(`${this.myId}-name-${i}`)?.style?.setProperty('opacity', 0)
+	
+					// 点
+					uni.getElementById(`${this.myId}-point-${i}`)?.style?.setProperty('opacity', 0)
+					uni.getElementById(`${this.myId}-point-${i}`)?.style?.setProperty('transform', 'scale(0)')
+				}
+			}
+	
+			if (_old == _new) {
+				// 重置
+				anim(_new, true)
+	
+				for (let i = 0; i < this.tabs.length; i++) {
+					if (i == _new) {
+						continue
+					}
+	
+					anim(i, false)
+				}
+			} else {
+				// 上一个隐藏
+				anim(_old, false)
+	
+				// 当前显示
+				anim(_new, true)
+			}
+		},
+		/**
+		 * 左右推压动效
+		 */
+		pushAnim(_old : number, _new : number) {
+			let anim = (i : number, show : boolean) : void => {
+				// 平分宽度
+				let per = 100 / this.tabs.length / 100 * 750
+	
+				// 展开宽度
+				let width = per + (5 / 100 * 750)
+	
+				// 塌缩宽度
+				let cwidth = (750 - 20 * 2 - width) / (this.tabs.length - 1)
+	
+				if (show) {
+					// 展开
+					uni.getElementById(this.tabs[i].id!)?.style?.setProperty('width', `${width}rpx`)
+	
+					// 背景色
+					let color = $ux.Color.hexToRgba(this.tabs[i].selectedColor, 0.2)
+					uni.getElementById(this.tabs[i].id!)?.style?.setProperty('background-color', color)
+	
+					// 透明度
+					uni.getElementById(`${this.myId}-name-${i}`)?.style?.setProperty('opacity', 1)
+				} else {
+					// 塌缩
+					uni.getElementById(this.tabs[i].id!)?.style?.setProperty('width', `${cwidth}rpx`)
+	
+					// 背景色
+					uni.getElementById(this.tabs[i].id!)?.style?.setProperty('background-color', 'transparent')
+	
+					// 透明度
+					uni.getElementById(`${this.myId}-name-${i}`)?.style?.setProperty('opacity', 0)
+				}
+			}
+	
+			anim(_new, true)
+	
+			for (let i = 0; i < this.tabs.length; i++) {
+				if (i == _new) {
+					continue
+				}
+	
+				anim(i, false)
+			}
+		},
+		/**
+		 * 水滴动效
+		 */
+		waterAnim(_old : number, _new : number) {
+			// 宽高
+			let w = uni.getSystemInfoSync().screenWidth / this.data.length
+			let width = w * 0.7
+			let height = 12
+			let _height = height
+			
+			// 居左
+			let left = (w - width) / 2
+			
+			// 起点
+			let startX = w * _old + left
+			
+			// 终点
+			let endX = w * _new + left
+			
+			// 水滴
+			let dropStart = height - 10
+			let dropHeight = 35
+			let dropEnd = dropStart + dropHeight
+			let dropStep = 2
+			let radius = 5
+			
+			// 前进 后退
+			let forward = startX < endX
+			
+			// 步长
+			let step = 5 * Math.abs(_new - _old)
+			
+			let moveAnim = (drop : boolean) : void => { }
+			moveAnim = (drop : boolean) : void => {
+				// 百分比
+				let per = forward ? (startX / endX) : (endX / startX)
+				per = per < 0.3 ? 0.3 : (per > 1 ? 1 : per)
+			
+				// 清除绘制
+				this.drawer!.reset()
+			
+				// 开始绘制
+				this.drawer!.beginPath()
+			
+				// 水滴缓冲动效
+				if (drop) {
+					let dp = 1 - (dropEnd - dropStart) / dropHeight
+					height = dp < 0.5 ? _height * (1 + dp) : _height * dp
+			
+					if (height < _height) {
+						height = _height
+					}
+				}
+			
+				// 左边弧
+				// 起点
+				let l_s1 = startX
+				let l_s2 = 0
+			
+				// 控制点1
+				let l_c1_x = width / 2 * (2 / 3)
+				let l_c1_y = height * (1 / 5)
+				let l_c1_1 = l_s1 + l_c1_x
+				let l_c1_2 = l_s2 + l_c1_y
+			
+				// 控制点2
+				let l_c2_x = width / 2 * (4 / 5)
+				let l_c2_y = height
+				let l_c2_1 = l_s1 + l_c2_x
+				let l_c2_2 = l_s2 + l_c2_y
+			
+				// 终点
+				let l_e1 = l_s1 + width / 2
+				let l_e2 = height
+			
+				this.drawer!.moveTo(l_s1, l_s2)
+				this.drawer!.bezierCurveTo(l_c1_1, l_c1_2, l_c2_1, l_c2_2, l_e1, l_e2)
+			
+				// 右边弧
+				// 起点是上一个终点
+			
+				// 控制点1
+				let r_c1_1 = startX + width - l_c2_x
+				let r_c1_2 = l_c2_2
+			
+				// 控制点2
+				let r_c2_1 = startX + width - l_c1_x
+				let r_c2_2 = l_c1_2
+			
+				// 终点
+				let r_e1 = startX + width
+				let r_e2 = 0
+			
+				this.drawer!.bezierCurveTo(r_c1_1, r_c1_2, r_c2_1, r_c2_2, r_e1, r_e2)
+			
+				// 结束绘制
+				this.drawer!.closePath()
+			
+				// 填充
+				this.drawer!.fillStyle = $ux.Color.hexToRgba(this.tabs[_new].selectedColor!, per)
+				this.drawer!.fill()
+			
+				// 水滴动效
+				if (drop) {
+					let dp = (dropEnd - dropStart) / dropHeight
+					dp = dp < 0 ? 0 : dp
+			
+					let dx = startX + (width / 2) - radius
+					let dy = dropStart
+			
+					// 开始绘制
+					this.drawer!.beginPath()
+			
+					// 中点
+					this.drawer!.moveTo(dx, dy)
+			
+					// 水滴
+					this.drawer!.arc(dx + radius, dy + radius, radius, 0, Math.PI * 2, false)
+			
+					// 结束绘制
+					this.drawer!.closePath()
+			
+					// 填充
+					this.drawer!.fillStyle = $ux.Color.hexToRgba(this.tabs[_new].selectedColor!, dp)
+					this.drawer!.fill()
+				}
+			
+				// 更新
+				this.drawer!.update()
+			
+				// 模拟动画
+				if (forward) {
+					if (startX < endX) {
+						// 右移
+						setTimeout(() => {
+							moveAnim(false)
+						}, 0)
+			
+						startX += step
+			
+						if (endX - startX < step) {
+							startX = endX
+						}
+					} else {
+						// 开始水滴动效
+						if (dropStart < dropEnd) {
+							setTimeout(() => {
+								moveAnim(true)
+							}, 0)
+						}
+			
+						dropStart += dropStep
+					}
+				} else {
+					if (startX > endX) {
+						// 左移
+						setTimeout(() => {
+							moveAnim(false)
+						}, 0)
+			
+						startX -= step
+			
+						if (startX - endX < step) {
+							startX = endX
+						}
+					} else {
+						// 开始水滴动效
+						if (dropStart < dropEnd) {
+							setTimeout(() => {
+								moveAnim(true)
+							}, 0)
+						}
+			
+						dropStart += dropStep
+					}
+				}
+			}
+			
+			moveAnim(false)
+		},
+		/**
+		 * 点击态
+		 */
+		touchstart(i : number) {
+			if (!this.hover) {
+				return
+			}
+	
+			if (this.isPress) {
+				return
+			}
+	
+			this.timer = new Date().getTime()
+			this.isPress = true
+	
+			this.hoverAnim(`${this.myId}-hover-${i}`, true)
+		},
+		touchend(i : number) {
+			let offset = new Date().getTime() - this.timer
+	
+			if (offset < 110) {
+				setTimeout(() => {
+					this.isPress = false
+	
+					this.hoverAnim(`${this.myId}-hover-${i}`, false)
+				}, 110 - offset)
+			} else {
+				this.isPress = false
+	
+				this.hoverAnim(`${this.myId}-hover-${i}`, false)
+			}
+		},
+		ctouchstart() {
+			if (!this.hover) {
+				return
+			}
+	
+			if (this.isPress) {
+				return
+			}
+	
+			this.timer = new Date().getTime()
+			this.isPress = true
+	
+			this.hoverAnim(`${this.myId}-hover-c`, true)
+		},
+		ctouchend() {
+			let offset = new Date().getTime() - this.timer
+	
+			if (offset < 110) {
+				setTimeout(() => {
+					this.isPress = false
+	
+					this.hoverAnim(`${this.myId}-hover-c`, false)
+				}, 110 - offset)
+			} else {
+				this.isPress = false
+	
+				this.hoverAnim(`${this.myId}-hover-c`, false)
+			}
+		},
+		hoverAnim(id : string, show : boolean) {
+			uni.getElementById(id)?.style?.setProperty('opacity', show ? 0.1 : 0)
+			uni.getElementById(id)?.style?.setProperty('transform', show ? 'scale(1)' : 'scale(0)')
+		},
+	}
+})

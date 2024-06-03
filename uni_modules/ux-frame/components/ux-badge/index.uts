@@ -1,0 +1,218 @@
+import { $ux } from '../../index.uts'
+
+export const UxBadgeMixin = defineMixin({
+	data() {
+		return {
+			
+		}
+	},
+	props: {
+		// 类型
+		type: {
+			type: String,
+			default: 'error'
+		},
+		// 角标数量
+		value: {
+			type: Number,
+			default: 0
+		},
+		// 最大数量
+		max: {
+			type: Number,
+			default: 99
+		},
+		// 超出显示样式
+		overflow: {
+			type: String,
+			default: 'normal'
+		},
+		// 形状
+		shape: {
+			type: String,
+			default: 'normal'
+		},
+		// 显示红点
+		dot: {
+			type: Boolean,
+			default: false
+		},
+		// 反转色
+		inverted: {
+			type: Boolean,
+			default: false
+		},
+		// 固定定位
+		fixed: {
+			type: Boolean,
+			default: true
+		},
+		// 距上
+		top: {
+			type: Number,
+			default: 0
+		},
+		// 距右
+		right: {
+			type: Number,
+			default: 0
+		},
+		// 距左
+		left: {
+			type: Number,
+			default: 0
+		},
+		// 距下
+		bottom: {
+			type: Number,
+			default: 0
+		},
+		// 背景颜色
+		background: {
+			type: String,
+			default: ''
+		},
+		// 字体大小
+		size: {
+			type: Number,
+			default: 10
+		},
+		// 自定义样式
+		xstyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		}
+	},
+	computed: {
+		_color(): string {
+			if(this.inverted) {
+				if (this.type == 'primary') {
+					return $ux.theme.primary!
+				} else if (this.type == 'success') {
+					return $ux.theme.success!
+				} else if (this.type == 'warn') {
+					return $ux.theme.warn!
+				} else if (this.type == 'error') {
+					return $ux.theme.error!
+				}
+			}
+			
+			return '#ffffff'
+		},
+		_background(): string {
+			if(this.inverted) {
+				return 'transparent'
+			}
+			
+			if(this.background != '') {
+				return this.background
+			}
+			
+			if (this.type == 'primary') {
+				return $ux.theme.primary!
+			} else if (this.type == 'success') {
+				return $ux.theme.success!
+			} else if (this.type == 'warn') {
+				return $ux.theme.warn!
+			} else if (this.type == 'error') {
+				return $ux.theme.error!
+			}
+			
+			return 'transparent'
+		},
+		style() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('background-color', this._background)
+			
+			if (this.fixed) {
+				css.set('position', 'absolute')
+				
+				if (this.top != 0) {
+					css.set('top', $ux.Util.addUnit(this.top))
+				}
+				if (this.right != 0) {
+					css.set('right', $ux.Util.addUnit(this.right))
+				}
+				if (this.bottom != 0) {
+					css.set('bottom', $ux.Util.addUnit(this.bottom))
+				}
+				if (this.left != 0) {
+					css.set('left', $ux.Util.addUnit(this.left))
+				}
+			} else {
+				if (this.top != 0) {
+					css.set('margin-top', $ux.Util.addUnit(this.top))
+				}
+				if (this.right != 0) {
+					css.set('margin-right', $ux.Util.addUnit(this.right))
+				}
+				if (this.bottom != 0) {
+					css.set('margin-bottom', $ux.Util.addUnit(this.bottom))
+				}
+				if (this.left != 0) {
+					css.set('margin-left', $ux.Util.addUnit(this.left))
+				}
+			}
+			
+			if(this.dot) {
+				css.set('width', $ux.Util.addUnit(8))
+				css.set('height', $ux.Util.addUnit(8))
+				css.set('border-radius', $ux.Util.addUnit(15))
+			} else {
+				css.set('padding', '2px 6px')
+				
+				if(this.shape == 'lt') {
+					css.set('border-radius', '2px 10px 10px 10px')
+				} else if(this.shape == 'rt') {
+					css.set('border-radius', '10px 2px 10px 10px')
+				} else if(this.shape == 'rb') {
+					css.set('border-radius', '10px 10px 2px 10px')
+				} else if(this.shape == 'lb') {
+					css.set('border-radius', '10px 10px 10px 2px')
+				} else if(this.shape == 'ltrb') {
+					css.set('border-radius', '2px 10px 2px 10px')
+				} else if(this.shape == 'rtlb') {
+					css.set('border-radius', '10px 2px 10px 2px')
+				} else {
+					css.set('border-radius', '15px')
+				}
+			}
+	
+			return css
+		},
+		textStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('font-size', $ux.Util.addUnit(this.size))
+			css.set('color', this._color)
+			
+			return css
+		},
+		_value(): string {
+			
+			if(this.value == 0) {
+				return ''
+			}
+			
+			if(this.overflow == 'format') {
+				if(this.value > 9999) {
+					return `${Math.floor(this.value / 1e4 * 100) / 100}w`
+				} else if(this.value > 999) {
+					return `${Math.floor(this.value / 1e3 * 100) / 100}k`
+				} else if(this.value > this.max) {
+					return `${this.max}+`
+				}
+			} else {
+				if(this.value > this.max) {
+					return `${this.max}+`
+				}
+			}
+			
+			return `${this.value}`
+		}
+	},
+	methods: {
+		
+	},
+})

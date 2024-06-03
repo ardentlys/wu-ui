@@ -1,0 +1,250 @@
+
+import { ComponentPublicInstance } from 'vue'
+import { Core } from '../core/core.uts'
+
+/**
+   @Name    :	工具
+   @Author  :   UxFrame
+   @Date    :   2023-10-09 11:20:22
+*/
+
+export default class useUtil {
+	
+	core: Core
+	
+	constructor(core: Core) {
+		this.core = core
+	}
+	
+	/**
+	 * rpx To px
+	 */
+	rpx2px(value : number) : number {
+	  // #ifdef APP
+	  return UTSAndroid.rpx2px(value)
+	  // #endif
+	  // #ifdef WEB
+	  // @ts-ignore
+	  return parseFloat(uni.rpx2px(value + 'rpx'))
+	  // #endif
+	}
+	
+	/**
+	 * 获取 px 值
+	 * @param {string|number} value 值
+	 */
+	getPx(value: any): number {
+		let _value = value.toString().toLowerCase()
+		
+		// % 按屏幕宽取值
+		if(_value.indexOf('%') != -1) {
+			try{
+				return uni.getSystemInfoSync().windowWidth * (parseFloat(_value.replace('%','')) / 100)
+			}catch(e){}
+		}
+		
+		if(this.core.Verify.isNumber(_value)) {
+			return parseFloat(_value)
+		}
+		
+		// 如果带有rpx，先取出其数值部分，再转为px值
+		if (/(rpx|upx)$/.test(_value)) {
+			try{
+				let n = parseInt(_value.replace(/rpx/g, '').replace(/upx/g, ''))
+				return this.rpx2px(n)
+			}catch(e){}
+		}
+		
+		// px 取值
+		return parseFloat(_value.replace('px', ''))
+	}
+	
+	/**
+	 * 格式化单位 px
+	 * @param {string|number} value 需要添加单位的值
+	 * @param {string} unit 添加的单位名 比如px
+	 */
+	addUnit(value: any, unit: string = this.core.unit): string {
+		let _value = value.toString().toLowerCase()
+		
+		if(_value.indexOf('%') != -1) {
+			return _value
+		}
+		
+		if(this.core.Verify.isNumber(_value)) {
+			return `${_value}${unit}`
+		}
+		
+		// 如果带有rpx，先取出其数值部分，再转为px值
+		if (/(rpx|upx)$/.test(_value)) {
+			try{
+				let n = parseInt(_value.replace(/rpx/g, '').replace(/upx/g, ''))
+				return `${this.rpx2px(n)}${unit}`
+			}catch(e){}
+		}
+		
+		// % 和 px 不处理
+		return _value
+	}
+	
+	/**
+	 * 查找父级或平级指定元素
+	 * @param {ComponentPublicInstance} context 实例
+	 * @param {Array} refs 查询对象ref名称
+	 */
+	$findEl(context : ComponentPublicInstance, refs: string[]): Element | null {
+		if(context.$parent != null) {
+			for (let index = 0; index < refs.length; index++) {
+				let name = refs[index]
+				
+				// 查找父级
+				if(context.$parent!.$refs[name] != null) {
+					return context.$parent!.$refs[name] as Element
+				} else {
+					// 查找平级
+					for (let i = 0; i < context.$parent!.$children.length; i++) {
+						let child = context.$parent!.$children[i]
+						
+						if(child.$refs[name] != null) {
+							return child.$refs[name] as Element
+						}
+					}
+				}
+			}
+		}
+		
+		return null
+	}
+	
+	/**
+	 * 查找父组件实例 执行操作
+	 * @param {ComponentPublicInstance} context 实例
+	 * @param {String} componentName 组件名
+	 * @param {String} eventName 事件名
+	 * @param {Array} params 参数
+	 */
+	$dispatch(
+		context : ComponentPublicInstance,
+		componentName : string,
+		eventName : string,
+		...params : any[]
+	) {
+		let parent = context.$parent
+		let name = parent?.$options?.name
+		while (parent != null && (name == null || componentName != name)) {
+			parent = parent.$parent
+			if (parent != null) {
+				name = parent.$options.name
+			}
+		}
+		
+		if (parent != null) {
+			parent.$callMethod(eventName, ...params)
+		}
+	}
+	
+	
+	timer = 0
+	flag = false
+	
+	/**
+	 * 节流：在一定时间内，只能触发一次
+	 *
+	 * @param {Function} func 要执行的回调函数
+	 * @param {Number} wait 延时的时间
+	 */
+	throttle = (func : () => void, wait : number) : void => {
+		if (wait <= 0) {
+			if (!this.flag) {
+				this.flag = true
+				// 如果是立即执行，则在wait毫秒内开始时执行
+				func()
+				this.timer = setTimeout(() => {
+					this.flag = false
+				}, wait)
+			}
+		} else if (!this.flag) {
+			this.flag = true
+			// 如果是非立即执行，则在wait毫秒内的结束处执行
+			this.timer = setTimeout(() => {
+				this.flag = false
+				func()
+			}, wait)
+		}
+	}
+	
+	/**
+	 * 防抖：一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
+	 *
+	 * @param {Function} func 要执行的回调函数
+	 * @param {Number} wait 延时的时间
+	 */
+	debounce = (func : () => void, wait : number) : void => {
+		// 清除定时器
+		clearTimeout(this.timer)
+	
+		// 立即执行
+		if (wait <= 0) {
+			func()
+		} else {
+			// 延时wait毫秒后执行func回调方法
+			this.timer = setTimeout(() => {
+				func()
+			}, wait)
+		}
+	}
+	
+	// @UTSAndroid.keyword("inline")
+	// @UTSAndroid.keyword('reified')
+	// getStorage<T>(key : string) : T | null {
+	//     const s = uni.getStorageSync(key) as UTSJSONObject | null;
+	//     if (s != null) {
+	//         return JSON.parse<T>(JSON.stringify(s));
+	//     }
+	//     return null;
+	// }
+	
+	/** 
+	 * 公共样式
+	 * 
+	 * @returns {Map<string, any | null>}
+	 */
+	xStyle(css: Map<string, any | null>, margin: any[], mt: number, mr: number, mb: number, ml: number, padding: any[], pt: number, pr: number, pb: number, pl: number) : Map<string, any | null> {
+	
+		if(margin.length > 0) {
+			css.set('margin', margin.map((n: any):string => this.addUnit(n)).join(' '))
+		} else {
+			if(mt != 0) {
+				css.set('margin-top', this.addUnit(mt))
+			}
+			if(mr != 0) {
+				css.set('margin-right', this.addUnit(mr))
+			}
+			if(mb != 0) {
+				css.set('margin-bottom', this.addUnit(mb))
+			}
+			if(ml != 0) {
+				css.set('margin-left', this.addUnit(ml))
+			}
+		}
+		
+		if(padding.length > 0) {
+			css.set('padding', padding.map((n: any):string => this.addUnit(n)).join(' '))
+		} else {
+			if(pt != 0) {
+				css.set('padding-top', this.addUnit(pt))
+			}
+			if(pr != 0) {
+				css.set('padding-right', this.addUnit(pr))
+			}
+			if(pb != 0) {
+				css.set('padding-bottom', this.addUnit(pb))
+			}
+			if(pl != 0) {
+				css.set('padding-left', this.addUnit(pl))
+			}
+		}
+		
+		return css
+	}
+}

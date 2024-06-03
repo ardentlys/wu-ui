@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>svg</title>
+	</head>
+	<body>
+		<script type="text/javascript" src="./js/uni.webview.1.5.5.js"></script>
+		<script type="text/javascript">
+			
+			function svg(svg) {
+				alert(svg)
+				const src = `data:image/svg+xml;base64,${window.btoa(unescape(encodeURIComponent(svg)))}`
+				const img = new Image()
+				img.src = src;
+				img.onload = () => {
+					const canvas = document.createElement('canvas')
+					canvas.width = img.width
+					canvas.height = img.height
+					
+					const context = canvas.getContext('2d')
+					context.drawImage(img, 0, 0)
+					
+					const base64 = canvas.toDataURL('image/png')
+					
+					uni.webView.postMessage({data: {svg: base64}})
+				};
+			}
+		</script>
+	</body>
+</html>

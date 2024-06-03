@@ -1,0 +1,32 @@
+/**
+ * UxFrame
+ * @author UxFrame
+ * @date 2023-12-03 12:30:22
+ */
+
+import {Core} from './libs/core/core.uts'
+
+/**
+ * 导出组件类型
+ */
+export * from './libs/types/types.uts'
+
+/**
+ * 导出图表类型
+ */
+export * from './libs/types/chart.uts'
+
+/**
+ * 导出颜色类型
+ */
+export * from './libs/types/color.uts'
+
+/**
+ * 导出核心类
+ */
+export const $ux = new Core()
+
+export const install = (): Core => {
+	return $ux
+}
+

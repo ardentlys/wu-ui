@@ -1,0 +1,71 @@
+import { $ux } from '../../index.uts'
+
+export const UxGridMixin = defineMixin({
+	data() {
+		return {
+			myId: `ux-grid-${$ux.Random.uuid()}`,
+			width: 0,
+			nodes: [] as Array<UxGridItemComponentPublicInstance>,
+		}
+	},
+	props: {
+		col: {
+			type: Number,
+			default: 3
+		},
+		border: {
+			type: Boolean,
+			default: false
+		},
+		align: {
+			type: String,
+			default: 'left'
+		},
+		background: {
+			type: String,
+			default: 'transparent'
+		}
+	},
+	computed: {
+		style() : string {
+			switch (this.align) {
+				case 'left':
+					return `justify-content: flex-start;background-color: ${this.background};`
+				case 'center':
+					return `justify-content: center;background-color: ${this.background};`
+				case 'right':
+					return `justify-content: flex-end;background-color: ${this.background};`
+				default:
+					return `justify-content: flex-start;background-color: ${this.background};`
+			}
+		},
+		parentData() : UTSJSONObject {
+			return {
+				width: this.width,
+				col: this.col,
+				border: this.border,
+			} as UTSJSONObject
+		},
+	},
+	watch: {
+		parentData() {
+			this.setData()
+		},
+	},
+	mounted() {
+		uni.createSelectorQuery().in(this).select(`#${this.myId}`).boundingClientRect((rect) => {
+			this.width = (rect as NodeInfo).width as number
+		}).exec()
+	},
+	methods: {
+		register(child : UxGridItemComponentPublicInstance) {
+			this.nodes.push(child)
+			child.setData(this.parentData)
+		},
+		setData() {
+			this.nodes.forEach((child : UxGridItemComponentPublicInstance) => {
+				child.setData(this.parentData)
+			})
+		}
+	}
+})

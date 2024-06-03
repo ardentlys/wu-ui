@@ -33,10 +33,10 @@ export default {
 			type: String,
 			default: '#3c9cff'
 		},
-		// 日历中每一项日期的高度(默认64),单位px
+		// 日历中每一项日期的高度(默认70),单位px
 		itemHeight: {
 			type: Number,
-			default: 64
+			default: 70
 		},
 		// 取消文字的颜色
 		cancelColor: {
@@ -137,6 +137,24 @@ export default {
 		disabledChoice: {
 			type: Boolean,
 			default: false
+		},
+		// 弹窗日历取消和确认按钮的显示位置
+		operationPosition: {
+			type: String,
+			default: 'top',
+			validator(value) {
+				return ['top', 'bottom'].includes(value)
+			}
+		},
+		// 弹窗日历点击确认时是否需要选择完整日期
+		confirmFullDate: {
+			type: Boolean,
+			default: false
+		},
+		// 当通过 `selected` 属性设置某个日期 `badgeColor`后，如果该日期被选择且主题色与 `badgeColor` 一致时，徽标会显示本颜色
+		actBadgeColor: {
+			type: String,
+			default: '#fff'
 		},
 		...uni.$w?.props?.calendar
 	}

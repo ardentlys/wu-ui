@@ -1,0 +1,312 @@
+
+export const UxPopupMixin = defineMixin({
+	emits: ['change'],
+	data() {
+		return {
+			opened: false,
+			show: false,
+			// 弹窗
+			top: 0,
+			left: 0,
+			height: 0,
+			// 箭头
+			arrowTop: 0,
+			arrowLeft: 0,
+			arrowWidth: 12,
+			arrowHeight: 8,
+			arrowPosition: '', // right left top bottom
+			// 动画方向
+			origin: 'right top',
+			// 屏幕宽高
+			sw: uni.getSystemInfoSync().screenWidth as number,
+			sh: uni.getSystemInfoSync().screenHeight as number,
+		}
+	},
+	props: {
+		// 目标id
+		targetId: {
+			type: String,
+			default: ''
+		},
+		// 宽度
+		width: {
+			type: Number,
+			default: 150
+		},
+		// 偏移
+		offset: {
+			type: Number,
+			default: 10
+		},
+		// 与目标水平对齐
+		align: {
+			type: Boolean,
+			default: false,
+		},
+		// 背景色
+		backgroundColor: {
+			type: String,
+			default: '#000000'
+		},
+		// 背景色透明度
+		opacity: {
+			type: Number,
+			default: 0.5
+		},
+		// 层级z-index
+		zIndex: {
+			type: Number,
+			default: 10001
+		},
+	},
+	computed: {
+		id() : string {
+			return `ux-popup__${this.targetId}`
+		},
+		style() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('z-index', this.zIndex + 1)
+			
+			if (this.arrowPosition == 'top' || this.arrowPosition == 'bottom') {
+				css.set('width', `${this.width}px`)
+				css.set('height', `${this.height + this.arrowHeight}px`)
+			} else {
+				css.set('width', `${this.width + this.arrowWidth}px`)
+				css.set('height', `${this.height}px`)
+			}
+	
+			css.set('top', `${this.top}px`)
+			css.set('left', `${this.left}px`)
+			css.set('transform-origin', this.origin)
+			
+			return css
+		},
+		slotStyle() : any | null {
+			let css = new Map<string, any | null>()
+	
+			css.set('width', `${this.width}px`)
+			css.set('height', `${this.height}px`)
+			css.set('background-color', this.backgroundColor)
+			
+			return css
+		},
+		arrowStyle() : any | null {
+			let css = new Map<string, any | null>()
+	
+			if (this.arrowPosition == 'top' || this.arrowPosition == 'bottom') {
+				css.set('width', `${this.arrowWidth}px`)
+				css.set('height', `${this.arrowHeight}px`)
+			} else {
+				css.set('width', `${this.arrowHeight}px`)
+				css.set('height', `${this.arrowWidth}px`)
+			}
+	
+			if (this.arrowPosition == 'top') {
+				css.set('margin-left', `${this.arrowLeft}px`)
+			} else if (this.arrowPosition == 'right') {
+				css.set('margin-top', `${this.arrowTop}px`)
+			} else if (this.arrowPosition == 'bottom') {
+				css.set('margin-left', `${this.arrowLeft}px`)
+			} else if (this.arrowPosition == 'left') {
+				css.set('margin-top', `${this.arrowTop}px`)
+			}
+	
+			return css
+		}
+	},
+	mounted() {
+	
+	},
+	methods: {
+		/**
+		 * 打开
+		 */
+		open() {
+			let ref = uni.getElementById(this.targetId)
+	
+			if (ref == null) {
+				console.error(`[ux-popup]配置错误: targetId[${this.targetId}]未找到`)
+				return
+			}
+	
+			this.opened = true
+			setTimeout(() => {
+				// 计算位置
+				this.calcPos()
+	
+				// 动效
+				this.animTo(true)
+			}, 40)
+		},
+		/**
+		 * 关闭
+		 */
+		close() {
+			this.animTo(false)
+		},
+		// 计算位置
+		calcPos() {
+			// target 坐标
+			let el = uni.getElementById(this.targetId) as Element
+			console.log(el);
+			let rect = el.getBoundingClientRect()
+			let top = rect.top as number
+			let left = rect.left as number
+			let width = rect.width as number
+			let height = rect.height as number
+	
+			// 高度
+			let _el = this.$refs['slot'] as Element
+			let _height = 0
+			_el.childNodes.forEach((e : Element) => {
+				_height += e.getBoundingClientRect().height
+			})
+	
+			if (_height > this.sh * (3 / 5)) {
+				_height = this.sh * (3 / 5)
+			}
+	
+			this.height = _height
+	
+			// 相对中点位置方向
+			let isLeft = left + width / 2 < this.sw / 2
+			let isTop = top + height / 2 < this.sh / 2
+	
+			// 水平对齐
+			if (this.align) {
+				if (isLeft) {
+					// left = 目标left + 目标宽度 + 偏移
+					this.left = left + width + this.offset
+				} else {
+					// left = 目标left - 偏移 - 本身宽
+					this.left = left - this.offset - this.width
+				}
+	
+				if (isTop) {
+					// top = 目标top
+					this.top = top
+	
+					// 箭头top
+					this.arrowTop = 8
+				} else { // 相对目标下方向
+					// top = 目标top + 目标高度 - 偏移 - 本身高度
+					this.top = top + height - this.offset - this.height
+	
+					// 箭头top
+					this.arrowTop = this.height - this.arrowWidth - 8
+				}
+	
+				// 箭头方向
+				this.arrowPosition = isLeft ? 'left' : 'right'
+	
+				// 动画方向
+				this.origin = `${isLeft ? 'left' : 'right'} ${isTop ? 'bottom' : 'top'}`
+			} else {
+				if (isLeft) {
+					// left = 目标left
+					this.left = left
+	
+					// 越界处理
+					if (this.left < this.offset) {
+						this.left = this.offset
+					}
+				} else {
+					// left = 目标left + 目标宽度 - 本身宽度
+					this.left = left + width - this.width
+	
+					// 越界处理
+					if (this.left + this.width + this.offset > this.sw) {
+						this.left = this.sw - this.offset - this.width
+					}
+				}
+	
+				if (isTop) {
+					// top = 目标top + 目标高 + 偏移
+					this.top = top + height + this.offset
+				} else {
+					// top = 目标top - 偏移 - 本身高度
+					this.top = top - this.offset - this.height
+				}
+	
+				// 箭头left
+				this.arrowLeft = isLeft ? 8 : (this.width - this.arrowWidth - 8)
+	
+				// 箭头
+				this.arrowPosition = isTop ? 'top' : 'bottom'
+	
+				// 动画方向
+				this.origin = `${isLeft ? 'left' : 'right'} ${isTop ? 'top' : 'bottom'}`
+			}
+		},
+		// 绘制箭头
+		darwArrow() {
+			// #ifdef APP
+			let ctx = (this.$refs['arrow'] as Element).getDrawableContext()
+			ctx!.beginPath()
+				
+			if (this.arrowPosition == 'top') {
+				ctx!.moveTo(0, this.arrowHeight)
+				ctx!.lineTo(this.arrowWidth, this.arrowHeight)
+				ctx!.lineTo(this.arrowWidth / 2, 0)
+				ctx!.lineTo(0, this.arrowHeight)
+			} else if (this.arrowPosition == 'bottom') {
+				ctx!.moveTo(0, 0)
+				ctx!.lineTo(this.arrowWidth, 0)
+				ctx!.lineTo(this.arrowWidth / 2, this.arrowHeight)
+				ctx!.lineTo(0, 0)
+			} else if (this.arrowPosition == 'right') {
+				ctx!.moveTo(0, 0)
+				ctx!.lineTo(0, this.arrowWidth)
+				ctx!.lineTo(this.arrowHeight, this.arrowWidth / 2)
+				ctx!.lineTo(0, 0)
+			} else if (this.arrowPosition == 'left') {
+				ctx!.moveTo(this.arrowHeight, 0)
+				ctx!.lineTo(this.arrowHeight, this.arrowWidth)
+				ctx!.lineTo(0, this.arrowWidth / 2)
+				ctx!.lineTo(this.arrowHeight, 0)
+			}
+				
+			ctx!.closePath()
+			ctx!.fillStyle = this.backgroundColor
+			ctx!.fill()
+			ctx!.update()
+			// #endif
+		},
+		/**
+		 * 动效
+		 */
+		animTo(open : boolean) {
+			if (uni.getElementById(this.id) == null) {
+				return
+			}
+	
+			let el = uni.getElementById(this.id) as Element
+	
+			if (open) {
+				this.show = true
+				this.$emit('change', this.show)
+	
+				setTimeout(() => {
+					// 绘制箭头
+					this.darwArrow()
+	
+					// 动效
+					el?.style?.setProperty('opacity', 1)
+					el?.style?.setProperty('transform', 'scale(1)')
+				}, 50)
+			} else {
+				// 动效
+				el?.style?.setProperty('opacity', 0)
+				el?.style?.setProperty('transform', 'scale(0.9)')
+	
+				setTimeout(() => {
+					this.show = false
+					this.opened = false
+					this.arrowPosition = ''
+					this.$emit('change', this.show)
+				}, 120)
+			}
+		},
+	}
+})

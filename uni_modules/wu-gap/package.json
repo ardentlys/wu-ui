@@ -1,7 +1,7 @@
 {
   "id": "wu-gap",
   "displayName": "wu-gap 间隔槽，全端兼容，无论平台，一致体验。",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "该组件一般用于内容块之间的用一个灰色块隔开的场景，方便用户风格统一，减少工作量",
   "keywords": [
     "wu-ui",
@@ -42,7 +42,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

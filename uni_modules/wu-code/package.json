@@ -1,7 +1,7 @@
 {
   "id": "wu-code",
   "displayName": "wu-code 嵌入式验证码倒计时，全端兼容，无论平台，一致体验。",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "考虑到用户实际发送验证码的场景，可能是一个按钮，也可能是一段文字，提示语各有不同，所以本组件 不提供界面显示，只提供提示语，由用户将提示语嵌入到具体的场景",
   "keywords": [
     "wu-ui",
@@ -42,7 +42,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

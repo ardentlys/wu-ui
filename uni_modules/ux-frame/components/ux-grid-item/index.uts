@@ -1,0 +1,54 @@
+import { $ux } from '../../index.uts'
+
+export const UxGridItemMixin = defineMixin({
+	data() {
+		return {
+			parentWidth: 0,
+			col: 3,
+			border: false,
+		};
+	},
+	computed: {
+		width(): number {
+			return this.parentWidth / this.col
+		},
+		style(): any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('width', `${this.width}px`)
+			css.set('height', `${this.width * (3 / 4)}px`)
+			
+			if(this.border) {
+				let nodes = this.$parent?.$data!['nodes'] as UxGridItemComponentPublicInstance[]
+				nodes.map((child: UxGridItemComponentPublicInstance, index: number) =>{
+					if(this == child) {
+						const len = nodes.length
+						
+						// 贴近右边屏幕边沿的child，并且最后一个（比如只有横向2个的时候），无需右边框
+						if((index + 1) % this.col != 0 && index + 1 != len) {
+							css.set('border-right', `1rpx solid ${$ux.theme.border}`)
+						}
+						
+						// 最下面的一排child，无需下边框
+						const lessNum = len % this.col == 0 ? this.col : len % this.col
+						if(index < len - lessNum) {
+							css.set('border-bottom', `1rpx solid ${$ux.theme.border}`)
+						}
+					}
+				})
+			}
+			
+			return css
+		},
+	},
+	mounted() {
+		$ux.Util.$dispatch(this as UxGridItemComponentPublicInstance, 'ux-grid', 'register', this as UxGridItemComponentPublicInstance)
+	},
+	methods: {
+		setData(data: UTSJSONObject) {
+			this.parentWidth = data.getNumber('width') ?? 0
+			this.col = data.getNumber('col') ?? 3
+			this.border = data.getBoolean('border') ?? false
+		}
+	}
+})

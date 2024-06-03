@@ -1,0 +1,61 @@
+<template>
+	<view class="ux-loading">
+		<!-- #ifdef APP -->
+		<view ref="ux-loading" class="ux-loading__icon" :style="[style]"></view>
+		<!-- #endif -->
+		<!-- #ifndef APP -->
+		<view ref="ux-loading" class="ux-loading__icon" :style="[style]"></view>
+		<!-- #endif -->
+		<text class="ux-loading__text" v-if="$slots['default'] != null" :style="[textStyle]">
+			<slot></slot>
+		</text>
+	</view>
+</template>
+
+<script lang="uts">
+	import { UxLoadingMixin } from './index.uts'
+	
+	/**
+	 * loading 加载
+	 * @description 加载中动画组件
+	 * @tutorial https://www.uxframe.cn/component/display/loading.html
+	 * @property {String} 			type = [circular|spinner] 	String | loading类型 (默认 spinner)
+	 * @value circular 圆环
+	 * @value spinner 菊花
+	 * @property {String}			color						String | loading颜色 (默认 #999999)
+	 * @property {Number}			size						Number | loading大小 (默认 16)
+	 * @property {String} 			textColor 					String | 文案颜色
+	 * @property {Number} 			textSize 					Number | 文案字体大小  (默认 12)
+	 * @property {Boolean}			bold = [true|false]			Boolean | 文字加粗 (默认 false)
+	 * @author UxFrame
+	 * @date 2023-11-04 01:38:10
+	 */
+	export default {
+		name: 'ux-loading',
+		mixins: [UxLoadingMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-loading {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		&__icon {
+			width: 20px;
+			height: 20px;
+		}
+
+		&__img {
+			width: 20px;
+			height: 20px;
+		}
+
+		&__text {
+			margin-left: 8px;
+			color: #999999;
+			font-size: 12px;
+		}
+	}
+</style>

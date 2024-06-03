@@ -1,39 +1,23 @@
-<script setup>
-
-</script>
-
 <template>
-	<!-- flex布局 -->
-	<view class="main">
-		<!-- 日历 -->
-		<view class="content">
-			<view>
-				<wu-calendar :insert="true" :fold="true" type="week" startWeek="mon" color="#22c55e" :itemHeight="60"
-					:showMonth="false" mode="multiple" @change="calendarChange"></wu-calendar>
-			</view>
-		</view>
+	<view class="index">
+		<wu-calendar ref="calendar" mode="multiple" :useToday="false" confirmFullDate @confirm="calendarConfirm" @monthSwitch="monthSwitch" :insert="false"></wu-calendar>
+		<button @click="open">打开日历</button>
 	</view>
 </template>
 
-<style>
-	.main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		background-color: #f5f5f5;
-		height: 100vh;
-		overflow: auto;
+<script>
+	export default {
+		methods: {
+			calendarConfirm(e) {
+				console.log(e);
+			},
+			monthSwitch(e) {
+				console.log(e)
+			},
+            // 打开日历
+            open() {
+                this.$refs.calendar.open();
+            }
+		}
 	}
-
-	.content {
-		background-color: #fff;
-		margin-top: 20rpx;
-		margin-bottom: 20rpx;
-		padding: 30rpx;
-		border-radius: 10rpx;
-		margin-left: auto;
-		margin-right: auto;
-		width: 640rpx;
-	}
-
-</style>
+</script>

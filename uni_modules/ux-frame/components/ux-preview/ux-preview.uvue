@@ -1,0 +1,477 @@
+<template>
+	<view v-if="show" class="ux-preview" @click="close">
+		<view ref="mask" class="ux-preview__mask transform"></view>
+		<swiper class="ux-preview__swiper"
+				:current="index"
+				indicator-color="gray"
+				indicator-active-color="white"
+				:indicator-dots="true"
+				:autoplay="false"
+				:duration="0"
+				:disable-touch="urls[index].disableTouch"
+				@touchstart="touchstart"
+				@touchmove="touchmove"
+				@touchend="touchend"
+				@change="change">
+			<swiper-item ref="item" class="ux-preview__swiper__item" v-for="(e, i) in urls" :key="i">
+				<view :ref="`img-${i}`" class="ux-preview__swiper__img transform">
+					<image class="ux-preview__swiper__img--source" :src="e.url" mode="widthFix"></image>
+				</view>
+			</swiper-item>
+		</swiper>
+	</view>
+</template>
+
+<script>
+	import { UXPreview } from '../../libs/types/types.uts'
+
+	type UxRect = {
+		top : number,
+		left : number,
+		width : number,
+		height : number,
+		radius : number
+	}
+
+	type ImgItem = {
+		id : string,
+		url : string,
+		left : number,
+		top : number,
+		width : number,
+		height : number,
+		scale : number,
+		distance : number,
+		disableTouch: boolean,
+		init: boolean,
+	}
+
+	/**
+	 * 图片预览
+	 * @description 支持hero动画，下滑关闭，缩放，移动效果
+	 * @tutorial https://www.uxframe.cn/component/basic/preview.html
+	 * @property {Number}			duration 			Number | 动画时间的 单位ms (默认 300)
+	 * @property {Number}			minScale 			Number | 最小缩放值 (默认 1)
+	 * @property {Number} 			maxScale 			Number | 最大缩放值 (默认 3)
+	 * @property {Boolean} 			radius 				Boolean | 最大缩放值 (默认 3)
+	 * @event {Function}			error				Function | 图片加载失败时触发
+	 * @event {Function} 			load 				Function | 图片加载成功时触发
+	 * @event {Function} 			click 				Function | 被点击时触发
+	 * @event {Function} 			longpress 			Function | 长按时触发
+	 * @author UxFrame
+	 * @date 2023-01-15 22:11:42
+	 */
+	export default {
+		name: 'ux-preview',
+		emits: ['click', 'longpress', 'load', 'error'],
+		data() {
+			return {
+				show: false,
+				isLoading: true,
+				isError: true,
+
+				urls: [] as ImgItem[],
+				index: 0,
+				opts: {
+					current: ''
+				} as UXPreview,
+
+				currentRect: {
+					top: 0,
+					left: 0,
+					width: 0,
+					height: 0,
+					radius: 0,
+				} as UxRect,
+
+				transitionProperty: 'opacity, transform, width, height, left, top',
+			}
+		},
+		props: {
+			duration: {
+				type: Number,
+				default: 300
+			},
+			minScale: {
+				type: Number,
+				default: 1
+			},
+			maxScale: {
+				type: Number,
+				default: 3
+			},
+			radius: {
+				type: Boolean,
+				default: false,
+			},
+		},
+		computed: {
+
+		},
+		methods: {
+			preview(opts : UXPreview) {
+				this.opts = opts
+
+				let urls = [] as string[]
+				if (this.opts.urls == null || this.opts.urls!.length == 0) {
+					urls = [this.opts.current]
+				} else {
+					urls = this.opts.urls!
+				}
+
+				this.urls = [] as ImgItem[]
+				urls.forEach((url : string) => {
+					this.urls.push({
+						id: '',
+						url: url,
+						top: 0,
+						left: 0,
+						width: 0,
+						height: 0,
+						scale: 1,
+						distance: 0,
+						disableTouch: false,
+					} as ImgItem)
+				})
+
+				this.index = this.urls.findIndex((e : ImgItem) : boolean => e.url == this.opts.current)
+
+				this.show = true
+
+				setTimeout(() => {
+					this.init();
+					this.showMask(true)
+					
+					setTimeout(() => {
+						this.showCurrent()
+					}, 50)
+
+					this.opts.success?.invoke()
+				}, 250);
+			},
+			init() {
+				this.urls.forEach((_ : ImgItem, i : number) => {
+					if (this.$refs[`img-${i}`] == null) {
+						return
+					}
+
+					let node = (this.$refs[`img-${i}`] as any[])[0] as Element
+					let top = uni.getSystemInfoSync().screenHeight / 2 - node.getBoundingClientRect().height / 2
+					
+					node.style?.setProperty('top', `${top}px`)
+					node.style?.setProperty('opacity', this.index == i ? 0 : 1)
+				})
+			},
+			currentNode() : Element | null {
+				if (this.opts.currentId == null) {
+					return null
+				}
+
+				return uni.getElementById(this.opts.currentId!)
+			},
+			targetNode() : Element | null {
+				if (this.$refs[`img-${this.index}`] == null) {
+					return null
+				}
+
+				return (this.$refs[`img-${this.index}`] as any[])[0] as Element
+			},
+			getTargetRect() : DOMRect | null {
+				let targetNode = this.targetNode()
+				if (targetNode == null) {
+					return null
+				}
+
+				return targetNode?.getBoundingClientRect()
+			},
+			setDefault() {
+				let current = this.currentNode()
+				if (current == null) {
+					return
+				}
+				
+				let radius: any = current?.style?.getPropertyValue('border-radius') ?? 0
+
+				let rect = current?.getBoundingClientRect()
+				this.currentRect = {
+					top: rect?.top!,
+					left: rect?.left!,
+					width: rect?.width!,
+					height: rect?.height!,
+					radius: this.$ux.Util.getPx(radius) 
+				} as UxRect
+
+				let target = this.targetNode()
+				if (target == null) {
+					return
+				}
+
+				target?.style?.removeProperty('transition-property')
+				target?.style?.setProperty('position', 'fixed')
+				target?.style?.setProperty('width', this.currentRect.width)
+				target?.style?.setProperty('height', this.currentRect.height)
+				target?.style?.setProperty('top', this.currentRect.top)
+				target?.style?.setProperty('left', this.currentRect.left)
+				target?.style?.setProperty('border-radius', this.currentRect.radius)
+				target?.style?.setProperty('background-color', 'transparent')
+				target?.style?.setProperty('opacity', 0)
+
+				// 前后节点
+
+			},
+			showCurrent() {
+				let targetRect = this.getTargetRect()
+
+				if (targetRect == null) {
+					return
+				}
+
+				this.setDefault()
+
+				setTimeout(() => {
+					let target = this.targetNode()
+					if (target == null) {
+						return
+					}
+
+					let imgH = targetRect?.height!
+					let top = uni.getSystemInfoSync().screenHeight / 2 - imgH / 2
+					
+					this.uptRadius(true)
+					target?.style?.setProperty('transition-property', this.transitionProperty)
+					target?.style?.setProperty('transition-duration', `${this.duration}ms`)
+					target?.style?.setProperty('width', targetRect?.width)
+					target?.style?.setProperty('height', targetRect?.height)
+					target?.style?.setProperty('top', top)
+					target?.style?.setProperty('left', targetRect?.left)
+					target?.style?.setProperty('opacity', 1)
+
+					setTimeout(() => {
+						target?.style?.setProperty('position', 'absolute')
+					}, this.duration);
+				}, 100);
+			},
+			hideCurrent() {
+				let target = this.targetNode()
+				if (target == null) {
+					return
+				}
+
+				this.uptRadius(false)
+				target?.style?.setProperty('top', this.currentRect.top)
+				target?.style?.setProperty('left', this.currentRect.left)
+				target?.style?.setProperty('width', this.currentRect.width)
+				target?.style?.setProperty('height', this.currentRect.height)
+			},
+			uptRadius(show : boolean) {
+				let node = this.targetNode()
+				if (node == null) {
+					return
+				}
+				
+				let currentRadius = this.currentRect.radius
+
+				if (currentRadius == 0) {
+					return
+				}
+				
+				if(show || !show) {
+					node?.style?.setProperty('border-radius', show ? 0 : currentRadius)
+					return
+				}
+				
+				let target = show ? currentRadius : 0
+
+				let step = show ? 10 : 5
+
+				let f = () : void => { }
+				f = () : void => {
+					if (show) {
+						if (target <= 0) {
+							return
+						}
+
+						target -= step
+
+						if (target < 0) {
+							target = 0
+						}
+					} else {
+						if (target >= currentRadius) {
+							return
+						}
+
+						target += step
+
+						if (target > currentRadius) {
+							target = currentRadius
+						}
+					}
+
+					node?.style?.setProperty('border-radius', target)
+
+					setTimeout(() => {
+						f()
+					}, 30)
+				}
+
+				f()
+
+			},
+			showMask(show : boolean) {
+				if (this.$refs['mask'] == null) {
+					return
+				}
+
+				let mask = this.$refs['mask'] as Element
+
+				mask.style?.setProperty('transition-duration', `${this.duration}ms`)
+				mask.style?.setProperty('opacity', show ? 1 : 0)
+			},
+			close(e : MouseEvent) {
+				this.hideCurrent()
+				this.showMask(false)
+
+				setTimeout(() => {
+					this.show = false
+					this.opts.close?.invoke()
+				}, this.duration + 20);
+
+				e.stopPropagation()
+			},
+			change(e: SwiperChangeEvent) {
+				this.index = e.detail.current
+			},
+			touchstart(e : TouchEvent) {
+				let target = this.targetNode()
+				if (target == null) {
+					return
+				}
+				
+				if (e.touches.length == 2) {
+					const [touch1, touch2] = e.touches
+					
+					this.urls[this.index].distance = Math.hypot(
+						touch1.clientX - touch2.clientX,
+						touch1.clientY - touch2.clientY
+					)
+				} else if (e.touches.length == 1) {
+					const [touch1] = e.touches
+					
+					this.urls[this.index].left = touch1.clientX
+					this.urls[this.index].top = touch1.clientY
+				}
+				
+				target?.style?.setProperty('transform-origin', 'center')
+				target?.style?.setProperty('transition-duration', '0ms')
+			},
+			touchmove(e : TouchEvent) {
+				let target = this.targetNode()
+				if (target == null) {
+					return
+				}
+				
+				if (e.changedTouches.length == 2) {
+					const [touch1, touch2] = e.changedTouches
+					
+					const currentDistance = Math.hypot(
+						touch1.clientX - touch2.clientX,
+						touch1.clientY - touch2.clientY
+					)
+					
+					const scale = (currentDistance / this.urls[this.index].distance) * this.urls[this.index].scale
+					const newScale = Math.max(
+						Math.min(scale, this.maxScale),
+						this.minScale
+					);
+
+					this.urls[this.index].scale = newScale
+					target?.style?.setProperty('transform', `scale(${this.urls[this.index].scale})`)
+					
+					e.preventDefault();
+				} else if (e.changedTouches.length == 1) {
+					const [touch1] = e.changedTouches
+					
+					this.urls[this.index].left += touch1.clientX - this.urls[this.index].left
+					this.urls[this.index].top += touch1.clientY - this.urls[this.index].top
+					
+					console.log(this.urls[this.index].left, this.urls[this.index].top);
+					
+					target?.style?.setProperty('left', `${this.urls[this.index].left}px`)
+					target?.style?.setProperty('top', `${this.urls[this.index].top}px`)
+					
+					e.preventDefault();
+				}
+			},
+			touchend(e : TouchEvent) {
+				this.urls[this.index].disableTouch = this.urls[this.index].scale != 1
+				
+				let target = this.targetNode()
+				if (target != null) {
+					target?.style?.setProperty('transform-origin', 'left top')
+					target?.style?.setProperty('transition-duration', `${this.duration}ms`)
+				}
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.ux-preview {
+		position: fixed;
+		z-index: 10000000;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+
+		&__mask {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 0;
+			background-color: #000000;
+		}
+
+		&__swiper {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+
+			&__item {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+			}
+
+			&__img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				opacity: 0;
+				width: 100%;
+
+				&--source {
+					width: 100%;
+				}
+			}
+		}
+
+		&__item {
+			position: fixed;
+			z-index: 10000001;
+		}
+	}
+
+	.transform {
+		transform-origin: left top;
+		transition-timing-function: linear;
+		transition-duration: 0s;
+	}
+</style>

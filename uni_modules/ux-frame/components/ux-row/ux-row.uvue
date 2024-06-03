@@ -1,0 +1,51 @@
+<template>
+	<view class="ux-row" :style="style" @click="onClick">
+		<slot />
+	</view>
+</template>
+
+<script>
+	import { UxRowMixin } from './index.uts'
+	
+	/**
+	 * Row 水平布局
+	 * @tutorial https://www.uxframe.cn/component/basic/row.html
+	 * @property {Number}		gutter			Number | 栅格间隔 (默认 0 )
+	 * @property {String}		justify = [left|right|center|around|between]	String | 水平排列方式  (默认 left ) 
+	 * @value left 左对齐
+	 * @value right 右对齐
+	 * @value center 居中
+	 * @value around 间隔相等
+	 * @value between 两端对齐
+	 * @property {String}		align = [top|center|bottom|stretch]				String | 垂直对齐方式  (默认 center )
+	 * @value top 上对齐
+	 * @value center 居中
+	 * @value bottom 下对齐
+	 * @value stretch 填充
+	 * @property {Array}		margin			Array | 边距 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}		mt				Number | 距上 单位px
+	 * @property {Number}		mr				Number | 距右 单位px
+	 * @property {Number}		mb				Number | 距下 单位px
+	 * @property {Number}		ml				Number | 距左 单位px
+	 * @property {Array}		padding			Array | 填充 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}		pt				Number | 上内边距 单位px
+	 * @property {Number}		pr				Number | 右内边距 单位px
+	 * @property {Number}		pb				Number | 下内边距 单位px
+	 * @property {Number}		pl				Number | 左内边距 单位px
+	 * @property {Array}		xstyle			Array<any> | 自定义样式
+	 * @event {Function}		click			Number | 被点击时触发
+	 * @author UxFrame
+	 * @date 2023-10-25 15:20:35
+	 */
+	export default {
+		name: 'ux-row',
+		mixins: [UxRowMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-row {
+		display: flex;
+		flex-direction: row;
+	}
+</style>

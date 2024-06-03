@@ -1,0 +1,73 @@
+import { $ux } from '../../index.uts'
+import { xstyleMixin } from '../../libs/mixins/xstyle.uts'
+
+export const UxRowMixin = defineMixin({
+	emits: ['click'],
+	mixins: [xstyleMixin],
+	data() {
+		return {
+	
+		}
+	},
+	props: {
+		// 栅格间隔
+		gutter: {
+			type: Number,
+			default: 0
+		},
+		// 水平排列方式
+		justify: {
+			type: String,
+			default: 'start'
+		},
+		// 垂直对齐方式
+		align: {
+			type: String,
+			default: 'center'
+		},
+	},
+	computed: {
+		_justify() : string {
+			if (this.justify == 'left' || this.justify == 'start') {
+				return 'flex-start'
+			} else if (this.justify == 'right' || this.justify == 'end') {
+				return 'flex-end'
+			} else if (this.justify == 'around' || this.justify == 'between') {
+				return `space-${this.justify}`
+			}
+		
+			return this.justify
+		},
+		_alignItem() : string {
+			if (this.align == 'top' || this.align == 'start') {
+				return 'flex-start'
+			} else if (this.align == 'bottom' || this.align == 'end') {
+				return 'flex-end'
+			} else if (this.align == 'around' || this.align == 'between') {
+				return `space-${this.align}`
+			}
+			
+			return this.align
+		},
+		style() : any[] {
+			let css = new Map<string, any | null>()
+			
+			css.set('justify-content', this._justify)
+			css.set('align-items', this._alignItem)
+			
+			css = $ux.Util.xStyle(css, this.margin, this.mt, this.mr, this.mb, this.ml, this.padding, this.pt, this.pr, this.pb, this.pl)
+			
+			if(this.gutter > 0) {
+				css.set('padding-left', `${-this.gutter/2}px`)
+				css.set('padding-right', `${-this.gutter/2}px`)
+			}
+			
+			return [css, this.xstyle]
+		}
+	},
+	methods: {
+		onClick(e: MouseEvent) {
+			this.$emit('click', e)
+		}
+	}
+})

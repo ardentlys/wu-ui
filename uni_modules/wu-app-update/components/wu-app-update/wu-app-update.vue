@@ -97,19 +97,12 @@
 	 * @property {Number} intervalAlertUserUpdateDay 提示用户更新的间隔时间 单位day(默认: 7)。
 	 * @example 
 	 */
-
-	import uniPopup from '../uni-popup/components/uni-popup/uni-popup.vue';
-	import uniIcons from '../uni-icons/components/uni-icons/uni-icons.vue';
 	import config from '../../config.js';
 	import checkVersion from '../../js-sdk/checkVersion.js';
 
 	export default {
-		name: 'geekAppUpdata',
+		name: 'wuAppUpdata',
 		props: config.props,
-		components: {
-			uniPopup,
-			uniIcons
-		},
 		data() {
 			return {
 				// 更新的版本号
@@ -117,7 +110,7 @@
 				// 系统环境
 				platform: '',
 				// 下载链接
-				url: '',
+				downloadUrl: '',
 				// 跳转的应用市场列表
 				storeList: [],
 				// 是否wgt资源包
@@ -267,7 +260,7 @@
 						// 系统环境
 						this.platform = res.appPlatform;
 						// 网络下载地址
-						this.url = res.url;
+						this.downloadUrl = res.url;
 						// 跳转的应用市场列表
 						this.storeList = res.store_list || [];
 						// 更新内容 
@@ -286,8 +279,8 @@
 							this.downloadSuccess = true;
 							this.installForBeforeFilePath = appDownLoadTempFilePath;
 						} else {
-							uni.clearStorageSync('appDownLoadTempFilePath');
-							uni.clearStorageSync('appDownLoadTempFilePathVersion');
+							uni.removeStorageSync('appDownLoadTempFilePath');
+							uni.removeStorageSync('appDownLoadTempFilePathVersion');
 						}
 
 						// 打开更新提示
@@ -302,7 +295,7 @@
 					this.downloading = true;
 
 					//下载包
-					this.downloadTask = plus.downloader.createDownload(this.url, {}, (download, status) => {
+					this.downloadTask = plus.downloader.createDownload(this.downloadUrl, {}, (download, status) => {
 						if (status == 200) {
 							this.downloadSuccess = true;
 							this.tempFilePath = download.filename;
@@ -392,7 +385,7 @@
 			// 跳转appstore
 			jumpToAppStore() {
 				// 请填入appid
-				plus.runtime.openURL(this.url);
+				plus.runtime.openURL(this.downloadUrl);
 			},
 			// 更新用户拒绝时间
 			updataUserRefuseTime() {

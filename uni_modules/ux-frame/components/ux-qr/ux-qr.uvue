@@ -1,0 +1,78 @@
+<template>
+	<view ref="ux-qr" class="ux-qr" :style="style">
+		<web-view class="web-view" :style="webviewStyle" id="web-view" :src="src" :progress="false" @message="onMessage"
+			@error="onError" @load="onLoad" @loading="onLoading"></web-view>
+		<view v-if="img != '' && loadOK" class="ux-qr__img">
+			<ux-image :src="img" :xstyle="[imgStyle]"></ux-image>
+		</view>
+		<view v-if="showLoading && isLoading" class="ux-qr__loading">
+			<ux-loading>{{ loadingText }}</ux-loading>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { UxQrMixin } from './index.uts'
+	
+	/**
+	 * 二维码
+	 * @description 二维码组件
+	 * @tutorial https://www.uxframe.cn/component/display/qrcode.html
+	 * @property {String}		text  				String | 二维码内容
+	 * @property {Number}		size  				Number | 二维码尺寸 (默认 150)
+	 * @property {String}		background  		String | 背景色 (默认 #fff)
+	 * @property {String}		foreground  		String | 前景色 (默认 #000)
+	 * @property {String}		img  				String | 二维码图标
+	 * @property {Number}		imgSize  			Number | 二维码图标尺寸 (默认 45)
+	 * @property {Number}		border  			Number | 边框 (默认 4)
+	 * @property {Boolean}		showLoading=[true|false]  Boolean | 显示加载 (默认 true)
+	 * @property {String}		loadingText  		String | 加载文案 (默认 加载中...)
+	 * @property {Number}		delay  				Number | 延迟生成 单位ms (默认 0)
+	 * @event {Function}		click				Function | 被点击时触发
+	 * @event {Function}		change				Function | 调用make生成二维码时触发
+	 * @author UxFrame
+	 * @date 2023-11-04 01:40:45
+	 */
+	export default {
+		name: 'ux-qr',
+		mixins: [UxQrMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-qr {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: white;
+
+		.web-view {
+			width: 100%;
+			height: 100%;
+		}
+
+		&__img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		&__loading {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+</style>

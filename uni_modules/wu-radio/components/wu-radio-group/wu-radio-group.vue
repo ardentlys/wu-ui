@@ -15,7 +15,7 @@
 	/**
 	 * radioRroup 单选框父组件
 	 * @description 单选框用于有一个选择，用户只能选择其中一个的场景。搭配wu-radio使用
-	 * @tutorial https://wu.geeks.ink/components/radio.html
+	 * @tutorial https://wuui.cn/components/radio.html
 	 * @property {String | Number | Boolean}	value 			绑定的值
 	 * @property {String | Number | Boolean} 	modelValue		绑定的值
 	 * @property {Boolean}						disabled		是否禁用所有radio（默认 false ）

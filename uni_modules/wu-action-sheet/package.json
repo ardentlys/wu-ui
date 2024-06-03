@@ -1,7 +1,7 @@
 {
   "id": "wu-action-sheet",
   "displayName": "wu-action-sheet 操作菜单，全端兼容，无论平台，一致体验",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "wu-action-sheet 本组件用于从底部弹出一个操作菜单，供用户选择并返回结果。",
   "keywords": [
     "wu-ui",
@@ -46,7 +46,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

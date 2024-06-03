@@ -1,0 +1,139 @@
+<template>
+	<text v-if="isFont" class="ux-icon" :style="[style, xstyle]" @click="onClick">
+		{{ icon }}
+	</text>
+	<image v-else class="ux-icon" :style="[imgStyle]" :src="icon"></image>
+</template>
+
+<script>
+	import { UxIconMixin } from './index.uts'
+	
+	/**
+	 * 字体图标
+	 * @description 基于字体的图标集，包含了大多数常见场景的图标
+	 * @tutorial https://www.uxframe.cn/component/basic/icon.html
+	 * @property {String}			type = [happy|wink|wink2|unhappy|sleep|thumbsup|devil|surprised|tongue|coffee|sunglasses|displeased|grin|angry|saint|cry|shoot|squint|laugh|triangledown|trianglerup|triangleleft|triangleright|arrowleft|arrowright|arrowup|arrowdown|arrow2left|arrow2right|arrow2up|arrow2down|down|left|right|up|wechat|reply|forward|pencil|code|share|volumeup|backintime|paperplane|brush|megaphone|refresh|volumedown|thumbsdown|useradd|users|user|heart|heartempty|star|starempty|select|cancel|plus|minus|link|info|help|camera|picture|location|basket|trash|flag|tag|search|music|cloudthunder|signal|chartbar|chartpie|starhalf|phone|chat|paste|bell|mic|mute|more|morevert|bug|wifi|belloff|chartarea|eye|eyeoff|setting|toggleon|toggleoff|home|layout|crop|female|male|checkempty|check|scan]			String | 字体类型
+	 * @value happy				开心
+	 * @value wink				左眨眼
+	 * @value wink2				右眨眼
+	 * @value unhappy			不开心
+	 * @value sleep				睡觉
+	 * @value devil				恶魔
+	 * @value surprised 		惊喜
+	 * @value tongue			吐舌头
+	 * @value coffee			咖啡
+	 * @value sunglasses		太阳镜
+	 * @value displeased		诅丧
+	 * @value grin				咧嘴笑
+	 * @value angry				生气
+	 * @value saint				天使
+	 * @value cry				哭泣
+	 * @value shoot				射击
+	 * @value squint			斜视
+	 * @value laugh				笑
+	 * @value happy				开心
+	 * @value thumbsup			点赞
+	 * @value thumbsdown		踩
+	 * @value triangledown		下三角
+	 * @value trianglerup		上三角
+	 * @value triangleleft		左三角
+	 * @value triangleright		右三角
+	 * @value arrowleft			左箭头
+	 * @value arrowright		右箭头
+	 * @value arrowup			上箭头
+	 * @value arrowdown			下箭头
+	 * @value arrow2left		左双箭头
+	 * @value arrow2right		右双箭头
+	 * @value arrow2up			上双箭头
+	 * @value arrow2down		下双箭头
+	 * @value down				下
+	 * @value left				左
+	 * @value right				右
+	 * @value up				上
+	 * @value wechat			微信	
+	 * @value reply				撤销
+	 * @value forward			前进
+	 * @value pencil			铅笔
+	 * @value code				代码
+	 * @value share				分享
+	 * @value volumeup			音量+
+	 * @value volumedown		音量-
+	 * @value backintime		倒计时
+	 * @value paperplane		纸飞机
+	 * @value brush				笔刷
+	 * @value megaphone			扩音器
+	 * @value refresh			刷新
+	 * @value useradd			添加用户
+	 * @value users				用户列表
+	 * @value user				用户
+	 * @value heart				实心
+	 * @value heartempty		空心
+	 * @value star				五角星
+	 * @value starempty			空五角星
+	 * @value select			选择
+	 * @value cancel			取消
+	 * @value plus				加
+	 * @value minus				减
+	 * @value link				链接
+	 * @value info				信息
+	 * @value help				帮助
+	 * @value camera			相机
+	 * @value picture			相册
+	 * @value location			定位
+	 * @value basket			购物车
+	 * @value trash				垃圾桶
+	 * @value flag				标志
+	 * @value tag				标签
+	 * @value search			搜索
+	 * @value music				音乐
+	 * @value cloudthunder		云
+	 * @value signal			信号
+	 * @value chartbar			柱状图
+	 * @value chartpie			饼图
+	 * @value starhalf			一半五角星
+	 * @value phone				手机
+	 * @value chat				聊天
+	 * @value paste				黏贴
+	 * @value bell				铃声开
+	 * @value belloff			铃声关
+	 * @value eye				眼睛
+	 * @value eyeoff			闭眼
+	 * @value mic				话筒
+	 * @value mute				静音
+	 * @value more				更多
+	 * @value morevert			更多竖向
+	 * @value bug				虫子
+	 * @value wifi				无线网
+	 * @value chartarea			面积统计
+	 * @value setting			设置
+	 * @value toggleon			开关打开
+	 * @value toggleoff			开关关闭
+	 * @value layout			布局
+	 * @value female			女士
+	 * @value male				男士
+	 * @value crop				裁剪
+	 * @value home				主页
+	 * @value checkempty		未勾选
+	 * @value check				勾选
+	 * @value scan				扫一扫
+	 * @property {String}			color					String | 字体颜色 (默认 #333333)
+	 * @property {Number}			size					Number | 字体大小 (默认 14)
+	 * @property {String}			customFont				String | 网络字体路径 或 自定义字体路径
+	 * @property {String}			customFamily			String | 自定义字体family
+	 * @property {Array}			xstyle					Array<any> | 自定义样式
+	 * @event {Function}			click					Function | 文字被点击时触发
+	 * @author UxFrame
+	 * @date 2023-10-03 00:58:22
+	 */
+	export default {
+		name: 'ux-icon',
+		mixins: [UxIconMixin]
+	}
+</script>
+
+<style lang="scss">
+	
+	.ux-icon {
+		
+	}
+</style>

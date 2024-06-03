@@ -1,0 +1,100 @@
+
+import {useColor} from '../use/useColor.uts'
+import useDate from '../use/useDate.uts'
+import useFmt from '../use/useFmt.uts'
+import useObj from '../use/useObj.uts'
+import useRandom from '../use/useRandom.uts'
+import useVerify from '../use/useVerify.uts'
+import useUtil from '../use/useUtil.uts'
+import useCanvas from '../use/useCanvas.uts'
+import useSocket from '../use/useSocket.uts'
+import {SetTheme, UxTheme} from './theme.uts'
+
+/**
+* 全局主题
+*/
+let theme = reactive({} as UxTheme)
+
+/**
+ * UxFrame Core
+ */
+export class Core {
+	
+	/**
+	 * 开启debug打印
+	 */
+	debugLog: boolean = true
+	
+	/**
+	 * 默认单位
+	 */
+	unit: string = 'px'
+	
+	/**
+	 * 主题
+	 */
+	theme = theme
+	
+	/**
+	 * 颜色转换函数
+	 */
+	Color = new useColor(this)
+	
+	/**
+	 * 日期处理函数
+	 */
+	Date = new useDate(this)
+	
+	/**
+	 * Canvas画布绘制函数
+	 */
+	Canvas = new useCanvas(this)
+	
+	/**
+	 * Socket函数
+	 */
+	Socket = new useSocket(this)
+	
+	/**
+	 * 格式化函数
+	 */
+	Fmt = new useFmt(this)
+	
+	/**
+	 * 对象操作函数
+	 */
+	Obj = new useObj(this)
+	
+	/**
+	 * 随机数函数
+	 */
+	Random = new useRandom(this)
+	
+	/**
+	 * 校验函数
+	 */
+	Verify = new useVerify(this)
+	
+	/**
+	 * 常用工具函数
+	 */
+	Util = new useUtil(this)
+	
+	constructor() {
+		
+		// 默认主题、字体大小、边距
+		SetTheme(theme, null)
+		
+		if(this.debugLog) {
+			// console.log('[UxFrame] 感谢使用UxFrameUI框架！如有任何问题可以访问我们的官网[https://www.uxframe.cn]进行反馈！配置[debugLog=false]可关闭此日志。');
+		}
+	}
+	
+	/**
+	 * 设置主题、字体大小、边距
+	 * @param {UxTheme} conf 主题配置
+	 */
+	setThemes(conf : UxTheme) {
+		SetTheme(theme, conf)
+	}
+}

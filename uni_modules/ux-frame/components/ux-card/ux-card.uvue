@@ -1,0 +1,105 @@
+<template>
+	<view class="ux-card" :style="[style, xstyle]">
+		<view class="ux-card__body" :style="[bodyStyle]">
+			<view v-if="title != ''" class="ux-card__body__title" :style="titlePadding">
+				<view v-if="icon != ''" class="ux-card__body__title--icon">
+					<ux-icon :type="icon" :size="iconSize" :color="iconColor" :xstyle="[iconStyle]"></ux-icon>
+				</view>
+				<text class="ux-card__body__title--text" :style="[_titleStyle, titleStyle]">{{ title }}</text>
+				<text v-if="summary != ''" class="ux-card__body__title--summary" :style="[_summaryStyle, summaryStyle]">{{ summary }}</text>
+			</view>
+			
+			<view class="ux-card__body__row" :style="rowPadding">
+				<slot></slot>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { UxCardMixin } from './index.uts'
+	
+	/**
+	 * Card 卡片
+	 * @description 卡片
+	 * @tutorial https://www.uxframe.cn/component/layout/card.html
+	 * @property {String}			title						String | 标题
+	 * @property {Number}			size						Number | 标题大小 (默认 14)
+	 * @property {String}			color						String | 标题颜色 (默认 $ux.theme.main)
+	 * @property {Boolean}			bold = [true|false]			Boolean | 标题加粗 (默认 false)
+	 * @property {String}			titleStyle					String | 标题样式
+	 * @property {String}			summary						String | 描述文本
+	 * @property {String}			summaryColor				String | 描述文本颜色 (默认 $ux.theme.summary)
+	 * @property {Number}			summarySize					Number | 描述文本大小 (默认 10)
+	 * @property {String}			summaryStyle				String | 描述文本样式
+	 * @property {String}			icon						String | 标题图标
+	 * @property {String}			iconColor					String | 标题图标颜色 (默认 $ux.theme.main)
+	 * @property {Number}			iconSize					Number | 标题图标大小 (默认 15)
+	 * @property {String}			iconStyle					String | 标题图标样式
+	 * @property {String}			customFont					String | 自定义字体路径
+	 * @property {String}			customFamily				String | 自定义字体family
+	 * @property {String}			background					String | 背景色 (默认 #fff)
+	 * @property {Boolean}			shadow = [true|false]		Boolean | 显示阴影 (默认 false )
+	 * @property {Boolean}			border = [true|false]		Boolean | 显示边框 (默认 false )
+	 * @property {String}			borderColor					String | 边框颜色  (默认 $ux.theme.border )
+	 * @property {Number}			padding						Number | 内部水平边距 (默认 0)
+	 * @property {Array}			margin						Number | 边距 (默认 15)
+	 * @property {Array}			xstyle						Array<any> | 自定义样式
+	 * @author UxFrame
+	 * @date 2023-12-31 07:39:25
+	 */
+	export default {
+		name: 'ux-card',
+		mixins: [UxCardMixin],
+	}
+</script>
+
+<style lang="scss">
+
+	.ux-card {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		
+		&__body {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
+			
+			&__title {
+				width: 100%;
+				margin-bottom: 18px;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+				
+				&--icon {
+					margin-right: 10px;
+				}
+				
+				&--text {
+					color: #333333;
+					font-size: 14px;
+				}
+				
+				&--summary {
+					color: gray;
+					font-size: 10px;
+					margin-left: 5px;
+				}
+			}
+			
+			&__row {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				flex-wrap: wrap;
+			}
+		}
+	}
+</style>

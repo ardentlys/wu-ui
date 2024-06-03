@@ -96,7 +96,7 @@
 	export default {
 		data() {
 			return {
-				src: 'https://wu.geeks.ink/1.jpeg',
+				src: 'https://wuui.cn/1.jpeg',
 				src1:''
 			}
 		},

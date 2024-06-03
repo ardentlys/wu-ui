@@ -6,8 +6,8 @@
 		<!-- 月或周日历 -->
 		<view class="wu-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
 			<view class="wu-calendar__weeks-item" v-for="(weeks, weeksIndex) in item" :key="weeksIndex" :style="[weekItemStyle]">
-				<wu-calendar-item class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
-					:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
+				<wu-calendar-item v-if="!monthShowCurrentMonth || !weeks.empty" class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
+					:selected="selected" :lunar="lunar" @change="choiceDate" :color="color" :actBadgeColor="actBadgeColor"
 					:startText="startText" :endText="endText" :itemHeight="itemHeight - defaultMargin"></wu-calendar-item>
 			</view>
 		</view>
@@ -44,7 +44,7 @@
 			weekItemStyle() {
 				let weeksLength = Object.keys(this.weeks).length;
 				let calendarHeight = this.FoldStatus === 'open' ? this.itemHeight * 6 : this.itemHeight;
-				let margin = this.weeks[weeksLength - 1][0].empty ? this.itemHeight / (weeksLength - 1) + this.defaultMargin  : this.defaultMargin
+				let margin = weeksLength && this.weeks[weeksLength - 1][0].empty ? this.itemHeight / (weeksLength - 1) + this.defaultMargin  : this.defaultMargin
 				return {
 					marginTop: margin / 2 + 'px',
 					marginBottom: margin / 2 + 'px',

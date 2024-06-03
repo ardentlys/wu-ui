@@ -1,0 +1,170 @@
+import { UXSignature } from "../types/types.uts";
+
+type Point = {
+	x: number
+	y: number
+	c?: string
+	w?: number
+	time ?: number
+	dis ?: number
+}
+
+type Line = Point[]
+
+let points : Line = []
+let undoStack : Line[] = [];
+let redoStack : Line[] = [];
+let lastX = 0;
+let lastY = 0;
+
+export class Signature {
+	el : Element
+	_options : UXSignature = {
+		size: 2,
+		color: 'black',
+		minWidth: 2,
+		maxWidth: 6,
+		minSpeed: 1.5,
+		maxHistory: 20,
+		disableScroll: true,
+		disabled: false,
+	} as UXSignature
+	ctx : DrawableContext
+	isEmpty : boolean = true
+	isDrawing : boolean = false
+	touchstartWrapper: UniCallbackWrapper
+	touchmoveWrapper: UniCallbackWrapper
+	touchendWrapper: UniCallbackWrapper
+	
+	constructor(el : Element) {
+		this.el = el
+		this.ctx = el.getDrawableContext() as DrawableContext
+		
+		this.touchstartWrapper = this.el.addEventListener('touchstart', this.onTouchStart)
+		this.touchmoveWrapper = this.el.addEventListener('touchmove', this.onTouchMove)
+		this.touchendWrapper = this.el.addEventListener('touchend', this.onTouchEnd)
+	}
+	destroyed() {
+		this.el.removeEventListener('touchstart', this.touchstartWrapper)
+		this.el.removeEventListener('touchmove', this.touchmoveWrapper)
+		this.el.removeEventListener('touchend', this.touchendWrapper)
+	}
+	setOptions(options : UXSignature) {
+		this._options = options
+	}
+	disableScroll(e :  UniTouchEvent) {
+		e.stopPropagation()
+		if (this._options.disableScroll) {
+			e.preventDefault()
+		}
+	}
+	getLineWidth():number {
+		let	n = this._options.minSpeed
+		let	o = this._options.minWidth
+		let	a = this._options.maxWidth
+		
+		return Math.min(Math.max(a - (a - o) * 0.2 / Math.max(Math.min(n, 10), 1), o), a)
+	}
+	getTouchPoint(e :  UniTouchEvent) : Point {
+		const rect = this.el.getBoundingClientRect()
+		const touche = e.touches[0];
+		const x = touche.clientX
+		const y = touche.clientY
+		return {
+			x: x - rect.left,
+			y: y - rect.top
+		} as Point
+	}
+	onTouchStart: (e :  UniTouchEvent) => void = (e :  UniTouchEvent) =>{
+		if (this._options.disabled) {
+			return
+		}
+		this.disableScroll(e)
+		const { x, y } = this.getTouchPoint(e)
+		this.isDrawing = true;
+		this.isEmpty = false
+		lastX = x
+		lastY = y
+		points.push({ x, y } as Point);
+	}
+	onTouchMove: (e :  UniTouchEvent) => void = (e :  UniTouchEvent) =>{
+		if (this._options.disabled || !this.isDrawing) {
+			return
+		}
+		this.disableScroll(e)
+		const { x, y } = this.getTouchPoint(e)
+		const lineWidth = this._options.size
+		const strokeStyle = this._options.color
+		const point = { x, y } as Point
+		const last = { x: lastX, y: lastY } as Point
+		this.drawLine(point, last, lineWidth, strokeStyle)
+
+		lastX = x
+		lastY = y
+		points.push({ x, y, c: strokeStyle, w: lineWidth } as Point);
+	}
+	onTouchEnd: (e :  UniTouchEvent) => void = (e :  UniTouchEvent) =>{
+		this.disableScroll(e)
+		this.isDrawing = false;
+		undoStack.push(points);
+		redoStack = [] as Line[];
+		points = [] as Point[];
+	}
+	drawLine(point : Point, last : Point, lineWidth : number, strokeStyle : string) {
+		const ctx = this.ctx
+		ctx.lineWidth = lineWidth
+		ctx.strokeStyle = strokeStyle
+		ctx.lineCap = 'round'
+		ctx.lineJoin = 'round'
+		ctx.beginPath()
+		ctx.moveTo(last.x, last.y)
+		ctx.lineTo(point.x, point.y)
+		ctx.stroke()
+		ctx.update()
+	}
+	clear() {
+		this.ctx.reset()
+		this.ctx.update()
+		this.isEmpty = true
+		undoStack = [] as Line[];
+		redoStack = [] as Line[];
+		points = [] as Point[];
+	}
+	undo() {
+		if(redoStack.length == this._options.maxHistory && this._options.maxHistory != 0){
+			return
+		}
+		this.ctx.reset()
+		if(undoStack.length > 0){
+			const lastPath : Line = undoStack.pop()!;
+			redoStack.push(lastPath);
+			if(undoStack.length == 0){
+				this.isEmpty = true
+				this.ctx.update()
+				return
+			}
+			for (let l = 0; l < undoStack.length; l++) {
+				for (let i = 1; i < undoStack[l].length; i++) {
+					const last  = undoStack[l][i - 1]
+					const point = undoStack[l][i]
+					this.drawLine(point, last, point.w!, point.c!)
+				}
+			}
+		} else {
+			this.ctx.update()
+		}
+	}
+	redo() {
+		if(redoStack.length < 1) return
+		const lastPath : Line = redoStack.pop()!;
+		undoStack.push(lastPath);
+		this.isEmpty = false
+		for (let l = 0; l < undoStack.length; l++) {
+			for (let i = 1; i < undoStack[l].length; i++) {
+				const last  = undoStack[l][i - 1]
+				const point = undoStack[l][i]
+				this.drawLine(point, last, point.w!, point.c!)
+			}
+		}
+	}
+}

@@ -1,0 +1,152 @@
+
+export const UxQrMixin = defineMixin({
+	emits: ['click', 'change', 'message', 'loading', 'load', 'error'],
+	data() {
+		return {
+			webview: null as WebviewContext | null,
+			src: '/uni_modules/ux-frame/hybrid/html/qr.html',
+			isLoading: false,
+			loadOK: false
+		}
+	},
+	props: {
+		// 二维码内容
+		text: {
+			type: String,
+			default: ''
+		},
+		// 二维码尺寸
+		size: {
+			type: Number,
+			default: 150
+		},
+		// 背景色
+		background: {
+			type: String,
+			default: '#fff'
+		},
+		// 前景色
+		foreground: {
+			type: String,
+			default: '#000'
+		},
+		// 二维码图标
+		img: {
+			type: String,
+			default: ''
+		},
+		// 二维码图标尺寸
+		imgSize: {
+			type: Number,
+			default: 45
+		},
+		// 边框
+		border: {
+			type: Number,
+			default: 4
+		},
+		// 显示加载
+		showLoading: {
+			type: Boolean,
+			default: true
+		},
+		// 加载文案
+		loadingText: {
+			type: String,
+			default: '加载中...'
+		},
+		// 延迟生成
+		delay: {
+			type: Number,
+			default: 0
+		}
+	},
+	computed: {
+		style() : string {
+			return `width: ${this.size}px;height: ${this.size}px;`
+		},
+		webviewStyle() : string {
+			return `width: ${this.size - this.border * 2}px;height: ${this.size - this.border * 2}px;`
+		},
+		imgStyle() : string {
+			return `border-radius: 10rpx;width: ${this.imgSize}px;height: ${this.imgSize}px;`
+		},
+		data() : UTSJSONObject {
+			return {
+				text: this.text,
+				size: this.size - this.border * 2,
+				background: this.background,
+				foreground: this.foreground,
+			} as UTSJSONObject
+		},
+	},
+	watch: {
+		text() {
+			this.init()
+		},
+		size() {
+			this.init()
+		},
+		img() {
+			this.init()
+		},
+	},
+	mounted() {
+		this.webview = uni.createWebviewContext('web-view', this)
+	},
+	methods: {
+		init() {
+			// console.log(JSON.stringify(this.data));
+			this.loadOK = false
+			this.webview?.evalJS(`init(${JSON.stringify(this.data)})`)
+		},
+		change() {
+			this.webview?.evalJS(`change(${JSON.stringify(this.data)})`)
+		},
+		onMessage(e : WebViewMessageEvent) {
+			let data = e.detail.data as Map<string, any> | null
+	
+			if (data != null) {
+				if (data!.has('success')) {
+					this.loadOK = true
+				}
+	
+				if (data!.has('error')) {
+					console.error(`[ux-qr]加载失败！${data!.get('error').toString()}`);
+				}
+			}
+	
+			this.$emit('message', e.detail.data)
+		},
+		onLoading(e : WebViewLoadingEvent) {
+			this.isLoading = true
+			this.$emit('loading')
+		},
+		onLoad(e : WebViewLoadedEvent) {
+			this.isLoading = false
+	
+			setTimeout(this.init, this.delay);
+	
+			this.$emit('load')
+		},
+		onError(e : WebViewErrorEvent) {
+			console.error('[ux-qr]加载失败');
+			this.$emit('error')
+		},
+		click(e : MouseEvent) {
+			this.$emit('click', e)
+		},
+		make() {
+			const el = this.$refs['ux-qr'] as Element
+	
+			el.takeSnapshot({
+				success: (res) => {
+					this.$emit('change', res.tempFilePath)
+				},
+				fail: (err) => {
+					console.error(`[ux-qr]生成二维码失败：${err.errMsg}`)
+				}
+			})
+		}
+	}
+})

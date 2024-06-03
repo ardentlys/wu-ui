@@ -24,7 +24,7 @@
 	/**
 	 * radio 单选框
 	 * @description 单选框用于有一个选择，用户只能选择其中一个的场景。搭配wu-radio-group使用
-	 * @tutorial https://wu.geeks.ink/components/radio.html
+	 * @tutorial https://wuui.cn/components/radio.html
 	 * @property {String | Number}	name			radio的名称
 	 * @property {String}			shape			形状，square为方形，circle为圆形
 	 * @value square 方形

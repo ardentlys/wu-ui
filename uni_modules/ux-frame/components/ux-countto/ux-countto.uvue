@@ -1,0 +1,38 @@
+<template>
+	<text class="ux-countto" :style="[style, xstyle]">
+		{{ value }}
+	</text>
+</template>
+
+<script>
+	import { UxCountToMixin } from './index.uts'
+	
+	/**
+	 * CountTo 数字滚动
+	 * @description 该组件一般用于需要滚动数字到某一个值的场景，目标要求是一个递增的值
+	 * @tutorial https://www.uxframe.cn/component/display/countto.html
+	 * @property {Number}			startVal			Number | 开始的数值 (默认 0)
+	 * @property {Number}			endVal				Number | 要滚动的目标数值 (默认 0)
+	 * @property {Number}			duration			Number | 滚动到目标数值的动画持续时间，单位为毫秒 (ms） (默认 2000)
+	 * @property {Boolean}			autoplay			Boolean | 设置数值后是否自动开始滚动  (默认 true)
+	 * @property {Number}			decimals			Number | 要显示的小数位数 (默认 0)
+	 * @property {String}			color				String | 字体颜色 ( 默认 $ux.theme.main )
+	 * @property {Number}			size				Number | 字体大小 ( 默认 14)
+	 * @property {Boolean}			bold				Boolean | 字体是否加粗 (默认 false)
+	 * @event {Function} 			end 				Function | 数值滚动到目标值时触发
+	 * @author UxFrame
+	 * @date 2024-01-11 11:02:28
+	 */
+	export default {
+		name: 'ux-countto',
+		mixins: [UxCountToMixin],
+	}
+</script>
+
+<style lang="scss">
+	
+	.ux-countto {
+		
+	}
+	
+</style>

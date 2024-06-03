@@ -1,0 +1,119 @@
+import { $ux } from '../../index.uts'
+import { icons } from "./icons.uts"
+
+export const UxIconMixin = defineMixin({
+	emits: ['click'],
+	data() {
+		return {
+	
+		}
+	},
+	props: {
+		// 字体类型
+		type: {
+			type: String,
+			default: ''
+		},
+		// 字体颜色
+		color: {
+			type: String,
+			default: '#33333'
+		},
+		// 字体大小
+		size: {
+			type: Number,
+			default: 14
+		},
+		// 自定义字体路径
+		customFont: {
+			type: String,
+			default: ''
+		},
+		// 自定义字体family
+		customFamily: {
+			type: String,
+			default: ''
+		},
+		// 自定义样式
+		xstyle: {
+			type: Array as PropType<Array<any>>,
+			default: () : Array<any> => [] as Array<any>
+		},
+	},
+	computed: {
+		icon() : any {
+			return icons[this.type] ?? this.type
+		},
+		source() : string {
+			return this.customFont == '' ? '/uni_modules/ux-frame/static/uxframe.ttf' : this.customFont
+		},
+		family() : string {
+			return this.customFamily == '' ? 'uxframe' : this.customFamily
+		},
+		isFont() : boolean {
+			let icon = this.icon! as string
+		
+			if(icon == '') {
+				return true
+			}
+		
+			if ($ux.Verify.isURL(icon)) {
+				return false
+			}
+		
+			if (icon!.indexOf('/') != -1) {
+				return false
+			}
+		
+			return true
+		},
+		style() : any | null {
+			let css = new Map<string, any | null>()
+			
+			if (this.color != '') {
+				css.set('color', this.color)
+			}
+	
+			if (this.size > 10) {
+				css.set('font-size', $ux.Util.addUnit(this.size))
+			}
+	
+			if (this.family != '') {
+				css.set('font-family', this.family)
+			}
+	
+			return css
+		},
+		imgStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			css.set('width', $ux.Util.addUnit(this.size))
+			css.set('height', $ux.Util.addUnit(this.size))
+	
+			return css
+		},
+	},
+	mounted() {
+		this.load()
+	},
+	methods: {
+		load() {
+			if(this.source != '') {
+				uni.loadFontFace({
+					global: false,
+					family: this.family,
+					source: `url('${this.source}')`,
+					success: () => {
+				
+					},
+					fail: (err) => {
+						console.error('[ux-icon]配置错误: 加载字体库失败', err);
+					}
+				})
+			}
+		},
+		onClick(e: MouseEvent) {
+			this.$emit('click', e)
+		},
+	}
+})

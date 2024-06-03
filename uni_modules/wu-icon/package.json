@@ -1,7 +1,7 @@
 {
 	"id": "wu-icon",
 	"displayName": "wu-icon 图标  全面兼容小程序、nvue、vue2、vue3等多端",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "基于字体的图标集，包含了大多数常见场景的图标，支持自定义，支持自定义图片图标等。可自定义颜色、大小。",
 	"keywords": [
         "wu-ui",
@@ -41,7 +41,8 @@
 		"platforms": {
 			"cloud": {
 				"tcb": "y",
-				"aliyun": "y"
+                "aliyun": "y",
+                "alipay": "n"
 			},
 			"client": {
 				"Vue": {

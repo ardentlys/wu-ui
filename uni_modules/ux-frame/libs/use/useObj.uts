@@ -1,0 +1,104 @@
+/**
+   @Name    :	对象
+   @Author  :   UxFrame
+   @Date    :   2024-01-09 22:13:21
+*/
+
+import { Core } from "../core/core.uts"
+
+export default class useObj {
+
+	core : Core
+
+	constructor(core : Core) {
+		this.core = core
+	}
+
+	// isObject = (target : any) : boolean => {
+	// 	return target instanceof UTSJSONObject;
+	// }
+
+	// deepMerge(target : any, source : any) : any {
+	// 	if (!(target instanceof UTSJSONObject) || !(source instanceof UTSJSONObject)) {
+	// 		return source;
+	// 	}
+
+	// 	for (const key in source) {
+	// 		if (isObject(source[key])) {
+	// 			if (isObject(target[key]) && isObject(source[key])) {
+	// 				deepMerge(target[key]!, source[key]!);
+	// 			} else {
+	// 				target[key] = source[key];
+	// 			}
+	// 		} else {
+	// 			target[key] = source[key];
+	// 		}
+	// 	}
+
+	// 	return target;
+	// }
+
+	/**
+	 * 移除空对象
+	 */
+	removeNulls(obj : UTSJSONObject | null) : UTSJSONObject {
+		if (obj == null) {
+			return {}
+		}
+
+		let data = {} as UTSJSONObject
+
+		for (let k in obj) {
+			if (obj.get(k) != null) {
+				let _obj = obj.get(k)!
+
+				if (_obj instanceof UTSJSONObject) {
+					data.set(k, this.handleJson(_obj))
+				} else if (_obj instanceof Array) {
+					data.set(k, this.handleArray(_obj as Array<any>))
+				} else {
+					data.set(k, _obj)
+				}
+			}
+		}
+
+		return data
+	}
+
+	private handleJson(obj : UTSJSONObject) : UTSJSONObject {
+		let data = {} as UTSJSONObject
+
+		for (let k in obj) {
+			if (obj.get(k) != null) {
+				let _obj = obj.get(k)!
+
+				if (_obj instanceof UTSJSONObject) {
+					data.set(k, this.handleJson(_obj))
+				} else if (_obj instanceof Array) {
+					data.set(k, this.handleArray(_obj as Array<any>))
+				} else {
+					data.set(k, _obj)
+				}
+			}
+		}
+
+		return data
+	}
+
+	private handleArray(objs : Array<any>) : Array<any> {
+		let datas = new Array<any>()
+		for (let i = 0; i < objs.length; i++) {
+			let obj = objs[i]
+
+			if (obj instanceof UTSJSONObject) {
+				datas.push(this.handleJson(obj))
+			} else if (obj instanceof Array) {
+				datas.push(this.handleArray(obj as Array<any>))
+			} else {
+				datas.push(obj)
+			}
+		}
+
+		return datas
+	}
+}

@@ -1,0 +1,126 @@
+
+/**
+ * UxTheme主题
+ */
+export type UxTheme = {
+	
+	/**
+	 * 深色模式 默认 false
+	 */
+	dark : boolean | null,
+	
+	theme : string | null,
+
+	primary : string | null,
+	primaryDark : string | null,
+	primaryDisabled : string | null,
+	primaryLight : string | null,
+	
+	warn : string | null,
+	warnDark : string | null,
+	warnDisabled : string | null,
+	warnLight : string | null,
+	
+	success : string | null,
+	successDark : string | null,
+	successDisabled : string | null,
+	successLight : string | null,
+	
+	error : string | null,
+	errorDark : string | null,
+	errorDisabled : string | null,
+	errorLight : string | null,
+
+	info : string | null,
+	infoDark : string | null,
+	infoDisabled : string | null,
+	infoLight : string | null,
+
+	main : string | null,
+	regular : string | null,
+	summary : string | null,
+	placeholder : string | null,
+
+	title : string | null,
+	background : string | null,
+	disabled : string | null,
+	border : string | null,
+}
+
+const defTheme = () : UxTheme => {
+	return {
+		dark: false,
+		theme: '',
+
+		primary: '#3c9cff',
+		primaryDark: '#398ade',
+		primaryDisabled: '#9acafc',
+		primaryLight: '#ecf5ff',
+
+		success: '#5ac725',
+		successDark: '#53c21d',
+		successDisabled: '#a9e08f',
+		successLight: '#f5fff0',
+
+		error: '#f56c6c',
+		errorDark: '#e45656',
+		errorDisabled: '#f7b2b2',
+		errorLight: '#fef0f0',
+
+		warn: '#f9ae3d',
+		warnDark: '#f1a532',
+		warnDisabled: '#f9d39b',
+		warnLight: '#fdf6ec',
+
+		info: '#909399',
+		infoDark: '#767a82',
+		infoDisabled: '#c4c6c9',
+		infoLight: '#f4f4f5',
+
+		main: '#303133',
+		regular: '#606266',
+		summary: '#909193',
+		placeholder: '#c0c4cc',
+
+		title: '#333333',
+		background: '#f3f4f6',
+		disabled: '#c8c9cc',
+		border: '#e7e6e4',
+	} as UxTheme
+}
+
+export const SetTheme = (theme: UxTheme, conf: UxTheme | null) => {
+	let def = defTheme()
+	conf = conf ?? def
+	
+	theme.dark = conf.dark ?? def.dark
+	theme.theme = conf.theme ?? def.theme
+	theme.primary = conf.primary ?? def.primary
+	theme.primaryDark = conf.primaryDark ?? def.primaryDark
+	theme.primaryDisabled = conf.primaryDisabled ?? def.primaryDisabled
+	theme.primaryLight = conf.primaryLight ?? def.primaryLight
+	theme.warn = conf.warn ?? def.warn
+	theme.warnDark = conf.warnDark ?? def.warnDark
+	theme.warnDisabled = conf.warnDisabled ?? def.warnDisabled
+	theme.warnLight = conf.warnLight ?? def.warnLight
+	theme.success = conf.success ?? def.success
+	theme.successDark = conf.successDark ?? def.successDark
+	theme.successDisabled = conf.successDisabled ?? def.successDisabled
+	theme.successLight = conf.successLight ?? def.successLight
+	theme.error = conf.error ?? def.error
+	theme.errorDark = conf.errorDark ?? def.errorDark
+	theme.errorDisabled = conf.errorDisabled ?? def.errorDisabled
+	theme.errorLight = conf.errorLight ?? def.errorLight
+	theme.info = conf.info ?? def.info
+	theme.infoDark = conf.infoDark ?? def.infoDark
+	theme.infoDisabled = conf.infoDisabled ?? def.infoDisabled
+	theme.infoLight = conf.infoLight ?? def.infoLight
+	theme.main = conf.main ?? def.main
+	theme.regular = conf.regular ?? def.regular
+	theme.summary = conf.summary ?? def.summary
+	theme.placeholder = conf.placeholder ?? def.placeholder
+	theme.title = conf.title ?? def.title
+	theme.background = conf.background ?? def.background
+	theme.disabled = conf.disabled ?? def.disabled
+	theme.border = conf.border ?? def.border
+}

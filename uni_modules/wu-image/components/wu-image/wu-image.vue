@@ -37,7 +37,7 @@
 	/**
 	 * Image 图片
 	 * @description 此组件为uni-app的image组件的加强版，在继承了原有功能外，还支持淡入动画、加载中、加载失败提示、圆角值和形状等。
-	 * @tutorial https://wu.geeks.ink/zh-CN/components/image.html
+	 * @tutorial https://wuui.cn/zh-CN/components/image.html
 	 * @property {String}			src 				图片地址
 	 * @property {String}			mode 				裁剪模式，见官网说明 （默认 'aspectFill' ）
 	 * @property {String | Number}	width 				宽度，单位任意，如果为数值，则为px单位 （默认 '300' ）

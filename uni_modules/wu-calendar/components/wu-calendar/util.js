@@ -347,7 +347,7 @@ class Calendar {
 	/**
 	 * 比较时间是否相等
 	 */
-	dateEqual(before, after) {
+	dateEqual(before = '', after = '') {
 		// 计算截止时间
 		before = new Date(before.replace('-', '/').replace('-', '/'))
 		// 计算详细项的截止时间
@@ -513,6 +513,7 @@ class Calendar {
 						lunar: {},
 					}),
 				);
+				
 			} else {
 				// 拼接数组  上个月开始几天 + 本月天数+ 下个月开始几天
 				canlender = canlender.concat(dates.lastMonthDays, dates.currentMonthDys, dates.nextMonthDays)

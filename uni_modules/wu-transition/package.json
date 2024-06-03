@@ -1,7 +1,7 @@
 {
   "id": "wu-transition",
   "displayName": "wu-transition 用于组件的动画过渡效果 全端兼容，无论平台，一致体验",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "wu-transition 用于组件的动画过渡效果",
   "keywords": [
     "wu-ui",
@@ -40,7 +40,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

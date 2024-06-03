@@ -30,7 +30,7 @@
 	/**
 	 * icon 图标
 	 * @description 基于字体的图标集，包含了大多数常见场景的图标。
-	 * @tutorial https://wu.geeks.ink/zh-CN/components/icon.html
+	 * @tutorial https://wuui.cn/zh-CN/components/icon.html
 	 * @property {String}			name			图标名称，若带有 `/` 或遵循 `base64` 图片格式，会被认为是图片图标，则文字图标相关属性会失效。
 	 * @property {String}			color			图标颜色,可接受主题色 （默认 color: #606266 ）
 	 * @property {String | Number}	size			图标字体大小，单位px/rpx （默认 '16px' ）
@@ -125,7 +125,6 @@
 					return unescape(`%u${this.name}`)
 					// #endif
 				}
-				uni.createAnimation()
 			},
 			// label样式
 			labelStyle() {

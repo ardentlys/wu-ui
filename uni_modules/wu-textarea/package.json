@@ -1,7 +1,7 @@
 {
 	"id": "wu-textarea",
 	"displayName": "wu-textarea文本域 多端兼容，无论平台，一致体验",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "wu-textarea文本域 此组件满足了可能出现的表单信息补充，编辑等实际逻辑的功能，内置了字数校验等。",
 	"keywords": [
         "wu-ui",
@@ -42,7 +42,8 @@
 		"platforms": {
 			"cloud": {
 				"tcb": "y",
-				"aliyun": "y"
+                "aliyun": "y",
+                "alipay": "n"
 			},
 			"client": {
 				"Vue": {

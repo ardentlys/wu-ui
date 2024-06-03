@@ -1,0 +1,592 @@
+import { $ux } from '../../index.uts'
+
+type TouchState = 'stop' | 'checking' | 'sucess'
+type Command = 'stop' | 'up' | 'down'
+
+export const UxDragMixin = defineMixin({
+	emits: ['click', 'change', 'changing'],
+	data() {
+		return {
+			myId: $ux.Random.uuid(),
+			dragClass: 'UXDRAG',
+	
+			dragItem: {
+				'x': '',
+				'y': '',
+				'top': "0",
+				'left': '0',
+				'translateY_new': '0',
+				'translateX_new': '0'
+			} as UTSJSONObject,
+			dragItemIndex: 0,
+			dragList: [] as Array<UTSJSONObject>,
+	
+			tmpY: 0 as number,
+			tmpX: 0 as number,
+			tmpYItem: 0 as number,
+			tmpXItem: 0 as number,
+	
+			dragIndex: 0 as number,
+			dragSort: 0 as number,
+			dragView: null as Element | null,
+			offset: 0 as number,
+			initBeginDrag: false as boolean,
+			isBeginDrag: false as boolean,
+			isEndDrag: true as boolean,
+			showAnimate: true as boolean,
+	
+			scrollView: null as Element | null,
+			scrollTimer: 0 as number,
+			touchTimer: 0 as number,
+			scrollSpeed: 1 as number,
+			longTouchState: 'stop' as TouchState,
+			scrollCommand: 'stop' as Command,
+			pageScrolling: false as boolean,
+			touchPointLength: 0,
+			touchIdentifier: -1 as number,
+		}
+	},
+	props: {
+		// 列表数据
+		list: {
+			type: Array as PropType<UTSJSONObject[]>,
+			default: (): Array<UTSJSONObject> => {
+				return [] as Array<UTSJSONObject>
+			}
+		},
+		// 列数
+		column: {
+			type: Number,
+			default: 1
+		},
+		// 布局方向
+		direction: {
+			type: String,
+			default: 'row'
+		},
+		// 是否开启长按拖动
+		longTouch: {
+			type: Boolean,
+			default: false
+		},
+		// 长按拖动触发时间 开启长按拖动才有效
+		longTouchTime: {
+			type: Number,
+			default: 350
+		},
+		// 拖动到列表边缘自动滚动列表
+		autoScroll: {
+			type: Boolean,
+			default: true
+		},
+		// 行宽度
+		rowWidth: {
+			type: Number,
+			default: uni.getSystemInfoSync().windowWidth
+		},
+		// 行高度
+		rowHeight: {
+			type: Number,
+			default: 44
+		},
+		// 高度
+		height: {
+			type: Number,
+			default: 200
+		},
+		// 宽度
+		width: {
+			type: Number,
+			default: uni.getSystemInfoSync().windowWidth
+		},
+		// 是否禁用
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+	},
+	computed: {
+		style() : any | null {
+			let css = new Map<string, any | null>()
+	
+			css.set('width', $ux.Util.addUnit(this.width))
+			css.set('height', $ux.Util.addUnit(this.height))
+			css.set('flex-direction', this.direction)
+			
+			return css
+		},
+		changeTag(): number {
+			return this.list.length;
+		},
+	},
+	watch: {
+		list: {
+		    handler() {
+		        this.initList(this.list);
+		    },
+		    deep: true
+		},
+		changeTag() {
+			this.initList(this.list);
+		},
+	},
+	mounted() {
+		this.initList(this.list);
+		
+		this.$nextTick(() => {
+			this.scrollView = uni.getElementById(`scroll_${this.myId}`);
+		})
+	},
+	methods: {
+		isDragArea(viewElement : Element | null) : boolean {
+			let isDragArea = 0;
+			viewElement?.classList?.forEach((className : string) => {
+				if (className == this.dragClass) {
+					isDragArea = 1;
+				}
+				if (className == 'ux-drag__row') {
+					isDragArea = -1;
+				}
+			});
+			if (isDragArea == 1) {
+				return true;
+			}
+			if (isDragArea == 0) {
+				return this.isDragArea(viewElement?.parentElement);
+			}
+			return false;
+		},
+		touchstart(e : TouchEvent, rowIndex : number) {
+			if (this.disabled) {
+				return
+			}
+	
+			this.touchPointLength++;
+			let isDragArea = this.isDragArea(e.target);
+			if (!isDragArea) {
+				return;
+			}
+			if (this.isBeginDrag) {
+				return;
+			}
+	
+			if (!this.isEndDrag) { return; }
+			if (e.touches.length > 1) {
+				// 多指触控不触发拖拽
+				return;
+			}
+			this.touchIdentifier = e.touches[0].identifier;
+			this.dragIndex = rowIndex;
+			this.dragSort = this.dragList[rowIndex]['sortIndex'] as number;
+	
+			// 显示的位移行
+			this.dragItem = JSON.parse(JSON.stringify(this.dragList[rowIndex])) as UTSJSONObject;
+			this.dragItem['translateY_new'] = '0';
+			this.dragItem['translateX_new'] = '0';
+	
+			let top = Math.floor(this.dragSort / this.column) * this.rowHeight - this.scrollView?.scrollTop as number;
+			this.dragItem['top'] = top.toString();
+			this.dragItem['left'] = ((this.dragSort % this.column) * this.rowWidth).toString();
+			
+			this.dragItemIndex = rowIndex
+			
+			// 拖动行 
+			this.dragView = uni.getElementById(`row_${this.myId}_${this.dragSort}`);
+	
+			// 提高拖动行层级
+			this.dragView?.style?.setProperty('z-index', 100);
+	
+			// 记录当前触摸坐标
+			this.tmpY = e.touches[0].pageY;
+			this.tmpX = e.touches[0].pageX;
+			this.tmpYItem = e.touches[0].clientY;
+			this.tmpXItem = e.touches[0].clientX;
+			
+			// 长按拖拽
+			if (this.longTouch) {
+				this.longTouchState = 'checking';
+				this.touchTimer = setTimeout(function () {
+					// 开启长按拖拽
+					this.initBeginDrag = true;
+					this.isBeginDrag = true;
+					// 隐藏列表中对应行
+					this.dragList[rowIndex]['opacity'] = 0;
+					this.longTouchState = 'success';
+				}, this.longTouchTime)
+			} else {
+				// 开启长按拖拽
+				this.initBeginDrag = true;
+				this.isBeginDrag = true;
+				// 隐藏列表中对应行
+				this.dragList[rowIndex]['opacity'] = 0;
+			}
+			this.offset = 0;
+		},
+		scroll(e : ScrollEvent) {
+			if (this.longTouch) {
+				if (this.longTouchState == 'checking') {
+					if (Math.abs(e.detail.scrollTop) > 5) {
+						this.longTouchState = 'stop';
+						clearTimeout(this.touchTimer);
+					}
+				}
+			}
+		},
+		touchmove(e : TouchEvent) {
+			if (this.disabled) {
+				return
+			}
+	
+			// 找到最开始拖拽的点，避免多点触控影响拖拽
+			let touchPoint = this.getTouchPoint(e.touches);
+			if (touchPoint.identifier != this.touchIdentifier) {
+				// 找不到触发拖拽的触摸点
+				return;
+			}
+	
+			let moveY_abs : number = touchPoint.pageY - this.tmpY;
+			let moveX_abs : number = touchPoint.pageX - this.tmpX;
+	
+			// 如果开启了长按拖拽，需要判断是否长按
+			if (this.longTouch) {
+				if (this.longTouchState == 'checking') {
+					if (Math.abs(moveY_abs) > 10) {
+						this.longTouchState = 'stop';
+						clearTimeout(this.touchTimer);
+						// 没有通过长按
+					}
+				}
+				if (this.longTouchState == 'checking' || this.longTouchState == 'stop') {
+					return;
+				}
+			}
+	
+			// 如果上次的拖拽未完全结束 不能进入拖动逻辑
+			if (!this.isEndDrag) { return; }
+	
+			// 如果没有touchstart中没有得到开始拖动信号 不能进入拖动逻辑
+			if (!this.isBeginDrag) {
+				return;
+			}
+	
+			// 计算拖拽距离
+			let moveY_shadom = touchPoint.clientY - this.tmpYItem;
+			let moveX_shadom = touchPoint.clientX - this.tmpXItem;
+			let moveY : number = moveY_abs + this.dragList[this.dragIndex]['translateY'] as number;
+			let moveX : number = moveX_abs + this.dragList[this.dragIndex]['translateX'] as number;
+	
+			// 移动行 修改style方式
+			this.dragList[this.dragIndex]['translateY_new'] = moveY.toString();
+			this.dragItem['translateY_new'] = moveY_shadom.toString();
+	
+			if (this.column > 1) {
+				this.dragList[this.dragIndex]['translateX_new'] = moveX.toString();
+				this.dragItem['translateX_new'] = moveX_shadom.toString();
+			}
+	
+			// 拖动到边缘自动滚动视图
+			if (this.autoScroll) {
+				this.scrollList(touchPoint);
+			}
+	
+			// 偏移量 拖动行 排序往前/后偏移了N位
+			let offset : number = this.calcOffset(moveY_abs, moveX_abs);
+			if (offset != this.offset) { // 位移量和上次计算结果不一致才触发排序
+				this.offset = offset;
+				for (let i = 0; i < this.dragList.length; i++) {
+					if (this.dragIndex == i) {
+						continue;
+					}
+					let curSort = this.dragList[i]['sortIndex'] as number;
+					let curtranslateY = this.dragList[i]['translateY'] as number;
+					let curtranslateX = this.dragList[i]['translateX'] as number;
+					if ((this.offset > 0 && curSort > this.dragSort && curSort <= this.dragSort + this.offset)
+						||
+						(this.offset < 0 && curSort >= this.dragSort + this.offset && curSort < this.dragSort)
+					) {
+						let newSort = curSort + (offset > 0 ? -1 : 1);
+	
+	
+						let translateY_new = (Math.floor(newSort / this.column) - Math.floor(curSort / this.column)) * this.rowHeight;
+						let translateX_new = ((newSort % this.column) - (curSort % this.column)) * this.rowWidth;
+	
+						let translateY = curtranslateY + translateY_new;
+						let translateX = curtranslateX + translateX_new;
+						this.dragList[i]['translateY_new'] = translateY.toString();
+						this.dragList[i]['translateX_new'] = translateX.toString();
+					} else {
+						this.dragList[i]['translateY_new'] = curtranslateY.toString();
+						this.dragList[i]['translateX_new'] = curtranslateX.toString();
+					}
+				}
+				this.changing();
+			}
+	
+			// 禁止列表滚动 避免与拖拽冲突
+			e.preventDefault();
+		},
+		touchend() {
+			if (this.disabled) {
+				return
+			}
+	
+			this.touchPointLength--;
+	
+			// 取消判断长按定时器
+			if (this.longTouchState == 'checking') {
+				this.longTouchState = 'stop';
+				clearTimeout(this.touchTimer);
+			}
+	
+			// 如果还有触摸点，不要结束拖拽逻辑
+			if (this.touchPointLength > 0) {
+				return;
+			}
+	
+			if (!this.isBeginDrag) {
+				return;
+			}
+	
+			this.isBeginDrag = false;
+			this.isEndDrag = false;
+	
+			// 取消滚动定时器
+			if (this.pageScrolling) {
+				this.pageScrolling = false;
+				clearInterval(this.scrollTimer)
+			}
+	
+			// 如果发生偏移，应用行排序位移
+			if (this.offset != 0) {
+				for (let i = 0; i < this.dragList.length; i++) {
+					if (this.dragIndex == i) {
+						continue;
+					}
+					let curSort = this.dragList[i]['sortIndex'] as number;
+					if ((this.offset > 0 && curSort > this.dragSort && curSort <= this.dragSort + this.offset)
+						||
+						(this.offset < 0 && curSort >= this.dragSort + this.offset && curSort < this.dragSort)
+					) {
+						this.dragList[i]['sortIndex'] = curSort + (this.offset > 0 ? -1 : 1);
+						this.dragList[i]['translateY'] = parseFloat(this.dragList[i]['translateY_new'] as string);
+						this.dragList[i]['translateX'] = parseFloat(this.dragList[i]['translateX_new'] as string);
+					}
+				}
+			}
+	
+			// 被拖拽行应用排序后数据
+			this.dragList[this.dragIndex]['opacity'] = 1;
+			let newSort = this.dragList[this.dragIndex]['sortIndex'] as number + this.offset;
+	
+			let curTranslateY = this.dragList[this.dragIndex]['translateY'] as number;
+			let curtranslateX = this.dragList[this.dragIndex]['translateX'] as number;
+			let translateY : number = curTranslateY + (Math.floor(newSort / this.column) - Math.floor(this.dragSort / this.column)) * this.rowHeight;
+			let translateX = curtranslateX + ((newSort % this.column) - (this.dragSort % this.column)) * this.rowWidth;
+	
+			this.dragList[this.dragIndex]['translateY'] = translateY;
+			this.dragList[this.dragIndex]['translateX'] = translateX;
+			this.dragList[this.dragIndex]['sortIndex'] = newSort;
+			
+			this.$nextTick(() => {
+				// 归位 有动画
+				this.dragList[this.dragIndex]['translateY_new'] = translateY.toString();
+				this.dragList[this.dragIndex]['translateX_new'] = translateX.toString();
+				
+				this.change();
+				this.dragSort = -1;
+				
+				this.$nextTick(() => {
+					setTimeout(() => {
+						// 动画结束后恢复层级
+						this.dragView?.style?.setProperty('z-index', 'auto');
+						// 本次拖动结束
+						this.isEndDrag = true;
+					}, 300)
+				})
+			})
+		},
+		getTouchPoint(touches : Array<Touch>) : Touch {
+			let touchPoint = touches[0];
+			for (let i = 0; i < touches.length; i++) {
+				if (touches[i].identifier == this.touchIdentifier) {
+					touchPoint = touches[i];
+					break;
+				}
+			}
+			return touchPoint;
+		},
+		scrollList(touchPoint : Touch) {
+			let offsetTop = touchPoint.clientY - this.scrollView?.offsetTop as number;
+			let offsetHeight = this.scrollView?.offsetHeight as number;
+			let standard = this.height * 0.2;
+			let scrollTop = this.scrollView?.scrollTop as number;
+			this.scrollCommand = 'stop';
+			if (offsetTop < standard) {
+				// 变速滚动 靠近边缘滚动越快
+				this.scrollSpeed = 1 + (standard - offsetTop) / standard * 8;
+				this.scrollCommand = 'up';
+				if (scrollTop <= 0) {
+					this.scrollCommand = 'stop';
+					clearInterval(this.scrollTimer);
+					this.pageScrolling = false;
+					return;
+				}
+			} else if (offsetTop > offsetHeight - standard) {
+				// 变速滚动 靠近边缘滚动越快
+				this.scrollSpeed = 1 + (offsetTop - (offsetHeight - standard)) / standard * 8;
+				this.scrollCommand = 'down';
+				let scrollHeight = this.scrollView?.scrollHeight as number;
+				if (scrollTop >= scrollHeight - offsetHeight) {
+					this.scrollCommand = 'stop';
+					clearInterval(this.scrollTimer);
+					this.pageScrolling = false;
+					return;
+				}
+			}
+			if (this.scrollCommand != 'stop') {
+				if (!this.pageScrolling) {
+					this.pageScrolling = true;
+					this.scrollTimer = setInterval(() => {
+						if (this.scrollCommand == "up") {
+							this.scrollView?.scrollBy(0, -this.scrollSpeed);
+						}
+						if (this.scrollCommand == "down") {
+							this.scrollView?.scrollBy(0, this.scrollSpeed);
+						}
+	
+					}, 16.6)
+				}
+			} else {
+				if (this.pageScrolling) {
+					clearInterval(this.scrollTimer)
+				}
+				this.pageScrolling = false;
+			}
+		},
+		calcOffset(moveY : number, moveX : number) : number {
+			let moveY_abs : number = Math.abs(moveY);
+			let moveX_abs : number = Math.abs(moveX);
+	
+			// 竖向偏移量
+			let restY = moveY_abs % this.rowHeight;
+			let coverageY = restY / this.rowHeight;
+			let offsetY = Math.floor(moveY_abs / this.rowHeight);
+			offsetY = offsetY + (coverageY >= 0.6 ? 1 : 0);
+			offsetY = (moveY > 0 ? offsetY : -offsetY) * this.column;
+	
+			//横向偏移量
+			let offsetX = 0;
+			if (this.column > 1) {
+				let restX = moveX_abs % this.rowWidth;
+				let coverageX = restX / this.rowWidth;
+				offsetX = Math.floor(moveX_abs / this.rowWidth);
+				offsetX = offsetX + (coverageX >= 0.6 ? 1 : 0);
+				offsetX = moveX > 0 ? offsetX : -offsetX;
+			}
+			let offset = offsetX + offsetY;
+			if (this.dragSort + offset < 0) {
+				offset = 0 - this.dragSort;
+			} else if (this.dragSort + offset > this.dragList.length - 2) {
+				offset = this.dragList.length - 1 - this.dragSort;
+			}
+	
+			return offset;
+		},
+		click(row : UTSJSONObject) {
+			this.$emit('click', { row: row, sortIndex: row['sortIndex'] });
+		},
+		changing() {
+			let tmpRow = JSON.parse(JSON.stringify(this.dragList[this.dragIndex])) as UTSJSONObject;
+			this.$emit('changing', {
+				row: tmpRow,
+				sortIndex: this.dragSort,
+				moveTo: this.dragSort + this.offset
+			});
+		},
+		change() {
+			if (this.offset == 0) {
+				return;
+			}
+	
+			let tmpList = this.getDragListForSorted();
+			let dragSort = this.dragSort;
+			let offset = this.offset;
+	
+			setTimeout(() => {
+				this.$emit('change', {
+					list: tmpList,
+					sortIndex: dragSort,
+					moveTo: dragSort + offset
+				});
+			}, 0)
+		},
+		splice(deleteIndex : number, howmany : number, newRows : Array<UTSJSONObject>) : Array<UTSJSONObject> {
+			this.showAnimate = false;
+			let tmpList = this.getDragListForSorted();
+			tmpList.splice(deleteIndex, howmany, ...newRows);
+			this.initList(tmpList);
+			this.$nextTick(function () {
+				this.showAnimate = true;
+			})
+			return this.getDragListForSorted();
+		},
+		push(newRows : Array<UTSJSONObject>) : Array<UTSJSONObject> {
+			if (newRows.length > 0) {
+				let waitPushList = [] as Array<UTSJSONObject>;
+				for (let i = 0; i < newRows.length; i++) {
+					let row : UTSJSONObject = newRows[i];
+					row['sortIndex'] = this.dragList.length + i;
+					row['translateY'] = 0;
+					row['translateY_new'] = '0';
+					row['translateX'] = 0;
+					row['translateX_new'] = '0';
+					row['opacity'] = 1;
+					waitPushList.push(row);
+				}
+				this.dragList.push(...waitPushList);
+			}
+			return this.getDragListForSorted();
+		},
+		unshift(newRows : Array<UTSJSONObject>) : Array<UTSJSONObject> {
+			if (newRows.length > 0) {
+				this.showAnimate = false;
+				let tmpList = this.getDragListForSorted();
+				tmpList.unshift(...newRows);
+				this.initList(tmpList);
+				this.$nextTick(function () {
+					this.showAnimate = true;
+				})
+			}
+			return this.getDragListForSorted();
+		},
+		getDragListForSorted() : Array<UTSJSONObject> {
+			let list = JSON.parse(JSON.stringify(this.dragList)) as Array<UTSJSONObject>;
+			let tmpList = JSON.parse(JSON.stringify(this.dragList)) as Array<UTSJSONObject>;
+			for (let i = 0, len = list.length; i < len; i++) {
+				let curSort = list[i]['sortIndex'] as number;
+				tmpList[curSort] = list[i];
+			}
+			return tmpList;
+		},
+		initList(newval : Array<UTSJSONObject>) : void {
+			if (newval.length == 0) {
+				return;
+			}
+			
+			let tmpList : Array<UTSJSONObject> = JSON.parse(JSON.stringify(newval)) as Array<UTSJSONObject>;
+			for (let i = 0, len = tmpList.length; i < len; i++) {
+				
+				const index = this.dragList.findIndex((e: UTSJSONObject): boolean => e['id'] == tmpList[i]['id']);
+				
+				tmpList[i]['sortIndex'] = i;
+				tmpList[i]['translateY'] = index == -1? 0 : this.dragList[index]['translateY'];
+				tmpList[i]['translateY_new'] = index == -1? '0' : this.dragList[index]['translateY_new'];
+				tmpList[i]['translateX'] = index == -1? 0 : this.dragList[index]['translateX'];
+				tmpList[i]['translateX_new'] = index == -1? '0' : this.dragList[index]['translateX_new'];
+				tmpList[i]['opacity'] = 1;
+			}
+			
+			this.dragList = tmpList
+		},
+	}
+})

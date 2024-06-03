@@ -1,0 +1,204 @@
+import { $ux } from '../../index.uts'
+import { xstyleMixin } from '../../libs/mixins/xstyle.uts'
+
+export const UxTagMixin = defineMixin({
+	emits: ['click', 'close'],
+	mixins: [xstyleMixin],
+	data() {
+		return {
+	
+		};
+	},
+	props: {
+		// 标签类型
+		type: {
+			type: String,
+			default: 'info'
+		},
+		// 标签文字
+		text: {
+			type: String,
+			default: ''
+		},
+		// 标签文字颜色
+		color: {
+			type: String,
+			default: ''
+		},
+		// 标签文字大小
+		size: {
+			type: Number,
+			default: 12
+		},
+		// 标签文字加粗
+		bold: {
+			type: Boolean,
+			default: false
+		},
+		// 标签背景颜色
+		background: {
+			type: String,
+			default: ''
+		},
+		// 圆角
+		corner: {
+			type: Number,
+			default: 5
+		},
+		// 是否镂空
+		plain: {
+			type: Boolean,
+			default: false
+		},
+		// 显示可关闭图标
+		closable: {
+			type: Boolean,
+			default: false
+		},
+		// 图标
+		icon: {
+			type: String,
+			default: ''
+		},
+		// 图标大小
+		iconSize: {
+			type: Number,
+			default: 14
+		},
+		// 自定义字体路径
+		customFont: {
+			type: String,
+			default: ''
+		},
+		// 自定义字体family
+		customFamily: {
+			type: String,
+			default: ''
+		},
+	},
+	computed: {
+		_color(): string {
+			if(this.plain) {
+				if (this.type == 'text') {
+					return this.color == '' ? $ux.theme.main! : this.color
+				} else if (this.type == 'info') {
+					return this.color == '' ? $ux.theme.main! : this.color
+				} else if (this.type == 'primary') {
+					return $ux.theme.primary!
+				} else if (this.type == 'success') {
+					return $ux.theme.success!
+				} else if (this.type == 'warn') {
+					return $ux.theme.warn!
+				} else if (this.type == 'error') {
+					return $ux.theme.error!
+				}
+			} else {
+				if (this.type == 'text') {
+					return this.color == '' ? $ux.theme.main! : this.color
+				} else if (this.type == 'info') {
+					return this.color == '' ? $ux.theme.main! : this.color
+				} else if (this.type == 'primary') {
+					return '#ffffff'
+				} else if (this.type == 'success') {
+					return '#ffffff'
+				} else if (this.type == 'warn') {
+					return '#ffffff'
+				} else if (this.type == 'error') {
+					return '#ffffff'
+				}
+			}
+			
+			return 'transparent'
+		},
+		_background(): string {
+			if(this.background != '') {
+				return this.background
+			}
+			
+			if(this.plain) {
+				return 'transparent'
+			} else {
+				if (this.type == 'text') {
+				
+				} else if (this.type == 'info') {
+					
+				} else if (this.type == 'primary') {
+					return $ux.theme.primary!
+				} else if (this.type == 'success') {
+					return $ux.theme.success!
+				} else if (this.type == 'warn') {
+					return $ux.theme.warn!
+				} else if (this.type == 'error') {
+					return $ux.theme.error!
+				}
+			}
+			
+			return 'transparent'
+		},
+		_border(): string {
+			if (this.type == 'text') {
+			
+			} else if (this.type == 'info') {
+				return $ux.theme.border!
+			} else if (this.type == 'primary') {
+				return $ux.theme.primary!
+			} else if (this.type == 'success') {
+				return $ux.theme.success!
+			} else if (this.type == 'warn') {
+				return $ux.theme.warn!
+			} else if (this.type == 'error') {
+				return $ux.theme.error!
+			}
+			
+			return 'transparent'
+		},
+		style() : any[] {
+			let css = new Map<string, any | null>()
+			
+			if(this.disabled) {
+				css.set('border', `1rpx solid ${$ux.Color.hexToRgba(this._border, 0.6)}`)
+				css.set('background-color', `${$ux.Color.hexToRgba(this._background, 0.6)}`)
+			} else {
+				css.set('border', `1rpx solid ${this._border}`)
+				css.set('background-color', `${this._background}`)
+			}
+			
+			css.set('box-sizing', 'border-box')
+			css.set('border-radius', $ux.Util.addUnit(this.corner))
+			css.set('padding', `${$ux.Util.addUnit(8)} ${$ux.Util.addUnit(10)}`)
+			
+			css = $ux.Util.xStyle(css, this.margin, this.mt, this.mr, this.mb, this.ml, this.padding, this.pt, this.pr, this.pb, this.pl)
+			
+			return [css, this.xstyle]
+		},
+		textStyle() : any | null {
+			let css = new Map<string, any | null>()
+	
+			css.set('font-size', $ux.Util.addUnit(this.size))
+			css.set('color', this._color)
+			css.set('font-weight', this.bold ? 'bold' : 'normal')
+			
+			if (this.icon != '') {
+				css.set('margin-left', '4px')
+			}
+	
+			return css
+		},
+	},
+	methods: {
+		click(e : MouseEvent) {
+			if (this.disabled) {
+				return
+			}
+			
+			this.$emit('click', e)
+		},
+		close(e : MouseEvent) {
+			if (this.disabled) {
+				return
+			}
+			
+			this.$emit('close', e)
+		},
+	},
+})

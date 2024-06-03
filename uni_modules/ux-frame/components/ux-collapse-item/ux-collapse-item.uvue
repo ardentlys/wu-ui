@@ -1,0 +1,98 @@
+<template>
+	<view class="ux-collapse-item">
+		<view class="ux-collapse-item__title" :style="borderStyle" @click="onOpen(!opend)">
+			<text class="ux-collapse-item__title-text" :class="{'is-disabled':disabled}">{{title}}</text>
+			<view class="ux-collapse-item__arrow" :class="{'ux-collapse-item__arrow--active': opend}"></view>
+		</view>
+		<view ref="boxRef" class="ux-collapse-item__content" :style="boxStyle">
+			<view ref="contentRef" class="ux-collapse-item__content-box">
+				<slot></slot>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script lang="uts">
+	import { UxCollapseItemMixin } from './index.uts'
+	
+	/**
+	* 折叠面板孩子
+	* @description 折叠面板子项 需搭配 `ux-collapse` 使用
+	* @tutorial https://www.uxframe.cn/component/layout/collapse.html
+	* @property {String} 			title	String | 标题
+	* @property {Boolean} 			open=[true|false]	Boolean | 默认是否打开（默认 false ）
+	* @value true
+	* @value false
+	* @property {Boolean} 			border=[true|false]	Boolean | 显示下边框（默认 true ）
+	* @value true
+	* @value false
+	* @property {Boolean} 			disabled=[true|false]	Boolean | 是否禁用（默认 false ）
+	* @value true
+	* @value false
+	* @author UxFrame
+	* @date 2023-11-22 10:20:18
+	*/
+
+	export default {
+		name: 'ux-collapse-item',
+		mixins: [UxCollapseItemMixin],
+	}
+</script>
+
+<style lang="scss">
+	.ux-collapse-item {
+		width: 100%;
+		background-color: #fff;
+
+		&__title {
+			flex-direction: row;
+			align-items: center;
+			padding: 12px;
+			background-color: #fff;
+		}
+
+		&__title-text {
+			flex: 1;
+			color: #000;
+			font-size: 14px;
+			font-weight: 400;
+		}
+
+		&__content {
+			display: none;
+			position: relative;
+		}
+
+		&__content-box {
+			width: 100%;
+			transition-property: transform, opacity;
+			transition-duration: 0.2s;
+			transform: translateY(-100%);
+			opacity: 0;
+		}
+
+		&__arrow {
+			width: 8px;
+			height: 8px;
+			transform: rotate(45deg);
+			border-right: 1px #999 solid;
+			border-bottom: 1px #999 solid;
+			margin-top: -3px;
+			transition-property: transform;
+			transition-duration: 0.2s;
+		}
+
+		&__arrow--active {
+			transform: rotate(-135deg);
+			margin-top: 0px;
+		}
+	}
+
+	.is-active {
+		color: #bbb;
+	}
+
+	.is-disabled {
+		color: #999;
+	}
+</style>

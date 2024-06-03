@@ -1,0 +1,52 @@
+<template>
+	<view class="ux-overlay">
+		<view ref="ux-overlay" class="ux-overlay__mask transform" :style="style" @click="close"></view>
+		<slot></slot>
+	</view>
+</template>
+
+<script>
+	import { UxOverlayMixin } from './index.uts'
+	
+	/**
+	 * 遮罩层
+	 * @description 遮罩层
+	 * @tutorial https://www.uxframe.cn/component/layout/overlay.html
+	 * @property {Boolean}			show = [true|false]					Boolean | 显隐状态 (默认 fasle)
+	 * @property {Boolean}			maskClose = [true|false]			Boolean | 点击遮罩是否关闭 (默认 true)
+	 * @property {Number}			opacity								Number | 遮罩透明度 0-1 (默认 0.5)
+	 * @property {Boolean}			fixedOpacity = [true|false]			Boolean | 固定透明度  (默认 true)
+	 * @property {Number}			zIndex								Number | 层级z-index (默认 10001)
+	 * @event {Function}			close								Function | 点击遮罩关闭时触发
+	 * @author UxFrame
+	 * @date 2023-10-03 20:31:11
+	 */
+	export default {
+		name: 'ux-overlay',
+		mixins: [UxOverlayMixin]
+	}
+</script>
+
+<style lang="scss">
+	
+	.ux-overlay {
+		width: 100%;
+		height: 100%;
+		
+		.ux-overlay__mask {
+			position: fixed;
+			z-index: 10001;
+			top: 0;
+			right: 0;
+			width: 0;
+			height: 0;
+			background-color: rgba(0, 0, 0, 0);
+		}
+	}
+	
+	.transform {
+		transition-property: background-color;
+		transition-duration: 0.4s;
+		transition-timing-function: linear;
+	}
+</style>

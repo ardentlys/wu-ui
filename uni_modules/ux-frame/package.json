@@ -1,0 +1,90 @@
+{
+  "id": "ux-frame",
+  "displayName": "【限时1元福利】UxFrame 低代码高性能UI框架",
+  "version": "1.0.7",
+  "description": "【F2图表、双滑块slider、炫酷效果tabbar、拖拽排序、日历拖拽选择、签名...】UniAppX 高质量UI库",
+  "keywords": [
+    "",
+    "",
+    "ux",
+    "uxframe",
+    "uniappx",
+    "uniapp-x",
+    "原生ui框架"
+],
+  "repository": "",
+  "engines": {
+    "HBuilderX": "^3.99"
+  },
+  "dcloudext": {
+    "type": "component-uts",
+    "sale": {
+      "regular": {
+        "price": "0.10"
+      },
+      "sourcecode": {
+        "price": "1.00"
+      }
+    },
+    "contact": {
+      "qq": "3106205417"
+    },
+    "declaration": {
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
+    },
+    "npmurl": ""
+  },
+  "uni_modules": {
+    "dependencies": [],
+    "encrypt": [],
+    "platforms": {
+      "cloud": {
+        "tcb": "y",
+        "aliyun": "y",
+        "alipay": "y"
+      },
+      "client": {
+        "Vue": {
+          "vue2": "u",
+          "vue3": "y"
+        },
+        "App": {
+          "app-android": {
+            "minVersion": "19"
+        },
+          "app-ios": "n"
+        },
+        "H5-mobile": {
+          "Safari": "y",
+          "Android Browser": "y",
+          "微信浏览器(Android)": "y",
+          "QQ浏览器(Android)": "y"
+        },
+        "H5-pc": {
+          "Chrome": "u",
+          "IE": "u",
+          "Edge": "u",
+          "Firefox": "u",
+          "Safari": "u"
+        },
+        "小程序": {
+          "微信": "u",
+          "阿里": "u",
+          "百度": "u",
+          "字节跳动": "u",
+          "QQ": "u",
+          "钉钉": "u",
+          "快手": "u",
+          "飞书": "u",
+          "京东": "u"
+        },
+        "快应用": {
+          "华为": "u",
+          "联盟": "u"
+        }
+      }
+    }
+  }
+}

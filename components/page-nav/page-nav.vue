@@ -1,7 +1,7 @@
 <template>
 	<view class="nav-wrap">
 		<view class="nav-title">
-			<wu-image src="https://wu.geeks.ink/logo.png" width="130rpx" height="145rpx"/>
+			<wu-image src="https://wuui.cn/logo.png" width="130rpx" height="145rpx"/>
 			<view class="nav-info">
 				<view class="nav-info__title" @tap="jumpToWx">
 					<text class="nav-info__title__text">WU-UI {{version}}</text>

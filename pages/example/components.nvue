@@ -13,6 +13,7 @@
 				</wu-cell>
 			</wu-cell-group>
 		</view>
+		<wu-action-sheet ref="show0" :actions="actions0" closeOnClickAction  cancelText="取消"  @close="close"></wu-action-sheet>
 		<wu-gap height="30" bgColor="#fff"></wu-gap>
 	</view>
 </template>
@@ -25,6 +26,17 @@
 			return {
 				list: list,
 				desc: '全面兼容多端的uniapp生态框架，基于vue2、vue3和nvue开发。丰富组件库，便捷工具库，简单高效。无论平台，一致体验。选择我们，开发更轻松！',
+				actions0: [{
+						name: '选项1',
+					},
+					{
+						name: '选项2',
+					},
+					{
+						name: '选项3',
+						subname: '描述文本'
+					},
+				],
 			}
 		},
 		computed: {
@@ -54,6 +66,16 @@
 			}
 		},
 		methods: {
+			close(e) {
+				console.log('close')
+			},
+			// 点击cell，判断显示哪个功能
+			openSheet(index) {
+				// #ifndef MP
+				if (index === 5) return uni.$w.toast('请在微信内预览')
+				// #endif
+				this.$refs[`show0`].open();
+			},
 			openPage(detail) {
 				const path = detail.name
 				// #ifdef APP-NVUE

@@ -1,7 +1,7 @@
 {
 	"id": "wu-status-bar",
 	"displayName": "wu-status-bar 占位状态栏，自动计算状态栏高度，全端兼容，无论平台，一致体验。",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "本组件主要用于状态填充，比如在自定导航栏的时候，它会自动适配一个恰当的状态栏高度。",
 	"keywords": [
         "wu-ui",
@@ -40,7 +40,8 @@
 		"platforms": {
 			"cloud": {
 				"tcb": "y",
-				"aliyun": "y"
+                "aliyun": "y",
+                "alipay": "n"
 			},
 			"client": {
 				"Vue": {

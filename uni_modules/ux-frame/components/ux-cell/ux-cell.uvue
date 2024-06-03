@@ -1,0 +1,146 @@
+<template>
+	<view v-if="show" class="ux-cell" :style="[style, xstyle]" :hover-class="hoverClass" :hover-start-time="20" :hover-stay-time="200" @click="click">
+		<view class="ux-cell__body" :style="[bodyStyle]">
+			<ux-col v-if="$slots['left'] == null" justify="left">
+				<ux-row :justify="center?'center':'left'" align="center">
+					<view v-if="icon != ''" class="ux-cell__body__icon">
+						<ux-icon :type="icon" :size="iconSize" :color="iconColor" :xstyle="[iconStyle]"></ux-icon>
+					</view>
+					<text class="ux-cell__body__title" :style="[_titleStyle, titleStyle]">{{ title }}</text>
+					<text v-if="required" class="ux-cell__body__star">*</text>
+				</ux-row>
+				<text v-if="summary != ''" class="ux-cell__body__summary" :style="[_summaryStyle, summaryStyle]">{{ summary }}</text>
+			</ux-col>
+			<ux-row v-else justify="left">
+				<slot name="left"></slot>
+			</ux-row>
+			
+			<ux-row v-if="$slots['right'] == null" justify="right" align="center">
+				<text v-if="label != '' || placeholder != ''" class="ux-cell__body__label" :style="[_labelStyle, _xlabelStyle]">{{ label == '' ? placeholder : label }}</text>
+				<view v-if="_rightIcon != ''" class="ux-cell__body__icon--right">
+					<ux-icon :type="_rightIcon" :size="18" color="#a9a9a9" :xstyle="[rightIconStyle]"></ux-icon>
+				</view>
+			</ux-row>
+			<ux-row v-else justify="right">
+				<slot name="right"></slot>
+			</ux-row>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { UxCellMixin } from './index.uts'
+	
+	/**
+	 * Cell 单元格
+	 * @description cell单元格一般用于一组列表的情况，比如个人中心页，设置页等
+	 * @tutorial https://www.uxframe.cn/component/basic/cell.html
+	 * @property {Slot}				left						Slot | 左边插槽
+	 * @property {Slot}				right						Slot | 右边插槽
+	 * @property {String}			title						String | 标题
+	 * @property {Number}			size						Number | 标题大小 (默认 14)
+	 * @property {String}			color						String | 标题颜色 (默认 $ux.theme.main)
+	 * @property {Boolean}			bold = [true|false]			Boolean | 标题加粗 (默认 false)
+	 * @property {String}			titleStyle					String | 标题样式
+	 * @property {String}			summary						String | 描述文本
+	 * @property {String}			summaryColor				String | 描述文本颜色 (默认 $ux.theme.summary)
+	 * @property {Number}			summarySize					Number | 描述文本大小 (默认 10)
+	 * @property {String}			summaryStyle				String | 描述文本样式
+	 * @property {String}			label						String | 右侧内容
+	 * @property {Number}			labelSize					Number | 内容大小 (默认 14)
+	 * @property {String}			labelColor					String | 内容颜色 (默认 $ux.theme.main)
+	 * @property {Boolean}			labelBold = [true|false]	Boolean | 内容加粗 (默认 false)
+	 * @property {String}			labelStyle					String | 内容样式
+	 * @property {String}			placeholder					String | 右侧占位内容
+	 * @property {Number}			placeholderSize				Number | 右侧占位内容大小 (默认 13)
+	 * @property {String}			placeholderColor			String | 右侧占位内容颜色 (默认 $ux.theme.summary)
+	 * @property {String}			placeholderStyle			String | 内容样式
+	 * @property {String}			icon						String | 标题图标
+	 * @property {String}			iconColor					String | 标题图标颜色 (默认 $ux.theme.main)
+	 * @property {Number}			iconSize					Number | 标题图标大小 (默认 15)
+	 * @property {String}			iconStyle					String | 标题图标样式
+	 * @property {String}			rightIcon					String | 右侧图标
+	 * @property {Boolean}			rightArrow = [true|false]	Boolean | 右侧箭头图标（默认 true）
+	 * @property {String}			rightIconStyle				String | 右侧图标样式
+	 * @property {String}			customFont					String | 自定义字体路径
+	 * @property {String}			customFamily				String | 字体family
+	 * @property {String}			background					String | 背景色
+	 * @property {Boolean}			border = [true|false]		Boolean | 显示下边框 (默认 true )
+	 * @property {String}			borderColor					String | 下边框颜色  (默认 $ux.theme.border )
+	 * @property {Number}			minHeight					Number | 最小高度（默认 38）
+	 * @property {Number}			height						Number | 固定高度 优先级高于最小高度（默认 0）
+	 * @property {Number}			padding						Number | 内部水平边距 (默认 15)
+	 * @property {Boolean}			center = [true|false]		Boolean | 内容是否垂直居中 (默认 false )
+	 * @property {Boolean}			required = [true|false]		Boolean | 是否显示必填星号（默认 false ）
+	 * @property {String}			path						String | 页面跳转路径
+	 * @property {String}			show						Boolean | 是否显示cell（默认 true ）
+	 * @property {Boolean}			disabled = [true|false]		Boolean | 是否禁用cell（默认 false ）
+	 * @property {Boolean}			hover = [true|false]		Boolean | 显示点击态 (默认 true)
+	 * @property {Array}			margin						Array | 边距 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}			mt							Number | 距上 单位px
+	 * @property {Number}			mr							Number | 距右 单位px
+	 * @property {Number}			mb							Number | 距下 单位px
+	 * @property {Number}			ml							Number | 距左 单位px
+	 * @property {Array}			xstyle						Array<any> | 自定义样式
+	 * @event {Function}			click						Function | 单元格点击时触发
+	 * @author UxFrame
+	 * @date 2023-11-04 01:39:55
+	 */
+	export default {
+		name: 'ux-cell',
+		mixins: [UxCellMixin]
+	}
+</script>
+
+<style lang="scss">
+
+	.ux-cell {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		
+		&__body {
+			flex: 1;
+			margin: 0 15px;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			
+			&__icon {
+				margin-right: 10px;
+				
+				&--right {
+					margin-left: 8px;
+				}
+			}
+			
+			&__title {
+				color: #333333;
+				font-size: 14px;
+			}
+			
+			&__summary {
+				color: #333333;
+				font-size: 10px;
+			}
+			
+			&__label {
+				color: #333333;
+				font-size: 14px;
+				text-align: right;
+			}
+			
+			&__star {
+				font-size: 12px;
+				color: red;
+				margin-left: 5px;
+			}
+		}
+		
+		&__hover {
+			background-color: #F0F0F0 !important;
+		}
+	}
+</style>

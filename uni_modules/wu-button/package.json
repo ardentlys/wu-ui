@@ -1,7 +1,7 @@
 {
 	"id": "wu-button",
 	"displayName": "wu-button 按钮 全面兼容vue3+2、app、h5、小程序等多端",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "按钮组件内部实现以uni-app的button组件为基础，进行二次封装，灵活配置，功能齐全，兼容全端。",
 	"keywords": [
         "wu-button",
@@ -44,7 +44,8 @@
 		"platforms": {
 			"cloud": {
 				"tcb": "y",
-				"aliyun": "y"
+                "aliyun": "y",
+                "alipay": "n"
 			},
 			"client": {
 				"Vue": {

@@ -11,19 +11,19 @@
 4.优化wu-calendar date属性来更好的指定多日期、范围日期的默认值
 
 // 已发布
-| wu-gap | [间隔槽](https://wu.geeks.ink/zh-CN/components/gap.html) |
+| wu-gap | [间隔槽](https://wuui.cn/zh-CN/components/gap.html) |
 | wu-status-bar | [顶部安全区域](https://ext.dcloud.net.cn/plugin?name=wu-status-bar) |
 | wu-safe-bottom | [底部安全区域](https://ext.dcloud.net.cn/plugin?name=wu-safe-bottom) |
-| wu-textarea | [文本域](https://wu.geeks.ink/zh-CN/components/textarea.html) |
-| wu-checkbox | [复选框](https://wu.geeks.ink/zh-CN/components/checkbox.html) |
-| wu-cell | [单元格](https://wu.geeks.ink/zh-CN/components/cell.html) |
-| wu-code | [验证码](https://wu.geeks.ink/zh-CN/components/code.html) |
-| wu-input | [输入框](https://wu.geeks.ink/zh-CN/components/input.html) |
-| wu-radio | [单选框](https://wu.geeks.ink/zh-CN/components/radio.html) |
-| wu-navbar | [自定义导航栏](https://wu.geeks.ink/zh-CN/components/navbar.html) |
-| wu-popup | [弹出层](https://wu.geeks.ink/zh-CN/components/popup.html) |
-| wu-overlay | [遮罩层](https://wu.geeks.ink/zh-CN/components/overlay.html) |
-| wu-actionSheet | [操作菜单](https://wu.geeks.ink/zh-CN/components/actionSheet.html) |
+| wu-textarea | [文本域](https://wuui.cn/zh-CN/components/textarea.html) |
+| wu-checkbox | [复选框](https://wuui.cn/zh-CN/components/checkbox.html) |
+| wu-cell | [单元格](https://wuui.cn/zh-CN/components/cell.html) |
+| wu-code | [验证码](https://wuui.cn/zh-CN/components/code.html) |
+| wu-input | [输入框](https://wuui.cn/zh-CN/components/input.html) |
+| wu-radio | [单选框](https://wuui.cn/zh-CN/components/radio.html) |
+| wu-navbar | [自定义导航栏](https://wuui.cn/zh-CN/components/navbar.html) |
+| wu-popup | [弹出层](https://wuui.cn/zh-CN/components/popup.html) |
+| wu-overlay | [遮罩层](https://wuui.cn/zh-CN/components/overlay.html) |
+| wu-actionSheet | [操作菜单](https://wuui.cn/zh-CN/components/actionSheet.html) |
 
 // 待发布
 
@@ -33,10 +33,10 @@
 // 正在开发
 
 // 待开发
-| wu-form | [表单](https://wu.geeks.ink/zh-CN/components/form.html) |
-| wu-qrcode | [二维码](https://wu.geeks.ink/zh-CN/components/qrcode.html) |
-| wu-action | [滑动菜单](https://wu.geeks.ink/zh-CN/components/action.html) |
-| wu-refresh | [下拉刷新](https://wu.geeks.ink/zh-CN/components/pullRefresh.html) |
+| wu-form | [表单](https://wuui.cn/zh-CN/components/form.html) |
+| wu-qrcode | [二维码](https://wuui.cn/zh-CN/components/qrcode.html) |
+| wu-action | [滑动菜单](https://wuui.cn/zh-CN/components/action.html) |
+| wu-refresh | [下拉刷新](https://wuui.cn/zh-CN/components/pullRefresh.html) |
 
 // 待优化部分
-| wu-icon | [图标](https://wu.geeks.ink/zh-CN/components/icon.html) |
+| wu-icon | [图标](https://wuui.cn/zh-CN/components/icon.html) |

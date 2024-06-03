@@ -1,0 +1,397 @@
+import { $ux } from '../../index.uts'
+
+export const UxDrawerMixin = defineMixin({
+	emits: ['change'],
+	data() {
+		return {
+			myId: `ux-drawer_${$ux.Random.uuid()}`,
+			opened: false,
+			touched: false,
+			pos: 0,
+			dis: -100,
+			sw: uni.getSystemInfoSync().screenWidth as number,
+			sh: uni.getSystemInfoSync().screenHeight as number,
+		}
+	},
+	props: {
+		// 触摸拖动
+		touch: {
+			type: Boolean,
+			default: true
+		},
+		// 方向
+		direction: {
+			type: String,
+			default: 'right'
+		},
+		// 固定定位
+		fixed: {
+			type: Boolean,
+			default: false
+		},
+		// 宽度
+		width: {
+			type: String,
+			default: '85%'
+		},
+		// 宽度
+		height: {
+			type: String,
+			default: '40%'
+		},
+		// 背景色
+		background: {
+			type: String,
+			default: 'transparent'
+		},
+		// 显示边框
+		border: {
+			type: Boolean,
+			default: false
+		},
+		// 背景色透明度
+		opacity: {
+			type: Number,
+			default: 0.6
+		},
+		// 层级z-index
+		zIndex: {
+			type: Number,
+			default: 20000
+		},
+		// 遮罩层关闭
+		maskClose: {
+			type: Boolean,
+			default: true
+		},
+		// 是否禁用
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+	},
+	computed: {
+		slotStyle() : string {
+			let style = ''
+			if (this.direction == 'right') {
+				style = `width: ${this.slotLen}px;`
+			} else if (this.direction == 'top') {
+				style = `height: ${this.slotLen}px;`
+			} else if (this.direction == 'left') {
+				style = `width: ${this.slotLen}px;`
+			} else if (this.direction == 'bottom') {
+				style = `height: ${this.slotLen}px;`
+			}
+	
+			if (this.border) {
+				style += `border-${this.direction}: 1px solid ${$ux.theme.border};`
+			}
+	
+			return `${style}background-color: ${this.background};`
+		},
+		defaultDis() : number {
+			if (this.direction == 'right') {
+				return -this.slotLen / this.sw * 100
+			} else if (this.direction == 'top') {
+				return -this.slotLen / this.sh * 100
+			} else if (this.direction == 'left') {
+				return -this.slotLen / this.sw * 100
+			} else if (this.direction == 'bottom') {
+				return -this.slotLen / this.sh * 100
+			}
+	
+			return 0
+		},
+		maskOpacity() : number {
+			let v = 1 - this.dis / this.defaultDis
+	
+			if (v > this.opacity) {
+				v = this.opacity
+			}
+	
+			if (v < 0) {
+				v = 0
+			}
+	
+			return v
+		},
+		slotLen() : number {
+			let w = ''
+			let len = 0
+	
+			if (this.direction == 'right') {
+				w = this.width.toString().toLowerCase()
+				len = this.sw
+			} else if (this.direction == 'top') {
+				w = this.height.toString().toLowerCase()
+				len = this.sh
+			} else if (this.direction == 'left') {
+				w = this.width.toString().toLowerCase()
+				len = this.sw
+			} else if (this.direction == 'bottom') {
+				w = this.height.toString().toLowerCase()
+				len = this.sh
+			}
+	
+			if (w.includes('%')) {
+				return len * (parseInt(w.replace('%', '')) / 100)
+			}
+	
+			if (w.includes('rpx')) {
+				let n = parseInt(w.replace('rpx', ''))
+	
+				return Math.floor(n / (750 / len))
+			}
+	
+			if (w.includes('px')) {
+				return parseInt(w.replace('px', ''))
+			}
+	
+			return len
+		},
+	},
+	mounted() {
+	
+	},
+	methods: {
+		/**
+		 * 触摸滑动事件
+		 */
+		touchstart(e : TouchEvent) {
+			if (this.disabled) {
+				return
+			}
+	
+			if (!this.touch) {
+				return
+			}
+	
+			if (this.direction == 'right') {
+				this.rightStart(e)
+			} else if (this.direction == 'top') {
+				this.topStart(e)
+			} else if (this.direction == 'left') {
+				this.leftStart(e)
+			} else if (this.direction == 'bottom') {
+				this.bottomStart(e)
+			}
+		},
+		touchend(e : TouchEvent) {
+			if (this.disabled) {
+				return
+			}
+	
+			if (!this.touch) {
+				return
+			}
+	
+			if (!this.touched) {
+				return
+			}
+	
+			if (this.direction == 'right') {
+				this.rightEnd(e)
+			} else if (this.direction == 'top') {
+				this.topEnd(e)
+			} else if (this.direction == 'left') {
+				this.leftEnd(e)
+			} else if (this.direction == 'bottom') {
+				this.bottomEnd(e)
+			}
+		},
+		rightStart(e : TouchEvent) {
+			let x = e.changedTouches[0].screenX
+			let y = e.changedTouches[0].screenY
+	
+			this.pos = x
+	
+			if (this.opened) {
+				if (x < this.slotLen - 100 || x > this.slotLen + 100) {
+					this.touched = false
+					return
+				}
+			} else {
+				if (x > this.slotLen * 0.3 || y < 100 || y > this.sh - 100) {
+					this.touched = false
+					return
+				}
+			}
+	
+			this.touched = true
+		},
+		rightEnd(e : TouchEvent) {
+			let dis = e.changedTouches[0].screenX - this.pos
+	
+			if (this.opened) {
+				if (dis > -20) {
+					return
+				}
+	
+				this.close()
+			} else {
+				if (dis < 20) {
+					return
+				}
+	
+				this.open()
+			}
+		},
+		leftStart(e : TouchEvent) {
+			let x = this.sw - e.changedTouches[0].screenX
+			let y = e.changedTouches[0].screenY
+	
+			this.pos = x
+	
+			if (this.opened) {
+				if (x < this.slotLen - 100 || x > this.slotLen + 100) {
+					this.touched = false
+					return
+				}
+			} else {
+				if (x > this.slotLen * 0.3 || y < 100 || y > this.sh - 100) {
+					this.touched = false
+					return
+				}
+			}
+	
+			this.touched = true
+		},
+		leftEnd(e : TouchEvent) {
+			let dis = this.sw - e.changedTouches[0].screenX - this.pos
+	
+			if (this.opened) {
+				if (dis > -20) {
+					return
+				}
+	
+				this.close()
+			} else {
+				if (dis < 20) {
+					return
+				}
+	
+				this.open()
+			}
+		},
+		topStart(e : TouchEvent) {
+			let x = e.changedTouches[0].screenX
+			let y = this.sh - e.changedTouches[0].screenY
+	
+			this.pos = y
+	
+			if (this.opened) {
+				if (y < this.slotLen - 100 || y > this.slotLen + 100) {
+					this.touched = false
+					return
+				}
+			} else {
+				if (y > this.slotLen * 0.3 || x < 20 || x > this.sw - 20) {
+					this.touched = false
+					return
+				}
+			}
+	
+			this.touched = true
+		},
+		topEnd(e : TouchEvent) {
+			let dis = this.sh - e.changedTouches[0].screenY - this.pos
+	
+			if (this.opened) {
+				if (dis > -20) {
+					return
+				}
+	
+				this.close()
+			} else {
+				if (dis < 20) {
+					return
+				}
+	
+				this.open()
+			}
+		},
+		bottomStart(e : TouchEvent) {
+			let x = e.changedTouches[0].screenX
+			let y = e.changedTouches[0].screenY
+	
+			this.pos = y
+	
+			if (this.opened) {
+				if (y < this.slotLen - 100 || y > this.slotLen + 100) {
+					this.touched = false
+					return
+				}
+			} else {
+				if (y > this.slotLen * 0.3 || x < 20 || x > this.sw - 20) {
+					this.touched = false
+					return
+				}
+			}
+	
+			this.touched = true
+		},
+		bottomEnd(e : TouchEvent) {
+			let dis = e.changedTouches[0].screenY - this.pos
+	
+			if (this.opened) {
+				if (dis > -20) {
+					return
+				}
+	
+				this.close()
+			} else {
+				if (dis < 20) {
+					return
+				}
+	
+				this.open()
+			}
+		},
+		/**
+		 * 打开
+		 */
+		open() {
+			if (this.disabled) {
+				return
+			}
+	
+			if (this.direction == 'right' || this.direction == 'left') {
+				uni.getElementById(this.myId as string)?.style?.setProperty('transform', `translateX(${0}%)`)
+			} else if (this.direction == 'top' || this.direction == 'bottom') {
+				uni.getElementById(this.myId as string)?.style?.setProperty('transform', `translateY(${0}%)`)
+			}
+	
+			this.dis = 0
+	
+			setTimeout(() => {
+				this.opened = true
+				this.$emit('change', this.opened)
+			}, 100);
+		},
+		/**
+		 * 关闭
+		 */
+		close() {
+			if (this.disabled) {
+				return
+			}
+	
+			if (this.direction == 'right') {
+				uni.getElementById(this.myId as string)?.style?.setProperty('transform', `translateX(${-100}%)`)
+			} else if (this.direction == 'top') {
+				uni.getElementById(this.myId as string)?.style?.setProperty('transform', `translateY(${100}%)`)
+			} else if (this.direction == 'left') {
+				uni.getElementById(this.myId as string)?.style?.setProperty('transform', `translateX(${100}%)`)
+			} else if (this.direction == 'bottom') {
+				uni.getElementById(this.myId as string)?.style?.setProperty('transform', `translateY(${-100}%)`)
+			}
+	
+			this.dis = this.defaultDis
+	
+			setTimeout(() => {
+				this.opened = false
+				this.$emit('change', this.opened)
+			}, 100);
+		},
+	}
+})

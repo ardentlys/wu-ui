@@ -1,0 +1,97 @@
+<template>
+	<view :id="myId" class="ux-signature">
+		<view ref="transform" class="ux-signature transform" :style="[style]">
+			<view class="ux-signature__area" :style="[areaStyle]">
+				<text class="ux-signature__area--text">{{ text }}</text>
+				<view ref="ux-signature" class="ux-signature__area--signature"></view>
+			</view>
+			<view class="ux-signature__handle">
+				<ux-button :mr="10" text="清除" @click="clear()"></ux-button>
+				<ux-button :mr="10" text="撤销" @click="undo()"></ux-button>
+				<ux-button :mr="10" text="恢复" @click="redo()"></ux-button>
+				<ux-button :mr="10" type="primary" :text="confirm" :color="confirmColor" @click="make()"></ux-button>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { UxSignatureMixin } from './index.uts'
+
+	/**
+	 * Signature 手写板签名
+	 * @description 签名手写板 支持横竖屏切换
+	 * @tutorial https://www.uxframe.cn/component/func/signature.html
+	 * @property {String}		text						String | 背景文字 （默认 签名区）
+	 * @property {Number}		size						Number | 笔触大小 (默认 2)
+	 * @property {String}		color						String | 笔触颜色 (默认 $ux.theme.main)
+	 * @property {String}		background					String | 背景颜色 (默认 $ux.theme.background)
+	 * @property {String}		confirm						String | 确定文字 (默认 确定)
+	 * @property {String}		confirmColor				String | 确定文字颜色 (默认 $ux.theme.primary)
+	 * @property {Number}		minWidth					Number | 最小宽度 (默认 2)
+	 * @property {Number}		maxWidth					Number | 最大宽度 (默认 6)
+	 * @property {Number}		minSpeed					Number | 最小速度 (默认 1.5)
+	 * @property {Number}		maxHistory					Number | 最大可撤销记录 (默认 20)
+	 * @property {Boolean}		landscape=[true|false]		Boolean | 横屏切换 (默认 false)
+	 * @value true
+	 * @value false
+	 * @property {String}		format=[png|jpg]			String | 图片格式 (默认 png)
+	 * @value png
+	 * @value jpg
+	 * @property {Boolean}		disableScroll=[true|false]	Boolean | 禁止屏幕滚动 (默认 true)
+	 * @value true
+	 * @value false
+	 * @property {Boolean}		disabled=[true|false]		Boolean | 是否禁用 (默认 false)
+	 * @value true
+	 * @value false
+	 * @event {Function}		change						Function | 生成签名时触发
+	 * @author UxFrame
+	 * @date 2023-12-28 18:45:12
+	 */
+	export default {
+		name: 'ux-signature',
+		mixins: [UxSignatureMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-signature {
+		flex: 1;
+
+		&__area {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+
+			&--signature {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: transparent;
+			}
+
+			&--text {
+				font-size: 100px;
+				color: #e9e9e9;
+			}
+		}
+
+		&__handle {
+			width: 100%;
+			height: 50px;
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+			background-color: white;
+		}
+	}
+
+	.transform {
+		transition-property: transform;
+		transition-duration: 200ms;
+	}
+</style>

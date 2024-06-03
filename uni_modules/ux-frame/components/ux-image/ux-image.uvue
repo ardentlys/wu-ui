@@ -1,0 +1,145 @@
+<template>
+	<view class="ux-image" :style="style" @click="click">
+		<image :id="myId" class="ux-image__img"
+			:src="src" 
+			:mode="mode" 
+			:fade-show="fade"
+			@error="error"
+			@load="load">
+		</image>
+		<view v-if="showLoading && isLoading" class="ux-image__loading">
+			<slot name="loading">
+				<!-- TODO 有性能问题 -->
+				<!-- <ux-loading :size="`${iconSize}px`"></ux-loading> -->
+			</slot>
+		</view>
+		<view v-if="showError && isError" class="ux-image__error">
+			<slot name="error">
+				<ux-icon :type="errorIcon" :size="iconSize"></ux-icon>
+			</slot>
+		</view>
+		<view v-if="$slots['default'] != null" class="ux-image__mask" :style="maskStyle">
+			<slot></slot>
+		</view>
+		
+		<!-- <ux-preview v-if="previewMode == 'hero' && isPreview" ref="uxPreview"></ux-preview> -->
+	</view>
+</template>
+
+<script>
+	import { UxImageMixin } from './index.uts'
+	
+	/**
+	 * Image 图片
+	 * @description 此组件为uni-app-x的image组件的加强版，在继承了原有功能外，还支持淡入动画、加载中、加载失败提示、圆角值和形状等功能
+	 * @tutorial https://www.uxframe.cn/component/basic/image.html
+	 * @property {String}			default 			Slot | default Slot
+	 * @property {String}			loading 			Slot | loading Slot
+	 * @property {String}			error 				Slot | error Slot
+	 * @property {String}			src 				String | 图片地址
+	 * @property {Array} 			previewList 		Array | 图片预览列表
+	 * @property {String}			previewMode=[normal|hero]		String | 预览模式（默认 normal ）
+	 * @value normal	正常
+	 * @value hero		hero动效
+	 * @property {String}			mode=[scaleToFill|aspectFit|aspectFill|widthFix|heightFix|top|bottom|center|left|right|top left|top right|bottom left|bottom right] 	String | 裁剪模式 （默认 aspectFill）
+	 * @value scaleToFill	不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
+	 * @value aspectFit	保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来
+	 * @value aspectFill	保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取
+	 * @value widthFix	宽度不变，高度自动变化，保持原图宽高比不变
+	 * @value heightFix	高度不变，宽度自动变化，保持原图宽高比不变
+	 * @value top	不缩放图片，只显示图片的顶部区域
+	 * @value bottom	不缩放图片，只显示图片的底部区域
+	 * @value center	不缩放图片，只显示图片的中间区域
+	 * @value left	不缩放图片，只显示图片的左边区域
+	 * @value right	不缩放图片，只显示图片的右边区域
+	 * @value top left	不缩放图片，只显示图片的左上边区域
+	 * @value top right	不缩放图片，只显示图片的右上边区域
+	 * @value bottom left	不缩放图片，只显示图片的左下边区域
+	 * @value bottom right	不缩放图片，只显示图片的右下边区域
+	 * @property {Number}			width 				Number | 宽度（默认 75 ）
+	 * @property {Number}			height 				Number | 高度 （默认 75 ）
+	 * @property {String}			shape=[circle|square] 		String | 图片形状 （默认 square ）
+	 * @value circle	圆形
+	 * @value square	方形
+	 * @property {Number}			radius		 		Number | 圆角值（默认 0 ）
+	 * @property {Boolean}			fade 				Boolean | 是否需要淡入效果 （默认 true ）
+	 * @property {Boolean}			showLoading 		Boolean | 是否显示加载中的图标或者自定义的slot （默认 true ）
+	 * @property {Boolean}			showError 			Boolean | 是否显示加载错误的图标或者自定义的slot （默认 true ）
+	 * @property {String}			errorIcon 			String | 加载失败的图标或者图片 （默认 image-filled ）
+	 * @property {Number} 			iconSize 			Number | 图标大小 （默认 25 ）
+	 * @property {Array}			margin				Array | 边距 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}			mt					Number | 距上 单位px
+	 * @property {Number}			mr					Number | 距右 单位px
+	 * @property {Number}			mb					Number | 距下 单位px
+	 * @property {Number}			ml					Number | 距左 单位px
+	 * @property {Array}			padding				Array | 填充 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}			pt					Number | 上内边距 单位px
+	 * @property {Number}			pr					Number | 右内边距 单位px
+	 * @property {Number}			pb					Number | 下内边距 单位px
+	 * @property {Number}			pl					Number | 左内边距 单位px
+	 * @property {Array}			xstyle				Array<any> | 自定义样式
+	 * @event {Function}			error				Function | 图片加载失败时触发
+	 * @event {Function} 			load 				Function | 图片加载成功时触发
+	 * @event {Function} 			click 				Function | 被点击时触发
+	 * @author UxFrame
+	 * @date 2023-11-21 00:39:45
+	 */
+	export default {
+		name: 'ux-image',
+		mixins: [UxImageMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-image {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		
+		&__img {
+			width: 100%;
+			height: 100%;
+			
+			&__fixed {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+			}
+		}
+		
+		&__loading {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			overflow: hidden;
+			background-color: #f0f0f0;
+		}
+		
+		&__error {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			overflow: hidden;
+			background-color: #f0f0f0;
+		}
+		
+		&__mask {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+	}
+</style>

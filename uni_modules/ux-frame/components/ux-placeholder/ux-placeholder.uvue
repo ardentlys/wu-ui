@@ -1,0 +1,34 @@
+<template>
+	<view v-if="_height > 0" class="ux-placeholder" :style="style">
+		<slot></slot>
+	</view>
+</template>
+
+<script>
+	import { UxPlaceholderMixin } from './index.uts'
+	
+	/**
+	 * 高度占位
+	 * @description 高度占位 支持 状态栏 标题栏 底部导航栏 底部安全区域 任意高度
+	 * @tutorial https://www.uxframe.cn/component/layout/placeholder.html
+	 * @property {Number}			height						Number | 占位高度 优先级更高
+	 * @property {Boolean}			statusbar = [true|false]	Boolean | 状态栏高度占位 (默认 false)
+	 * @property {Boolean}			navbar = [true|false]		Boolean | 标题栏高度占位 (默认 false)
+	 * @property {Boolean}			tabbar = [true|false]		Boolean | 底部导航栏高度占位 (默认 false)
+	 * @property {Boolean}			safearea = [true|false]		Boolean | 底部安全区高度占位 (默认 false)
+	 * @property {String}			background					String | 背景色 (默认 transparent)
+	 * @author UxFrame
+	 * @date 2023-11-03 18:32:45
+	 */
+	export default {
+		name: 'ux-placeholder',
+		mixins: [UxPlaceholderMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-placeholder {
+		width: 100%;
+		height: 54px;
+	}
+</style>

@@ -67,7 +67,7 @@
 	/**
 	 * loading 加载动画
 	 * @description 警此组件为一个小动画，目前用在wuui的loadmore加载更多和switch开关等组件的正在加载状态场景。
-	 * @tutorial https://wu.geeks.ink/zh-CN/components/loadgin-icon.html
+	 * @tutorial https://wuui.cn/zh-CN/components/loadgin-icon.html
 	 * @property {Boolean}			show			是否显示组件  (默认 true)
 	 * @property {String}			color			动画活动区域的颜色，只对 mode = flower 模式有效（默认#909193）
 	 * @property {String}			textColor		提示文本的颜色（默认#909193）

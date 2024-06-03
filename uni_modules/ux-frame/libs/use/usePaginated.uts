@@ -1,0 +1,65 @@
+import { Ref } from "vue";
+
+type PaginatedData<T> = {
+    items: Ref<T[]>;
+    currentPage: Ref<number>;
+    pageSize: number;
+    isLoading: Ref<boolean>;
+    loadMore: () => void;
+    update: (newItems: T[]) => void;
+}
+
+/**
+ * 分页hooks
+ */
+export function usePaginated<T>(initialItems: T[], pageSize: number): PaginatedData<T> {
+    const currentPage = ref(1);
+    const isLoading = ref(false);
+    const items = ref<T[]>(initialItems); // 原始数据列表
+    const paginatedItems = ref<T[]>([]); // 分页后的数据列表
+    
+    // 初始化分页数据
+    const initialize = () => {
+        paginatedItems.value = items.value.slice(0, pageSize);
+    }
+    initialize();
+    
+    // 加载更多数据
+    const loadMore = () => {
+        if (isLoading.value) return;
+        isLoading.value = true;
+        
+        // 计算下一页的数据范围
+        const start = paginatedItems.value.length;
+        const end = start + pageSize;
+        // 更新分页后的数据列表
+        paginatedItems.value = [...paginatedItems.value, ...items.value.slice(start, end)];
+        // // 检测是否还有更多数据可以加载
+        // if (end <= items.value.length) {
+            
+        // }
+        
+        // 增加当前页码
+        currentPage.value++;
+        // 完成加载
+        isLoading.value = false;
+    }
+    
+    // 更新数据
+    const update = (newItems: T[]) => {
+        items.value = newItems;
+        // 重置当前页码
+        currentPage.value = 1;
+        // 重新初始化分页数据
+        initialize();
+    }
+    
+    return {
+        items: paginatedItems,
+        currentPage,
+        pageSize,
+        isLoading,
+        loadMore,
+        update
+    } as PaginatedData<T>;
+}

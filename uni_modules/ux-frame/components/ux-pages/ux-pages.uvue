@@ -1,0 +1,94 @@
+<template>
+	<view class="ux-pages">
+		<view class="ux-pages__item" v-if="pageList[0].init" v-show="index == 0">
+			<slot name="0">
+				<view class="ux-pages__error">
+					<text class="ux-pages__error__text">页面未配置</text>
+				</view>
+			</slot>
+		</view>
+		<view class="ux-pages__item" v-if="pageList[1].init" v-show="index == 1">
+			<slot name="1">
+				<view class="ux-pages__error">
+					<text class="ux-pages__error__text">页面未配置</text>
+				</view>
+			</slot>
+		</view>
+		<view class="ux-pages__item" v-if="pageList[2].init" v-show="index == 2">
+			<slot name="2">
+				<view class="ux-pages__error">
+					<text class="ux-pages__error__text">页面未配置</text>
+				</view>
+			</slot>
+		</view>
+		<view class="ux-pages__item" v-if="pageList[3].init" v-show="index == 3">
+			<slot name="3">
+				<view class="ux-pages__error">
+					<text class="ux-pages__error__text">页面未配置</text>
+				</view>
+			</slot>
+		</view>
+		<view class="ux-pages__item" v-if="pageList[4].init" v-show="index == 4">
+			<slot name="4">
+				<view class="ux-pages__error">
+					<text class="ux-pages__error__text">页面未配置</text>
+				</view>
+			</slot>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { UxPagesMixin } from './index.uts'
+
+	/**
+	 * 页面组
+	 * @description 页面组 需搭配Tabbar组件使用
+	 * @tutorial https://www.uxframe.cn/component/layout/pages.html
+	 * @property {Slot}				0						Slot | 第1个页面插槽
+	 * @property {Slot}				1						Slot | 第2个页面插槽
+	 * @property {Slot}				2						Slot | 第3个页面插槽
+	 * @property {Slot}				3						Slot | 第4个页面插槽
+	 * @property {Slot}				4						Slot | 第5个页面插槽
+	 * @property {Number}			index					Number | 当前页面下标 (默认 0)
+	 * @property {Number}			pages					Number | 页面数量 (默认 0)
+	 * @author UxFrame
+	 * @date 2023-10-17 18:28:22
+	 */
+	export default {
+		name: 'ux-pages',
+		mixins: [UxPagesMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-pages {
+		width: 100%;
+		height: 100%;
+
+		&__item {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+		}
+
+		&__error {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+
+			&__text {
+				font-size: 15px;
+				color: gray;
+			}
+		}
+	}
+</style>

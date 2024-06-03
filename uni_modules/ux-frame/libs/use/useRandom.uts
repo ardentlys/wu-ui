@@ -1,0 +1,115 @@
+/**
+   @Name    :	随机数
+   @Author  :   UxFrame
+   @Date    :   2023-10-09 11:20:22
+*/
+
+import { Core } from "../core/core.uts"
+
+export default class useRandom {
+	
+	core: Core
+	
+	constructor(core: Core) {
+		this.core = core
+	}
+	
+	/** 
+	 * uuid
+	 */
+	uuid = () : string => {
+		const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
+		const uuid : string[] = []
+		
+		for (let i = 0; i < 36; i++) {
+			let r = 0 | Math.random() * 16
+			let c = chars[(i == 19) ? (r & 0x3) | 0x8 : r]
+			uuid.push(c)
+		}
+		
+		// rfc4122标准要求返回的uuid中,某些位为固定的字符
+		uuid[8] = '-'
+		uuid[13] = '-'
+		uuid[18] = '-'
+		uuid[23] = '-'
+		uuid[14] = '4'
+		
+		return `${uuid.join('')}`
+	}
+	
+	/**
+	 * 如果value小于min，取min；如果value大于max，取max
+	 * 
+	 * @param {Number} min 最小值
+	 * @param {Number} max 最大值
+	 * @param {Number} value 值
+	 */
+	range = (min : number, max : number, value : number) : number => {
+		return Math.max(min, Math.min(max, value))
+	}
+	
+	/**
+	 * 取一个区间数
+	 * 
+	 * @param {Number} min 最小值
+	 * @param {Number} max 最大值
+	 */
+	random = (min : number, max : number) : number => {
+		if (min >= 0 && max > 0 && max >= min) {
+			const gab = max - min + 1
+			return Math.floor(Math.random() * gab + min)
+		}
+	
+		return 0
+	}
+	
+	/**
+	 * @description 随机生成N位的数字
+	 * @param {number} min
+	 * @param {number} max
+	 * @returns {number}
+	 */
+	generateRandom(n : number) : number {
+		if (n == 0) return 0
+		const min = Math.pow(10, n - 1)
+		const max = Math.pow(10, n)
+		return Math.floor(Math.random() * (max - min + 1)) + min
+	}
+	
+	/**
+	 * 打乱数组
+	 * 
+	 * @param {Array} array 需要打乱的数组
+	 * @returns {Array} 打乱后的数组
+	 */
+	randomArray = (array : any[]) : any[] => {
+		// 原理是sort排序,Math.random()产生0<= x < 1之间的数,会导致x-0.05大于或者小于0
+		// #ifdef APP-ANDROID
+		return array.sort((_: any, _: any): number => Math.random() - 0.5)
+		// #endif
+		// #ifndef APP-ANDROID
+		return array.sort((a: any, b: any): number => Math.random() - 0.5)
+		// #endif
+	}
+	
+	/**
+	 * 去除空格
+	 * 
+	 * @param {String} str 需要去除空格的字符串
+	 * @param {String} pos both(左右)|left|right|all
+	 */
+	trim = (str : string, pos : string) : string => {
+		switch(pos) {
+			case 'both': 
+				return str.replace(/^\s+|\s+$/g, '')
+			case 'left':
+				return str.replace(/^\s*/, '')
+			case 'right':
+				return str.replace(/(\s*$)/g, '')
+			case 'all':
+				return str.replace(/\s+/g, '')
+		}
+		
+		return str.replace(/\s+/g, '')
+	}
+}

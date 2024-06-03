@@ -1,0 +1,92 @@
+<template>
+	<view class="ux-popup">
+		<ux-overlay :show="show" :z-index="zIndex" :opacity="opacity" @close="close">
+			<view v-if="opened" :id="id"
+				:class="['ux-popup__content', `ux-popup__content__${arrowPosition}`, 'transform']" :style="[style]">
+				<view v-if="arrowPosition == 'left' || arrowPosition == 'top'" ref="arrow" class="ux-popup__arrow"
+					:style="[arrowStyle]"></view>
+				<view ref="slot" class="ux-popup__slot" :style="[slotStyle]">
+					<slot></slot>
+				</view>
+				<view v-if="arrowPosition == 'right' || arrowPosition == 'bottom'" ref="arrow" class="ux-popup__arrow"
+					:style="[arrowStyle]"></view>
+			</view>
+		</ux-overlay>
+	</view>
+</template>
+
+<script>
+	import { UxPopupMixin } from './index.uts'
+	
+	/**
+	 * Popup 弹出层
+	 * @description 能在任何位置弹出并且自动计算在适当的位置显示
+	 * @tutorial https://www.uxframe.cn/component/toast/popup.html
+	 * @property {String}			targetId				String | 目标id
+	 * @property {Number}			width					Number | 宽度
+	 * @property {Number}			offset					Number | 偏移 (默认 10)
+	 * @property {Boolean}			align = [true|false]	Boolean | 与目标水平对齐 (默认 false)
+	 * @property {String}			backgroundColor			String | 背景色 (默认 #FFFFFF)
+	 * @property {Number}			opacity					Number | 遮罩透明度 0-1 (默认 0.5)
+	 * @property {Number}			zIndex					Number | 层级z-index (默认 10001)
+	 * @event {Function}			change					Function | 显示状态改变时触发
+	 * @author UxFrame
+	 * @date 2023-10-03 20:31:11
+	 */
+	export default {
+		name: 'ux-popup',
+		mixins: [UxPopupMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-popup {
+		display: flex;
+
+		.ux-popup__content {
+			position: fixed;
+			display: flex;
+			align-items: flex-start;
+			z-index: 10000;
+			opacity: 0;
+			transform: scale(0.9);
+			background-color: transparent;
+
+			&__top {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			&__bottom {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			&__left {
+				flex-direction: row;
+				align-items: flex-start;
+			}
+
+			&__right {
+				flex-direction: row;
+				align-items: flex-start;
+			}
+
+			.ux-popup__slot {
+				border-radius: 5px;
+			}
+
+			.ux-popup__arrow {
+				background-color: transparent;
+			}
+
+		}
+	}
+
+	.transform {
+		transform-origin: right top;
+		transition-property: transform, opacity;
+		transition-duration: 0.1s;
+		transition-timing-function: ease-out;
+	}
+</style>

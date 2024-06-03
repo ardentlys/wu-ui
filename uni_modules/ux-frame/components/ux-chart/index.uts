@@ -1,0 +1,88 @@
+import { $ux } from '../../index.uts'
+import { UXChart, UXChartGeom } from "../../libs/types/chart.uts"
+
+export const UxChartMixin = defineMixin({
+	emits: ['message', 'loading', 'load', 'error'],
+	data() {
+		return {
+			webview: null as WebviewContext | null,
+			src: '/uni_modules/ux-frame/hybrid/html/f2.html',
+			isLoading: false,
+		}
+	},
+	props: {
+		data: {
+			type: Object as PropType<UXChart>,
+			default: () : UXChart => {
+				return {
+					source: {
+						data: [] as UTSJSONObject[]
+					},
+					geom: {} as UXChartGeom,
+				} as UXChart
+			}
+		},
+		showLoading: {
+			type: Boolean,
+			default: true,
+		},
+		loadingText: {
+			type: String,
+			default: '加载中...',
+		}
+	},
+	computed: {
+		chart() : UTSJSONObject {
+			// 删除null值
+			console.log(this.data)
+			let data = JSON.parseObject(JSON.stringify(this.data))
+			console.log(data)
+			return $ux.Obj.removeNulls(data)
+		}
+	},
+	watch: {
+		data: {
+			handler() {
+				this.clear()
+				this.init()
+			},
+		    deep: true
+		}
+	},
+	mounted() {
+		this.webview = uni.createWebviewContext('web-view', this)
+	},
+	methods: {
+		init() {
+			this.webview?.evalJS(`init(${JSON.stringify(this.chart)})`)
+		},
+		change(data : UTSJSONObject[]) {
+			this.webview?.evalJS(`change(${JSON.stringify(data)})`)
+		},
+		clear() {
+			this.webview?.evalJS(`clear()`)
+		},
+		onMessage(e : WebViewMessageEvent) {
+			let data = e.detail.data as Map<string, any> | null
+	
+			if (data != null && data!.has('error')) {
+				console.error(`[ux-chart]加载失败！${data!.get('error').toString()}`);
+			}
+	
+			this.$emit('message', e.detail.data)
+		},
+		onLoading(e : WebViewLoadingEvent) {
+			this.isLoading = true
+			this.$emit('loading')
+		},
+		onLoad(e : WebViewLoadedEvent) {
+			this.isLoading = false
+			this.init()
+			this.$emit('load')
+		},
+		onError(e : WebViewErrorEvent) {
+			console.error('[ux-chart]加载失败');
+			this.$emit('error')
+		},
+	}
+})

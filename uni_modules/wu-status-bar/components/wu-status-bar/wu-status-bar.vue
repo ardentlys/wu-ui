@@ -14,7 +14,7 @@
 	/**
 	 * StatbusBar 状态栏占位
 	 * @description 本组件主要用于状态填充，比如在自定导航栏的时候，它会自动适配一个恰当的状态栏高度。
-	 * @tutorial https://wu.geeks.ink/zh-CN/components/safeAreaInset.html
+	 * @tutorial https://wuui.cn/zh-CN/components/safeAreaInset.html
 	 * @property {String}			bgColor			背景色 (默认 'transparent' )
 	 * @property {String | Object}	customStyle		自定义样式 
 	 * @example <wu-status-bar></wu-status-bar>

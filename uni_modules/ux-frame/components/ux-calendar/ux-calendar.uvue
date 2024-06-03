@@ -1,0 +1,275 @@
+<template>
+	<view class="ux-calendar">
+		<view class="ux-calendar__header">
+			<view class="ux-calendar__header__left">
+				<ux-button icon="arrow2left" type="text" :icon-size="16" @click="preYear()"></ux-button>
+				<ux-button icon="arrowleft" type="text" :icon-size="16" @click="preMonth()"></ux-button>
+			</view>
+			<text class="ux-calendar__header__date" :style="textStyle">{{ date }}</text>
+			<view class="ux-calendar__header__right">
+				<ux-button icon="arrowright" type="text" :icon-size="16" @click="nextMonth()"></ux-button>
+				<ux-button icon="arrow2right" type="text" :icon-size="16" @click="nextYear()"></ux-button>
+			</view>
+		</view>
+		<view ref="week" class="ux-calendar__week" :style="weekStyle">
+			<!-- #ifndef APP -->
+			<text class="ux-calendar__week--text" v-for="(week, index) in weekDays" :key="index">{{ week }}</text>
+			<!-- #endif -->
+		</view>
+		<swiper class="ux-calendar__swiper" :current="eleIndex" :disable-touch="!touch || selectMode == 'range'" :circular="true"
+			:indicator-dots="false" :autoplay="false" @change="eleChange">
+			<swiper-item>
+				<view ref="month0" class="ux-calendar__month" @touchstart="touchstart" @touchmove="touchmove"
+					@touchend="touchend">
+					<!-- #ifndef APP -->
+						<canvas class="ux-calendar__month__canvas" :canvas-id="month0ID"></canvas>
+						
+						<!-- vue 实现 -->
+						<!-- <view class="ux-calendar__month__bg">
+							<text class="ux-calendar__month__bg--text">{{ monthText(timeData.month) }}</text>
+						</view>
+						<template v-for="(week, weekIndex) in currentWeeks(0)" :key="weekIndex">
+							<view class="ux-calendar__month__week">
+								<template v-for="(_, dayIndex) in week.length" :key="dayIndex">
+									<view class="ux-calendar__month__day" :style="[selectedStyle(week[dayIndex], currentTime(0))]">
+										<text class="ux-calendar__month__day--text" :style="[dayStyle(week[dayIndex])]">{{ week[dayIndex].date }}</text>
+										<text class="ux-calendar__month__day--lunar" :style="[dayStyle(week[dayIndex])]">{{ luarText(week[dayIndex]) }}</text>
+									</view>
+								</template>
+							</view>
+						</template> -->
+					<!-- #endif -->
+				</view>
+			</swiper-item>
+			<swiper-item>
+				<view ref="month1" class="ux-calendar__month" @touchstart="touchstart" @touchmove="touchmove"
+					@touchend="touchend">
+					<!-- #ifndef APP -->
+						<canvas class="ux-calendar__month__canvas" :canvas-id="month1ID"></canvas>
+						
+						<!-- vue 实现 -->
+						<!-- <view class="ux-calendar__month__bg">
+							<text class="ux-calendar__month__bg--text">{{ monthText(timeData.month) }}</text>
+						</view>
+						<template v-for="(week, weekIndex) in currentWeeks(1)" :key="weekIndex">
+							<view class="ux-calendar__month__week">
+								<template v-for="(_, dayIndex) in week.length" :key="dayIndex">
+									<view class="ux-calendar__month__day" :style="[selectedStyle(week[dayIndex], currentTime(1))]">
+										<text class="ux-calendar__month__day--text" :style="[dayStyle(week[dayIndex])]">{{ week[dayIndex].date }}</text>
+										<text class="ux-calendar__month__day--lunar" :style="[dayStyle(week[dayIndex])]">{{ luarText(week[dayIndex]) }}</text>
+									</view>
+								</template>
+							</view>
+						</template> -->
+					<!-- #endif -->
+				</view>
+			</swiper-item>
+			<swiper-item>
+				<view ref="month2" class="ux-calendar__month" @touchstart="touchstart" @touchmove="touchmove"
+					@touchend="touchend">
+					<!-- #ifndef APP -->
+						<canvas class="ux-calendar__month__canvas" :canvas-id="month2ID"></canvas>
+						
+						<!-- vue 实现 -->
+						<!-- <view class="ux-calendar__month__bg">
+							<text class="ux-calendar__month__bg--text">{{ monthText(timeData.month) }}</text>
+						</view>
+						<template v-for="(week, weekIndex) in currentWeeks(2)" :key="weekIndex">
+							<view class="ux-calendar__month__week">
+								<template v-for="(_, dayIndex) in week.length" :key="dayIndex">
+									<view class="ux-calendar__month__day" :style="[selectedStyle(week[dayIndex], currentTime(2))]">
+										<text class="ux-calendar__month__day--text" :style="[dayStyle(week[dayIndex])]">{{ week[dayIndex].date }}</text>
+										<text class="ux-calendar__month__day--lunar" :style="[dayStyle(week[dayIndex])]">{{ luarText(week[dayIndex]) }}</text>
+									</view>
+								</template>
+							</view>
+						</template> -->
+					<!-- #endif -->
+				</view>
+			</swiper-item>
+		</swiper>
+
+		<view class="ux-calendar__today" @click="today()">
+			<text class="ux-calendar__today__text">今日</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { UxCalendarMixin } from './index.uts'
+
+	/**
+	 * Calendar 日历
+	 * @description 日历组件 支持农历显示、节假日显示、单选、多选、拖拽范围选择模式
+	 * @tutorial https://www.uxframe.cn/component/form/calendar.html
+	 * @property {String}		format=[yyyy-MM-dd|yyyy/MM/dd|yyyy年MM月dd日|yyyy年MM月dd日 周|yyyy年MM月dd日 星期|yyyy年MM月dd日 礼拜]		String | 格式化规则
+	 * @property {Array}		value						String[] | 值 (默认 [now])
+	 * @property {Array}		range						String[] | 范围 (例如 ['2000-01-01', '2023-12-10'])
+	 * @property {String}		selectMode=[single|muti|range]		String | 选择模式 (默认 single)
+	 * @value single 单选
+	 * @value muti 多选
+	 * @value range 范围
+	 * @property {Boolean}		lunar=[true|false]			Boolean | 显示农历 (默认 true)
+	 * @value true
+	 * @value false
+	 * @property {Boolean}		holiday=[true|false]		Boolean | 显示节日 (默认 true)
+	 * @value true
+	 * @value false
+	 * @property {Boolean}		touch=[true|false]			Boolean | 滑动翻页 (默认 false)
+	 * @value true
+	 * @value false
+	 * @property {String}		theme						String | 主题颜色 (默认 $ux.theme.primary)
+	 * @property {Boolean}		disabled=[true|false]		Boolean | 是否禁用 (默认 false)
+	 * @value true
+	 * @value false
+	 * @event {Function}		click						Function | 点击时触发
+	 * @event {Function}		change						Function(UXPickerEvent) | 确定选择时触发
+	 * @author UxFrame
+	 * @date 2023-12-15 01:20:08
+	 */
+	export default {
+		name: 'ux-calendar',
+		mixins: [UxCalendarMixin],
+	}
+</script>
+
+<style lang="scss">
+	.ux-calendar {
+		width: 100%;
+
+		&__header {
+			width: 100%;
+			height: 35px;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+
+			&__left {
+				position: absolute;
+				left: 5px;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+			}
+
+			&__right {
+				position: absolute;
+				right: 5px;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-end;
+				align-items: center;
+			}
+
+			&__date {
+				font-weight: bold;
+				font-size: 14px;
+				color: black;
+				margin-bottom: 2px;
+			}
+		}
+
+		&__week {
+			width: 100%;
+			height: 35px;
+			margin-bottom: 5px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-around;
+
+			&--text {
+				font-size: 12px;
+				color: black;
+			}
+		}
+		
+		&__swiper {
+			width: 100%;
+			height: 250px;
+		}
+
+		&__month {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
+			
+			&__canvas {
+				width: 100%;
+				height: 100%;
+			}
+			
+			&__bg {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				
+				&--text {
+					font-size: 180px;
+					color: #f5f5f5;
+				}
+			}
+			
+			&__week {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				align-items: center;
+			}
+			
+			&__day {
+				margin-top: 4px;
+				width: 37px;
+				height: 37px;
+				border-radius: 37px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				
+				&--text {
+					font-size: 15px;
+					line-height: 16px;
+					color: #333333;
+				}
+				
+				&--lunar {
+					font-size: 10px;
+					line-height: 12px;
+					color: #666;
+				}
+			}
+		}
+
+		&__today {
+			position: absolute;
+			right: 0;
+			top: 50%;
+			width: 30px;
+			height: 20px;
+			border-top-left-radius: 50px;
+			border-bottom-left-radius: 50px;
+			background-color: rgba(160, 160, 160, 0.6);
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+
+			&__text {
+				font-size: 10px;
+				line-height: 10px;
+				color: white;
+			}
+		}
+	}
+</style>

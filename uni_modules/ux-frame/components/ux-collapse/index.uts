@@ -1,0 +1,32 @@
+
+export const UxCollapseMixin = defineMixin({
+	data() {
+		return {
+			nodes: [] as Array<UxCollapseItemComponentPublicInstance>,
+		};
+	},
+	props: {
+		// 是否开启手风琴效果
+		accordion: {
+			type: Boolean,
+			default: true
+		}
+	},
+	methods: {
+		register(child: UxCollapseItemComponentPublicInstance) {
+			this.nodes.push(child)
+		},
+		cloceAll() {
+			// 开启手风琴效果才能关闭其他
+			if (this.accordion && this.nodes.length > 0) {
+				this.nodes.forEach((item) => {
+					const opend = item.$data.get('opend') as boolean
+					if (opend) {
+						item.$data.set('opend', false)
+						item.$callMethod('openCollapse', false)
+					}
+				})
+			}
+		}
+	}
+})

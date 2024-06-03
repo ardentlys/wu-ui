@@ -5,7 +5,7 @@
 			<view class="wu-demo-block__content">
 				<view class="wu-page__link-item">
 					<u-link
-					    href="https://wu.geeks.ink/zh-CN/"
+					    href="https://wuui.cn/zh-CN/"
 					    text="打开wu-ui文档"
 						@click="click"
 					></u-link>
@@ -17,7 +17,7 @@
 			<view class="wu-demo-block__content">
 				<view class="wu-page__link-item">
 					<u-link
-					    href="https://wu.geeks.ink/zh-CN/"
+					    href="https://wuui.cn/zh-CN/"
 					    :underLine="true"
 					    text="Go to wu-ui doc"
 					></u-link>
@@ -29,7 +29,7 @@
 			<view class="wu-demo-block__content">
 				<view class="wu-page__link-item">
 					<u-link
-					    href="https://wu.geeks.ink/zh-CN/"
+					    href="https://wuui.cn/zh-CN/"
 					    lineColor="#19be6b"
 					    color="#19be6b"
 					    text="打开wu-ui文档"

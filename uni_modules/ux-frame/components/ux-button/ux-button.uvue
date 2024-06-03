@@ -1,0 +1,97 @@
+<template>
+	<view ref="uxButton" class="ux-button transform" :style="style" hover-class="none" @click="click"
+		@longpress="longpress" @touchstart="touchstart" @touchend="touchend" @touchmove="touchmove"
+		@touchcancel="touchcancel">
+		<template v-if="loading">
+			<ux-loading :type="loadingType" :color="loadingColor" :text-size="loadingSize" >{{ loadingText }}</ux-loading>
+		</template>
+		<template v-else>
+			<ux-icon v-if="icon != ''" :type="icon" :size="iconSize" :color="iconColor == '' ? _color : iconColor" :custom-font="customFont"
+				:custom-family="customFamily"></ux-icon>
+			<text v-if="text" :style="[textStyle]">{{ text }}</text>
+		</template>
+	</view>
+</template>
+
+<script>
+	import { UxButtonMixin } from './index.uts'
+
+	/**
+	 * button 按钮
+	 * @description 增强版 Button 按钮
+	 * @tutorial https://www.uxframe.cn/component/basic/button.html
+	 * @property {String}			type=[text|info|primary|success|warn|error]					String | 按钮类型 (默认 info)
+	 * @value text			文字
+	 * @value info   		默认
+	 * @value primary   	主要
+	 * @value success  		成功
+	 * @value warn   		警告
+	 * @value error  		错误
+	 * @property {String}			text					String | 按钮文字
+	 * @property {String}			color					String | 按钮文字颜色
+	 * @property {Number}			size					Number | 按钮文字大小 (默认 12)
+	 * @property {Boolean}			bold = [true|false]		Boolean | 按钮文字加粗 (默认 false)
+	 * @property {String}			background				String | 按钮背景颜色
+	 * @property {Number}			corner					Number | 圆角 (默认 5)
+	 * @property {Boolean}			plain = [true|false]	Boolean | 是否镂空 (默认 false)
+	 * @property {Boolean}			loading = [true|false]	Boolean | 显示加载中 (默认 false)
+	 * @property {String} 			loadingType = [circular|spinner] 	String | loading类型 (默认 spinner)
+	 * @value circular 圆环
+	 * @value spinner  菊花
+	 * @property {String}			loadingText				String | 加载中文字 (默认 加载中...)
+	 * @property {Number}			loadingSize				Number | 加载中文字大小 (默认 12)
+	 * @property {String}			loadingColor			String | 加载中颜色 (默认 #999999)
+	 * @property {String}			icon					String | 按钮图标
+	 * @property {Number}			iconSize				Number | 图标大小 (默认 14)
+	 * @property {String}			iconColor				String | 图标文字颜色
+	 * @property {String}			customFont				String | 自定义字体路径
+	 * @property {String}			customFamily			String | 自定义字体family
+	 * @property {String}			direction=[row|column]	String | 布局方向 (默认 row)
+	 * @value row 水平
+	 * @value column 垂直
+	 * @property {String}			path					String | 点击跳转的页面路径
+	 * @property {Number}			throttleTime			Number | 节流，一定时间内只能触发一次，单位毫秒 (默认 0)
+	 * @property {Number}			hoverStartTime			Number | 点击态出现时间，单位毫秒 (默认 0)
+	 * @property {Number}			hoverStayTime			Number | 点击态保留时间，单位毫秒 (默认 100)
+	 * @property {Boolean}			hover = [true|false]	Boolean | 是否显示点击态 (默认 true)
+	 * @property {Array}			margin					Array | 边距 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}			mt						Number | 距上 单位px
+	 * @property {Number}			mr						Number | 距右 单位px
+	 * @property {Number}			mb						Number | 距下 单位px
+	 * @property {Number}			ml						Number | 距左 单位px
+	 * @property {Array}			padding					Array | 填充 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}			pt						Number | 上内边距 单位px
+	 * @property {Number}			pr						Number | 右内边距 单位px
+	 * @property {Number}			pb						Number | 下内边距 单位px
+	 * @property {Number}			pl						Number | 左内边距 单位px
+	 * @property {Array}			xstyle					Array<any> | 自定义样式
+	 * @property {Boolean}			stopPropagation = [true|false]	Boolean | 阻止向上冒泡 (默认 false)
+	 * @property {Boolean}			disabled = [true|false]			Boolean | 是否禁用 (默认 false)
+	 * @event {Function}			click					Function | 非禁止并且非加载中，点击触发
+	 * @event {Function}			longpress				Function | 非禁止并且非加载中，长按触发
+	 * @event {Function}			touchstart				Function | 非禁止手指触摸动作开始时触发
+	 * @event {Function}			touchend				Function | 非禁止手指触摸动作结束时触发
+	 * @event {Function}			touchmove				Function | 非禁止手指触摸动作移动时触发
+	 * @event {Function}			touchcancel				Function | 手指触摸动作被打断时触发
+	 * @author UxFrame
+	 * @date 2023-11-04 01:40:08
+	 */
+	export default {
+		name: 'ux-button',
+		mixins: [UxButtonMixin],
+	};
+</script>
+
+<style lang="scss">
+	.ux-button {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.transform {
+		transition-property: background-color;
+		transition-delay: 0.2s;
+	}
+</style>

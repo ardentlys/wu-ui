@@ -1,0 +1,8 @@
+
+export const UxSwitchMixin = defineMixin({
+	data() {
+		return {
+			
+		};
+	},
+})

@@ -1,7 +1,7 @@
 {
   "id": "wu-sku",
   "displayName": "wu-sku 商品多规格sku选择器【支持vue3】【支持NVUE】【支持带图sku】【全端兼容】",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "一款仿京东算法的轻量化、强大、拓展性强、可使用带图sku、可根据配置主题色自动生成相应的组件主题色的商品多规格sku，仅需要按照指定格式传入sku数组便可以直接使用。",
   "keywords": [
     "商品多规格选择器",
@@ -43,7 +43,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

@@ -1,0 +1,87 @@
+<template>
+	<view class="ux-skeleton">
+		<view v-if="loading" class="ux-skeleton__warp transform" :style="[warpStyle]">
+			<view v-if="avatar" ref="uxSkeletionAvatar" class="ux-skeleton__avatar transform" :style="[avatarStyle]"></view>
+			<view class="ux-skeleton__rows">
+				<view class="ux-skeleton__row" :style="[rowStyle(w, i)]" v-for="(w, i) in rows" :key="i">
+					<view ref="uxSkeletionAnim" class="ux-skeleton__row--anim transform"></view>
+				</view>
+			</view>
+		</view>
+		<slot v-else></slot>
+	</view>
+</template>
+
+<script>
+	import { UxSkeletonMixin } from './index.uts'
+	
+	/**
+	 * Skeleton 骨架屏
+	 * @description 骨架屏 支持辉光效果
+	 * @tutorial https://www.uxframe.cn/component/layout/skeleton.html
+	 * @property {Boolean}			loading					Boolean | 是否显示骨架占位图，设置为false将会展示子组件内容 (默认 true )
+	 * @property {Boolean}			animate					Boolean | 是否开启动画效果 (默认 true )
+	 * @property {Number}			duration				Number | 动画间隔 单位ms (默认 1500 )
+	 * @property {Array}			rows					String[] | 段落占位图行数, 值是宽度 (默认 '100%' )
+	 * @property {Array}			height					Number[] | 段落高度 (默认 [18] )
+	 * @property {Number}			spacing					Number | 段落间隔 (默认 5 )
+	 * @property {Boolean}			avatar					Boolean | 显示头像 (默认 32 )
+	 * @property {Number}			avatarWidth				Number | 头像宽度 (默认 32 )
+	 * @property {Number}			avatarHeight			Number | 头像高度 (默认 32 )
+	 * @property {String}			shape=[circle|square]	String | 头像占位图的形状 (默认 square )
+	 * @value circle 圆形
+	 * @value square 方形
+	 * @property {String}			background			String | 段落背景色 (默认 #f1f2f4 )
+	 * @author UxFrame
+	 * @date 2023-11-13 00:54:11
+	 */
+	export default {
+		name: 'ux-skeleton',
+		mixins: [UxSkeletonMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-skeleton {
+		width: 100%;
+		
+		&__warp {
+			display: flex;
+			flex-direction: column;
+		}
+		
+		&__rows {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		&__row {
+			width: 100%;
+			overflow: hidden;
+		
+			&--anim {
+				position: absolute;
+				left: 0;
+				top: -50%;
+				width: 20px;
+				height: 150%;
+				transform: translateX(-50px) scale(20deg);
+				background-color: transparent;
+				box-shadow: 0 0 30px #ffffff;
+				opacity: 0.5;
+			}
+		}
+		
+		&__avatar {
+			margin-right: 10px;
+			opacity: 1;
+		}
+	}
+	
+	.transform {
+		transition-timing-function: ease-in-out;
+		transition-property: opacity, transform;
+		transform-origin: center center;
+	}
+</style>

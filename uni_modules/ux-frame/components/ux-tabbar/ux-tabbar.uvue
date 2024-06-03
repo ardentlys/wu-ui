@@ -1,0 +1,260 @@
+<template>
+	<view class="ux-tabbar" :style="[tabbarStyle]">
+
+		<view ref="ux-tabbar" class="ux-tabbar__content" :style="contentStyle">
+			<view v-if="render" :id="it.id!" :class="[`ux-tabbar__item__${anim}`, `transform__${anim}`]"
+				v-for="(it, i) in tabs" :key="i" @click="onTab(i)" @touchstart="() => touchstart(i)"
+				@touchend="() => touchend(i)" @touchcancel="() => touchend(i)">
+
+				<view :id="`${myId}-hover-${i}`" class="ux-tabbar__hover" :style="hoverStyle(i)"></view>
+
+				<view :id="`${myId}-icon-${i}`" :class="['ux-tabbar__icon', `transform__${anim}`]">
+					<ux-icon :type="tabIndex == i?it.selectedIcon:it.unselectedIcon" :size="iconSize"
+						:color="tabIndex == i?it.selectedColor:it.unselectedColor" :custom-font="customFont"
+						:custom-family="customFamily">
+					</ux-icon>
+				</view>
+
+				<text :id="`${myId}-name-${i}`" :class="['ux-tabbar__name', `transform__${anim}`]"
+					:style="[textStyle(i)]">{{ it.name }}</text>
+
+				<view :id="`${myId}-point-${i}`" :class="['ux-tabbar__point', `transform__${anim}`]"
+					:style="[pointStyle(i)]"></view>
+
+				<ux-badge :value="it.badge" :dot="it.reddot" :top="anim == 'push'?0 : 10" :right="10"></ux-badge>
+			</view>
+		</view>
+
+		<view v-if="type == 'special'" class="ux-tabbar__center" :style="[centerStyle]" @click="centerTab()"
+			@touchstart="ctouchstart" @touchend="ctouchend" @touchcancel="ctouchend">
+			<view :id="`${myId}-hover-c`" class="ux-tabbar__hover" :style="centerHoverStyle"></view>
+			<slot name="center"></slot>
+		</view>
+
+		<ux-placeholder :safearea="true"></ux-placeholder>
+	</view>
+</template>
+
+<script>
+	import { UxTabBarMixin } from './index.uts'
+
+	/**
+	 * 底部tabbar
+	 * @description 增强版底部导航栏 支持多种动画、形状。可搭配Pages组件使用
+	 * @tutorial https://www.uxframe.cn/component/tab/tabbar.html
+	 * @property {Slot}				center						Slot | 中间凸起按钮插槽
+	 * @property {String}			type = [default|special]		String | 类型 (默认 default)
+	 * @value default 正常
+	 * @value special 特殊
+	 * @property {String}			anim = [none|scroll|push|water]		String | 动效类型 (默认 none)
+	 * @value none 无
+	 * @value scroll 上下滚动
+	 * @value push 左右推压
+	 * @value water 水滴
+	 * @property {Number}			index					Number | 默认选择下标 (默认 0)
+	 * @property {UxTab[]}			data					UxTab[] | tab列表 (导入: import {UxTab} from '@/uni_modules/ux-frame/libs/types/types.uts')
+	 * @property {String}			selectedColor			String | 选中颜色 (默认 $ux.theme.primary)
+	 * @property {String}			unselectedColor			String | 未选中颜色 (默认 $ux.theme.main)
+	 * @property {Number}			iconSize				Number | 图标大小 单位px (默认 25)
+	 * @property {Number}			fontSize				Number | 字体大小 单位px (默认 12)
+	 * @property {Boolean}			fontBold = [true|false]	Boolean | 字体加粗 (默认 false)
+	 * @property {String}			customFont				String | 网络字体路径 或 自定义字体路径
+	 * @property {String}			customFamily			String | 自定义字体family
+	 * @property {Boolean}			border = [true|false]	Boolean | 显示上边框 (默认 false)
+	 * @property {String}			borderColor				String | 上边框颜色 (默认 $ux.theme.border)
+	 * @property {Number}			corner					Number | 圆角 (默认 0)
+	 * @property {String}			background				String | 背景色 (默认 #FFFFFF)
+	 * @property {String}			centerColor				String | 中间按钮背景色 (默认 #FFFFFF)
+	 * @property {Number}			zIndex					Number | 层级z-index (默认 10000)
+	 * @property {Boolean}			hover = [true|false]	Boolean | 显示点击态 (默认 true)
+	 * @property {Boolean}			fixed = [true|false]	Boolean | 固定位置 (默认 true)
+	 * @event {Function}			click					Function | 按钮点击时触发
+	 * @event {Function}			center					Function | 中间按钮点击时触发
+	 * @event {Function}			change					Function | 当前选择下标改变时触发
+	 * @author UxFrame
+	 * @date 2023-10-03 20:31:11
+	 */
+	export default {
+		name: 'ux-tabbar',
+		mixins: [UxTabBarMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-tabbar {
+		width: 100%;
+		height: 54px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		z-index: 10000;
+
+		.ux-tabbar__center {
+			position: absolute;
+			width: 60px;
+			height: 60px;
+			border-radius: 50px;
+			background-color: #fff;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 0 10px 2px #fdfdfd;
+		}
+
+		.ux-tabbar__content {
+			width: 100%;
+			height: 54px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-around;
+
+			.ux-tabbar__item__none {
+				flex: 1;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				.ux-tabbar__icon {
+					width: 25px;
+					height: 25px;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: center;
+				}
+
+				.ux-tabbar__name {
+					color: black;
+					font-size: 12px;
+				}
+			}
+
+			.ux-tabbar__item__scroll {
+				flex: 1;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				.ux-tabbar__icon {
+					position: absolute;
+					width: 36px;
+					height: 36px;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+				}
+
+				.ux-tabbar__name {
+					position: absolute;
+					top: 100%;
+					color: black;
+					font-size: 18px;
+				}
+			}
+
+			.ux-tabbar__item__push {
+				width: 150rpx;
+				height: 70%;
+				border-radius: 54px;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: flex-start;
+				background-color: transparent;
+
+				.ux-tabbar__icon {
+					height: 36px;
+					margin-left: 40rpx;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: flex-start;
+				}
+
+				.ux-tabbar__name {
+					margin-left: 20rpx;
+					color: black;
+					font-size: 18px;
+					opacity: 0;
+				}
+
+			}
+
+			.ux-tabbar__item__water {
+				flex: 1;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				.ux-tabbar__icon {
+					position: absolute;
+					top: 30%;
+					width: 36px;
+					height: 36px;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+				}
+
+				.ux-tabbar__name {
+					position: absolute;
+					top: 100%;
+					color: black;
+					font-size: 18px;
+				}
+			}
+
+			.ux-tabbar__point {
+				position: absolute;
+				bottom: 5px;
+				width: 5px;
+				height: 5px;
+				border-radius: 5px;
+				opacity: 0;
+			}
+		}
+	}
+
+	.ux-tabbar__hover {
+		position: absolute;
+		width: 50px;
+		height: 50px;
+		opacity: 0;
+		transform: scale(0);
+		border-radius: 50px;
+		transition-property: transform, opacity;
+		transition-duration: 0.1s;
+		transition-timing-function: linear;
+	}
+
+	.transform__none {}
+
+	.transform__scroll {
+		transition-property: transform, opacity;
+		transition-duration: 0.3s;
+		transition-timing-function: ease-in-out;
+	}
+
+	.transform__push {
+		transition-property: transform, opacity, width, background-color;
+		transition-duration: 0.2s;
+		transition-timing-function: linear;
+	}
+
+	.transform__water {
+		transition-property: transform, opacity;
+		transition-duration: 0.3s;
+		transition-timing-function: ease-in-out;
+	}
+</style>

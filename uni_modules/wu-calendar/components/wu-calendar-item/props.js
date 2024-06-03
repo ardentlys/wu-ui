@@ -37,6 +37,10 @@ export default {
 		itemHeight: {
 			type: Number,
 			default: 64
+		},
+		actBadgeColor: {
+			type: String,
+			default: '#fff',
 		}
 	}
 }

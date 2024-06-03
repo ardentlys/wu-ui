@@ -85,7 +85,7 @@
 					    mode="link"
 						type="primary"
 					    text="Go to wu-ui docs"
-					    href="https://wu.geeks.ink/zh-CN/"
+					    href="https://wuui.cn/zh-CN/"
 					></wu-text>
 				</view>
 			</view>

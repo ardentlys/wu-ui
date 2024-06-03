@@ -93,7 +93,7 @@
 	/**
 	 * geek-sku
 	 * @description 商品sku组件。
-	 * @tutorial https://wu.geeks.ink/zh-CN/components/sku.html
+	 * @tutorial https://wuui.cn/zh-CN/components/sku.html
 	 * @property {Array} data 源数据。
 	 * @property {Boolean} modelValue 是否显示sku组件(默认值: false, v3显示)。
 	 * @property {Boolean} value 是否显示sku组件(默认值: false, v2显示)。

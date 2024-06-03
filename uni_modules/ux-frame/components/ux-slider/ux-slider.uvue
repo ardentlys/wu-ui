@@ -1,0 +1,90 @@
+<template>
+	<view ref="uxSlider" class="ux-slider" :style="[style]" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+		<!-- #ifndef APP -->
+		<view class="ux-slider__bg" :style="[bgStyle]"></view>
+		<view class="ux-slider__progress" :style="[progressStyle]"></view>
+		<view class="ux-slider__block" :style="[block1Style]"></view>
+		<view v-if="mode == 'range'" class="ux-slider__block" :style="[block2Style]"></view>
+		<text v-if="showValue && direction != 'vertical'" class="ux-slider__text" :style="[text1Style]">{{ text1 }}</text>
+		<text v-if="showValue && direction != 'vertical' && mode == 'range'" class="ux-slider__text" :style="[text2Style]">{{ text2 }}</text>
+		<!-- #endif -->
+	</view>
+</template>
+
+<script>
+	import { UxSliderMixin } from './index.uts'
+
+	/**
+	* Slider 滑动选择器
+	* @description 增强版Slider，支持双滑块
+	* @tutorial https://www.uxframe.cn/component/form/slider.html
+	* @property {String} 			mode=[normal|range]				String | 模式 (默认 normal)
+	* @value normal 正常
+	* @value range 范围
+	* @property {String} 			direction=[horizontal|vertical]				String | 方向 (默认 horizontal)
+	* @value horizontal 水平
+	* @value vertical 垂直
+	* @property {Number} 			min					Number | 最小值 (默认 0)
+	* @property {Number} 			max					Number | 最大值 (默认 100)
+	* @property {Number} 			step				Number | 步长，取值必须大于 0，并且可被(max - min)整除 (默认 1)
+	* @property {Number} 			value				Number | 当前取值
+	* @property {String} 			activeColor			String | 已选择部分的线条颜色 (默认 $ux.theme.primary)
+	* @property {String} 			backgroundColor		String | 背景条颜色 (默认 $ux.theme.background)
+	* @property {Number} 			blockSize			Number | 滑块的大小 (默认 18)
+	* @property {String} 			blockColor			String | 滑块颜色 (默认 #ffffff)
+	* @property {Boolean} 			showValue			Boolean | 是否显示当前 value (默认 false)
+	* @property {String} 			showMode=[up|bottom]			String | 显示方式 (默认 top)
+	* @value up 上方跟随
+	* @value bottom 下方跟随
+	* @property {String} 			unit				String | 单位
+	* @property {Boolean} 			disabled			Boolean | 是否禁用
+	* @property {Array}				margin				Array | 边距 [上 右 下 左] [上下 左右] [上下左右]
+	* @property {Number}			mt					Number | 距上 单位px
+	* @property {Number}			mr					Number | 距右 单位px
+	* @property {Number}			mb					Number | 距下 单位px
+	* @property {Number}			ml					Number | 距左 单位px
+	* @property {Array}				padding				Array | 填充 [上 右 下 左] [上下 左右] [上下左右]
+	* @property {Number}			pt					Number | 上内边距 单位px
+	* @property {Number}			pr					Number | 右内边距 单位px
+	* @property {Number}			pb					Number | 下内边距 单位px
+	* @property {Number}			pl					Number | 左内边距 单位px
+	* @event {Function} 			change 				Function |  完成一次拖动后触发的事件
+	* @event {Function} 			changing 			Function |  拖动过程中触发的事件
+	* @author UxFrame
+	* @date 2023-11-19 22:56:28
+	*/
+
+	export default {
+		name: 'ux-slider',
+		mixins: [UxSliderMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-slider {
+		width: 100%;
+		height: 40px;
+		
+		&__bg {
+			position: absolute;
+		}
+		
+		&__progress {
+			position: absolute;
+			z-index: 1;
+		}
+		
+		&__block {
+			position: absolute;
+			border: 1px solid #f0f0f0;
+			z-index: 2;
+		}
+		
+		&__text {
+			position: absolute;
+			z-index: 3;
+			color: #333333;
+			font-size: 12px;
+		}
+	}
+</style>

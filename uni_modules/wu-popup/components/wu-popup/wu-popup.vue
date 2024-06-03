@@ -68,7 +68,7 @@
 	/**
 	* popup 弹出层
 	* @description 弹出层组件，为了解决遮罩弹层的问题
-	* @tutorial https://wu.geeks.ink/zh-CN/components/popup.html
+	* @tutorial https://wuui.cn/zh-CN/components/popup.html
 	* @property {String} mode = [top|center|bottom|left|right] 弹出方式
 	* 	@value top 顶部弹出
 	* 	@value center 中间弹出

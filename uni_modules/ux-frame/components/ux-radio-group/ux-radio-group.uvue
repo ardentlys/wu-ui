@@ -1,0 +1,64 @@
+<template>
+	<view class="ux-radio-group" :style="style">
+		<slot></slot>
+	</view>
+</template>
+
+<script>
+	import { UxRadioGroupMixin } from './index.uts'
+	
+	/**
+	 * RadioGroup 单选组
+	 * @tutorial https://www.uxframe.cn/component/form/radiogroup.html
+	 * @property {String}			direction = [row|col]	String | 方向 (默认 row ) 
+	 * @value row 水平
+	 * @value col 垂直
+	 * @property {String} 			theme=[primary|warn|success|error|info]		String | 主题颜色 (默认 primary)
+	 * @value primary 	主色
+	 * @value warn 		警告
+	 * @value success 	成功
+	 * @value error 	错误
+	 * @value info 		文本
+	 * @property {String}			mode = [radio|button|cell]			String | 单选模式 (默认 radio )
+	 * @value radio 单选
+	 * @value button 按钮
+	 * @value cell 单元格
+	 * @property {String}			shape = [circle|square]				String | 形状，mode=radio时有效 (默认 circle )
+	 * @value circle 圆形
+	 * @value square 方形
+	 * @property {Number} 			size						Number | 字体大小（默认 14 ）
+	 * @property {String} 			color						String | 文本颜色（默认 $ux.theme.main ）
+	 * @property {String} 			backgroundColor				String | radio背景色（默认 $ux.theme.background ）
+	 * @property {String} 			activeBackgroundColor		String | radio背景选择颜色（默认 $ux.theme.primary ）
+	 * @property {String} 			borderColor					String | radio边框色（默认 $ux.theme.border ）
+	 * @property {String} 			activeBorderColor			String | radio边框选择颜色（默认 $ux.theme.primary ）
+	 * @property {Boolean} 			disabled=[true|false]		Boolean | 是否禁用（默认 false ）
+	 * @property {Array}			margin			Array | 边距 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}			mt				Number | 距上 单位px
+	 * @property {Number}			mr				Number | 距右 单位px
+	 * @property {Number}			mb				Number | 距下 单位px
+	 * @property {Number}			ml				Number | 距左 单位px
+	 * @property {Array}			padding			Array | 填充 [上 右 下 左] [上下 左右] [上下左右]
+	 * @property {Number}			pt				Number | 上内边距 单位px
+	 * @property {Number}			pr				Number | 右内边距 单位px
+	 * @property {Number}			pb				Number | 下内边距 单位px
+	 * @property {Number}			pl				Number | 左内边距 单位px
+	 * @property {Array}			xstyle			Array<any> | 自定义样式
+	 * @event {Function}			change			Function | 值改变时触发
+	 * @author UxFrame
+	 * @date 2024-01-19 13:21:16
+	 */
+	export default {
+		name: 'ux-radio-group',
+		mixins: [UxRadioGroupMixin],
+	}
+</script>
+
+<style lang="scss" scoped>
+	
+	.ux-radio-group {
+		display: flex;
+		flex-direction: row;
+	}
+	
+</style>

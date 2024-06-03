@@ -1,0 +1,43 @@
+<template>
+	<view class="ux-page" :style="[style]">
+		<image v-if="backgroundImage != ''" class="ux-page__image" :src="backgroundImage" mode="heightFit"></image>
+		<ux-placeholder :navbar="navbar"></ux-placeholder>
+		<slot></slot>
+		<ux-placeholder :tabbar="tabbar"></ux-placeholder>
+	</view>
+</template>
+
+<script>
+	import { UxPageMixin } from './index.uts'
+	
+	/**
+	 * 页面容器
+	 * @property {Boolean}			navbar = [true|false]	Boolean | 标题栏高度占位 (默认 false)
+	 * @property {Boolean}			tabbar = [true|false]	Boolean | 底部导航栏高度占位 (默认 false)
+	 * @property {Array}			colors					String[] | 背景色 多个渐变
+	 * @property {String}			backgroundImage			String | 背景图 优先级高于背景色
+	 * @property {String}			backgroundClip			String | 背景图裁剪 [border-box | padding-box | content-box]
+	 * @author UxFrame
+	 * @date 2023-10-09 00:35:45
+	 */
+	export default {
+		name: 'ux-page',
+		mixins: [UxPageMixin]
+	}
+</script>
+
+<style lang="scss">
+
+	.ux-page {
+		flex: 1;
+		
+		.ux-page__image {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			left: 0;
+		}
+	}
+
+</style>

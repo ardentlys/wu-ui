@@ -88,8 +88,14 @@
 					height: '16rpx'
 				};
 				if(this.weeks.extraInfo) {
-					if(this.weeks.extraInfo.infoColor) {
-						style.backgroundColor = this.weeks.extraInfo.infoColor
+					if(this.weeks.extraInfo.badgeColor) {
+						// 如果当前是选中日期的徽标且徽标颜色与主题色一致 为了保证 徽标颜色可以被看见 再选中时将其设置为 #fff
+						if ((this.weeks.beforeRange || this.weeks.afterRange || this.weeks.multiples || (this.calendar.fullDate === this.weeks
+								.fullDate && this.weeks.mode === 'single')) && !this.weeks.disable && this.$w.Color.convertFormat(this.weeks.extraInfo.badgeColor) == this.$w.Color.convertFormat(this.color)) {
+							style.backgroundColor = this.actBadgeColor;
+						} else {
+							style.backgroundColor = this.weeks.extraInfo.badgeColor
+						}
 					}
 					if(this.weeks.extraInfo.badgeSize) {
 						style.width = this.weeks.extraInfo.badgeSize
@@ -136,7 +142,6 @@
 				} else {
 					text = this.weeks.lunar.IDayCn
 				}
-
 				return text
 			},
 			// 选中的文字

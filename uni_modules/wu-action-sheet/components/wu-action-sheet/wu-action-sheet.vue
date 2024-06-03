@@ -34,7 +34,7 @@
 			<wu-gap bgColor="#eaeaec" height="6" v-if="cancelText"></wu-gap>
 			<view hover-class="wu-action-sheet--hover">
 				<text @touchmove.stop.prevent :hover-stay-time="150" v-if="cancelText"
-					class="wu-action-sheet__cancel-text" @tap="cancel">{{cancelText}}</text>
+					class="wu-action-sheet__cancel-text" @tap.stop="cancel">{{cancelText}}</text>
 			</view>
 		</view>
 	</wu-popup>
@@ -49,7 +49,7 @@
 	/**
 	 * ActionSheet 操作菜单
 	 * @description 本组件用于从底部弹出一个操作菜单，供用户选择并返回结果。本组件功能类似于uni的uni.showActionSheetAPI，配置更加灵活，所有平台都表现一致。
-	 * @tutorial https://wu.geeks.ink/zh-CN/components/actionSheet.html
+	 * @tutorial https://wuui.cn/zh-CN/components/actionSheet.html
 	 * @property {String}			title				操作菜单标题
 	 * @property {String}			description			选项上方的描述信息
 	 * @property {Array<Object>}	actions				按钮的文字数组，见官方文档示例
@@ -104,6 +104,7 @@
 				this.$refs.wuActionSheetPopup.open()
 			},
 			close() {
+				console.log('关闭')
 				this.$refs.wuActionSheetPopup.close()
 			},
 			closeHandler() {

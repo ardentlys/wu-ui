@@ -1,0 +1,233 @@
+import { $ux } from '../../index.uts'
+
+export const UxLoadingMixin = defineMixin({
+	data() {
+		return {
+			width: 16,
+			height: 16,
+			timer: 0,
+			stop: false,
+		}
+	},
+	props: {
+		type: {
+			type: String,
+			default: 'spinner'
+		},
+		color: {
+			type: String,
+			default: '#999999'
+		},
+		size: {
+			type: Number,
+			default: 16
+		},
+		textColor: {
+			type: String,
+			default: ''
+		},
+		textSize: {
+			type: Number,
+			default: 12
+		},
+		bold: {
+			type: Boolean,
+			default: false
+		},
+	},
+	computed: {
+		style() : any | null {
+			let css = new Map<string, any | null>()
+	
+			css.set('width', $ux.Util.addUnit(this.size))
+			css.set('height', $ux.Util.addUnit(this.size))
+			
+			return css
+		},
+		textStyle() : any | null {
+			let css = new Map<string, any | null>()
+	
+			css.set('color', this.textColor == '' ? this.color : this.textColor)
+			css.set('font-size', $ux.Util.addUnit(this.textSize))
+			
+			if (this.bold) {
+				css.set('font-weight', 'bold')
+			}
+	
+			return css
+		}
+	},
+	watch: {
+		type(a, b) {
+			this.anim()
+		}
+	},
+	mounted() {
+		this.anim()
+	},
+	destroyed() {
+		clearTimeout(this.timer)
+	},
+	methods: {
+		anim() {
+			// #ifdef APP
+			this.stop = false
+				
+			setTimeout(() => {
+				if (this.$refs['ux-loading'] == null) {
+					return
+				}
+				
+				let el = (this.$refs['ux-loading'] as Element)
+				let ctx = el.getDrawableContext()
+				
+				if (ctx == null) {
+					console.error('[ux-loading] 加载失败');
+				}
+				
+				let rect = el.getBoundingClientRect()
+				this.width = rect.width
+				this.height = rect.height
+				
+				if (this.type == 'circular') {
+					this.drawCircular(ctx!)
+				} else {
+					this.drawSpinner(ctx!)
+				}
+				
+				// 60秒后自动关闭 性能问题
+				setTimeout(() => {
+					this.stop = true
+				}, 1000 * 60);
+			}, 200)
+			// #endif
+		},
+		/**
+		 * 圆环loading
+		 */
+		drawCircular(ctx : DrawableContext) {
+			if (ctx == null) {
+				return
+			}
+	
+			let startAngle = 0;
+			let endAngle = 0
+			let startSpeed = 0
+			let endSpeed = 0
+			let rotate = 0
+	
+			const ARC_LENGTH = 359
+			const PI = Math.PI / 180
+			const SPEED = 0.018
+			const ROTATE_INTERVAL = 0.09
+			const center = this.width / 2
+			const lineWidth = this.width / 10
+	
+			let easeInOutCubic = (t : number) : number => {
+				return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+			}
+	
+			let draw = () : void => { }
+			draw = () : void => {
+				clearTimeout(this.timer)
+	
+				if (this.stop) {
+					return
+				}
+	
+				ctx.reset()
+				ctx.beginPath()
+				ctx.arc(
+					center,
+					center,
+					center - lineWidth,
+					startAngle * PI + rotate,
+					endAngle * PI + rotate)
+	
+				ctx.lineWidth = lineWidth
+				ctx.strokeStyle = this.color
+				ctx.stroke()
+	
+				if (endAngle < ARC_LENGTH && startAngle == 0) {
+					endSpeed += SPEED
+					endAngle = Math.min(ARC_LENGTH, easeInOutCubic(endSpeed) * ARC_LENGTH)
+				} else if (endAngle == ARC_LENGTH && startAngle < ARC_LENGTH) {
+					startSpeed += SPEED
+					startAngle = Math.min(ARC_LENGTH, easeInOutCubic(startSpeed) * ARC_LENGTH)
+				} else if (endAngle >= ARC_LENGTH && startAngle >= ARC_LENGTH) {
+					endSpeed = 0
+					startSpeed = 0
+					startAngle = 0
+					endAngle = 0
+				}
+	
+				rotate += ROTATE_INTERVAL
+				ctx.update()
+	
+				this.timer = setTimeout(() => {
+					draw()
+				}, 20)
+			}
+	
+			draw()
+		},
+		/**
+		 * 菊花loading
+		 */
+		drawSpinner(ctx : DrawableContext) {
+			if (ctx == null) {
+				return
+			}
+	
+			let steps = 12
+			let step = 0
+			let width = this.width
+			let lineWidth = width / 10
+	
+			// 线长度和距离圆心距离
+			let length = width / 4 - lineWidth
+			let offset = width / 4
+	
+			let draw = () : void => { }
+			draw = () : void => {
+				clearTimeout(this.timer)
+	
+				if (this.stop) {
+					return
+				}
+	
+				ctx.reset();
+				for (let i = 0; i < steps; i++) {
+					const stepAngle = 360 / steps
+					const angle = stepAngle * i
+					const opacity = ((steps - (step % steps)) * stepAngle + angle) % 360 + 30
+	
+					// 正余弦
+					const sin = Math.sin(angle / 180 * Math.PI)
+					const cos = Math.cos(angle / 180 * Math.PI)
+	
+					// 开始绘制
+					ctx.lineWidth = lineWidth
+					ctx.lineCap = 'round'
+					ctx.beginPath()
+					ctx.moveTo(width / 2 + offset * cos, width / 2 + offset * sin)
+					ctx.lineTo(width / 2 + (offset + length) * cos, width / 2 + (offset + length) * sin)
+					ctx.strokeStyle = $ux.Color.hexToRgba(this.color, (opacity / 360 * 255).toInt())
+					ctx.stroke();
+				}
+				ctx.update()
+	
+				step += 1
+				if (step >= steps) {
+					step = 0
+				}
+	
+				this.timer = setTimeout(() => {
+					draw()
+				}, 48)
+			}
+	
+			draw()
+		}
+	},
+})

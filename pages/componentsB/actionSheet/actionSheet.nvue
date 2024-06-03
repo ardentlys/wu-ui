@@ -8,7 +8,7 @@
 				</template>
 			</wu-cell>
 		</wu-cell-group>
-		<wu-action-sheet ref="show0" @select="select" :actions="actions0" :closeOnClickOverlay="false">
+		<wu-action-sheet ref="show0" @select="select" :actions="actions0">
 		</wu-action-sheet>
 		<wu-action-sheet ref="show1" :actions="actions1">
 		</wu-action-sheet>

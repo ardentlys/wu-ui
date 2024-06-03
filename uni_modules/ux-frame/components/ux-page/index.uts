@@ -1,0 +1,69 @@
+
+export const UxPageMixin = defineMixin({
+	data() {
+		return {
+			
+		}
+	},
+	props: {
+		// 标题栏高度占位
+		navbar: {
+			type: Boolean,
+			default: false
+		},
+		// 底部导航栏高度占位
+		tabbar: {
+			type: Boolean,
+			default: false
+		},
+		// 背景色
+		colors: {
+			type: Array,
+			default: ():string[] => {
+				return [] as string[]
+			}
+		},
+		// 背景图
+		backgroundImage: {
+			type: String,
+			default: ''
+		},
+		// 背景图裁剪
+		backgroundClip: {
+			type: String,
+			default: ''
+		}
+	},
+	computed: {
+		style(): any | null {
+			let css = new Map<string, any>()
+			
+			if(this.backgroundImage != '') {
+				// TODO 暂不支持
+				// css.set('background-image', this.backgroundImage)
+				
+				if(this.backgroundClip != '') {
+					css.set('background-clip', this.backgroundClip)
+				}
+				
+				return css
+			} else {
+				let colors = [] as string[]
+				
+				this.colors.forEach((e:any | null) => {
+					colors.push(e! as string)
+				})
+				
+				if(colors.length == 0) {
+					return ''
+				}
+				
+				if(colors.length == 1) {
+					return `background-color:${colors[0]};`
+				}
+				
+				return `background: linear-gradient(to bottom, ${colors.join(',')});`
+			}
+		}
+	},
+})

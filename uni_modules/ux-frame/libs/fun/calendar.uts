@@ -1,0 +1,186 @@
+import {UXCalendarDate, UXCalendarLunar} from "../../libs/types/types.uts"
+import { Lunar } from './lunar.uts'
+
+export class Calendar {
+	private lunar:Lunar
+	constructor() {
+		this.lunar = new Lunar()
+	}
+
+	getLunar(year : number, month : number, date : number) : UXCalendarLunar {
+		return this.lunar.solar2lunar(year, month, date)
+	}
+	
+	getHoliday(year : number, month : number, date : number, lunar: string) : string {
+		return this.lunar.holiday(year, month, date, lunar)
+	}
+	
+	getDate(date : string = '', AddDayCount : number = 0, str : string = 'day') : UXCalendarDate {
+		let dd : Date = new Date()
+		if (date != '') {
+			const datePart = date.split(" ");
+			const dateData = datePart[0].split("-");
+			const year = parseInt(dateData[0])
+			const month = parseInt(dateData[1])
+			const day = parseInt(dateData[2]) 
+	
+			dd = new Date(year, month - 1, day)
+		}
+	
+		switch (str) {
+			case 'day':
+				dd.setDate(dd.getDate() + AddDayCount);
+				break;
+			case 'month':
+				dd.setMonth(dd.getMonth() + AddDayCount);
+				break;
+			case 'year':
+				dd.setFullYear(dd.getFullYear() + AddDayCount);
+				break;
+		}
+	
+		const y = dd.getFullYear()
+		const m = dd.getMonth() + 1
+		const d = dd.getDate()
+	
+		let nowDate = `${y}-${m.toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`
+		const lunarData = this.getLunar(y, m, d)
+	
+		let holiday = this.getHoliday(y, m, d, `${lunarData.IMonthCn}${lunarData.IDayCn}`)
+	
+		return {
+			_date: dd,
+			fullDate: nowDate,
+			timestamp: dd.getTime(),
+			year: y,
+			month: m,
+			date: d,
+			day: dd.getDay() + 1,
+			lunar: lunarData.IDayCn,
+			isToday: lunarData.isToday,
+			holiday: holiday,
+			disabled: false
+		} as UXCalendarDate
+	}
+	
+	getDateInfo(time : string = '') : UXCalendarDate {
+		const nowDate = this.getDate(time)
+		const lunar = this.getLunar(nowDate.year, nowDate.month, nowDate.date)
+		const item : UXCalendarDate = nowDate
+		item.data = lunar
+		return item
+	}
+	
+	getDateRange(dates: UXCalendarDate[]) : Array<UXCalendarDate> {
+		
+		if(dates.length <= 1) {
+			return dates
+		}
+		
+		dates.sort((a: UXCalendarDate, b: UXCalendarDate): number => {
+			return a.timestamp - b.timestamp
+		})
+		
+		let min = dates[0]
+		let max = dates[dates.length - 1]
+		
+		let days = this.betweenDates(min.fullDate, max.fullDate)
+		
+		return days.map((e: string):UXCalendarDate => this.getDateInfo(e))
+	}
+
+	getWeeks(dateData : string = '') : Array<Array<UXCalendarDate>> {
+		const dateObj = this.getDate(dateData)
+		const year = dateObj.year
+		const month = dateObj.month
+		let firstDay = new Date(year, month - 1, 0).getDay()
+		// 获取本月天数
+		let currentDay = new Date(year, month, 0).getDate() 
+		// 上个月末尾几天
+		const lastMonthDays = this._getLastMonthDays(firstDay, dateObj)
+		// 本月天数
+		const currentMonthDys = this._currentMonthDys(currentDay, dateObj)
+		// 本月剩余天数
+		const surplus = 42 - (lastMonthDays.length + currentMonthDys.length)
+		// 下个月开始几天
+		const nextMonthDays = this._getNextMonthDays(surplus, dateObj)
+		// const weeks = []
+
+		// 本月所有日期格子合并
+		let days : Array<UXCalendarDate> = []
+		for (let i = 0; i < lastMonthDays.length; i++) {
+			const item = lastMonthDays[i]
+			days.push(item)
+		}
+		for (let i = 0; i < currentMonthDys.length; i++) {
+			const item = currentMonthDys[i]
+			days.push(item)
+		}
+		for (let i = 0; i < nextMonthDays.length; i++) {
+			const item = nextMonthDays[i]
+			days.push(item)
+		}
+		let weeks : Array<Array<UXCalendarDate>> = []
+		// 拼接数组  上个月开始几天 + 本月天数+ 下个月开始几天
+		for (let i = 0; i < days.length; i += 7) {
+			const item : Array<UXCalendarDate> = days.slice(i, i + 7)
+			weeks.push(item);
+		}
+		return weeks
+	}
+	
+	_getLastMonthDays(firstDay : number, full : UXCalendarDate) : Array<UXCalendarDate> {
+		let dateArr : Array<UXCalendarDate> = []
+		for (let i = firstDay; i > 0; i--) {
+			const month = full.month - 1
+			const beforeDate = new Date(full.year, month, -i + 1).getDate()
+			let nowDate = full.year + '-' + month + '-' + beforeDate
+	
+			let item : UXCalendarDate = this.getDate(nowDate)
+			item.disabled = true
+	
+			dateArr.push(item)
+		}
+		return dateArr
+	}
+	
+	_currentMonthDys(dateData : number, full : UXCalendarDate) : Array<UXCalendarDate> {
+	
+		let dateArr : Array<UXCalendarDate> = []
+		for (let i = 1; i <= dateData; i++) {
+			let nowDate = full.year + '-' + full.month + '-' + i
+			let item : UXCalendarDate = this.getDate(nowDate)
+			item.disabled = false
+	
+			dateArr.push(item)
+		}
+		return dateArr
+	}
+	
+	_getNextMonthDays(surplus : number, full : UXCalendarDate) : Array<UXCalendarDate> {
+		let dateArr : Array<UXCalendarDate> = []
+		for (let i = 1; i < surplus + 1; i++) {
+			const month = full.month + 1
+			let nowDate = full.year + '-' + month + '-' + i
+			let item : UXCalendarDate = this.getDate(nowDate)
+			item.disabled = true
+	
+			dateArr.push(item)
+		}
+		return dateArr
+	}
+	
+	betweenDates(sdate : string, edate : string) : string[] {
+		const startDate = this.getDate(sdate)._date
+		const endDate = this.getDate(edate)._date
+	
+		const result : string[] = []
+	
+		while (startDate.getTime() <= endDate.getTime()) {
+			result.push(startDate.toISOString().slice(0, 10))
+			startDate.setDate(startDate.getDate() + 1)
+		}
+	
+		return result
+	}
+}

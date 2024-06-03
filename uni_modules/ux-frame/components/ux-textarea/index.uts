@@ -1,0 +1,226 @@
+import { $ux } from '../../index.uts'
+import { xstyleMixin } from '../../libs/mixins/xstyle.uts'
+
+export const UxTextareaMixin = defineMixin({
+	mixins: [xstyleMixin],
+	emits: ['update:modelValue', 'input', 'focus', 'blur', 'confirm', 'linechange', 'clear', 'keyboardheightchange'],
+	data() {
+		return {
+			innerValue: '',
+			focused: false,
+		}
+	},
+	props: {
+		theme: {
+			type: String,
+			default: 'primary'
+		},
+		name: {
+			type: String,
+			default: ''
+		},
+		value: {
+			type: String,
+			default: ''
+		},
+		modelValue: {
+			type: String,
+			default: ''
+		},
+		clearable: {
+			type: Boolean,
+			default: false
+		},
+		showWords: {
+			type: Boolean,
+			default: false
+		},
+		placeholder: {
+			type: String,
+			default: ''
+		},
+		placeholderStyle: {
+			type: String,
+			default: ''
+		},
+		placeholderClass: {
+			type: String,
+			default: ''
+		},
+		maxlength: {
+			type: Number,
+			default: 140
+		},
+		height: {
+			type: Number,
+			default: 80
+		},
+		autoHeight: {
+			type: Boolean,
+			default: false
+		},
+		autoFocus: {
+			type: Boolean,
+			default: false
+		},
+		focus: {
+			type: Boolean,
+			default: false
+		},
+		confirmHold: {
+			type: Boolean,
+			default: false
+		},
+		cursorSpacing: {
+			type: Number,
+			default: 0
+		},
+		cursor: {
+			type: Number,
+			default: 0
+		},
+		selectionStart: {
+			type: Number,
+			default: 0
+		},
+		selectionEnd: {
+			type: Number,
+			default: 0
+		},
+		adjustPosition: {
+			type: Boolean,
+			default: true
+		},
+		size: {
+			type: Number,
+			default: 13
+		},
+		color: {
+			type: String,
+			default: $ux.theme.main
+		},
+		background: {
+			type: String,
+			default: 'transparent'
+		},
+		fixed: {
+			type: Boolean,
+			default: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
+		},
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+	},
+	computed: {
+		_theme() : string {
+			switch (this.theme) {
+				case 'info':
+					return $ux.theme.main!
+				case 'primary':
+					return $ux.theme.primary!
+				case 'warn':
+					return $ux.theme.warn!
+				case 'success':
+					return $ux.theme.success!
+				case 'error':
+					return $ux.theme.error!
+				case 'title': 
+					return $ux.theme.title!
+				default:
+					return $ux.theme.main!
+			}
+		},
+		_color() : string {
+			if(this.color != '') {
+				return this.color
+			}
+			
+			return this._theme
+		},
+		style() : any[] {
+			let css = new Map<string, any | null>()
+			
+			css.set('border-radius', $ux.Util.addUnit(4))
+			css.set('background-color', this.disabled ? '#f6f6f6' : this.background)
+			css.set('border', `1px solid ${this.focused ? this._theme : $ux.theme.border}`)
+			
+			css = $ux.Util.xStyle(css, this.margin, this.mt, this.mr, this.mb, this.ml, this.padding, this.pt, this.pr, this.pb, this.pl)
+			
+			return [css, this.xstyle]
+		},
+		inputStyle() : any | null {
+			let css = new Map<string, any | null>()
+			
+			if(!this.autoHeight) {
+				css.set('height', $ux.Util.addUnit(this.height))
+			}
+			
+			css.set('color', this.disabled ? $ux.theme.disabled : this._color)
+			css.set('font-size', $ux.Util.addUnit(this.size))
+			css.set('padding', `${$ux.Util.addUnit(5)} ${$ux.Util.addUnit(8)}`)
+			
+			return css
+		},
+	},
+	watch: {
+	    value: {
+	        immediate: true,
+	        handler(newVal: string, _: string) {
+	            this.innerValue = newVal
+	        },
+	    },
+		modelValue: {
+		    immediate: true,
+		    handler(newVal: string, _: string) {
+		        this.innerValue = newVal
+		    },
+		},
+	},
+	methods: {
+		inputChange(e: InputEvent) {
+			this.innerValue = e.detail.value
+			
+			this.$emit('update:modelValue', this.innerValue)
+			this.$emit('input', this.innerValue)
+		},
+		focusChange(e: TextareaFocusEvent) {
+			this.focused = true
+			this.innerValue = e.detail.value
+			
+			this.$emit('focus', this.innerValue)
+		},
+		blurChange(e: TextareaBlurEvent) {
+			this.innerValue = e.detail.value
+			this.focused = false
+			
+			this.$emit('blur', this.innerValue)
+		},
+		lineChange(e: TextareaLineChangeEvent) {
+			this.$emit('linechange', e)
+		},
+		confirmChange(e: InputConfirmEvent) {
+			this.innerValue = e.detail.value
+			
+			this.$emit('confirm', this.innerValue)
+		},
+		keyboardheightChange(e: InputKeyboardHeightChangeEvent) {
+			this.$emit('keyboardheightchange', e)
+			
+			this.focused = e.detail.height as number != 0
+		},
+		onClear(e: MouseEvent) {
+			this.innerValue = ''
+			
+			this.$emit('clear', this.innerValue)
+			this.$emit('update:modelValue', this.innerValue)
+			this.$emit('input', this.innerValue)
+			
+			e.stopPropagation()
+		}
+	}
+})

@@ -1,0 +1,1754 @@
+/**
+ * F2 图表
+ * @author UxFrame
+ * @date 2023-11-22 12:30:11
+ */
+
+/**
+ * UXChart 图表
+ */
+export type UXChart = {
+	/**
+	 * chart 实例配置
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/chart
+	 */
+	conf: UXChartConf | null,
+	/**
+	 * 资源
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/chart#source
+	 */
+	source: UXChartSource,
+	/**
+	 * 几何标记对象
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/geometry
+	 */
+	geom: UXChartGeom,
+	/**
+	 * 度量
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/scale
+	 */
+	scale: UXChartScale[] | null,
+	/**
+	 * 坐标系
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/coordinate
+	 */
+	coord: UXChartCoord | null,
+	/**
+	 * 坐标轴
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/axis
+	 */
+	axis: UXChartAxis[] | null,
+	/**
+	 * 图例
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/legend
+	 */
+	legend: UXChartLegend | null,
+	/**
+	 * 提示
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/tooltip
+	 */
+	tooltip: UXChartTooltip | null,
+	/**
+	 * 饼图文本
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/pie-label
+	 */
+	pieLabel: UXChartPieLabel | null,
+	/**
+	 * 辅助元素
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/guide
+	 */
+	guide: UXChartGuide | null,
+	/**
+	 * 自定义 Shape
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/shape
+	 */
+	registerShape: UXChartRegisterShape[] | null,
+	/**
+	 * 自定义 Animation
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/animate
+	 */
+	registerAnimation: UXChartRegisterAnimation[] | null,
+	/**
+	 * 交互
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/interaction
+	 */
+	interaction: UXChartInteraction | null,
+	/**
+	 * 辅助 pan 和 pinch 交互
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/scroll-bar
+	 */
+	scrollBar: UXChartScrollBar | null,
+	/**
+	 * 手势事件
+	 * @tutorial https://f2-v3.antv.vision/zh/docs/api/chart/gesture
+	 */
+	gesture: UXChartGesture | null,
+	/**
+	 * 横屏
+	 */
+	landscape: boolean | null,
+	/**
+	 * DataSet 函数
+	 */
+	dataSet: string | null,
+	/**
+	 * 地图
+	 */
+	map: boolean | null,
+	/**
+	 * 立即渲染 （默认 true）如果为false则表示不渲染，需在afterRender函数中手动渲染
+	 */
+	immediately: boolean | null,
+	/**
+	 * 渲染后执行函数
+	 */
+	afterRender: any | null,
+}
+
+/**
+ * UXChartConf 实例配置
+ */
+export type UXChartConf = {
+	/**
+	 * 图表标题，可被无障碍识别
+	 */
+	title: string | null,
+	/**
+	 * 图表的宽度，如果 <canvas> 元素上设置了宽度，可以不传入
+	 */
+	width: number | null,
+	/**
+	 * 图表的高度，如果 <canvas> 元素上设置了高度，可以不传入
+	 */
+	height: number | null,
+	/**
+	 * Number/Array/String
+	 * 图表绘图区域和画布边框的间距，用于显示坐标轴文本、图例
+	 */
+	padding: any | null,
+	/**
+	 * Number/Array
+	 * 图表画布区域四边的预留边距，即我们会在 padding 的基础上，为四边再加上 appendPadding 的数值，默认为 15
+	 */
+	appendPadding: any | null,
+	/**
+	 * 是否关闭 chart 的动画
+	 */
+	animate: boolean | null,
+	/**
+	 * 用于多 Y 轴的情况下，统一 Y 轴的数值范围。
+	 */
+	syncY: boolean | null,
+	/**
+	 * 是否开启无障碍图表描述
+	 */
+	aria: boolean | null,
+}
+
+/**
+ * UXChartSource 资源
+ */
+export type UXChartSource = {
+	/**
+	 * 数据
+	 */
+	data: any,
+	/**
+	 * 配置
+	 */
+	conf: UTSJSONObject | null
+}
+
+/**
+ * 几何标记对象
+ */
+export type UXChartGeom = {
+	/**
+	 * 点，用于点图的构建
+	 */
+	point: UXChartGeomConf[] | null,
+	/**
+	 * 路径，无序的点连接而成的一条线
+	 */
+	path: UXChartGeomConf[] | null,
+	/**
+	 * 线，点按照 x 轴连接成一条线，构成线图
+	 */
+	line: UXChartGeomConf[] | null,
+	/**
+	 * 填充线图跟坐标系之间构成区域图，也可以指定上下范围
+	 */
+	area: UXChartGeomConf[] | null,
+	/**
+	 * 使用矩形或者弧形，用面积来表示大小关系的图形，一般构成柱状图、饼图等图表
+	 */
+	interval: UXChartGeomConf[] | null,
+	/**
+	 * 多边形，可以用于构建热力图、地图等图表类型
+	 */
+	polygon: UXChartGeomConf[] | null,
+	/**
+	 * k 线图，箱型图
+	 */
+	schema: UXChartGeomConf[] | null
+}
+
+/**
+ * UXChartGeomConf 几何标记对象配置
+ */
+export type UXChartGeomConf = {
+	/**
+	 * 是否生成多个点来绘制图形，true 时会生成多个点
+	 * 默认值：line、path 默认为 false，其他 geom 类型均为 true
+	 */
+	generatePoints: boolean | null
+	/**
+	 * 是否对数据按照 x 轴对应字段进行排序，true 时会进行排序
+	 * 默认值：默认 area 和 line 类型会进行排序（即值为 true），其他类型均为 false
+	 * 在绘制折线图或者区域图时，如果您的数据已经经过排序，可以将该属性设置为 false，以提高性能
+	 */
+	sortable: boolean | null
+	/**
+	 * 用于设置图形的 Y 轴基线是否从 0 开始，默认为 true，以 0 为基线
+	 * 默认值：true
+	 */
+	startOnZero: boolean | null
+	/**
+	 * 用于设置是否将空数据连接起来（用于 line，area 以及 path 类型）
+	 * 默认值： false
+	 */
+	connectNulls: boolean | null,
+	
+	/**
+	 * 将数据值映射到图形的位置上的方法 'fieldA*fieldB'
+	 */
+	position: string | null,
+	/**
+	 * 将数据值映射到图形的颜色上的方法
+	 */
+	color: UXChartColor | null,
+	/**
+	 * 将数据值映射到图形的形状上的方法
+	 */
+	shape: UXChartShape | null,
+	/**
+	 * 将数据值映射到图形的大小上的方法
+	 */
+	size: UXChartSize | null,
+	/**
+	 * 声明几何标记对象的数据调整方式，可用于绘制层叠图、分组图等。支持单一的数据调整方式也支持各种数据调整方式的组合
+	 * 支持类型：'stack', 'dodge'
+	 * stack(层叠），将同一个分类的数据值累加起来。以层叠的柱状图为例，x 轴方向的同一个分类下面的数据，按照顺序，将 y 轴对应的值累加，最终将数据调整的不再重叠。
+	 * jitter(扰动散开），将数据的位置轻微的调整，使得映射后的图形位置不再重叠。
+	 * dodge(分组散开），将同一个分类的数据进行分组在一个范围内均匀分布。除了解决重叠问题外，有时候也需要对数据进行对称处理，使得数据按照最大的数据进行对称，所以增加一种调整：
+	 * symmetric(数据对称），使得生成的图形居中对齐。
+	 */
+	adjust: any | null,
+	/**
+	 * 用于配置几何标记显示的图形属性
+	 */
+	style: UXChartStyle | null,
+	/**
+	 * 用于配置具体的动画
+	 */
+	animate: UXChartAnimate | null,
+}
+
+/**
+ * UXChartScale 度量
+ */
+export type UXChartScale = {
+	/**
+	 * 字段名
+	 */
+	field: string | null,
+	/**
+	 * 度量配置
+	 */
+	conf: UXChartScaleConf | null,
+}
+
+/**
+ * UXChartScaleConf 度量配置
+ */
+export type UXChartScaleConf = {
+	/**
+	 * 指定不同的度量类型，支持的 type 为 identity、linear、cat、timeCat
+	 */
+	type: string | null,
+	/**
+	 * 回调函数，用于格式化坐标轴刻度点的文本显示，会影响数据在坐标轴 axis、图例 legend、提示信息 tooltip 上的显示
+	 */
+	formatter: string | null,
+	/**
+	 * 输出数据的范围，数值类型的默认值为 [0, 1]，格式为 [min, max]，min 和 max 均为 0 至 1 范围的数据
+	 */
+	range: number[] | null,
+	/**
+	 * 该数据字段的显示别名，一般用于将字段的英文名称转换成中文名
+	 */
+	alias: string | null,
+	/**
+	 * 坐标轴上刻度点的个数，不同的度量类型对应不同的默认值
+	 */
+	tickCount: number | null,
+	/**
+	 * 用于指定坐标轴上刻度点的文本信息，当用户设置了 ticks 就会按照 ticks 的个数和文本来显示
+	 */
+	ticks: string[] | null,
+	
+	// linear
+	
+	/**
+	 * 默认为 true，用于优化数值范围，使绘制的坐标轴刻度线均匀分布。例如原始数据的范围为 [3, 97]，如果 nice 为 true，那么就会将数值范围调整为 [0, 100]
+	 */
+	nice: boolean | null,
+	/**
+	 * 定义数值范围的最小值
+	 */
+	min: number | null,
+	/**
+	 * 定义数值范围的最大值
+	 */
+	max: number | null,
+	/**
+	 * 用于指定坐标轴各个标度点的间距，是原始数据之间的间距差值，tickCount 和 tickInterval 不可以同时声明
+	 */
+	tickInterval: number | null,
+	
+	// cat
+	
+	/**
+	 * 具体的分类的值，一般用于指定具体的顺序和枚举的对应关系
+	 */
+	values: string[] | null,
+	/**
+	 * 默认值为 false, 在计算 ticks 的时候是否允许取整以满足刻度之间的均匀分布，取整后可能会和用户设置的 tickCount 不符合。
+	 */
+	isRounding: boolean | null,
+	
+	// timeCat
+	
+	/**
+	 * 数据的格式化格式 默认：'YYYY-MM-DD'
+	 */
+	mask: string | null,
+}
+
+/**
+ * UXChartCoord 坐标系
+ */
+export type UXChartCoord = {
+	/**
+	 * 极坐标，极坐标下为 true
+	 */
+	polar: boolean,
+	/**
+	 * 是否发生转置，true 表示发生了转置
+	 */
+	transposed: boolean | null,
+	/**
+	 * 极坐标的起始角度，弧度制。
+	 */
+	startAngle: number | null,
+	/**
+	 * 极坐标的结束角度，弧度制。
+	 */
+	endAngle: number | null,
+	/**
+	 * 绘制环图时，设置内部空心半径，相对值，0 至 1 范围
+	 */
+	innerRadius: number | null,
+	/**
+	 * 绘制环图时，设置内部空心半径，相对值，0 至 1 范围
+	 */
+	inner: number | null,
+	/**
+	 * 设置圆的半径，相对值，0 至 1 范围
+	 */
+	radius: number | null,
+	/**
+	 * 缩放
+	 */
+	scale: any | null,
+	/**
+	 * 极坐标的圆心所在的画布坐标。
+	 */
+	center: UTSJSONObject | null,
+	/**
+	 * 极坐标的半径值。
+	 */
+	circleRadius: number | null,
+}
+
+/**
+ * UXChartAxis 坐标轴
+ */
+export type UXChartAxis = {
+	/**
+	 * 字段
+	 */
+	field: string | null,
+	/**
+	 * 坐标轴配置
+	 */
+	conf: UXChartAxisConf | null,
+}
+
+/**
+ * UXChartAxis 坐标轴配置
+ */
+export type UXChartAxisConf = {
+	/**
+	 * 坐标轴线的配置信息，设置 null 时不显示，支持所有的 canvas 属性，参考绘图属性，如需调整显示层级，可设置 top: true 展示在最上层图形或者 top: false 展示在最下层图形。
+	 */
+	line: any | null,
+	/**
+	 * 坐标轴文本距离轴线的距离
+	 */
+	labelOffset: number | null,
+	/**
+	 * 坐标轴网格线的配置项，设置 null 时不显示，支持所有的 canvas 属性，参考绘图属性，支持回调函数，另外在极坐标下，可以通过配置 type: 'arc' 将其绘制为圆弧；如需调整显示层级，可设置 top: true 展示在最上层图形或者 top: false 展示在最下层图形。
+	 */
+	grid: any | null,
+	/**
+	 * 坐标轴刻度线的样式配置，设置 null 不显示，支持所有的 canvas 属性，参考绘图属性 ，如需调整显示层级，可设置 top: true 展示在最上层图形或者 top: false 展示在最下层图形。
+	 */
+	tickLine: any | null,
+	/**
+	 * 坐标轴文本配置，设置 null 不显示, 支持所有的 canvas 属性，参考绘图属性，支持回调函数，如需调整显示层级，可设置 top: true 展示在最上层图形或者 top: false 展示在最下层图形。
+	 */
+	label: any | null,
+	/**
+	 * 坐标轴显示位置配置，x 轴默认位于底部 'bottom'，y 轴可设置 position 为 'left'、'right'
+	 */
+	position: string | null,
+}
+
+/**
+ * UXChartLegend 图例
+ */
+export type UXChartLegend = {
+	/**
+	 * 自定义
+	 */
+	custom: boolean | null,
+	/**
+	 * 定位 'top'、'right'、'bottom'、'left'
+	 */
+	position: string | null,
+	/**
+	 * 当 position 为 'top'，'bottom' 时生效，用于设置水平方向上图例的对齐方式，可设置的值为：'left'、'center'、'right' ，默认为 'left' ，左对齐。
+	 */
+	align: string | null,
+	/**
+	 * 当 position 为 'left'、'right' 时生效，用于设置垂直方向上图例的对齐方式，可设置的值为：'top'、'middle'、'bottom'，默认为 'middle'，居中对齐
+	 */
+	verticalAlign: string | null,
+	/**
+	 * 用于设置每个图例项的宽度，默认为 'auto'，即使用 F2 默认的图例布局计算 itemWidth。如果 itemWidth 为 null，则会根据每个图例项自身的宽度计算，另外用户也可以自己设置 itemWidth 的数值。
+	 */
+	itemWidth: Number | null,
+	/**
+	 * 是否显示图例标题，默认值为 false，即不展示。
+	 */
+	showTitle: boolean | null,
+	/**
+	 * 图例标题的显示样式设置
+	 */
+	titleStyle: UXChartStyle | null,
+	/**
+	 * 图例 x 方向的整体偏移值，数值类型，数值单位为 'px'，默认值为 0。
+	 */
+	offsetX: Number | null,
+	/**
+	 * 图例 Y 方向的整体偏移值，数值类型，数值单位为 'px'，默认值为 0。
+	 */
+	offsetY: Number | null,
+	/**
+	 * 标题距离图例项的间距，默认为 12px，如果不展示标题，不生效。
+	 */
+	titleGap: Number | null,
+	/**
+	 * 每个图例项水平方向上的间距，默认值为 12px。
+	 */
+	itemGap: Number | null,
+	/**
+	 * 每个图例项下方留白间距，默认值为 12px。
+	 */
+	itemMarginBottom: Number | null,
+	/**
+	 * marker 和文本之间的间距，默认值为 6px。
+	 */
+	wordSpace: Number | null,
+	/**
+	 * 用于设置取消选中的图例 marker 以及文本的样式。默认值为：{ fill: '#bfbfbf' }
+	 */
+	unCheckStyle: UXChartStyle | null,
+	/**
+	 * 回调函数，用于格式化图例每项的文本显示。((val: string) => string)
+	 */
+	itemFormatter: string | null,
+	/**
+	 * 用于设置图例的 marker 样式
+	 */
+	marker: any | null,
+	/**
+	 * 用于设置图例项的文本样式
+	 */
+	nameStyle: UXChartStyle | null,
+	/**
+	 * 用于设置图例项的文本样式
+	 */
+	valueStyle: UXChartStyle | null,
+	/**
+	 * 设置图例项中 name 和 value 的连接字符，默认为 ':'。
+	 */
+	joinString: string | null,
+	/**
+	 * 项目
+	 */
+	items: any | null,
+	/**
+	 * 图例筛选行为的触发事件，默认为 click
+	 */
+	triggerOn: string | null,
+	/**
+	 * 设置图例项的选中模式，提供两种模式：multiple single
+	 */
+	selectedMode: string | null,
+	/**
+	 * 设置图例项是否允许点击，默认为 true，即允许点击。
+	 */
+	clickable: boolean | null,
+	/**
+	 * 用于自定义鼠标点击图例项的交互，当 clickable 为 false 不生效。((ev: string) => void)
+	 */
+	onClick: string | null,
+}
+
+/**
+ * UXChartTooltip 提示
+ */
+export type UXChartTooltip = {
+	/**
+	 * 当移出触发区域，是否仍显示提示框内容，默认为 false，移出触发区域 tooltip 消失，设置为 true 可以保证一直显示提示框内容
+	 */
+	alwaysShow: boolean | null,
+	/**
+	 * x 方向的偏移
+	 */
+	offsetX: number | null,
+	/**
+	 * y 方向的偏移
+	 */
+	offsetY: number | null,
+	/**
+	 * tooltip 出现的触发行为，默认 [ 'touchstart', 'touchmove' ]
+	 */
+	triggerOn: string[] | null,
+	/**
+	 * 消失的触发行为，可自定义 默认 touchend
+	 */
+	triggerOff: string | null,
+	/**
+	 * 是否展示标题，默认不展示
+	 */
+	showTitle: boolean | null,
+	/**
+	 * 是否显示辅助线，点图、路径图、线图、面积图默认展示
+	 */
+	showCrosshairs: boolean | null,
+	/**
+	 * 配置辅助线的样式
+	 */
+	crosshairsStyle: UXChartStyle | null,
+	/**
+	 * 是否显示 tooltipMarker
+	 */
+	showTooltipMarker: boolean | null,
+	/**
+	 * 设置 tooltipMarker 的样式 默认 { fill: '#fff'}
+	 */
+	tooltipMarkerStyle: UXChartStyle | null,
+	/**
+	 * tooltip 内容框的背景样式
+	 */
+	background: UXChartStyle | null,
+	/**
+	 * tooltip 标题的文本样式配置，showTitle 为 false 时不生效
+	 */
+	titleStyle: UXChartStyle | null,
+	/**
+	 * tooltip name 项的文本样式配置
+	 */
+	nameStyle: UXChartStyle | null,
+	/**
+	 * tooltip value 项的文本样式配置
+	 */
+	valueStyle: UXChartStyle | null,
+	/**
+	 * 是否展示每条记录项前面的 marker
+	 */
+	showItemMarker: boolean | null,
+	/**
+	 * 每条记录项前面的 marker 的样式配置
+	 */
+	itemMarkerStyle: UXChartMarker | null,
+	/**
+	 * 是否自定义 tooltip 提示框
+	 */
+	custom: boolean | null,
+	/**
+	 * tooltip 显示时的回调函数 ((x: number, y: number, title: string, items: UTSJSONObject[]) => void)
+	 */
+	onShow: string | null,
+	/**
+	 * tooltip 隐藏时的回调函数 ((x: number, y: number, title: string, items: UTSJSONObject[]) => void)
+	 */
+	onHide: string | null,
+	/**
+	 * tooltip 内容发生改变时的回调函数 ((x: number, y: number, title: string, items: UTSJSONObject[]) => void)
+	 */
+	onChange: string | null,
+	/**
+	 * 配置辅助线的类型，可选值为：'x'，'y'，'xy'。
+	 */
+	crosshairsType: string | null,
+	/**
+	 * x 轴辅助信息的开关，默认关闭不展示。
+	 */
+	showXTip: boolean | null,
+	/**
+	 * y 轴辅助信息的开关，默认关闭不展示。
+	 */
+	showYTip: boolean | null,
+	/**
+	 * 配置 x 轴辅助信息的文本样式，可以是回调函数，用于格式化文本。
+	 */
+	xTip: any | null,
+	/**
+	 * 配置 y 轴辅助信息的文本样式，可是回调函数，用于格式化文本。
+	 */
+	yTip: any | null,
+	/**
+	 * X 轴辅助信息的背景框样式
+	 */
+	xTipBackground: UXChartStyle | null,
+	/**
+	 * Y 轴辅助信息的背景框样式 
+	 */
+	yTipBackground: UXChartStyle | null,
+	/**
+	 * X 轴辅助信息的文本样式 {fontSize: 12, fill: '#fff',}
+	 */
+	xTipTextStyle: UXChartStyle | null,
+	/**
+	 * Y 轴辅助信息的文本样式
+	 */
+	yTipTextStyle: UXChartStyle | null,
+	/**
+	 *  是否将辅助线准确定位至数据点
+	 */
+	snap: boolean | null,
+}
+
+/**
+ * UXChartPieLabel 饼图文本
+ */
+export type UXChartPieLabel = {
+	/**
+	 * 锚点的偏移量
+	 */
+	anchorOffset: number | null,
+	/**
+	 * 拐点的偏移量
+	 */
+	inflectionOffset: number | null,
+	/**
+	 * 文本距离画布左右两边的距离
+	 */
+	sidePadding: number | null,
+	/**
+	 * 文本的最大行高
+	 */
+	lineHeight: number | null,
+	/**
+	 * 发生调整时的偏移量
+	 */
+	adjustOffset: number | null,
+	/**
+	 * 是否不展示重叠的文本
+	 */
+	skipOverlapLabels: boolean | null,
+	/**
+	 * 连接线的样式
+	 */
+	lineStyle: UXChartStyle | null,
+	/**
+	 * 锚点的样式
+	 */
+	anchorStyle: UXChartStyle | null,
+	/**
+	 * label1 文本内容及其样式，Function 类型，回调函数
+	 */
+	label1: string | null,
+	/**
+	 * label2 文本内容及其样式，Function 类型，回调函数
+	 */
+	label2: string | null,
+	/**
+	 * 点击行为，回调函数
+	 */
+	onClick: string | null,
+	/**
+	 * 点击行为触发的事件类型
+	 */
+	triggerOn: string | null,
+	/**
+	 * 当有图形被选中的时候，是否激活图形
+	 */
+	activeShape: boolean | null,
+	/**
+	 * 设置激活图形的样式
+	 */
+	activeStyle: UXChartStyle | null,
+	/**
+	 * label1 与连接线在垂直方向的偏移量
+	 */
+	label1OffsetY: number | null,
+	/**
+	 * label2 与连接线在垂直方向的偏移量  
+	 */
+	label2OffsetY: number | null,
+}
+
+/**
+ * UXChartGuide 辅助元素
+ */
+export type UXChartGuide = {
+	/**
+	 * 绘制辅助线
+	 */
+	line: UXChartGuideLine[] | null,
+	/**
+	 * 绘制辅助文本
+	 */
+	text: UXChartGuideText[] | null,
+	/**
+	 * 绘制辅助点
+	 */
+	point: UXChartGuidePoint[] | null,
+	/**
+	 * 绘制辅助 Tag
+	 */
+	tag: UXChartGuideTag[] | null,
+	/**
+	 * 辅助背景框
+	 */
+	rect: UXChartGuideRect[] | null,
+	/**
+	 * 辅助 html
+	 */
+	html: UXChartGuideHtml[] | null,
+	/**
+	 * 辅助圆弧，只适用于极坐标
+	 */
+	arc: UXChartGuideArc[] | null,
+	/**
+	 * 辅助过滤区域
+	 */
+	regionFilter: UXChartGuideRegionFilter[] | null,
+}
+
+/**
+ * UXChartGuideLine 辅助线
+ */
+export type UXChartGuideLine = {
+	/**
+	 * 指定 guide 是否绘制在 canvas 最上层，默认为 true, 即绘制在最上层
+	 */
+	top: boolean | null,
+	/**
+	 * 辅助线起始位置，值为原始数据值，支持 callback
+	 */
+	start: any | null,
+	/**
+	 * 辅助线结束位置，值为原始数据值，支持 callback
+	 */
+	end: any | null,
+	/**
+	 * 图形样式配置
+	 */
+	style: UXChartStyle | null,
+	/**
+	 * 是否将 guide 元素限制在绘图区域图，默认为 false
+	 */
+	limitInPlot: boolean | null,
+}
+
+/**
+ * UXChartGuideText 辅助文本
+ */
+export type UXChartGuideText = {
+	/**
+	 * 指定 guide 是否绘制在 canvas 最上层，默认为 true, 即绘制在最上层
+	 */
+	top: boolean | null,
+	/**
+	 * 文本的起始位置，值为原始数据值
+	 */
+	position: any | null,
+	/**
+	 * 显示的文本内容
+	 */
+	content: string | null,
+	/**
+	 * x 方向的偏移量
+	 */
+	offsetX: number | null,
+	/**
+	 * y 方向偏移量
+	 */
+	offsetY: number | null,
+	/**
+	 * 图形样式配置
+	 */
+	style: any | null,
+	/**
+	 * 是否将 guide 元素限制在绘图区域图，默认为 false
+	 */
+	limitInPlot: boolean | null,
+}
+
+/**
+ * UXChartGuidePoint 辅助点
+ */
+export type UXChartGuidePoint = {
+	/**
+	 * 指定 guide 是否绘制在 canvas 最上层，默认为 true, 即绘制在最上层
+	 */
+	top: boolean | null,
+	/**
+	 * 文本的起始位置，值为原始数据值
+	 */
+	position: string[] | null,
+	/**
+	 * x 方向的偏移量
+	 */
+	offsetX: number | null,
+	/**
+	 * y 方向偏移量
+	 */
+	offsetY: number | null,
+	/**
+	 * 图形样式配置
+	 */
+	style: UXChartStyle | null,
+	/**
+	 * 是否将 guide 元素限制在绘图区域图，默认为 false
+	 */
+	limitInPlot: boolean | null,
+}
+
+/**
+ * UXChartGuideTag 辅助Tag
+ */
+export type UXChartGuideTag = {
+	/**
+	 * 内容
+	 */
+	content: string | null,
+	/**
+	 * 指定 guide 是否绘制在 canvas 最上层，默认为 true, 即绘制在最上层
+	 */
+	top: boolean | null,
+	/**
+	 * 文本的起始位置，值为原始数据值
+	 */
+	position: any | null,
+	/**
+	 * 箭头朝向，默认为 'tl'，但是当 tag 超出画布范围时，会进行自动调整
+	 */
+	direct: string | null,
+	/**
+	 * 当 tag 超出画布范围时，是否进行自动调整。默认为 true
+	 */
+	autoAdjust: boolean | null,
+	/**
+	 * 三角标的边长，默认为 4
+	 */
+	side: number | null,
+	/**
+	 * X 轴偏移，默认为 0
+	 */
+	offsetX: number | null,
+	/**
+	 * Y 轴偏移，默认为 0
+	 */
+	offsetY: number | null,
+	/**
+	 *  tag 背景样式
+	 */
+	background: UXChartStyle | null,
+	/**
+	 * tag 文本样式
+	 */
+	textStyle: UXChartStyle | null,
+	/**
+	 * 是否带点，默认带
+	 */
+	withPoint: boolean | null,
+	/**
+	 * 点的样式
+	 */
+	pointStyle: UXChartStyle | null,
+	/**
+	 * 是否将 guide 元素限制在绘图区域图，默认为 false
+	 */
+	limitInPlot: boolean | null,
+}
+
+/**
+ * UXChartGuideRect 辅助背景框
+ */
+export type UXChartGuideRect = {
+	/**
+	 * 指定 guide 是否绘制在 canvas 最上层，默认为 true, 即绘制在最上层
+	 */
+	top: boolean | null,
+	/**
+	 * 辅助线起始位置，值为原始数据值，支持 callback
+	 */
+	start: any | null,
+	/**
+	 * 辅助线结束位置，值为原始数据值，支持 callback
+	 */
+	end: any | null,
+	/**
+	 * 图形样式配置
+	 */
+	style: UXChartStyle | null,
+	/**
+	 * 是否将 guide 元素限制在绘图区域图，默认为 false
+	 */
+	limitInPlot: boolean | null,
+}
+
+/**
+ * UXChartGuideHtml 辅助html
+ */
+export type UXChartGuideHtml = {
+	/**
+	 * html 的中心位置， 值为原始数据值
+	 */
+	position: any | null,
+	/**
+	 * html 的水平对齐方式，可取值为： left、center、right，默认值为 center。
+	 */
+	alignX: string | null
+	/**
+	 * html 的垂直对齐方式，可取值为： top、middle、bottom，默认值为 middle。
+	 */
+	alignY: string | null,
+	/**
+	 * X 轴偏移，默认为 0
+	 */
+	offsetX: number | null,
+	/**
+	 * Y 轴偏移，默认为 0
+	 */
+	offsetY: number | null,
+	/**
+	 * html 代码
+	 */
+	html: string | null,
+	/**
+	 * 是否将 guide 元素限制在绘图区域图，默认为 false
+	 */
+	limitInPlot: boolean | null,
+}
+
+/**
+ * UXChartGuideArc 辅助圆弧
+ */
+export type UXChartGuideArc = {
+	/**
+	 * 指定 guide 是否绘制在 canvas 最上层，默认为 true, 即绘制在最上层
+	 */
+	top: boolean | null,
+	/**
+	 * 辅助线起始位置，值为原始数据值，支持 callback
+	 */
+	start: any | null,
+	/**
+	 * 辅助线结束位置，值为原始数据值，支持 callback
+	 */
+	end: any | null,
+	/**
+	 * 图形样式配置
+	 */
+	style: UXChartStyle | null,
+	/**
+	 * 是否将 guide 元素限制在绘图区域图，默认为 false
+	 */
+	limitInPlot: boolean | null,
+}
+
+/**
+ * UXChartGuideRegionFilter 辅助过滤区域
+ */
+export type UXChartGuideRegionFilter = {
+	/**
+	 * 指定 guide 是否绘制在 canvas 最上层，默认为 true, 即绘制在最上层
+	 */
+	top: boolean | null,
+	/**
+	 * 辅助线起始位置，值为原始数据值，支持  callback
+	 */
+	start: any | null,
+	/**
+	 * 辅助线结束位置，值为原始数据值，支持  callback
+	 */
+	end: any | null,
+	/**
+	 * 颜色
+	 */
+	color: string | null,
+	/**
+	 * 图形样式配置
+	 */
+	style: UXChartStyle | null,
+	/**
+	 * 是否将 guide 元素限制在绘图区域图，默认为 false
+	 */
+	limitInPlot: boolean | null,
+}
+
+/**
+ * UXChartRegisterShape 自定义 Shape
+ */
+export type UXChartRegisterShape = {
+	/**
+	 * 类型
+	 */
+	type: string | null,
+	/**
+	 * 名称
+	 */
+	name: string | null,
+	/**
+	 * 计算绘制每种 shape 的关键点 callback
+	 */
+	getPoints: string | null,
+	/**
+	 * 绘制关键点 callback
+	 */
+	draw: string | null,
+}
+
+/**
+ * UXChartRegisterAnimation 自定义 Animate
+ */
+export type UXChartRegisterAnimation = {
+	/**
+	 * 名称
+	 */
+	name: string | null,
+	/**
+	 * 动画实现函数
+	 */
+	callback: string | null,
+}
+
+/**
+ * UXChartInteraction 交互
+ */
+export type UXChartInteraction = {
+	/**
+	 * 饼图选择
+	 */
+	pie: UXChartInteractionPie | null,
+	/**
+	 * 柱状图选择
+	 */
+	interval: UXChartInteractionInterval | null,
+	/**
+	 * 平移
+	 */
+	pan: UXChartInteractionPan | null,
+	/**
+	 * 缩放
+	 */
+	pinch: UXChartInteractionPinch | null,
+	/**
+	 * 快扫
+	 */
+	swipe: UXChartInteractionSwipe | null,
+	
+}
+
+/**
+ * UXChartInteractionPie 饼图选择
+ */
+export type UXChartInteractionPie = {
+	/**
+	 * 触发事件 tap touchstart，默认为 tap
+	 * 该交互原则上是手指点击后触发的，除去 'tap'，还可以使用 'touchstart'
+	 */
+	startEvent: string | null,
+	/**
+	 * 动画配置
+	 */
+	animate: UXChartAnimateConf | null,
+	/**
+	 * 光环偏移距离
+	 */
+	offset: number | null,
+	/**
+	 * 光环大小
+	 */
+	appendRadius: number | null,
+	/**
+	 * 光环的样式配置
+	 */
+	style: UXChartStyle | null,
+	/**
+	 * 是否允许取消选中，默认值为 true，表示允许
+	 */
+	cancelable: boolean | null,
+	/**
+	 * 事件触发后的回调 const { data, shapeInfo, shape, selected } = ev;
+	 */
+	onStart: string | null,
+	/**
+	 * 事件结束后的回调 const { data, shapeInfo, shape, selected } = ev;
+	 */
+	onEnd: string | null,
+	/**
+	 * 用于设置初始化默认选中的数据，只要传入对应的数据即可
+	 * 注意： 如果需要使用该功能，请在 chart.render() 方法之后调用该交互方法。
+	 */
+	defaultSelected: UTSJSONObject | null,
+}
+
+/**
+ * UXChartInteractionInterval 柱状图选择
+ */
+export type UXChartInteractionInterval = {
+	/**
+	 * 触发事件 tap，默认为 tap
+	 * 该交互原则上是手指点击后触发的，除去 'tap'，还可以使用 'touchstart'
+	 */
+	startEvent: string | null,
+	/**
+	 * 被选中图形的样式配置
+	 */
+	selectStyle: UXChartStyle | null,
+	/**
+	 * 未被选中图形的样式配置
+	 * 用于设置未被选中柱子的显示样式。如果不需要设置，可以直接设置为 null。
+	 */
+	unSelectStyle: UXChartStyle | null,
+	/**
+	 * 是否高亮坐标轴文本
+	 * 是否高亮坐标轴文本，默认为 true，会高亮。如不需要，可以选择关闭。
+	 */
+	selectAxis: boolean | null,
+	/**
+	 * 坐标轴文本被选中后的样式
+	 * 设置坐标轴文本高亮的样式。默认只是文字加粗。
+	 */
+	selectAxisStyle: UXChartStyle | null,
+	/**
+	 * 是否允许取消选中，默认值为 true，表示允许
+	 */
+	cancelable: boolean | null,
+	/**
+	 * 事件触发后的回调 const { data, shapeInfo, shape, selected } = ev;
+	 */
+	onStart: string | null,
+	/**
+	 * 事件结束后的回调 const { data, shapeInfo, shape, selected } = ev;
+	 */
+	onEnd: string | null,
+	/**
+	 * 选中策略 share，默认为 'shape', 即击中柱子才会触发交互
+	 * 选中策略，默认为 'shape', 即击中柱子才会触发交互。另一个可选值为 'range'，即只要集中点落在该柱子的一定 x 方向范围内都会触发选中交互。
+	 */
+	mode: string | null,
+	/**
+	 * 用于设置初始化默认选中的数据，只要传入对应的数据即可
+	 * 注意： 如果需要使用该功能，请在 chart.render() 方法之后调用该交互方法。
+	 */
+	defaultSelected: UTSJSONObject | null,
+}
+
+/**
+ * UXChartInteractionPan 平移
+ */
+export type UXChartInteractionPan = {
+	/**
+	 * 图表平移的方向，默认为 'x'
+	 * 图表的平移方向，可设置 x 轴、y 轴以及 x、y 两个方向的平移操作。默认值为 'x'，即 x 轴平移。
+	 */
+	mode: string | null,
+	/**
+	 * 用于控制分类类型或者 TimeCat 类型数据的平移速度
+	 * 用于控制平移速度，数值越大，速度越快，仅适用于分类类型 'cat' 或者时间类型 'timeCat' 数据。
+	 */
+	speed: number | null,
+	/**
+	 * 用于控制分类类型或者 TimeCat 类型数据每次平移的数据条数
+	 * 用于控制每次平移的数据量，仅适用于分类类型 'cat' 或者时间类型 'timeCat' 数据。
+	 */
+	step: number | null,
+	/**
+	 * hammer.js 设置，用于设置识别 pan 事件的最小移动距离，详见 http://hammerjs.github.io/recognizer-pan/
+	 */
+	panThreshold: number | null,
+	/**
+	 * hammer.js 设置，用于设置识别 press 事件的最小移动距离，详见 http://hammerjs.github.io/recognizer-press/
+	 */
+	pressThreshold: number | null,
+	/**
+	 * hammer.js 设置，用于设置识别 press 事件的最小时间差，详见 http://hammerjs.github.io/recognizer-press/
+	 */
+	pressTime: number | null,
+	/**
+	 * 限制范围
+	 * 用于设置图表平移的最大最小范围，需要同 x 或者 y 轴对应的数据字段对应，使用如下：
+	 * limitRange: {
+	 * 	fieldA: {
+	 * 		min: 0, // 最小值
+	 * 		max: 100 // 最大值
+	 * 	}
+	 * }
+	 */
+	limitRange: UTSJSONObject | null,
+	/**
+	 * 事件触发后的回调
+	 */
+	onStart: string | null,
+	/**
+	 * 事件进行中的回调
+	 */
+	onProcess: string | null,
+	/**
+	 * 事件结束后的回调
+	 */
+	onEnd: string | null,
+}
+
+/**
+ * UXChartInteractionPinch 缩放
+ */
+export type UXChartInteractionPinch = {
+	/**
+	 * 图表平移的方向，默认为 'x'
+	 * 图表的缩放方向，可设置 x 轴、y 轴以及 x、y 两个方向。默认值为 'x'，即 x 轴方向的缩放。
+	 */
+	mode: string | null,
+	/**
+	 * 用于控制分类类型数据的缩放灵敏度
+	 * 用于控制缩放灵敏度，值越小越灵敏，仅适用于分类类型 'cat' 或者时间类型 'timeCat' 数据。
+	 */
+	sensitivity: number | null, 
+	/**
+	 * 缩小的最小倍数
+	 */
+	minScale: number | null, 
+	/**
+	 * 放大的最大倍数
+	 */
+	maxScale: number | null, 
+	/**
+	 * 事件触发后的回调
+	 */
+	onStart: string | null,
+	/**
+	 * 事件进行中的回调
+	 */
+	onProcess: string | null,
+	/**
+	 * 事件结束后的回调
+	 */
+	onEnd: string | null,
+	/**
+	 * hammer.js 设置，用于设置识别 press 事件的最小移动距离，详见 http://hammerjs.github.io/recognizer-press/
+	 */
+	pressThreshold: number | null, 
+	/**
+	 * hammer.js 设置，用于设置识别 press 事件的最小时间差，详见 http://hammerjs.github.io/recognizer-press/
+	 */
+	pressTime: number | null, 
+}
+
+/**
+ * UXChartInteractionSwipe 快扫
+ */
+export type UXChartInteractionSwipe = {
+	/**
+	 * 用于控制分类类型或者 TimeCat 类型数据的平移速度
+	 * 用于控制平移速度，数值越大，速度越快，仅适用于分类类型 'cat' 或者时间类型 'timeCat' 数据。
+	 */
+	speed: number | null, 
+	/**
+	 * hammer.js 设置，用于设置识别 swipe 事件的最小移动距离，详见 http://hammerjs.github.io/recognizer-swipe/。
+	 */
+	threshold: number | null, 
+	/**
+	 * hammer.js 设置，用于设置 swipe 移动的最小速度，详见 http://hammerjs.github.io/recognizer-swipe/。
+	 */
+	velocity: number | null, 
+	/**
+	 * 限制范围
+	 * 用于设置图表平移的最大最小范围，需要同 x 或者 y 轴对应的数据字段对应，使用如下：
+	 * limitRange: {
+	 * 	fieldA: {
+	 * 		min: 0, // 最小值
+	 * 		max: 100 // 最大值
+	 * 	}
+	 * }
+	 */
+	limitRange: UTSJSONObject | null, 
+	/**
+	 * 事件触发后的回调
+	 */
+	onStart: string | null,
+	/**
+	 * 事件进行中的回调
+	 */
+	onProcess: string | null,
+	/**
+	 * 事件结束后的回调
+	 */
+	onEnd: string | null,
+}
+
+/**
+ * UXChartScrollBar 用于辅助 pan 和 pinch 交互
+ */
+export type UXChartScrollBar = {
+	/**
+	 * 'x'	用于确定进度条的渲染方向，可选值为 'x', 'y', 'xy'
+	 */
+	mode: string | null,
+	/**
+	 * x 轴方向进度条的样式
+	 */
+	xStyle: UXChartScrollBarStyle | null,
+	/**
+	 * y 轴方向进度条的样式
+	 */
+	yStyle: UXChartScrollBarStyle | null,
+}
+
+export type UXChartScrollBarStyle = {
+	/**
+	 * 进度条背景色
+	 */
+	backgroundColor: string | null,
+	/**
+	 * 范围进度条的背景色
+	 */
+	fillerColor: string | null,
+	/**
+	 * 进度条线宽
+	 */
+	size: number | null,
+	/**
+	 *  line 的图形属性 round
+	 */
+	lineCap: string | null,
+	/**
+	 * 进度条 x 方向的偏移量
+	 */
+	offsetX: number | null,
+	/**
+	 * 进度条 y 方向的偏移量
+	 */
+	offsetY: number | null,
+}
+
+/**
+ * UXChartGesture 手势事件
+ */
+export type UXChartGesture = {
+	/**
+	 * 手势事件
+	 */
+	gesture: UXChartGestureEvent | null,
+	/**
+	 * 传递给 hammer 的参数配置。一般不需要配置
+	 */
+	hammerOptions: UTSJSONObject | null,
+	/**
+	 * 配置
+	 */
+	options: UXChartGestureOptions | null,
+}
+
+export type UXChartGestureEvent = {
+	/**
+	 * 回调事件的第一个参数，data 是手势事件触发中心点坐标对应的图形数据点。
+	 * 回调事件的第二个参数，event 是手势事件对象
+	 */
+	touchstart: string | null,
+	
+	/**
+	 * 回调事件的第一个参数，data 是手势事件触发中心点坐标对应的图形数据点。
+	 * 回调事件的第二个参数，event 是手势事件对象
+	 */
+	touchmove: string | null,
+	
+	/**
+	 * 回调事件的第一个参数，data 是手势事件触发中心点坐标对应的图形数据点。
+	 * 回调事件的第二个参数，event 是手势事件对象
+	 */
+	touchend: string | null,
+	
+	/**
+	 * 回调事件的第一个参数，data 是手势事件触发中心点坐标对应的图形数据点。
+	 * 回调事件的第二个参数，event 是手势事件对象
+	 */
+	press: string | null,
+}
+
+export type UXChartGestureOptions = {
+	/**
+	 * 计算手势数据点，如果不需要可以关闭提高性能
+	 */
+	useCalculate: boolean | null,
+	/**
+	 * 计算数据是否需要计算图表相对页面偏移的坐标。当图表宽度超出, scroll模式，计算位置需要加
+	 */
+	useOffset: boolean | null,
+}
+
+/**
+ * UXChartAnimate 动画
+ */
+export type UXChartAnimate = {
+	/**
+	 * 初始化入场动画配置
+	 */
+	appear: UXChartAnimateConf | null,
+	/**
+	 * 更新动画配置，配置属性同 appear
+	 */
+	update: UXChartAnimateConf | null,
+	/**
+	 * 数据变更后，新产生的图形的入场动画配置，配置属性同 appear
+	 */
+	enter: UXChartAnimateConf | null,
+	/**
+	 * 销毁动画配置，配置属性同 appear
+	 */
+	leave: UXChartAnimateConf | null
+}
+
+/**
+ * UXChartAnimateConf 动画配置
+ */
+export type UXChartAnimateConf = {
+	/**
+	 * 定义动画执行函数
+	 * groupWaveIn groupScaleInX groupScaleInY groupScaleInXY shapesScaleInX shapesScaleInY shapesScaleInXY fadeIn
+	 */
+	animation: string | null,
+	/**
+	 * 动画缓动函数
+	 * linear quadraticIn quadraticOut quadraticInOut cubicIn cubicOut cubicInOut elasticIn elasticOut elasticInOut backIn backOut backInOut bounceIn bounceOut  bounceInOut
+	 */
+	easing: string | null,
+	/**
+	 * 动画延迟执行时间，单位 ms
+	 */
+	delay: number | null,
+	/**
+	 * 动画执行时间，单位 ms
+	 */
+	duration: number | null,
+}
+
+/**
+ * UXChartColor 将数据值映射到图形的颜色上的方法
+ */
+export type UXChartColor = {
+	/** 常量
+	 */
+	color: string | null,
+	/**
+	 * 字段
+	 */
+	field: string | null,
+	/** 颜色组
+	 */
+	colors: string[] | null,
+	/**
+	 * 回调
+	 */
+	callback: string | null,
+}
+
+/**
+ * UXChartShape 将数据值映射到图形的形状上的方法
+ */
+export type UXChartShape = {
+	/** 常量类型
+	 * 几何类型   	支持类型
+	 * point		'circle', 'hollowCircle', 'rect'		默认为 'circle'
+	 * line			'line', 'smooth', 'dash'				dash：虚线，smooth： 平滑线
+	 * area			'area', 'smooth'						填充内容的区域图
+	 * interval		'rect', 'funnel'
+	 * polygon		'polygon'	
+	 * schema		'candle'								目前仅 K 线图
+	 */
+	shape: string | null,
+	/**
+	 * 字段
+	 */
+	field: string | null,
+	/**
+	 * 形状组
+	 */
+	shapes: string[] | null,
+	/**
+	 * 回调
+	 */
+	callback: string | null,
+}
+
+/**
+ * UXChartSize 将数据值映射到图形的大小上的方法
+ * point 图形的 size 影响点的半径大小；
+ * ine, area, path 中的 size 影响线的粗细；
+ * interval 的 size 影响柱状图的宽度。
+ */
+export type UXChartSize = {
+	/**
+	 * 常量
+	 */
+	size: number | null,
+	/**
+	 * 字段
+	 */
+	field: string | null,
+	/**
+	 * 范围
+	 */
+	range: number[] | null,
+	/**
+	 * 回调
+	 */
+	callback: string | null,
+}
+
+/**
+ * UXChartStyle 全局样式
+ */
+export type UXChartStyle = {
+	/**
+	 * 样式
+	 */
+	style: any | null,
+	/**
+	 * 字段
+	 */
+	field: string | null,
+	/**
+	 * 回调
+	 */
+	callback: string | null,
+	/**
+	 * 文本内容
+	 */
+	text: string | null,
+	/**
+	 * 距顶
+	 */
+	top: boolean | null,
+	/**
+	 * 设置宽度
+	 */
+	width: number | null,
+	/**
+	 * 设置高度
+	 */
+	height: number | null,
+	/**
+	 * 设置半径
+	 */
+	radius: any | null,
+	/**
+	 * 设置padding
+	 */
+	padding: number[] | null,
+	/**
+	 * Canvas 2D API 使用内部方式描述颜色和样式的属性。默认值是 #000 （黑色）
+	 */
+	fill: string | null,
+	/**
+	 * Canvas 2D API 使用内部方式描述颜色和样式的属性。默认值是 #000 （黑色）
+	 */
+	fillStyle: string | null,
+	/**
+	 * 用于设置图形填充颜色的透明度
+	 */
+	fillOpacity: number | null,
+	/**
+	 * Canvas 2D API 描述画笔（绘制图形）颜色或者样式的属性。默认值是 #000 (black)
+	 */
+	stroke: string | null,
+	/**
+	 * Canvas 2D API 描述画笔（绘制图形）颜色或者样式的属性。默认值是 #000 (black)
+	 */
+	strokeStyle: string | null,
+	/**
+	 * 用于设置边颜色的透明度
+	 */
+	strokeOpacity: number | null,
+	/**
+	 * Canvas 2D API 描述阴影颜色的属性
+	 */
+	shadowColor: string | null,
+	/**
+	 * Canvas 2D API 描述模糊效果程度的属性； 它既不对应像素值也不受当前转换矩阵的影响。 默认值是 0
+	 */
+	shadowBlur: number | null,
+	/**
+	 * Canvas 2D API 描述阴影水平偏移距离的属性
+	 */
+	shadowOffsetX: number | null
+	/**
+	 * Canvas 2D API 描述阴影垂直偏移距离的属性
+	 */
+	shadowOffsetY: number | null
+	/**
+	 * Canvas 2D API 用来描述在canvas上绘图之前，设置图形和图片透明度的属性。 数值的范围从 0.0 （完全透明）到1.0 （完全不透明）
+	 */
+	globalOpacity: number | null
+	/**
+	 * Canvas 2D API 用来描述在canvas上绘图之前，设置图形和图片透明度的属性。 数值的范围从 0.0 （完全透明）到1.0 （完全不透明）
+	 */
+	opacity: number | null
+	/**
+	 * 该属性设置要在绘制新形状时应用的合成操作的类型，其中type是用于标识要使用的合成或混合模式操作的字符串
+	 * "source-over" 这是默认设置，并在现有画布上绘制新图形。
+	 * "source-in" 仅在新形状和目标画布重叠的地方绘制新形状。其他的都是透明的。
+	 * "source-out" 在不与现有画布内容重叠的地方绘制新图形。
+	 * "source-atop" 只在与现有画布内容重叠的地方绘制新图形。
+	 * "destination-over" 在现有画布内容的后面绘制新的图形。
+	 * "destination-in" 仅保留现有画布内容和新形状重叠的部分。其他的都是透明的。
+	 * "destination-out" 仅保留现有画布内容和新形状不重叠的部分。
+	 * "destination-atop" 仅保留现有画布内容和新形状重叠的部分。新形状是在现有画布内容的后面绘制的。
+	 * "lighter" 两个重叠图形的颜色是通过颜色值相加来确定的。
+	 * "copy" 只显示新图形。
+	 * "xor" 形状在重叠处变为透明，并在其他地方正常绘制。
+	 * "multiply" 将顶层像素与底层相应像素相乘，结果是一幅更黑暗的图片。
+	 * "screen" 像素被倒转、相乘、再倒转，结果是一幅更明亮的图片（与 multiply 相反）。
+	 * "overlay" multiply 和 screen 的结合。原本暗的地方更暗，原本亮的地方更亮。
+	 * "darken" 保留两个图层中最暗的像素。
+	 * "lighten" 保留两个图层中最亮的像素。
+	 * "color-dodge" 将底层除以顶层的反置。
+	 * "color-burn" 将反置的底层除以顶层，然后将结果反过来。
+	 * "hard-light" 类似于 overlay，multiply 和 screen 的结合——但上下图层互换了。
+	 * "soft-light" 柔和版本的 hard-light。纯黑或纯白不会导致纯黑或纯白。
+	 * "difference" 从顶层减去底层（或反之亦然），始终得到正值。
+	 * "exclusion" 与 difference 类似，但对比度较低。
+	 * "hue" 保留底层的亮度（luma）和色度（chroma），同时采用顶层的色调（hue）。
+	 * "saturation" 保留底层的亮度和色调，同时采用顶层的色度。
+	 * "color" 保留了底层的亮度，同时采用了顶层的色调和色度。
+	 * "luminosity" 保持底层的色调和色度，同时采用顶层的亮度。
+	 */
+	globalCompositionOperation: string | null,
+	
+	/**
+	 * Canvas 2D API 指定如何绘制每一条线段末端的属性。有3个可能的值，分别是：butt, round and square。默认值是 butt
+	 */
+	lineCap: string | null,
+	/**
+	 * Canvas 2D API 用来设置2个长度不为0的相连部分（线段，圆弧，曲线）如何连接在一起的属性（长度为0的变形部分，其指定的末端和控制点在同一位置，会被忽略）。有3个可能的值，分别是：round, bevel and miter。默认值是 miter
+	 */
+	lineJoin: string | null,
+	/**
+	 * Canvas 2D API 设置线段厚度的属性（即线段的宽度）。当获取属性值时，它可以返回当前的值（默认值是1.0 ）。 当给属性赋值时， 0、 负数、 Infinity 和 NaN 都会被忽略；除此之外，都会被赋予一个新值
+	 */
+	lineWidth: number | null,
+	/**
+	 * Canvas 2D API 设置斜接面限制比例的属性。 当获取属性值时， 会返回当前的值（默认值是10.0 ）。当给属性赋值时， 0、负数、 Infinity 和 NaN 都会被忽略；除此之外都会被赋予一个新值
+	 */
+	miterLimit: number | null,
+	/**
+	 * 设置线的虚线样式，可以指定一个数组。一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。这个属性取决于浏览器是否支持 setLineDash() 函数
+	 */
+	lineDash: number[] | null,
+	
+	/**
+	 * 设置文本内容的当前对齐方式, 支持的属性：center
+	 */
+	textAlign: string | null,
+	/**
+	 * 设置在绘制文本时使用的当前文本基线, 支持的属性:top
+	 */
+	textBaseline: string | null,
+	/**
+	 * 规定字体样式。可能的值：'normal', 'italic', 'oblique'
+	 */
+	fontStyle: string | null,
+	/**
+	 * 规定字号，以像素计
+	 */
+	fontSize: number | null,
+	/**
+	 * 规定字体系列
+	 */
+	fontFamily: string | null,
+	/**
+	 * 规定字体的粗细。可能的值：'normal', 'bold', 'bolder', 'lighter', '100', '200, '300', '400','500', '600', '700', '800', '900'
+	 */
+	fontWeight: string | null,
+	/**
+	 * 规定字体变体。可能的值：'normal', 'small-caps'
+	 */
+	fontVariant: string | null,
+	/**
+	 * 规定行高，以像素计
+	 */
+	lineHeight: number | null,
+	/**
+	 * 设置文本旋转的角度，单位为弧度
+	 */
+	rotate: number | null,
+	/**
+	 * 函数
+	 */
+	r: any | null,
+}
+
+/**
+ * UXChartMarker Marker样式
+ */
+export type UXChartMarker = {
+	/**
+	 * 形状 circle square
+	 */
+	symbol: string | null,
+	/**
+	 * 半径
+	 */
+	radius: number | null,
+	/**
+	 * 线宽
+	 */
+	lineWidth: number | null,
+	/**
+	 * 颜色
+	 */
+	stroke: string | null,
+	/**
+	 * 函数
+	 */
+	callback: string | null
+}

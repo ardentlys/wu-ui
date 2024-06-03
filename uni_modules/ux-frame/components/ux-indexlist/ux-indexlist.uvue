@@ -1,0 +1,24 @@
+<template>
+	<view>
+		
+	</view>
+</template>
+
+<script>
+	import { UxIndexListMixin } from './index.uts'
+	
+	export default {
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+
+</style>

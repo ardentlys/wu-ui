@@ -1,7 +1,7 @@
 {
 	"id": "wu-navbar",
 	"displayName": "wu-navbar 自定义状态栏、背景色、自动计算状态栏高度 小程序预留胶囊位置等 全端兼容，无论平台，一致体验。",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "wu-navbar 此组件一般用于在特殊情况下，需要自定义导航栏的时候用到，自动状态栏高度、小程序胶囊预留位置等，一般建议使用uni-app带的导航栏",
 	"keywords": [
         "wu-ui",
@@ -44,7 +44,8 @@
 		"platforms": {
 			"cloud": {
 				"tcb": "y",
-				"aliyun": "y"
+                "aliyun": "y",
+                "alipay": "n"
 			},
 			"client": {
 				"Vue": {

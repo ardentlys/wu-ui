@@ -1,0 +1,111 @@
+<template>
+	<view class="ux-drag" :style="{'width': `${width}px`}">
+		<view class="ux-tag">{{changeTag}}</view>
+		<scroll-view :id="`scroll_${myId}`" 
+					class="ux-drag__scroll" 
+					:style="[style]" 
+					:scroll-with-animation="false" 
+					:show-scrollbar="false"
+					 @scroll="scroll">
+
+			<view :id="`row_${myId}_${dragSort}`" v-for="(row, rowIndex) in dragList" :key="rowIndex"
+				:style="{'width': `${rowWidth}px`,'height': `${rowHeight}px`,'transform':'translateY('+row['translateY_new']+') translateX('+row['translateX_new']+')','opacity':row['opacity'] as number}"
+				:class="[row['sortIndex'] != dragSort && showAnimate?'transform':'', 'ux-drag__row']"
+				@click="click(row)"
+				@touchstart="touchstart($event as TouchEvent , rowIndex)"
+				@touchmove="touchmove"
+				@touchend="touchend"
+				@touchcancel="touchend">
+				<slot :data="row" :index="rowIndex" :drag="dragClass"></slot>
+			</view>
+		</scroll-view>
+
+		<view v-if="initBeginDrag" v-show="isBeginDrag" 
+				:id="`item_${myId}`" 
+				class="ux-drag__item" 
+				:style="{
+					'width': `${rowWidth}px`,
+					'height': `${rowHeight}px`,
+					'top': dragItem['top'],
+					'left': dragItem['left'],
+					'transform':'translateY('+dragItem['translateY_new']+') translateX('+dragItem['translateX_new']+')'}"
+				>
+			<slot :data="dragItem" :index="dragItemIndex" :drag="dragClass"></slot>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { UxDragMixin } from './index.uts'
+
+	/**
+	 * Drag 拖拽排序
+	 * @description 拖拽排序
+	 * @tutorial https://www.uxframe.cn/component/func/drag.html
+	 * @property {Array}		list						 UTSJSONObject[] | 数据
+	 * @property {Number}		column						 Number | 列数 (默认 1)
+	 * @property {String}		direction=[row|column]		 String | 布局方向 (默认 row)
+	 * @value row 横向
+	 * @value column 竖向
+	 * @property {Boolean}		longTouch=[true|false]		 Boolean | 是否开启长按拖动 (默认 true)
+	 * @property {Number}		longTouchTime				 Number | 长按拖动触发时间 (默认 350)
+	 * @property {Boolean}		autoScroll=[true|false]		 Boolean | 拖动到列表边缘自动滚动列表 (默认 true)
+	 * @property {Number}		rowWidth					 Number | 行宽度 (默认 windowWidth)
+	 * @property {Number}		rowHeight					 Number | 行高度 (默认 44)
+	 * @property {Number}		width					 	 Number | 宽度
+	 * @property {Number}		height						 Number | 高度
+	 * @property {Boolean}		disabled=[true|false]		 Boolean | 是否禁用 (默认 false)
+	 * @value true
+	 * @value false
+	 * @event {Function}		click						Function | 点击时触发
+	 * @event {Function}		change						Function | 最终改变时触发
+	 * @event {Function}		changing					Function | 改变时触发
+	 * @author UxFrame
+	 * @date 2023-12-28 22:06:46
+	 */
+
+	export default {
+		name: 'ux-drag',
+		slots: Object as SlotsType<{ default : { data : UTSJSONObject, index: number, drag : string } }>,
+		mixins: [UxDragMixin]
+	}
+</script>
+
+<style lang="scss">
+	.ux-drag {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		overflow: hidden;
+		
+		.ux-tag {
+			position: absolute;
+			opacity: 0;
+			height: 0;
+		}
+
+		.ux-drag__scroll {
+			box-sizing: border-box;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.ux-drag__row,
+		.ux-drag__item {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+
+			&.transform {
+				transition: transform 0.2s;
+			}
+		}
+
+		.ux-drag__item {
+			position: absolute;
+			opacity: 0.6;
+		}
+	}
+</style>

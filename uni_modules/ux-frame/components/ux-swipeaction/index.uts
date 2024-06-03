@@ -1,0 +1,8 @@
+
+export const UxSwipeActionMixin = defineMixin({
+	data() {
+		return {
+			
+		};
+	},
+})

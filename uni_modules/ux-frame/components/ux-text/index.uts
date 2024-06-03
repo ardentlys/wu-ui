@@ -1,0 +1,254 @@
+import { $ux } from '../../index.uts'
+import { xstyleMixin } from '../../libs/mixins/xstyle.uts'
+
+export const UxTextMixin = defineMixin({
+	emits: ['click'],
+	mixins: [xstyleMixin],
+	data() {
+		return {}
+	},
+	props: {
+		// 主题颜色
+		theme: {
+			type: String,
+			default: 'info',
+		},
+		// 文本内容
+		text: {
+			type: String,
+			default: '',
+		},
+		// 文本颜色
+		color: {
+			type: String,
+			default: '',
+		},
+		// 字体大小
+		size: {
+			type: Number,
+			default: 14
+		},
+		// 是否粗体
+		bold: {
+			type: Boolean,
+			default: false
+		},
+		// 文本显示的行数
+		lines: {
+			type: Number,
+			default: 0
+		},
+		// 文本对齐方式
+		align: {
+			type: String,
+			default: 'left',
+		},
+		// 文字装饰
+		decoration: {
+			type: String,
+			default: 'none',
+		},
+		// 文本行高
+		lineHeight: {
+			type: Number,
+			default: 1.2
+		},
+		// TODO 前置图标 
+		prefixIcon: {
+			type: String,
+			default: '',
+		},
+		// 后置图标
+		suffixIcon: {
+			type: String,
+			default: '',
+		},
+		// 图标大小
+		iconSize: {
+			type: Number,
+			default: 14
+		},
+		// 自定义字体路径
+		customFont: {
+			type: String,
+			default: ''
+		},
+		// 自定义字体family
+		customFamily: {
+			type: String,
+			default: ''
+		},
+		// 文本是否可选
+		selectable: {
+			type: Boolean,
+			default: false
+		},
+		// 显示连续空格
+		space: {
+			type: String,
+			default: ''
+		},
+		// 是否解码
+		decode: {
+			type: Boolean,
+			default: false
+		},
+		// 文本处理的匹配模式
+		mode: {
+			type: String,
+			default: 'text',
+		},
+		// 格式化规则
+		format: {
+			type: String,
+			default: '',
+		},
+		// 链接地址
+		href: {
+			type: String,
+			default: '',
+		},
+		// 是否拨打电话
+		call: {
+			type: Boolean,
+			default: false
+		},
+	},
+	computed: {
+		_color() : string {
+			if(this.color != '') {
+				return this.color
+			}
+			
+			switch (this.theme) {
+				case 'info':
+					return $ux.theme.main!
+				case 'primary':
+					return $ux.theme.primary!
+				case 'warn':
+					return $ux.theme.warn!
+				case 'success':
+					return $ux.theme.success!
+				case 'error':
+					return $ux.theme.error!
+				case 'title': 
+					return $ux.theme.title!
+				default:
+					return $ux.theme.main!
+			}
+		},
+		style() : any[] {
+			let css = new Map<string, any | null>()
+	
+			css.set('font-size', $ux.Util.addUnit(this.size))
+			css.set('color', this.mode == 'link' ? '#023aff' : this._color)
+			css.set('font-weight', this.bold ? 'bold' : 'normal')
+			css.set('text-align', this.align)
+	
+			if(this.mode == 'link') {
+				css.set('text-decoration-line', 'underline')
+			} else {
+				css.set('text-decoration-line', this.decoration)
+			}
+			
+			if (this.lines > 0) {
+				css.set('lines', this.lines)
+				css.set('text-overflow', 'ellipsis')
+			}
+	
+			css.set('line-height', this.lineHeight)
+	
+			css = $ux.Util.xStyle(css, this.margin, this.mt, this.mr, this.mb, this.ml, this.padding, this.pt, this.pr, this.pb, this.pl)
+			
+			return [css, this.xstyle]
+		},
+		value() : string {
+			let text = this.text
+	
+			if (this.mode == 'text') {
+				
+			} else if (this.mode == 'phone') {
+				// 合法性校验
+				if(this.format == 'verify' || this.format == 'encrypt') {
+					if(!$ux.Verify.isPhone(text)) {
+						console.error(`[ux-text]手机号验证失败`);
+					}
+				}
+				
+				// 脱敏加密
+				if(this.format == 'encrypt') {
+					text = `${text.substring(0, 3)}****${text.substring(7)}`
+				}
+			} else if (this.mode == 'name') {
+				// 合法性校验
+				if(this.format == 'verify' || this.format == 'encrypt') {
+					if(text.length <= 1) {
+						console.error(`[ux-text]姓名验证失败`);
+					}
+				}
+				
+				// 脱敏加密
+				if(this.format == 'encrypt') {
+					text = $ux.Fmt.encryptText(text)
+				}
+			} else if (this.mode == 'date') {
+				if(this.format != '') {
+					// 合法性校验
+					if(!$ux.Verify.isDate(text)) {
+						console.error(`[ux-text]日期验证失败`);
+					}
+					
+					// 日期格式化
+					text = $ux.Date.fmtDate(text, this.format)
+				}
+			} else if (this.mode == 'link') {
+				// 合法性校验
+				if(this.format == 'verify') {
+					if(!$ux.Verify.isURL(text)) {
+						console.error(`[ux-text]超链接验证失败`);
+					}
+				}
+			} else if (this.mode == 'money') {
+				// 合法性校验
+				if(this.format == 'verify') {
+					if (!/^\d+(\.\d+)?$/.test(text)) {
+						console.error(`[ux-text]金额验证失败`);
+					}
+				}
+				
+				if(this.format == 'cmoney') {
+					// 大写金额
+					text = $ux.Fmt.upperMoney(text)
+				} else if(this.format == 'qmoney') {
+					// 金额千分制
+					text = $ux.Fmt.fmtMoney(text, false)
+				} else if(this.format == 'wmoney') {
+					// 金额万分制
+					text = $ux.Fmt.fmtMoney(text, true)
+				}
+			}
+	
+			return text
+		},
+	},
+	mounted() {
+		
+	},
+	methods: {
+		click(e: MouseEvent) {
+			// 拨打电话
+			if (this.call && this.mode == 'phone') {
+				// TODO 系统未实现
+				// uni.makePhoneCall({
+				//     phoneNumber: this.text
+				// })
+			}
+			
+			if(this.mode == 'link') {
+				// TODO 打开链接
+			}
+	
+			this.$emit('click', e)
+		}
+	}
+})
