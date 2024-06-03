@@ -1,8 +1,0 @@
-
-export const UxIndexListMixin = defineMixin({
-	data() {
-		return {
-			
-		};
-	},
-})
