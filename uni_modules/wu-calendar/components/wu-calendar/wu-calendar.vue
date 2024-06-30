@@ -8,10 +8,10 @@
 			<slot name="operation" v-if="operationPosition == 'top'">
 				<view v-if="!insert" class="wu-calendar__header wu-calendar--fixed-top">
 					<view class="wu-calendar__header-btn-box" @click="cancel">
-						<text class="wu-calendar__header-text wu-calendar--fixed-width">{{cancelText}}</text>
+						<text class="wu-calendar__header-text wu-calendar--fixed-width" :style="[{color: cancelColor}]">{{cancelText}}</text>
 					</view>
 					<view class="wu-calendar__header-btn-box" @click="confirm">
-						<text class="wu-calendar__header-text wu-calendar--fixed-width">{{okText}}</text>
+						<text class="wu-calendar__header-text wu-calendar--fixed-width" :style="[{color: confirmColor}]">{{okText}}</text>
 					</view>
 				</view>
 			</slot>
@@ -120,10 +120,10 @@
 			<slot name="operation" v-if="operationPosition == 'bottom'">
 				<view v-if="!insert" class="wu-calendar__header wu-calendar--fixed-top">
 					<view class="wu-calendar__header-btn-box" @click="cancel">
-						<text class="wu-calendar__header-text wu-calendar--fixed-width">{{cancelText}}</text>
+						<text class="wu-calendar__header-text wu-calendar--fixed-width" :style="[{color: cancelColor}]">{{cancelText}}</text>
 					</view>
 					<view class="wu-calendar__header-btn-box" @click="confirm">
-						<text class="wu-calendar__header-text wu-calendar--fixed-width">{{okText}}</text>
+						<text class="wu-calendar__header-text wu-calendar--fixed-width" :style="[{color: confirmColor}]">{{okText}}</text>
 					</view>
 				</view>
 			</slot>
@@ -190,7 +190,7 @@
 	 * @property {Boolean} disabledChoice 是否禁止点击日历(默认false)
 	 * @property {String} actBadgeColor 当通过 `selected` 属性设置某个日期 `badgeColor`后，如果该日期被选择且主题色与 `badgeColor` 一致时，徽标会显示本颜色
 	 * @property {String} operationPosition 弹窗日历取消和确认按钮的显示位置
-	 * @property {String} confirmFullDate 弹窗日历点击确认时是否需要选择完整日期
+	 * @property {Boolean} confirmFullDate 弹窗日历点击确认时是否需要选择完整日期
 	 * @event {Function} close 日历弹窗点击遮罩层关闭，`insert :false` 时生效
 	 * @event {Function} change 日期改变，`insert :ture` 时生效
 	 * @event {Function} confirm 确认选择，`insert :false` 时生效

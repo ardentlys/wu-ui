@@ -64,15 +64,18 @@
 	 * @property {Boolean}			disableMinus	是否禁用减少按钮 （默认 false ）
 	 * @property {Object ｜ String}	iconStyle		加减按钮图标的样式
 	 *
-	 * @event {Function}	onFocus	输入框活动焦点
-	 * @event {Function}	onBlur	输入框失去焦点
-	 * @event {Function}	onInput	输入框值发生变化
-	 * @event {Function}	onChange
+	 * @event {Function}	focus		输入框活动焦点
+	 * @event {Function}	blur		输入框失去焦点
+	 * @event {Function}	input		输入框值发生变化
+	 * @event {Function}	change 		数量变化
+	 * @event {Function}	plus 		点击加号
+	 * @event {Function}	minus 		点击减号
+	 * @event {Function}	overlimit 	超出限定范围
 	 * @example <wu-number-box v-model="value" @change="valChange"></wu-number-box>
 	 */
 	export default {
 		name: 'wu-number-box',
-		emits: ['onFocus', 'onBlur', 'onInput', 'onChange'],
+		emits: ['focus', 'blur', 'input', 'change', 'update:modelValue', 'plus', 'minus'],
 		mixins: [mpMixin, mixin, props],
 		data() {
 			return {

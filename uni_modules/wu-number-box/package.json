@@ -1,7 +1,7 @@
 {
   "id": "wu-number-box",
   "displayName": "wu-number-box 一般用于商城购物选择物品数量的场景，支持步长设置、异步变更、小数位显示、范围限制等。",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "wu-number-box",
   "keywords": [
     "wu-number-box",
