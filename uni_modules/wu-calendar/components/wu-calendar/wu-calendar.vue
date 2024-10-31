@@ -3,7 +3,7 @@
 		<view v-if="!insert && show" class="wu-calendar__mask" :class="{'wu-calendar--mask-show': aniMaskShow}"
 			@click="clean"></view>
 		<view v-if="insert || show" class="wu-calendar__content"
-			:class="{'wu-calendar--fixed':!insert, 'wu-calendar--ani-show':aniMaskShow}">
+			:class="{'wu-calendar--fixed': !insert, 'wu-calendar--ani-show': aniMaskShow}">
 			<!-- 弹窗日历取消与确认按钮位置 -->
 			<slot name="operation" v-if="operationPosition == 'top'">
 				<view v-if="!insert" class="wu-calendar__header wu-calendar--fixed-top">
@@ -74,7 +74,7 @@
 					</view>
 				</view>
 				<!-- 滑动切换 -->
-				<swiper v-if="slideSwitchMode !== 'none'" class="wu-calendar__weeks_container"
+				<swiper v-if="slideSwitchMode !== 'none'" :class="{'wu-calendar__weeks_container': initStatus}"
 					:style="[calendarContentStyle]" :duration="500" :vertical="slideSwitchMode == 'vertical'" circular
 					:current="swiperCurrent" @change="swiperChange" skip-hidden-item-layout>
 					<!-- 月或周日历 -->
@@ -220,6 +220,7 @@
 				Fold: null,
 				FoldStatus: null,
 				weekContentStyle: {},
+				initStatus: false,
 			}
 		},
 		computed: {
@@ -377,62 +378,74 @@
 			 * @param {Object} date
 			 */
 			init(date) {
-				let firstDate = this.mode == 'single' ? date : date[0];
-				// 如果填写默认值
-				if (date) {
-					// 当前数据类型
-					let dateType = Object.prototype.toString.call(date);
-					// 验证类型
-					if (this.mode == 'single' && dateType != '[object String]') {
-						return console.error(`类型错误，mode=${this.mode}时，date=String`)
-					} else if (this.mode != 'single' && dateType != '[object Array]') {
-						return console.error(`类型错误，mode=${this.mode}时，date=Array`)
+				this.$nextTick(()=>{
+					// 初始化
+					this.initStatus = false;
+					let firstDate = this.mode == 'single' ? date : date[0];
+					// 如果填写默认值
+					if (date) {
+						// 当前数据类型
+						let dateType = Object.prototype.toString.call(date);
+						// 验证类型
+						if (this.mode == 'single' && dateType != '[object String]') {
+							return console.error(`类型错误，mode=${this.mode}时，date=String`)
+						} else if (this.mode != 'single' && dateType != '[object Array]') {
+							return console.error(`类型错误，mode=${this.mode}时，date=Array`)
+						}
+						// 根据类型默认选中不同的值
+						if (this.mode == 'multiple') {
+							this.cale.multiple = date.map(item=>item);
+							this.cale._getWeek(this.cale.multiple[this.cale.multiple.length - 1]);
+						} else if (this.mode == 'range') {
+							date[0] ? this.cale.setRange(date[0]) : ''
+							date[1] ? this.cale.setRange(date[1]) : ''
+						}
 					}
-					// 根据类型默认选中不同的值
-					if (this.mode == 'multiple') {
-						this.cale.multiple = date.map(item=>item);
-						this.cale._getWeek(this.cale.multiple[this.cale.multiple.length - 1]);
-					} else if (this.mode == 'range') {
-						date[0] ? this.cale.setRange(date[0]) : ''
-						date[1] ? this.cale.setRange(date[1]) : ''
+					// 如果不填写默认值 且 使用今日作为默认值 并且 还没有在打点中禁用今天的日期
+					else if (this.useToday && !this.selected.filter(item => item.disable && this.cale.dateEqual(item.date, this
+							.cale.date.fullDate)).length) {
+						if (this.mode == 'multiple') {
+							this.cale.multiple = [this.cale.date.fullDate];
+							this.cale._getWeek(this.cale.multiple[this.cale.multiple.length - 1]);
+						} else if (this.mode == 'range') {
+							this.cale.setRange(this.cale.date.fullDate)
+						}
 					}
-				}
-				// 如果不填写默认值 且 使用今日作为默认值 并且 还没有在打点中禁用今天的日期
-				else if (this.useToday && !this.selected.filter(item => item.disable && this.cale.dateEqual(item.date, this
-						.cale.date.fullDate)).length) {
-					if (this.mode == 'multiple') {
-						this.cale.multiple = [this.cale.date.fullDate];
-						this.cale._getWeek(this.cale.multiple[this.cale.multiple.length - 1]);
-					} else if (this.mode == 'range') {
-						this.cale.setRange(this.cale.date.fullDate)
+					
+					// 设置日期
+					this.cale.setDate(firstDate);
+					// 现在的日期
+					this.nowDate = this.cale.getInfo(firstDate);
+					// 设置当前月份
+					this.weeksMonth = this.nowDate.month;
+					// 如果不填写默认值 且 使用今日作为默认值
+					if ((this.useToday && !this.date) || this.date) {
+						this.calendar = this.nowDate;
 					}
-				}
-
-				// 设置日期
-				this.cale.setDate(firstDate);
-				// 现在的日期
-				this.nowDate = this.cale.getInfo(firstDate);
-				// 设置当前月份
-				this.weeksMonth = this.nowDate.month;
-				// 如果不填写默认值 且 使用今日作为默认值
-				if ((this.useToday && !this.date) || this.date) {
-					this.calendar = this.nowDate;
-				}
-
-				// 渲染
-				this.updateWeeks(false, true);
+					
+					// 渲染
+					this.updateWeeks(false, true);
+					// 初始化成功
+					this.initStatus = true;
+				})
 			},
 			/**
 			 * 打开日历弹窗
 			 */
 			open() {
-				this.show = true
+				// #ifdef APP-NVUE
+				// 为弹窗模式且需要清理数据
+				if (this.clearDate && !this.insert) {
+					this.reset(this.date);
+				}
+				// #endif
+				this.show = true;
 				// #ifdef H5
 				if (!this.insert) document.body.style = 'overflow: hidden'
 				// #endif
 				this.$nextTick(() => {
 					setTimeout(() => {
-						this.aniMaskShow = true
+						this.aniMaskShow = true;
 					}, 50)
 				})
 			},
@@ -440,17 +453,19 @@
 			 * 关闭日历弹窗
 			 */
 			close() {
-				this.aniMaskShow = false
+				this.aniMaskShow = false;
 				this.$nextTick(() => {
 					setTimeout(() => {
 						this.show = false
 						// #ifdef H5
 						if (!this.insert) document.body.style = 'overflow: visible'
 						// #endif
+						// #ifndef APP-NVUE
 						// 为弹窗模式且需要清理数据
 						if (this.clearDate && !this.insert) {
 							this.reset()
 						}
+						// #endif
 					}, 300)
 				})
 			},
@@ -458,8 +473,8 @@
 			 * 重置
 			 */
 			reset() {
-				this.cale.cleanRange()
-				this.cale.cleanMultiple()
+				this.cale.cleanRange();
+				this.cale.cleanMultiple();
 				this.swiperCurrent = 1;
 				this.init(this.date);
 			},
@@ -866,7 +881,7 @@
 	}
 
 	.wu-calendar--mask-show {
-		opacity: 1
+		opacity: 1;
 	}
 
 	.wu-calendar--fixed {

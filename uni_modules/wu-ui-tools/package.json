@@ -13,8 +13,7 @@
 		"color": "^4.2.3"
 	},
 	"repository": "",
-	"engines": {
-		"HBuilderX": "^3.4.15"
+    "engines": {
 	},
 	"dcloudext": {
 		"type": "component-vue",
