@@ -2,15 +2,15 @@ export default {
 	props: {
 		// 自定义当前时间
 		date: {
-			type: [String, Array],
+			type: [ String, Array ],
 			default: ''
 		},
 		// 日历类型(默认为month)
 		type: {
 			type: String,
 			default: 'month',
-			validator(value) {
-				return ['month', 'week'].includes(value)
+			validator( value ) {
+				return [ 'month', 'week' ].includes( value )
 			}
 		},
 		// 日期选择模式
@@ -62,8 +62,8 @@ export default {
 		startWeek: {
 			type: String,
 			default: 'sun',
-			validator(value) {
-				return ['sun', 'mon'].includes(value)
+			validator( value ) {
+				return [ 'sun', 'mon' ].includes( value )
 			}
 		},
 		// 打点，期待格式[{date: '2019-06-27', info: '签到', data: { custom: '自定义信息', name: '自定义消息头',xxx:xxx... }}]
@@ -142,8 +142,8 @@ export default {
 		operationPosition: {
 			type: String,
 			default: 'top',
-			validator(value) {
-				return ['top', 'bottom'].includes(value)
+			validator( value ) {
+				return [ 'top', 'bottom' ].includes( value )
 			}
 		},
 		// 弹窗日历点击确认时是否需要选择完整日期
@@ -153,6 +153,21 @@ export default {
 		},
 		// 当通过 `selected` 属性设置某个日期 `badgeColor`后，如果该日期被选择且主题色与 `badgeColor` 一致时，徽标会显示本颜色
 		actBadgeColor: {
+			type: String,
+			default: '#fff'
+		},
+		// 是否显示日历头部
+		showCalendarHeader: {
+			type: Boolean,
+			default: true
+		},
+		// 是否显示周期头部
+		showWeeksHeader: {
+			type: Boolean,
+			default: true
+		},
+		// 日历背景色
+		bgColor: {
 			type: String,
 			default: '#fff'
 		},

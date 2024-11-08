@@ -5,31 +5,35 @@
 		</view>
 		<!-- 月或周日历 -->
 		<view class="wu-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
-			<view class="wu-calendar__weeks-item" v-for="(weeks, weeksIndex) in item" :key="weeksIndex" :style="[weekItemStyle]">
-				<wu-calendar-item v-if="!monthShowCurrentMonth || !weeks.empty" class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
-					:selected="selected" :lunar="lunar" @change="choiceDate" :color="color" :actBadgeColor="actBadgeColor"
-					:startText="startText" :endText="endText" :itemHeight="itemHeight - defaultMargin"></wu-calendar-item>
+			<view class="wu-calendar__weeks-item" v-for="(weeks, weeksIndex) in item"
+				:key="weeksIndex" :style="[weekItemStyle]">
+				<wu-calendar-item v-if="!monthShowCurrentMonth || !weeks.empty"
+					class="wu-calendar-item--hook" :weeks="weeks" :calendar="calendar"
+					:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
+					:actBadgeColor="actBadgeColor" :startText="startText" :endText="endText"
+					:itemHeight="itemHeight - defaultMargin">
+					<template v-slot="{weeks}">
+						<slot :weeks="weeks"></slot>
+					</template>
+				</wu-calendar-item>
 			</view>
 		</view>
 	</view>
 </template>
-
 <script>
 	import mpMixin from '@/uni_modules/wu-ui-tools/libs/mixin/mpMixin.js';
 	import mixin from '@/uni_modules/wu-ui-tools/libs/mixin/mixin.js';
 	import props from './props.js';
-
 	import {
 		initVueI18n
 	} from '@dcloudio/uni-i18n'
 	import i18nMessages from '../i18n/index.js'
 	const {
 		t
-	} = initVueI18n(i18nMessages)
-
+	} = initVueI18n( i18nMessages )
 	export default {
-		emits: ['change'],
-		mixins: [mpMixin, mixin, props],
+		emits: [ 'change' ],
+		mixins: [ mpMixin, mixin, props ],
 		data() {
 			return {
 				FoldShowMonth: false,
@@ -42,9 +46,11 @@
 		},
 		computed: {
 			weekItemStyle() {
-				let weeksLength = Object.keys(this.weeks).length;
-				let calendarHeight = this.FoldStatus === 'open' ? this.itemHeight * 6 : this.itemHeight;
-				let margin = weeksLength && this.weeks[weeksLength - 1][0].empty ? this.itemHeight / (weeksLength - 1) + this.defaultMargin  : this.defaultMargin
+				let weeksLength = Object.keys( this.weeks ).length;
+				let calendarHeight = this.FoldStatus === 'open' ? this.itemHeight * 6 : this
+				.itemHeight;
+				let margin = weeksLength && this.weeks[ weeksLength - 1 ][ 0 ].empty ? this
+					.itemHeight / ( weeksLength - 1 ) + this.defaultMargin : this.defaultMargin
 				return {
 					marginTop: margin / 2 + 'px',
 					marginBottom: margin / 2 + 'px',
@@ -52,23 +58,23 @@
 			}
 		},
 		watch: {
-			FoldStatus(newVal) {
-				this.$nextTick(()=>{
+			FoldStatus( newVal ) {
+				this.$nextTick( () => {
 					this.FoldShowMonth = this.FoldStatus == 'open';
-				})
+				} )
 			}
 		},
 		methods: {
-			choiceDate(weeks) {
-				this.$emit('change', weeks)
+			choiceDate( weeks ) {
+				this.$emit( 'change', weeks )
 			}
 		}
 	}
-</script>
 
+</script>
 <style lang="scss" scoped>
 	$wu-text-color-grey: #999;
-	
+
 	.wu-calendar-block {
 		.wu-calendar__weeks {
 			position: relative;
@@ -78,11 +84,11 @@
 			flex-direction: row;
 			padding: 0 8rpx;
 		}
-		
+
 		.wu-calendar__weeks-item {
 			flex: 1;
 		}
-		
+
 		.wu-calendar__box-bg {
 			/* #ifndef APP-NVUE */
 			display: flex;
@@ -95,7 +101,7 @@
 			right: 0;
 			bottom: 0;
 		}
-		
+
 		.wu-calendar__box-bg-text {
 			font-size: 100rpx;
 			transform: scale(4);
@@ -108,4 +114,5 @@
 			/* #endif */
 		}
 	}
+
 </style>

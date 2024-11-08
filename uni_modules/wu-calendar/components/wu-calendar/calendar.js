@@ -164,7 +164,7 @@ var calendar = {
 			'7f07e7f0e47f531b0723b0b6fb0721', '7f0e26665b66a449801e9808297c35', '665f67f0e37f1489801eb072297c35',
 			'7ec967f0e37f14998082b0787b06bd', '7f07e7f0e47f531b0723b0b6fb0721', '7f0e27f1487f531b0b0bb0b6fb0722'
 	],
-	
+
 	festivals: {
 		'1-1': '元旦',
 		'2-14': '情人节',
@@ -550,12 +550,12 @@ var calendar = {
 			isTerm = true
 			Term = this.solarTerm[m * 2 - 1]
 		}
-		
+
 		// 计算农历日期
 		const IMonthCn = (isLeap ? '\u95f0' : '') + this.toChinaMonth(month)
 		// 农历日期的汉字表述法
 		let IDayCn = this.toChinaDay(day)
-		
+
 		// 节日
 		let festival = '';
 		// 农历的月日汉字表述
@@ -567,7 +567,7 @@ var calendar = {
 		} else if(this.festivals.hasOwnProperty(MD)) {
 			festival = this.festivals[MD]
 		}
-		
+
 		// 日柱 当月一日与 1900/1/1 相差天数
 		var dayCyclical = Date.UTC(y, sm, 1, 0, 0, 0, 0) / 86400000 + 25567 + 10
 		var gzD = this.toGanZhi(dayCyclical + d - 1)
@@ -590,6 +590,7 @@ var calendar = {
 			'isToday': isToday,
 			'isLeap': isLeap,
 			'nWeek': nWeek,
+			'cWeek': cWeek,
 			'ncWeek': '\u661f\u671f' + cWeek,
 			'isTerm': isTerm,
 			'Term': Term,

@@ -1,41 +1,48 @@
 <template>
 	<view class="wu-calendar" @click.stop>
-		<view v-if="!insert && show" class="wu-calendar__mask" :class="{'wu-calendar--mask-show': aniMaskShow}"
-			@click="clean"></view>
-		<view v-if="insert || show" class="wu-calendar__content"
+		<view v-if="!insert && show" class="wu-calendar__mask"
+			:class="{'wu-calendar--mask-show': aniMaskShow}" @click="clean"></view>
+		<view v-if="insert || show" class="wu-calendar__content" :style="{backgroundColor: bgColor}"
 			:class="{'wu-calendar--fixed': !insert, 'wu-calendar--ani-show': aniMaskShow}">
 			<!-- 弹窗日历取消与确认按钮位置 -->
 			<slot name="operation" v-if="operationPosition == 'top'">
 				<view v-if="!insert" class="wu-calendar__header wu-calendar--fixed-top">
 					<view class="wu-calendar__header-btn-box" @click="cancel">
-						<text class="wu-calendar__header-text wu-calendar--fixed-width" :style="[{color: cancelColor}]">{{cancelText}}</text>
+						<text class="wu-calendar__header-text wu-calendar--fixed-width"
+							:style="[{color: cancelColor}]">{{cancelText}}</text>
 					</view>
 					<view class="wu-calendar__header-btn-box" @click="confirm">
-						<text class="wu-calendar__header-text wu-calendar--fixed-width" :style="[{color: confirmColor}]">{{okText}}</text>
+						<text class="wu-calendar__header-text wu-calendar--fixed-width"
+							:style="[{color: confirmColor}]">{{okText}}</text>
 					</view>
 				</view>
 			</slot>
 			<!-- 日历头部 -->
 			<slot name="header" :nowDate="nowDate">
-				<view class="wu-calendar__header">
+				<view class="wu-calendar__header" v-if="showCalendarHeader">
 					<!-- 纵向滑动切换展示内容 -->
 					<template v-if="slideSwitchMode == 'vertical'">
 						<view class="wu-calendar__header-btn-box vertical">
-							<view class="wu-calendar__header-btn wu-calendar--top" @click.stop="pre"></view>
-							<picker mode="date" :value="nowDate.fullDate" fields="month" @change="bindDateChange">
+							<view class="wu-calendar__header-btn wu-calendar--top"
+								@click.stop="pre"></view>
+							<picker mode="date" :value="nowDate.fullDate" fields="month"
+								@change="bindDateChange">
 								<text
 									class="wu-calendar__header-text">{{ (nowDate.year||'') + YearText + ( nowDate.month||'') + MonthText }}</text>
 							</picker>
-							<view class="wu-calendar__header-btn wu-calendar--bottom" @click.stop="next"></view>
+							<view class="wu-calendar__header-btn wu-calendar--bottom"
+								@click.stop="next"></view>
 						</view>
-						<text class="wu-calendar__backtoday vertical" @click="backToday">{{todayText}}</text>
+						<text class="wu-calendar__backtoday vertical"
+							@click="backToday">{{todayText}}</text>
 					</template>
 					<!-- 横向滑动与无滑动展示内容 -->
 					<template v-else>
 						<view class="wu-calendar__header-btn-box horizontal" @click.stop="pre">
 							<view class="wu-calendar__header-btn wu-calendar--left"></view>
 						</view>
-						<picker mode="date" :value="nowDate.fullDate" fields="month" @change="bindDateChange">
+						<picker mode="date" :value="nowDate.fullDate" fields="month"
+							@change="bindDateChange">
 							<text
 								class="wu-calendar__header-text">{{ (nowDate.year||'') + YearText + ( nowDate.month||'') + MonthText }}</text>
 						</picker>
@@ -47,7 +54,7 @@
 				</view>
 			</slot>
 			<view class="wu-calendar__box">
-				<view class="wu-calendar__weeks">
+				<view class="wu-calendar__weeks" v-if="showWeeksHeader">
 					<view class="wu-calendar__weeks-day" v-if="startWeek === 'sun'">
 						<text class="wu-calendar__weeks-day-text">{{SUNText}}</text>
 					</view>
@@ -74,56 +81,82 @@
 					</view>
 				</view>
 				<!-- 滑动切换 -->
-				<swiper v-if="slideSwitchMode !== 'none'" :class="{'wu-calendar__weeks_container': initStatus}"
-					:style="[calendarContentStyle]" :duration="500" :vertical="slideSwitchMode == 'vertical'" circular
-					:current="swiperCurrent" @change="swiperChange" skip-hidden-item-layout>
+				<swiper v-if="slideSwitchMode !== 'none'"
+					:class="{'wu-calendar__weeks_container': initStatus}"
+					:style="[calendarContentStyle]" :duration="500"
+					:vertical="slideSwitchMode == 'vertical'" circular :current="swiperCurrent"
+					@change="swiperChange" skip-hidden-item-layout>
 					<!-- 月或周日历 -->
 					<template v-if="type === 'month' || type === 'week'">
 						<swiper-item>
-							<wu-calendar-block :weeks="preWeeks" :calendar="calendar" :selected="selected"
-								:lunar="lunar" @change="choiceDate" :color="color" :actBadgeColor="actBadgeColor" :startText="startText"
+							<wu-calendar-block :weeks="preWeeks" :calendar="calendar"
+								:selected="selected" :lunar="lunar" @change="choiceDate"
+								:color="color" :actBadgeColor="actBadgeColor" :startText="startText"
 								:endText="endText" :month="preWeeksMonth" :FoldStatus="FoldStatus"
-								:monthShowCurrentMonth="monthShowCurrentMonth" :showMonth="showMonth"
-								:itemHeight="itemHeight"></wu-calendar-block>
+								:monthShowCurrentMonth="monthShowCurrentMonth"
+								:showMonth="showMonth" :itemHeight="itemHeight">
+								<template v-slot="{weeks}">
+									<slot name="day" :weeks="weeks"></slot>
+								</template>
+							</wu-calendar-block>
 						</swiper-item>
 						<swiper-item>
-							<wu-calendar-block :weeks="weeks" :calendar="calendar" :selected="selected" :lunar="lunar"
-								@change="choiceDate" :color="color" :actBadgeColor="actBadgeColor" :startText="startText" :endText="endText"
-								:monthShowCurrentMonth="monthShowCurrentMonth" :month="weeksMonth"
-								:FoldStatus="FoldStatus" :showMonth="showMonth"
-								:itemHeight="itemHeight"></wu-calendar-block>
+							<wu-calendar-block :weeks="weeks" :calendar="calendar"
+								:selected="selected" :lunar="lunar" @change="choiceDate"
+								:color="color" :actBadgeColor="actBadgeColor" :startText="startText"
+								:endText="endText" :monthShowCurrentMonth="monthShowCurrentMonth"
+								:month="weeksMonth" :FoldStatus="FoldStatus" :showMonth="showMonth"
+								:itemHeight="itemHeight">
+								<template v-slot="{weeks}">
+									<slot name="day" :weeks="weeks"></slot>
+								</template>
+							</wu-calendar-block>
 						</swiper-item>
 						<swiper-item>
-							<wu-calendar-block :weeks="nextWeeks" :calendar="calendar" :selected="selected"
-								:lunar="lunar" @change="choiceDate" :color="color" :actBadgeColor="actBadgeColor" :startText="startText"
+							<wu-calendar-block :weeks="nextWeeks" :calendar="calendar"
+								:selected="selected" :lunar="lunar" @change="choiceDate"
+								:color="color" :actBadgeColor="actBadgeColor" :startText="startText"
 								:endText="endText" :month="nextWeeksMonth" :FoldStatus="FoldStatus"
-								:monthShowCurrentMonth="monthShowCurrentMonth" :showMonth="showMonth"
-								:itemHeight="itemHeight"></wu-calendar-block>
+								:monthShowCurrentMonth="monthShowCurrentMonth"
+								:showMonth="showMonth" :itemHeight="itemHeight">
+								<template v-slot="{weeks}">
+									<slot name="day" :weeks="weeks"></slot>
+								</template>
+							</wu-calendar-block>
 						</swiper-item>
 					</template>
 				</swiper>
 				<!-- 无滑动切换 -->
 				<template v-else>
 					<!-- 月或周日历 -->
-					<wu-calendar-block class="wu-calendar__weeks_container" :style="[calendarContentStyle]"
-						:weeks="weeks" :calendar="calendar" :selected="selected" :lunar="lunar" @change="choiceDate"
-						:color="color" :actBadgeColor="actBadgeColor" :startText="startText" :endText="endText" :month="nowDate.month"
-						:FoldStatus="FoldStatus" :monthShowCurrentMonth="monthShowCurrentMonth" :showMonth="showMonth"
-						:itemHeight="itemHeight"></wu-calendar-block>
+					<wu-calendar-block class="wu-calendar__weeks_container"
+						:style="[calendarContentStyle]" :weeks="weeks" :calendar="calendar"
+						:selected="selected" :lunar="lunar" @change="choiceDate" :color="color"
+						:actBadgeColor="actBadgeColor" :startText="startText" :endText="endText"
+						:month="nowDate.month" :FoldStatus="FoldStatus"
+						:monthShowCurrentMonth="monthShowCurrentMonth" :showMonth="showMonth"
+						:itemHeight="itemHeight">
+						<template v-slot="{weeks}">
+							<slot name="day" :weeks="weeks"></slot>
+						</template>
+					</wu-calendar-block>
 				</template>
 			</view>
 			<view class="wu-calendar__fold" v-if="type !== 'year' && Fold" @click="FoldClick">
 				<wu-icon v-if="FoldStatus == 'open'" name="arrow-up" bold size="18"></wu-icon>
-				<wu-icon v-else-if="FoldStatus == 'close'" name="arrow-down" bold size="18"></wu-icon>
+				<wu-icon v-else-if="FoldStatus == 'close'" name="arrow-down" bold
+					size="18"></wu-icon>
 			</view>
 			<!-- 弹窗日历取消与确认按钮位置 -->
 			<slot name="operation" v-if="operationPosition == 'bottom'">
 				<view v-if="!insert" class="wu-calendar__header wu-calendar--fixed-top">
 					<view class="wu-calendar__header-btn-box" @click="cancel">
-						<text class="wu-calendar__header-text wu-calendar--fixed-width" :style="[{color: cancelColor}]">{{cancelText}}</text>
+						<text class="wu-calendar__header-text wu-calendar--fixed-width"
+							:style="[{color: cancelColor}]">{{cancelText}}</text>
 					</view>
 					<view class="wu-calendar__header-btn-box" @click="confirm">
-						<text class="wu-calendar__header-text wu-calendar--fixed-width" :style="[{color: confirmColor}]">{{okText}}</text>
+						<text class="wu-calendar__header-text wu-calendar--fixed-width"
+							:style="[{color: confirmColor}]">{{okText}}</text>
 					</view>
 				</view>
 			</slot>
@@ -131,28 +164,25 @@
 		</view>
 	</view>
 </template>
-
 <script>
 	import Calendar from './util.js';
 	import mpMixin from '@/uni_modules/wu-ui-tools/libs/mixin/mpMixin.js';
 	import mixin from '@/uni_modules/wu-ui-tools/libs/mixin/mixin.js';
 	import props from './props.js';
-
 	import {
 		initVueI18n
 	} from '@dcloudio/uni-i18n'
 	import i18nMessages from '../i18n/index.js'
 	const {
 		t
-	} = initVueI18n(i18nMessages)
-
+	} = initVueI18n( i18nMessages )
 	/**
 	 * Calendar 日历
 	 * @description 日历组件，多模式选择（单日期、多日期、范围日期选择），多日历类型（周、月日历），动态计算滑动。常用场景如：酒店日期预订、火车机票选择购买日期、上下班打卡等
 	 * @tutorial https://wuui.cn/zh-CN/components/calendar.html
 	 * @property {String} date 自定义当前时间，默认为今天
 	 * @property {String} type 日历类型(默认为month)
-	 *  @value month 月日历 
+	 *  @value month 月日历
 	 *  @value week 周日历
 	 * @property {Boolean} fold 是否支持折叠(默认值 month: true, week: false)
 	 * @property {Boolean} useToday 是否使用默认日期(今天，默认为true)
@@ -200,8 +230,8 @@
 	 * @example <wu-calendar :insert="true":lunar="true" start-date="2022-5-20" end-date="2023-5-20"@change="change" />
 	 */
 	export default {
-		mixins: [mpMixin, mixin, props],
-		emits: ['close', 'cancel', 'confirm', 'change', 'monthSwitch', 'foldSwitch'],
+		mixins: [ mpMixin, mixin, props ],
+		emits: [ 'close', 'cancel', 'confirm', 'change', 'monthSwitch', 'foldSwitch' ],
 		data() {
 			return {
 				show: false,
@@ -228,114 +258,115 @@
 			 * for i18n
 			 */
 			okText() {
-				return t("wu-calender.ok")
+				return t( "wu-calender.ok" )
 			},
 			cancelText() {
-				return t("wu-calender.cancel")
+				return t( "wu-calender.cancel" )
 			},
 			YearText() {
-				return t("wu-calender.year")
+				return t( "wu-calender.year" )
 			},
 			MonthText() {
-				return t("wu-calender.month")
+				return t( "wu-calender.month" )
 			},
 			todayText() {
-				return t("wu-calender.today")
+				return t( "wu-calender.today" )
 			},
 			monText() {
-				return t("wu-calender.MON")
+				return t( "wu-calender.MON" )
 			},
 			TUEText() {
-				return t("wu-calender.TUE")
+				return t( "wu-calender.TUE" )
 			},
 			WEDText() {
-				return t("wu-calender.WED")
+				return t( "wu-calender.WED" )
 			},
 			THUText() {
-				return t("wu-calender.THU")
+				return t( "wu-calender.THU" )
 			},
 			FRIText() {
-				return t("wu-calender.FRI")
+				return t( "wu-calender.FRI" )
 			},
 			SATText() {
-				return t("wu-calender.SAT")
+				return t( "wu-calender.SAT" )
 			},
 			SUNText() {
-				return t("wu-calender.SUN")
+				return t( "wu-calender.SUN" )
 			},
 			calendarContentStyle() {
 				return {
-					height: (this.FoldStatus === 'open' ? this.itemHeight * 6 : this.itemHeight) + 'px'
+					height: ( this.FoldStatus === 'open' ? this.itemHeight * 6 : this.itemHeight ) +
+						'px'
 				}
 			},
 			getDateType() {
-				if (this.type === 'year') return this.type
+				if ( this.type === 'year' ) return this.type
 				return this.FoldStatus === 'open' ? 'month' : 'week'
 			}
 		},
 		watch: {
-			date(newVal) {
+			date( newVal ) {
 				this.cale.cleanRange();
-				this.init(newVal)
+				this.init( newVal )
 			},
-			mode(newVal) {
+			mode( newVal ) {
 				this.cale.cleanRange();
-				this.cale.resetMode(newVal)
-				this.init(this.date)
+				this.cale.resetMode( newVal )
+				this.init( this.date )
 			},
-			startDate(val) {
-				this.cale.resetSatrtDate(val)
-				this.cale.setDate(this.nowDate.fullDate)
+			startDate( val ) {
+				this.cale.resetSatrtDate( val )
+				this.cale.setDate( this.nowDate.fullDate )
 				this.assignmentWeeks();
 			},
-			endDate(val) {
-				this.cale.resetEndDate(val)
-				this.cale.setDate(this.nowDate.fullDate)
+			endDate( val ) {
+				this.cale.resetEndDate( val )
+				this.cale.setDate( this.nowDate.fullDate )
 				this.assignmentWeeks();
 			},
-			monthShowCurrentMonth(val) {
-				this.cale.resetMonthShowCurrentMonth(val)
-				this.setDate(this.nowDate.fullDate)
+			monthShowCurrentMonth( val ) {
+				this.cale.resetMonthShowCurrentMonth( val )
+				this.setDate( this.nowDate.fullDate )
 			},
-			rangeEndRepick(val) {
-				this.cale.resetRangeEndRepick(val)
+			rangeEndRepick( val ) {
+				this.cale.resetRangeEndRepick( val )
 			},
-			rangeSameDay(val) {
-				this.cale.resetRangeSameDay(val)
+			rangeSameDay( val ) {
+				this.cale.resetRangeSameDay( val )
 			},
-			rangeHaveDisableTruncation(val) {
-				this.cale.resetRangeHaveDisableTruncation(val)
+			rangeHaveDisableTruncation( val ) {
+				this.cale.resetRangeHaveDisableTruncation( val )
 				this.cale.cleanRange()
-				this.init(this.date)
+				this.init( this.date )
 			},
 			selected: {
-				handler(newVal) {
-					this.cale.setSelectInfo(this.nowDate.fullDate, newVal)
+				handler( newVal ) {
+					this.cale.setSelectInfo( this.nowDate.fullDate, newVal )
 					this.assignmentWeeks()
 					// 找出目前的信息weeks 并 将 this.calendar重新赋值
-					let nowDateInfo = this.cale.canlender.filter(item => item.fullDate && this.cale.dateEqual(item
-						.fullDate, this.calendar.fullDate))
-					if (nowDateInfo.length) this.calendar = nowDateInfo[0]
+					let nowDateInfo = this.cale.canlender.filter( item => item.fullDate && this.cale
+						.dateEqual( item.fullDate, this.calendar.fullDate ) )
+					if ( nowDateInfo.length ) this.calendar = nowDateInfo[ 0 ]
 				},
 				deep: true
 			},
-			fold(newVal) {
+			fold( newVal ) {
 				this.Fold = newVal
 			},
-			type(newVal) {
+			type( newVal ) {
 				this.initFold();
-				this.cale.resetFoldStatus(this.FoldStatus);
-				this.init(this.date)
+				this.cale.resetFoldStatus( this.FoldStatus );
+				this.init( this.date )
 			},
-			startWeek(newVal) {
+			startWeek( newVal ) {
 				this.cale.cleanRange();
-				this.cale.resetStartWeek(newVal)
-				this.init(this.date)
+				this.cale.resetStartWeek( newVal )
+				this.init( this.date )
 			}
 		},
 		created() {
 			this.initFold();
-			this.cale = new Calendar({
+			this.cale = new Calendar( {
 				selected: this.selected,
 				startDate: this.startDate,
 				endDate: this.endDate,
@@ -347,87 +378,87 @@
 				rangeEndRepick: this.rangeEndRepick,
 				rangeSameDay: this.rangeSameDay,
 				rangeHaveDisableTruncation: this.rangeHaveDisableTruncation
-			})
-			this.init(this.date)
+			} )
+			this.init( this.date )
 		},
 		methods: {
 			// 取消穿透
 			clean() {
-				if (this.maskClick) {
-					this.$emit('close')
+				if ( this.maskClick ) {
+					this.$emit( 'close' )
 					this.close()
 				}
 			},
-			bindDateChange(e) {
+			bindDateChange( e ) {
 				const value = e.detail.value + '-1'
-				this.setDate(value)
+				this.setDate( value )
 				this.swiperCurrentChangeWeeks();
-				
 				const {
 					year,
 					month
-				} = this.cale.getDate(value)
-				this.$emit('monthSwitch', {
+				} = this.cale.getDate( value )
+				this.$emit( 'monthSwitch', {
 					year,
-					month: Number(month),
+					month: Number( month ),
 					fullDate: `${year}-${`${month}`.padStart(2, '0')}`
-				})
+				} )
 			},
 			/**
 			 * 初始化日期显示
 			 * @param {Object} date
 			 */
-			init(date) {
-				this.$nextTick(()=>{
+			init( date ) {
+				this.$nextTick( () => {
 					// 初始化
 					this.initStatus = false;
-					let firstDate = this.mode == 'single' ? date : date[0];
+					let firstDate = this.mode == 'single' ? date : date[ 0 ];
 					// 如果填写默认值
-					if (date) {
+					if ( date ) {
 						// 当前数据类型
-						let dateType = Object.prototype.toString.call(date);
+						let dateType = Object.prototype.toString.call( date );
 						// 验证类型
-						if (this.mode == 'single' && dateType != '[object String]') {
-							return console.error(`类型错误，mode=${this.mode}时，date=String`)
-						} else if (this.mode != 'single' && dateType != '[object Array]') {
-							return console.error(`类型错误，mode=${this.mode}时，date=Array`)
+						if ( this.mode == 'single' && dateType != '[object String]' ) {
+							return console.error( `类型错误，mode=${this.mode}时，date=String` )
+						} else if ( this.mode != 'single' && dateType != '[object Array]' ) {
+							return console.error( `类型错误，mode=${this.mode}时，date=Array` )
 						}
 						// 根据类型默认选中不同的值
-						if (this.mode == 'multiple') {
-							this.cale.multiple = date.map(item=>item);
-							this.cale._getWeek(this.cale.multiple[this.cale.multiple.length - 1]);
-						} else if (this.mode == 'range') {
-							date[0] ? this.cale.setRange(date[0]) : ''
-							date[1] ? this.cale.setRange(date[1]) : ''
+						if ( this.mode == 'multiple' ) {
+							this.cale.multiple = date.map( item => item );
+							this.cale._getWeek( this.cale.multiple[ this.cale.multiple.length -
+								1 ] );
+						} else if ( this.mode == 'range' ) {
+							date[ 0 ] ? this.cale.setRange( date[ 0 ] ) : ''
+							date[ 1 ] ? this.cale.setRange( date[ 1 ] ) : ''
 						}
 					}
 					// 如果不填写默认值 且 使用今日作为默认值 并且 还没有在打点中禁用今天的日期
-					else if (this.useToday && !this.selected.filter(item => item.disable && this.cale.dateEqual(item.date, this
-							.cale.date.fullDate)).length) {
-						if (this.mode == 'multiple') {
-							this.cale.multiple = [this.cale.date.fullDate];
-							this.cale._getWeek(this.cale.multiple[this.cale.multiple.length - 1]);
-						} else if (this.mode == 'range') {
-							this.cale.setRange(this.cale.date.fullDate)
+					else if ( this.useToday && !this.selected.filter( item => item.disable &&
+							this.cale.dateEqual( item.date, this.cale.date.fullDate ) )
+						.length ) {
+						if ( this.mode == 'multiple' ) {
+							this.cale.multiple = [ this.cale.date.fullDate ];
+							this.cale._getWeek( this.cale.multiple[ this.cale.multiple.length -
+								1 ] );
+						} else if ( this.mode == 'range' ) {
+							this.cale.setRange( this.cale.date.fullDate )
 						}
 					}
-					
 					// 设置日期
-					this.cale.setDate(firstDate);
+					this.cale.setDate( firstDate );
 					// 现在的日期
-					this.nowDate = this.cale.getInfo(firstDate);
+					this.nowDate = this.cale.getInfo( firstDate );
 					// 设置当前月份
 					this.weeksMonth = this.nowDate.month;
 					// 如果不填写默认值 且 使用今日作为默认值
-					if ((this.useToday && !this.date) || this.date) {
+					if ( ( this.useToday && !this.date ) || this.date ) {
 						this.calendar = this.nowDate;
 					}
-					
 					// 渲染
-					this.updateWeeks(false, true);
+					this.updateWeeks( false, true );
 					// 初始化成功
 					this.initStatus = true;
-				})
+				} )
 			},
 			/**
 			 * 打开日历弹窗
@@ -435,39 +466,39 @@
 			open() {
 				// #ifdef APP-NVUE
 				// 为弹窗模式且需要清理数据
-				if (this.clearDate && !this.insert) {
-					this.reset(this.date);
+				if ( this.clearDate && !this.insert ) {
+					this.reset( this.date );
 				}
 				// #endif
 				this.show = true;
 				// #ifdef H5
-				if (!this.insert) document.body.style = 'overflow: hidden'
+				if ( !this.insert ) document.body.style = 'overflow: hidden'
 				// #endif
-				this.$nextTick(() => {
-					setTimeout(() => {
+				this.$nextTick( () => {
+					setTimeout( () => {
 						this.aniMaskShow = true;
-					}, 50)
-				})
+					}, 50 )
+				} )
 			},
 			/**
 			 * 关闭日历弹窗
 			 */
 			close() {
 				this.aniMaskShow = false;
-				this.$nextTick(() => {
-					setTimeout(() => {
+				this.$nextTick( () => {
+					setTimeout( () => {
 						this.show = false
 						// #ifdef H5
-						if (!this.insert) document.body.style = 'overflow: visible'
+						if ( !this.insert ) document.body.style = 'overflow: visible'
 						// #endif
 						// #ifndef APP-NVUE
 						// 为弹窗模式且需要清理数据
-						if (this.clearDate && !this.insert) {
+						if ( this.clearDate && !this.insert ) {
 							this.reset()
 						}
 						// #endif
-					}, 300)
-				})
+					}, 300 )
+				} )
 			},
 			/**
 			 * 重置
@@ -476,57 +507,57 @@
 				this.cale.cleanRange();
 				this.cale.cleanMultiple();
 				this.swiperCurrent = 1;
-				this.init(this.date);
+				this.init( this.date );
 			},
 			/**
 			 * 确认按钮
 			 */
 			confirm() {
-				if(this.confirmFullDate) {
-					if(this.mode == 'single' && !this.calendar.fullDate) {
-						return uni.showToast({
+				if ( this.confirmFullDate ) {
+					if ( this.mode == 'single' && !this.calendar.fullDate ) {
+						return uni.showToast( {
 							icon: 'none',
 							title: '请选择日期',
 							duration: 600
-						});
-					} else if(this.mode == 'multiple' && !this.cale.multiple.length) {
-						return uni.showToast({
+						} );
+					} else if ( this.mode == 'multiple' && !this.cale.multiple.length ) {
+						return uni.showToast( {
 							icon: 'none',
 							title: '请至少选择一个日期',
 							duration: 600
-						});
-					} else if(this.mode == 'range') {
-						if(!this.cale.rangeStatus.before) {
-							return uni.showToast({
+						} );
+					} else if ( this.mode == 'range' ) {
+						if ( !this.cale.rangeStatus.before ) {
+							return uni.showToast( {
 								icon: 'none',
 								title: '请选择开始日期',
 								duration: 600
-							}); 
-						} else if(!this.cale.rangeStatus.after) {
-							return uni.showToast({
+							} );
+						} else if ( !this.cale.rangeStatus.after ) {
+							return uni.showToast( {
 								icon: 'none',
 								title: '请选择结束日期',
 								duration: 600
-							}); 
+							} );
 						}
 					}
 				}
-				this.setEmit('confirm')
+				this.setEmit( 'confirm' )
 				this.close()
 			},
 			/**
 			 * 取消按钮
 			 */
 			cancel() {
-				this.$emit('cancel')
+				this.$emit( 'cancel' )
 				this.close()
 			},
 			/**
 			 * 变化触发
 			 */
 			change() {
-				if (!this.insert) return
-				this.setEmit('change')
+				if ( !this.insert ) return
+				this.setEmit( 'change' )
 			},
 			/**
 			 * 选择月份触发
@@ -536,17 +567,17 @@
 					year,
 					month
 				} = this.nowDate;
-				this.$emit('monthSwitch', {
+				this.$emit( 'monthSwitch', {
 					year,
-					month: Number(month),
+					month: Number( month ),
 					fullDate: `${year}-${`${month}`.padStart(2, '0')}`
-				})
+				} )
 			},
 			/**
 			 * 派发事件
 			 * @param {Object} name
 			 */
-			setEmit(name) {
+			setEmit( name ) {
 				let {
 					year,
 					month,
@@ -557,77 +588,73 @@
 					type,
 					mode
 				} = this.calendar;
-
 				let params = {
 					range: this.cale.rangeStatus,
 					multiple: this.cale.multiple,
 					mode,
 					type,
 					year,
-					month: Number(month),
+					month: Number( month ),
 					date,
 					fulldate: fullDate,
 					lunar,
 					extraInfo: extraInfo || {}
 				}
-
-				if (this.type === 'month' || this.type === 'week') {
+				if ( this.type === 'month' || this.type === 'week' ) {
 					params.foldStatus = this.FoldStatus
 				}
-
-				this.$emit(name, params)
+				this.$emit( name, params )
 			},
 			/**
 			 * 选择天触发
 			 * @param {Object} weeks
 			 */
-			choiceDate(weeks) {
+			choiceDate( weeks ) {
 				// 如果为禁用 或者 空数据 或者 禁止点击日期
-				if (weeks.disable || weeks.empty || this.disabledChoice) return;
-
+				if ( weeks.disable || weeks.empty || this.disabledChoice ) return;
 				this.calendar = weeks;
 				// 保存操作的日历信息
 				this.nowDate = this.calendar;
 				// 设置选择范围
-				this.cale.setRange(this.calendar.fullDate);
+				this.cale.setRange( this.calendar.fullDate );
 				// 设置多选
-				this.cale.setMultiple(this.calendar.fullDate);
-				
+				this.cale.setMultiple( this.calendar.fullDate );
 				// 如果启用滑动切换 且当前模式为范围选择时则重新计算上月与下月
-				if (this.slideSwitchMode !== 'none') {
+				if ( this.slideSwitchMode !== 'none' ) {
 					let weekName = '';
-					switch (this.swiperCurrent) {
+					switch ( this.swiperCurrent ) {
 						case 0:
 							weekName = 'preWeeks'
-							if (this.mode == 'range') {
-								this.weeks = this.cale._getWeek(this.weeks[0].find(item => item.fullDate).fullDate, false)
-								this.nextWeeks = this.cale._getWeek(this.nextWeeks[0].find(item => item.fullDate).fullDate,
-									false)
+							if ( this.mode == 'range' ) {
+								this.weeks = this.cale._getWeek( this.weeks[ 0 ].find( item => item
+									.fullDate ).fullDate, false )
+								this.nextWeeks = this.cale._getWeek( this.nextWeeks[ 0 ].find( item =>
+									item.fullDate ).fullDate, false )
 							}
 							break;
 						case 1:
 							weekName = 'weeks'
-							if (this.mode == 'range') {
-								this.preWeeks = this.cale._getWeek(this.preWeeks[0].find(item => item.fullDate).fullDate,
-									false)
-								this.nextWeeks = this.cale._getWeek(this.nextWeeks[0].find(item => item.fullDate).fullDate,
-									false)
+							if ( this.mode == 'range' ) {
+								this.preWeeks = this.cale._getWeek( this.preWeeks[ 0 ].find( item =>
+									item.fullDate ).fullDate, false )
+								this.nextWeeks = this.cale._getWeek( this.nextWeeks[ 0 ].find( item =>
+									item.fullDate ).fullDate, false )
 							}
 							break;
 						case 2:
 							weekName = 'nextWeeks'
-							if (this.mode == 'range') {
-								this.weeks = this.cale._getWeek(this.weeks[0].find(item => item.fullDate).fullDate, false)
-								this.preWeeks = this.cale._getWeek(this.preWeeks[0].find(item => item.fullDate).fullDate,
-									false)
+							if ( this.mode == 'range' ) {
+								this.weeks = this.cale._getWeek( this.weeks[ 0 ].find( item => item
+									.fullDate ).fullDate, false )
+								this.preWeeks = this.cale._getWeek( this.preWeeks[ 0 ].find( item =>
+									item.fullDate ).fullDate, false )
 							}
 							break;
 					}
-					this[weekName] = this.cale.weeks;
+					this[ weekName ] = this.cale.weeks;
 				} else {
 					this.weeks = this.cale.weeks;
 				}
-
 				this.change();
 			},
 			/**
@@ -636,29 +663,25 @@
 			backToday() {
 				// 获取目前的年月
 				const nowYearMonth = `${this.nowDate.year}-${this.nowDate.month}`
-
-				if (this.cale.rangeStatus.before && !this.cale.rangeStatus.after) {
+				if ( this.cale.rangeStatus.before && !this.cale.rangeStatus.after ) {
 					this.cale.rangeStatus.before = '';
 				}
-
 				// 设置日期
-				this.setDate(this.cale.date.fullDate);
+				this.setDate( this.cale.date.fullDate );
 				let date = this.nowDate;
 				this.calendar = date;
 				// 设置选中的日期
-				this.cale.setRange(date.fullDate);
+				this.cale.setRange( date.fullDate );
 				// 今天的日期
 				const todayYearMonth = `${date.year}-${date.month}`
-
 				// 如果当前日期 与 今天的日期不符
-				if (nowYearMonth !== todayYearMonth) {
+				if ( nowYearMonth !== todayYearMonth ) {
 					// 触发月份切换事件
 					this.monthSwitch()
 				}
-
 				// 设置日期
-				this.setDate(this.cale.date.fullDate);
-				// swiperCurrent改变需要改动的weeks 
+				this.setDate( this.cale.date.fullDate );
+				// swiperCurrent改变需要改动的weeks
 				this.swiperCurrentChangeWeeks();
 				// 改变事件
 				this.change()
@@ -681,9 +704,9 @@
 			 * 设置日期
 			 * @param {Object} date
 			 */
-			setDate(date) {
-				this.cale.setDate(date)
-				this.nowDate = this.cale.getInfo(date)
+			setDate( date ) {
+				this.cale.setDate( date )
+				this.nowDate = this.cale.getInfo( date )
 				this.assignmentWeeks()
 			},
 			/**
@@ -692,7 +715,7 @@
 			assignmentWeeks() {
 				let weekName = '';
 				let weekMonthName = '';
-				switch (this.swiperCurrent) {
+				switch ( this.swiperCurrent ) {
 					case 0:
 						weekName = 'preWeeks'
 						weekMonthName = 'preWeeksMonth'
@@ -706,17 +729,17 @@
 						weekMonthName = 'nextWeeksMonth'
 						break;
 				}
-				this[weekName] = this.cale.weeks;
-				this[weekMonthName] = this.cale.selectDate.month;
+				this[ weekName ] = this.cale.weeks;
+				this[ weekMonthName ] = this.cale.selectDate.month;
 			},
 			/**
 			 * 滑动切换日期
 			 */
-			swiperChange(e) {
+			swiperChange( e ) {
 				// 非用户滑动不执行
-				if (e.detail.source !== 'touch') return;
+				if ( e.detail.source !== 'touch' ) return;
 				let curr = e.detail.current;
-				if (curr - this.swiperCurrent == 1 || curr - this.swiperCurrent == -2) {
+				if ( curr - this.swiperCurrent == 1 || curr - this.swiperCurrent == -2 ) {
 					this.swiperChangeDirection = 'next'
 				} else {
 					this.swiperChangeDirection = 'pre'
@@ -728,19 +751,22 @@
 			 * 更新weeks
 			 * @param {Boolean} isChange 是否使当前的weeks发生变化
 			 */
-			updateWeeks(isChange = true, isInt = false) {
+			updateWeeks( isChange = true, isInt = false ) {
 				let newFullDate = ''
 				// 是否变动日期信息
-				if (isChange) {
+				if ( isChange ) {
 					// 如果目前处于打开状态也就是月日历时，将记录月份改为一号(这样可以在用户切换到任意月份时并折叠自动选中1号)
-					let fullDate = this.FoldStatus === 'close' ? this.nowDate.fullDate : `${this.nowDate.year}-${this.nowDate.month}-${1}`
-					newFullDate = this.cale.getDate(fullDate, this.swiperChangeDirection === 'next' ? +1 : -1, this.getDateType).fullDate;
+					let fullDate = this.FoldStatus === 'close' ? this.nowDate.fullDate :
+						`${this.nowDate.year}-${this.nowDate.month}-${1}`
+					newFullDate = this.cale.getDate( fullDate, this.swiperChangeDirection === 'next' ?
+						+1 : -1, this.getDateType ).fullDate;
 				} else {
-					newFullDate = this.cale.getDate(this.nowDate.fullDate, 0, this.getDateType).fullDate;
+					newFullDate = this.cale.getDate( this.nowDate.fullDate, 0, this.getDateType )
+						.fullDate;
 				}
-				this.setDate(newFullDate)
+				this.setDate( newFullDate )
 				this.swiperCurrentChangeWeeks();
-				if(!isInt) {
+				if ( !isInt ) {
 					this.monthSwitch();
 				}
 			},
@@ -748,22 +774,23 @@
 			 * swiperCurrent改变需要改动的weeks
 			 */
 			swiperCurrentChangeWeeks() {
-				if (this.slideSwitchMode === 'none') return;
+				if ( this.slideSwitchMode === 'none' ) return;
 				// 防止一次渲染过多数据，造成对nvue的卡顿
-				this.$nextTick(() => {
-					let nextDate = this.cale.getDate(this.nowDate.fullDate, +1, this.getDateType);
-					let nextWeeks = this.cale._getWeek(nextDate.fullDate, false);
+				this.$nextTick( () => {
+					let nextDate = this.cale.getDate( this.nowDate.fullDate, +1, this
+						.getDateType );
+					let nextWeeks = this.cale._getWeek( nextDate.fullDate, false );
 					let nextWeeksMonth = nextDate.month
-					let preDate = this.cale.getDate(this.nowDate.fullDate, -1, this.getDateType);
-					let preWeeks = this.cale._getWeek(preDate.fullDate, false);
+					let preDate = this.cale.getDate( this.nowDate.fullDate, -1, this
+						.getDateType );
+					let preWeeks = this.cale._getWeek( preDate.fullDate, false );
 					let preWeeksMonth = preDate.month
-
-					if (this.swiperCurrent == 0) {
+					if ( this.swiperCurrent == 0 ) {
 						this.weeks = nextWeeks;
 						this.weeksMonth = nextWeeksMonth;
 						this.nextWeeks = preWeeks;
 						this.nextWeeksMonth = preWeeksMonth;
-					} else if (this.swiperCurrent == 1) {
+					} else if ( this.swiperCurrent == 1 ) {
 						this.nextWeeks = nextWeeks;
 						this.nextWeeksMonth = nextWeeksMonth;
 						this.preWeeks = preWeeks;
@@ -774,33 +801,32 @@
 						this.weeks = preWeeks;
 						this.weeksMonth = preWeeksMonth;
 					}
-				})
+				} )
 			},
-
 			// 点击折叠
 			FoldClick() {
 				this.FoldStatus = this.FoldStatus === 'open' ? 'close' : 'open';
-				this.cale.resetFoldStatus(this.FoldStatus);
+				this.cale.resetFoldStatus( this.FoldStatus );
 				// 重置当前weeks
-				this.setDate(this.nowDate.fullDate);
-				this.$nextTick(() => {
+				this.setDate( this.nowDate.fullDate );
+				this.$nextTick( () => {
 					// 重置左右切换的上下weeks
-					if (this.slideSwitchMode !== 'none') {
-						let nextDate = this.cale.getDate(this.nowDate.fullDate, +1, this.getDateType);
-						let nextWeeks = this.cale._getWeek(nextDate.fullDate, false);
+					if ( this.slideSwitchMode !== 'none' ) {
+						let nextDate = this.cale.getDate( this.nowDate.fullDate, +1, this
+							.getDateType );
+						let nextWeeks = this.cale._getWeek( nextDate.fullDate, false );
 						let nextWeeksMonth = nextDate.month;
-
-						let preDate = this.cale.getDate(this.nowDate.fullDate, -1, this.getDateType);
-						let preWeeks = this.cale._getWeek(preDate.fullDate, false);
+						let preDate = this.cale.getDate( this.nowDate.fullDate, -1, this
+							.getDateType );
+						let preWeeks = this.cale._getWeek( preDate.fullDate, false );
 						let preWeeksMonth = preDate.month;
-
-						if (this.swiperChangeDirection == 'next') {
-							if (this.swiperCurrent == 0) {
+						if ( this.swiperChangeDirection == 'next' ) {
+							if ( this.swiperCurrent == 0 ) {
 								this.weeks = nextWeeks;
 								this.weeksMonth = nextWeeksMonth;
 								this.nextWeeks = preWeeks;
 								this.nextWeeksMonth = preWeeksMonth;
-							} else if (this.swiperCurrent == 1) {
+							} else if ( this.swiperCurrent == 1 ) {
 								this.nextWeeks = nextWeeks;
 								this.nextWeeksMonth = nextWeeksMonth;
 								this.preWeeks = preWeeks;
@@ -812,12 +838,12 @@
 								this.weeksMonth = preWeeksMonth;
 							}
 						} else {
-							if (this.swiperCurrent == 0) {
+							if ( this.swiperCurrent == 0 ) {
 								this.nextWeeks = preWeeks;
 								this.nextWeeksMonth = preWeeksMonth;
 								this.weeks = nextWeeks;
 								this.weeksMonth = nextWeeksMonth;
-							} else if (this.swiperCurrent == 1) {
+							} else if ( this.swiperCurrent == 1 ) {
 								this.preWeeks = preWeeks;
 								this.preWeeksMonth = preWeeksMonth;
 								this.nextWeeks = nextWeeks;
@@ -830,24 +856,24 @@
 							}
 						}
 					}
-				})
+				} )
 				// fold切换事件
-				this.$emit('foldSwitch', {
+				this.$emit( 'foldSwitch', {
 					type: this.type,
 					status: this.FoldStatus
-				})
+				} )
 			},
 			// 初始化折叠
 			initFold() {
-				if (this.type === 'month' || this.type === 'week') {
+				if ( this.type === 'month' || this.type === 'week' ) {
 					this.Fold = this.fold === null ? this.type !== 'month' : this.fold;
 					this.FoldStatus = this.type !== 'month' ? 'close' : 'open';
 				}
 			}
 		}
 	}
-</script>
 
+</script>
 <style lang="scss" scoped>
 	$wu-bg-color-mask: rgba($color: #000000, $alpha: 0.4);
 	$wu-border-color: #EDEDED;
@@ -905,7 +931,7 @@
 	}
 
 	.wu-calendar__content {
-		background-color: #fff;
+		//background-color: #fff;
 	}
 
 	.wu-calendar__header {
@@ -1054,4 +1080,5 @@
 		flex-direction: row;
 		justify-content: center;
 	}
+
 </style>
